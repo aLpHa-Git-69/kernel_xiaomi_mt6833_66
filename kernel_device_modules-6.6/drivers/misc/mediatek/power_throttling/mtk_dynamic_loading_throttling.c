@@ -32,7 +32,8 @@
 #define	DLPT_VOLT_MIN			3100
 
 #ifndef OPLUS_FEATURE_CHG_BASIC
-#define OPLUS_FEATURE_CHG_BASIC
+/* camellia: Oppo charger feature disabled */
+/* #define OPLUS_FEATURE_CHG_BASIC */
 #endif
 
 struct reg_t {

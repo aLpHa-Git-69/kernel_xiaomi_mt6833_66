@@ -17,7 +17,8 @@
 #define MAX_VALUE 0x7FFF
 
 #ifndef OPLUS_FEATURE_CHG_BASIC
-#define OPLUS_FEATURE_CHG_BASIC
+/* camellia: Oppo charger feature disabled */
+/* #define OPLUS_FEATURE_CHG_BASIC */
 #endif
 
 static struct task_struct *bp_notify_thread;

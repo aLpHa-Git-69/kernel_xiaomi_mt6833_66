@@ -45,9 +45,9 @@
 #include "ufs-mediatek-sysfs.h"
 #include "ufs-mediatek.h"
 
-//#ifdef CONFIG_OPLUS_UFS_DRIVER
+#ifdef CONFIG_OPLUS_UFS_DRIVER /* camellia: Oppo guard restored */
 #include <soc/oplus/ufs-oplus-dbg.h>
-//#endif
+#endif
 
 /* Power Throttling */
 #if IS_ENABLED(CONFIG_MTK_LOW_BATTERY_POWER_THROTTLING)
@@ -1738,9 +1738,9 @@ static int ufs_mtk_init(struct ufs_hba *hba)
 
 	ufs_mtk_dbg_register(hba);
 
-//#ifdef CONFIG_OPLUS_UFS_DRIVER
+#ifdef CONFIG_OPLUS_UFS_DRIVER /* camellia: Oppo guard restored */
 	ufs_init_oplus_dbg(hba);
-//#endif
+#endif
 
 	ufs_mtk_rpmb_init(hba);
 	ufs_mb_init(hba);
@@ -2500,9 +2500,9 @@ static int ufs_mtk_suspend(struct ufs_hba *hba, enum ufs_pm_op pm_op,
 	struct arm_smccc_res res;
 	struct ufs_mtk_host *host = ufshcd_get_variant(hba);
 
-//#ifdef CONFIG_OPLUS_UFS_DRIVER
+#ifdef CONFIG_OPLUS_UFS_DRIVER /* camellia: Oppo guard restored */
 	ufs_sleep_time_get(hba);
-//#endif
+#endif
 	if (status == PRE_CHANGE) {
 		if (!ufshcd_is_auto_hibern8_supported(hba))
 			return 0;
@@ -2563,9 +2563,9 @@ static int ufs_mtk_resume(struct ufs_hba *hba, enum ufs_pm_op pm_op)
 	struct arm_smccc_res res;
 	struct ufs_mtk_host *host = ufshcd_get_variant(hba);
 
-//#ifdef CONFIG_OPLUS_UFS_DRIVER
+#ifdef CONFIG_OPLUS_UFS_DRIVER /* camellia: Oppo guard restored */
 	ufs_active_time_get(hba);
-//#endif
+#endif
 	if (hba->ufshcd_state != UFSHCD_STATE_OPERATIONAL)
 		ufs_mtk_dev_vreg_set_lpm(hba, false);
 
@@ -2775,9 +2775,9 @@ static void ufs_mtk_event_notify(struct ufs_hba *hba,
 	struct timespec64 tv = { 0 };
 	struct ufs_event_hist *e;
 
-//#ifdef CONFIG_OPLUS_UFS_DRIVER
+#ifdef CONFIG_OPLUS_UFS_DRIVER /* camellia: Oppo guard restored */
 	recordSignalerr(hba, val, evt);
-//#endif
+#endif
 	trace_ufs_mtk_event(evt, val);
 
 
@@ -3197,7 +3197,9 @@ static void ufs_mtk_config_scsi_dev(struct scsi_device *sdev)
 
 	dev_dbg(hba->dev, "lu %llu slave configured", sdev->lun);
 
+#ifdef CONFIG_OPLUS_UFS_DRIVER /* camellia: Oppo hook guarded */
 	ufs_oplus_init_sdev(sdev);
+#endif
 
 	blk_queue_flag_set(QUEUE_FLAG_SAME_FORCE, sdev->request_queue);
 	if (hba->luns_avail == 1) {
@@ -3369,9 +3371,9 @@ static int ufs_mtk_remove(struct platform_device *pdev)
 	ufs_mtk_btag_exit(hba);
 
 	ufs_mtk_remove_sysfs(hba);
-//#ifdef CONFIG_OPLUS_UFS_DRIVER
+#ifdef CONFIG_OPLUS_UFS_DRIVER /* camellia: Oppo guard restored */
 	ufs_remove_oplus_dbg();
-//#endif
+#endif
 
 	ufshcd_remove(hba);
 

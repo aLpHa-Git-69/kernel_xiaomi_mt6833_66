@@ -156,3 +156,6 @@ endif
 
 obj-$(CONFIG_OPLUS_FEATURE_FP) += drivers/input/fingerprint/
 endif
+
+# camellia: stand-ins for unpublished Oppo helper symbols
+obj-m += drivers/misc/camellia_stubs/
