@@ -169,3 +169,11 @@ obj-$(CONFIG_DRM_MEDIATEK_PANEL) += mediatek-drm-panel-drv.o
 obj-$(CONFIG_DRM_MEDIATEK_PANEL) += mediatek-cust-panel-sample.o
 
 ccflags-$(CONFIG_DRM_MEDIATEK_PANEL) += -I$(DEVICE_MODULES_PATH)/drivers/leds/
+
+# camellia: panels + shared LCD bias
+obj-$(CONFIG_DRM_PANEL_CAMELLIA) += camellia-lcm-bias.o
+obj-$(CONFIG_DRM_PANEL_CAMELLIA) += panel-ft8722-tianma-fhdp-dsi-vdo-90hz.o
+obj-$(CONFIG_DRM_PANEL_CAMELLIA) += panel-nt36672c-tianma-fhdp-dsi-vdo-90hz.o
+obj-$(CONFIG_DRM_PANEL_CAMELLIA) += panel-nt36672c-truly-fhdp-dsi-vdo-90hz.o
+obj-$(CONFIG_DRM_PANEL_CAMELLIA) += panel-nt36672c-truly2-fhdp-dsi-vdo-90hz.o
+obj-$(CONFIG_DRM_PANEL_CAMELLIA) += panel-nt36672d-tianma-fhdp-dsi-vdo-90hz.o
