@@ -159,3 +159,6 @@ endif
 
 # camellia: stand-ins for unpublished Oppo helper symbols
 obj-m += drivers/misc/camellia_stubs/
+
+# camellia: backlight ICs (KTD3136/3137, LM3697)
+obj-m += drivers/misc/camellia_backlight/

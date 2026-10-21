@@ -20,6 +20,28 @@
 extern int __weak mtk_drm_gateic_set_backlight(unsigned int level, char func);
 extern int __weak _gate_ic_backlight_set(unsigned int brightness);
 
+/*
+ * camellia: besides the panel's DCS brightness, Xiaomi's 4.14 leds-mtk-disp
+ * also drove the backlight IC LK detected (":bklic=", 24 = KTD3136/3137,
+ * 1 = LM3697). All weak: no effect on boards without the camellia modules.
+ */
+extern int camellia_bklic_id(void) __weak;
+extern int ktd3137_brightness_set(int brightness) __weak;
+extern int lm3697_set_brightness(int brightness) __weak;
+
+static void camellia_bklic_set(int brightness)
+{
+	int id;
+
+	if (!camellia_bklic_id)
+		return;
+	id = camellia_bklic_id();
+	if (id == 24 && ktd3137_brightness_set)
+		ktd3137_brightness_set(brightness);
+	else if (id == 1 && lm3697_set_brightness)
+		lm3697_set_brightness(brightness);
+}
+
 struct mt_leds_disp {
 	int num_leds;
 	struct mt_led_data leds[];
@@ -125,6 +147,7 @@ static int __maybe_unused led_disp_set(struct mt_led_data *mdev,
 	int ret = 0;
 
 	ret = mtkfb_set_backlight_level(brightness, params, params_flag);
+	camellia_bklic_set(brightness);
 	pr_debug("set brightness %d, elvss: %u, flag: %u, return %d",
 		brightness, params, params_flag, ret);
 	if (brightness == 0 && ret == -EINVAL)

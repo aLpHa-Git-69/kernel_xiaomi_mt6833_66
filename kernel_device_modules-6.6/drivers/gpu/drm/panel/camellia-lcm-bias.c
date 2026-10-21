@@ -16,6 +16,7 @@
 #include <linux/i2c.h>
 #include <linux/module.h>
 #include <linux/of.h>
+#include <linux/kernel.h>
 #include <linux/string.h>
 
 #define LCM_I2C_ID_NAME "I2C_LCD_BIAS"
@@ -44,6 +45,29 @@ bool camellia_bootargs_contains(const char *needle)
 	return found;
 }
 EXPORT_SYMBOL(camellia_bootargs_contains);
+
+/*
+ * Backlight IC chosen by LK, ":bklic=N" in bootargs (24 = KTD3136/3137,
+ * 1 = LM3697). -1 if absent. (4.14 drivers parsed saved_command_line
+ * without a NULL check.)
+ */
+int camellia_bklic_id(void)
+{
+	struct device_node *chosen = of_find_node_by_path("/chosen");
+	const char *str = NULL, *p;
+	int id = -1;
+
+	if (!chosen)
+		return -1;
+	if (!of_property_read_string(chosen, "bootargs", &str) && str) {
+		p = strstr(str, ":bklic=");
+		if (p && kstrtoint(p + strlen(":bklic="), 10, &id))
+			id = (int)simple_strtol(p + strlen(":bklic="), NULL, 10);
+	}
+	of_node_put(chosen);
+	return id;
+}
+EXPORT_SYMBOL(camellia_bklic_id);
 
 int _lcm_i2c_write_bytes(unsigned char addr, unsigned char value)
 {
