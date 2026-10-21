@@ -162,3 +162,7 @@ obj-m += drivers/misc/camellia_stubs/
 
 # camellia: backlight ICs (KTD3136/3137, LM3697)
 obj-m += drivers/misc/camellia_backlight/
+
+# camellia: touch (FT8722 + Xiaomi touch features)
+obj-m += drivers/input/touchscreen/camellia_xiaomi_touch/
+obj-m += drivers/input/touchscreen/camellia_ft8722/
