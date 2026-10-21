@@ -414,10 +414,10 @@
 	pinctrl-47 = <&camera_pins_cam_mipi_switch_sel_1>;
 	pinctrl-48 = <&camera_pins_cam_mipi_switch_sel_0>;
 
-	cam0_vcamio-supply = <&mt_pmic_vcamio_ldo_reg>;
-	cam1_vcamio-supply = <&mt_pmic_vcamio_ldo_reg>;
-	cam2_vcamio-supply = <&mt_pmic_vcamio_ldo_reg>;
-	cam3_vcamio-supply = <&mt_pmic_vcamio_ldo_reg>;
+	cam0_vcamio-supply = <&mt6359p_vcamio_reg>;
+	cam1_vcamio-supply = <&mt6359p_vcamio_reg>;
+	cam2_vcamio-supply = <&mt6359p_vcamio_reg>;
+	cam3_vcamio-supply = <&mt6359p_vcamio_reg>;
 
 	status = "okay";
 

@@ -32,18 +32,24 @@
 		"nt36672c_fhdp_dsi_vdo_90hz_tianma_lcm_drv";
 };
 
+#if 0 /* camellia 6.6 TODO: 6.6 MT6360 binding split (mt6360_chg/regulator/typec); port with the clean MT6360 charger driver */
 &mt6360_ldo {
 	sdcard_det_en = <1>;   //1表示使用这根pin，0表示不使用这根pin
 	sdcard_hlact = <0>;    //1表示高电平为SD拔出，0表示低电平为SD拔出
 };
+#endif
+#if 0 /* camellia 6.6 TODO: 6.6 MT6360 binding split; port with the clean MT6360 charger driver */
 &mt6360_pmu {
 	mt6360,intr_gpio_num = <10>; /* direct defined GPIO num */
 	mt6360,intr_gpio = <&pio 10 0x0>;
 };
+#endif
 
+#if 0 /* camellia 6.6 TODO: 6.6 MT6360 binding split; port with the clean MT6360 charger driver */
 &mt6360_pmic {
 	pwr_off_seq = [04 00 00 02];
 };
+#endif
 
 /* BSP.Charge - 2020.11.02 - modify typec interrupt */
 &mt6360_typec {
@@ -351,11 +357,13 @@
 	};
 };
 /*BSP.System - 2020.11.5 - add board id*/
+#if 0 /* camellia 6.6 TODO: no Xiaomi board_id node/driver in 6.6 base; add node + driver */
 &board_id {
 	io-channels = <&auxadc 5>;
 	io-channel-names = "board_id-channel";
 	status = "okay";
 };
+#endif
 
 &spi0 {
 	status = "ok";
@@ -390,12 +398,14 @@
 	};
 }; /* IRTX GPIO Settings -End */
 
+#if 0 /* camellia 6.6 TODO: no irtx_pwm node/IR driver in 6.6 base; add node + driver */
 &irtx_pwm {
 	pinctrl-names = "irtx_gpio_led_default", "irtx_gpio_led_set";
 	pinctrl-0 = <&irtx_gpio_led_default>;
 	pinctrl-1 = <&irtx_gpio_led_set>;
 	status = "okay";
 };
+#endif
 
 &gps {
 	pinctrl-names = "default",
