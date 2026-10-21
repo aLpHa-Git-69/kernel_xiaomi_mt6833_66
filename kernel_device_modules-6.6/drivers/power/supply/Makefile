@@ -19,20 +19,17 @@ obj-$(CONFIG_CHARGER_BQ25601) += mtk_charger_framework.o charger_class.o adapter
 else ifeq ($(CONFIG_CHARGER_BQ25601),y)
 obj-$(CONFIG_CHARGER_BQ25601) += mtk_charger_framework.o charger_class.o adapter_class.o mtk_charger_algorithm_class.o mtk_ufcs_adapter.o
 else
-#ifndef OPLUS_FEATURE_CHG_BASIC
-#obj-$(CONFIG_MTK_CHARGER) += mtk_charger_framework.o mtk_pd_charging.o charger_class.o adapter_class.o mtk_charger_algorithm_class.o mtk_pd_adapter.o mtk_ufcs_adapter.o
-#endif
-#mtk_charger_framework-objs := mtk_charger.o mtk_charger_intf.o mtk_basic_charger.o mtk_pulse_charger.o mtk_adapter_switch.o
-#else
-obj-$(CONFIG_MTK_CHARGER) += mtk_pd_charging.o charger_class.o adapter_class.o mtk_charger_algorithm_class.o mtk_pd_adapter.o
-#endif
+# camellia: MediaTek's charger framework restored (Oppo replaced it with their own stack)
+obj-$(CONFIG_MTK_CHARGER) += mtk_charger_framework.o mtk_pd_charging.o charger_class.o adapter_class.o mtk_charger_algorithm_class.o mtk_pd_adapter.o mtk_ufcs_adapter.o
+mtk_charger_framework-objs := mtk_charger.o mtk_charger_intf.o mtk_basic_charger.o mtk_pulse_charger.o mtk_adapter_switch.o
 endif
 
 
 mtk_pd_charging-objs := mtk_pd.o mtk_pd_hal.o
 obj-$(CONFIG_CHARGER_RT9465)	+= rt9465.o
 #obj-$(CONFIG_BATTERY_MT6359P) += mt6359p_battery.o
-obj-$(CONFIG_DEVICE_MODULES_CHARGER_MT6360) += mt6360_charger.o
+# camellia: mt6360_charger.o also matches "mediatek,mt6360-chg"; use only mt6360_pmu_chg (MediaTek charger class)
+# obj-$(CONFIG_DEVICE_MODULES_CHARGER_MT6360) += mt6360_charger.o
 obj-$(CONFIG_DEVICE_MODULES_CHARGER_MT6370)	+= mt6370-charger.o
 obj-$(CONFIG_DEVICE_MODULES_CHARGER_MT6360)	+= mt6360_pmu_chg.o
 obj-$(CONFIG_CHARGER_MT6362)	+= mt6362-chg.o

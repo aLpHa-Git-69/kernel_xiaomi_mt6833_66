@@ -11,11 +11,7 @@
 #include <linux/platform_device.h>
 #include <linux/power_supply.h>
 
-#ifdef CONFIG_OPLUS_PD_EXT_SUPPORT
-#include "../oplus/pd_ext/inc/tcpm.h"
-#else
 #include <tcpm.h>
-#endif
 #include "adapter_class.h"
 
 struct info_notifier_block {
