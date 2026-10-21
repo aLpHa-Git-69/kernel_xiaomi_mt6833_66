@@ -1134,7 +1134,8 @@ MODLIB	= $(INSTALL_MOD_PATH)/lib/modules/$(KERNELRELEASE)
 export MODLIB
 
 #ifdef OPLUS_FEATURE_CHG_BASIC
-KBUILD_CFLAGS += -DOPLUS_FEATURE_CHG_BASIC
+# camellia: Oppo charger feature disabled
+# KBUILD_CFLAGS += -DOPLUS_FEATURE_CHG_BASIC
 #endif
 
 PHONY += prepare0
