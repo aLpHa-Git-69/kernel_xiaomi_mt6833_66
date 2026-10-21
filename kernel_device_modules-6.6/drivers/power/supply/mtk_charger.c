@@ -467,6 +467,38 @@ static void mtk_charger_parse_dt(struct mtk_charger *info,
 					TEMP_T0_THRES_PLUS_X_DEGREE;
 	}
 
+	/*
+	 * camellia: Xiaomi's 6-band sw JEITA from camellia's 4.14 kernel
+	 * (BSP.Charge 2020.12.02): adds T4..T5 and -10..T0 bands and a charging
+	 * current limit per band. Defaults are camellia's 4.14 ones.
+	 */
+	info->data.camellia_jeita = of_property_read_bool(np, "camellia,sw-jeita-6band");
+	if (info->data.camellia_jeita) {
+		static const struct { const char *name; size_t off; int def; } cj[] = {
+		{ "temp_t5_thres", offsetof(struct charger_custom_data, camellia_temp_t5_thres), 58 },
+		{ "jeita_temp_t4_to_t5_cv", offsetof(struct charger_custom_data, camellia_jeita_t4_to_t5_cv), 4100000 },
+		{ "jeita_temp_t4_to_t5_cc", offsetof(struct charger_custom_data, camellia_jeita_t4_to_t5_cc), 2000000 },
+		{ "jeita_temp_t3_to_t4_cc", offsetof(struct charger_custom_data, camellia_jeita_t3_to_t4_cc), 0 },
+		{ "jeita_temp_t2_to_t3_cc", offsetof(struct charger_custom_data, camellia_jeita_t2_to_t3_cc), 0 },
+		{ "jeita_temp_t1_to_t2_cc", offsetof(struct charger_custom_data, camellia_jeita_t1_to_t2_cc), 0 },
+		{ "jeita_temp_t0_to_t1_cc", offsetof(struct charger_custom_data, camellia_jeita_t0_to_t1_cc), 0 },
+		{ "jeita_temp_below_t0_cc", offsetof(struct charger_custom_data, camellia_jeita_below_t0_cc), 0 },
+		};
+		int k;
+
+		for (k = 0; k < ARRAY_SIZE(cj); k++) {
+			int *dst = (int *)((char *)&info->data + cj[k].off);
+
+			*dst = of_property_read_u32(np, cj[k].name, &val) >= 0 ? val : cj[k].def;
+		}
+		/* camellia's DT stores the magnitude; 4.14 negates it (default -10) */
+		info->data.camellia_temp_neg_10_thres =
+			of_property_read_u32(np, "temp_neg_10_thres", &val) >= 0 ? -(int)val : -10;
+		chr_err("camellia 6-band sw JEITA: T5 %d, -10 band %d\n",
+			info->data.camellia_temp_t5_thres,
+			info->data.camellia_temp_neg_10_thres);
+	}
+
 	if (of_property_read_u32(np, "temp_neg_10_thres", &val) >= 0)
 		info->data.temp_neg_10_thres = val;
 	else if (of_property_read_u32(np, "temp-neg-10-thres", &val) >= 0)
@@ -734,8 +766,82 @@ static void check_dynamic_mivr(struct mtk_charger *info)
 }
 
 /* sw jeita */
+/* camellia: Xiaomi's 6-band sw JEITA state machine, from camellia's 4.14 kernel */
+static void camellia_sw_jeita_state_machine(struct mtk_charger *info)
+{
+	struct sw_jeita_data *sw_jeita = &info->sw_jeita;
+	struct charger_custom_data *d = &info->data;
+	int t = info->battery_temp;
+
+	sw_jeita->pre_sm = sw_jeita->sm;
+	sw_jeita->charging = true;
+	sw_jeita->cc = 0;
+
+	if (t >= d->camellia_temp_t5_thres) {
+		sw_jeita->sm = TEMP_ABOVE_T5;
+		sw_jeita->charging = false;
+	} else if (t >= d->temp_t4_thres) {
+		sw_jeita->sm = TEMP_T4_TO_T5;
+	} else if (t > d->temp_t3_thres) {
+		sw_jeita->sm = TEMP_T3_TO_T4;
+	} else if (t > d->temp_t2_thres) {
+		sw_jeita->sm = TEMP_T2_TO_T3;
+	} else if (t > d->temp_t1_thres) {
+		sw_jeita->sm = TEMP_T1_TO_T2;
+	} else if (t > d->temp_t0_thres) {
+		sw_jeita->sm = TEMP_T0_TO_T1;
+	} else if (t > d->camellia_temp_neg_10_thres) {
+		sw_jeita->sm = TEMP_NEG_10_TO_T0;
+	} else {
+		sw_jeita->sm = TEMP_BELOW_NEG_10;
+		sw_jeita->charging = false;
+	}
+
+	switch (sw_jeita->sm) {
+	case TEMP_ABOVE_T5:
+		sw_jeita->cv = d->jeita_temp_above_t4_cv;
+		break;
+	case TEMP_T4_TO_T5:
+		sw_jeita->cv = d->camellia_jeita_t4_to_t5_cv;
+		sw_jeita->cc = d->camellia_jeita_t4_to_t5_cc;
+		break;
+	case TEMP_T3_TO_T4:
+		sw_jeita->cv = d->jeita_temp_t3_to_t4_cv;
+		sw_jeita->cc = d->camellia_jeita_t3_to_t4_cc;
+		break;
+	case TEMP_T2_TO_T3:
+		sw_jeita->cv = d->jeita_temp_t2_to_t3_cv;
+		sw_jeita->cc = d->camellia_jeita_t2_to_t3_cc;
+		break;
+	case TEMP_T1_TO_T2:
+		sw_jeita->cv = d->jeita_temp_t1_to_t2_cv;
+		sw_jeita->cc = d->camellia_jeita_t1_to_t2_cc;
+		break;
+	case TEMP_T0_TO_T1:
+		sw_jeita->cv = d->jeita_temp_t0_to_t1_cv;
+		sw_jeita->cc = d->camellia_jeita_t0_to_t1_cc;
+		break;
+	case TEMP_NEG_10_TO_T0:
+		sw_jeita->cv = d->jeita_temp_below_t0_cv;
+		sw_jeita->cc = d->camellia_jeita_below_t0_cc;
+		break;
+	default:
+		sw_jeita->cv = d->battery_cv;
+		break;
+	}
+
+	chr_err("[SW_JEITA camellia] preState:%d newState:%d tmp:%d cv:%d cc:%d chg:%d\n",
+		sw_jeita->pre_sm, sw_jeita->sm, t, sw_jeita->cv, sw_jeita->cc,
+		sw_jeita->charging);
+}
+
 void do_sw_jeita_state_machine(struct mtk_charger *info)
 {
+	if (info->data.camellia_jeita) {
+		camellia_sw_jeita_state_machine(info);
+		return;
+	}
+
 	struct sw_jeita_data *sw_jeita;
 
 	sw_jeita = &info->sw_jeita;

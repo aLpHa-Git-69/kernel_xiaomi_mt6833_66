@@ -305,6 +305,14 @@ static bool select_charging_current_limit(struct mtk_charger *info,
 	} else
 		info->setting.charging_current_limit1 = info->sc.sc_ibat;
 
+	/* camellia: per-band sw JEITA charging current limit */
+	if (info->enable_sw_jeita && info->data.camellia_jeita &&
+	    info->sw_jeita.cc > 0 &&
+	    pdata->charging_current_limit > info->sw_jeita.cc) {
+		pdata->charging_current_limit = info->sw_jeita.cc;
+		info->setting.charging_current_limit1 = info->sw_jeita.cc;
+	}
+
 	if (pdata->thermal_input_current_limit != -1) {
 		if (pdata->thermal_input_current_limit <=
 			pdata->input_current_limit) {
