@@ -435,7 +435,8 @@
 	status = "okay";
 };
 
-#if 0 /* camellia 6.6 TODO: 6.6 uses mt6360_typec; port with the clean MT6360 TCPC driver */
+/* camellia 6.6: 4.14 tcpc_pd (TCPC IRQ on GPIO9) is &mt6360_typec in 6.6, set in camellia.dts */
+#if 0
 &tcpc_pd {
 	interrupt-parent = <&pio>;
 	interrupts = <9 IRQ_TYPE_EDGE_FALLING>;

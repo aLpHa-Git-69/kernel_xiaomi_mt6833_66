@@ -32,29 +32,27 @@
 		"nt36672c_fhdp_dsi_vdo_90hz_tianma_lcm_drv";
 };
 
-#if 0 /* camellia 6.6 TODO: 6.6 MT6360 binding split (mt6360_chg/regulator/typec); port with the clean MT6360 charger driver */
-&mt6360_ldo {
-	sdcard_det_en = <1>;   //1表示使用这根pin，0表示不使用这根pin
-	sdcard_hlact = <0>;    //1表示高电平为SD拔出，0表示低电平为SD拔出
+/*
+ * camellia MT6360 settings in the 6.6 binding (4.14: &mt6360_ldo/_pmu/_pmic):
+ * - main IRQ: GPIO10, already the 6.6 base (mt6360@34 interrupts = <&pio 10 ...>)
+ * - power-off sequence [04 00 00 02]
+ * - SD card detect: low level = card removed (sdcard-hlact 0; the 6.6 driver
+ *   defaults to 1, which would invert microSD detection)
+ */
+&mt6360_regulator {
+	pwr-off-seq = [04 00 00 02];
+	sdcard-hlact = <0>;
 };
-#endif
-#if 0 /* camellia 6.6 TODO: 6.6 MT6360 binding split; port with the clean MT6360 charger driver */
-&mt6360_pmu {
-	mt6360,intr_gpio_num = <10>; /* direct defined GPIO num */
-	mt6360,intr_gpio = <&pio 10 0x0>;
-};
-#endif
 
-#if 0 /* camellia 6.6 TODO: 6.6 MT6360 binding split; port with the clean MT6360 charger driver */
-&mt6360_pmic {
-	pwr_off_seq = [04 00 00 02];
-};
-#endif
 
 /* BSP.Charge - 2020.11.02 - modify typec interrupt */
 &mt6360_typec {
 	mt6360pd,intr_gpio_num = <9>; /* direct defined GPIO num */
 	mt6360pd,intr_gpio = <&pio 9 0x0>;
+	/* camellia 6.6: the driver reads the dash names first, and the 6.6 base
+	 * sets them to the reference board's GPIO11; camellia's TCPC IRQ is GPIO9 */
+	mt6360pd,intr-gpio-num = <9>;
+	mt6360pd,intr-gpio = <&pio 9 0x0>;
 };
 
 #ifndef CONFIG_FPGA_EARLY_PORTING
@@ -501,3 +499,160 @@
 #include "mediatek/cust_camellia_fingerprint.dtsi"
 
 /*End of this file, DO NOT ADD ANYTHING HERE*/
+
+/*
+ * camellia charger settings: Xiaomi's 4.14 "mediatek,charger" node (camellian-t-oss
+ * mt6833.dts). Phandle properties keep the 6.6 base values. camellia,sw-jeita-6band
+ * enables Xiaomi's 6-band sw JEITA with per-band current limits (ported to 6.6).
+ */
+&charger {
+	camellia,sw-jeita-6band;
+	/* camellia 4.14 used Xiaomi's "SwitchCharging2"; 6.6 has Basic/Pulse */
+	algorithm_name = "Basic";
+		/* BSP.Charge - 2020.12.02 - Eanble sw_jeita */
+		enable_sw_jeita;
+		/* enable_pe_plus; */
+		/* enable_pe_2; */
+		/* enable_pe_3; */
+		/* enable_pe_4; */
+		enable_type_c;
+		power_path_support;
+		enable_dynamic_mivr;
+
+		/* common */
+		battery_cv = <4350000>;
+		/* BSP.Charge - 2021.01.11 - add ffc  parameters - start */
+		enable_sw_ffc;
+		ffc_cv_1 = <4440000>;
+		ffc_cv_2 = <4430000>;
+		ffc_cv_3 = <4420000>;
+		ffc_cv_4 = <4410000>;
+		chg_cycle_count_level1 = <1>;
+		chg_cycle_count_level2 = <100>;
+		chg_cycle_count_level3 = <200>;
+		chg_cycle_count_level4 = <300>;
+		/* BSP.Charge - 2021.01.11 - add ffc  parameters - end */
+		max_charger_voltage = <14500000>;
+		/* BSP.Charge - 2021.02.07 - lower mivr */
+		min_charger_voltage = <4400000>;
+
+		/* BSP.Charge - 2021.01.12 - add recharger  uisoc limit */
+		recharger_uisoc_limit = <99>;
+
+		/* dynamic mivr */
+		min_charger_voltage_1 = <4200000>;
+		min_charger_voltage_2 = <4000000>;
+		max_dmivr_charger_current = <1400000>;
+
+		/* charging current */
+		usb_charger_current_suspend = <0>;
+		usb_charger_current_unconfigured = <70000>;
+		usb_charger_current_configured = <500000>;
+		usb_charger_current = <500000>;
+		ac_charger_current = <2050000>;
+		ac_charger_input_current = <2050000>;
+		/*BSP.Charge - 2020.11.18 - The charging current of non-standard charger is adjusted to 1A - start*/
+		non_std_ac_charger_current = <1000000>;
+		/*BSP.Charge - 2020.11.18 - The charging current of non-standard charger is adjusted to 1A - end*/
+		charging_host_charger_current = <1500000>;
+		apple_1_0a_charger_current = <650000>;
+		apple_2_1a_charger_current = <800000>;
+		ta_ac_charger_current = <3000000>;
+
+		/* sw jeita */
+		/* BSP.Charge - 2020.12.02 - modify sw_jeita standard - start */
+		jeita_temp_above_t4_cv = <4090000>;
+		jeita_temp_t3_to_t4_cv = <4440000>;
+		jeita_temp_t2_to_t3_cv = <4440000>;
+		jeita_temp_t1_to_t2_cv = <4440000>;
+		jeita_temp_t0_to_t1_cv = <4440000>;
+		jeita_temp_below_t0_cv = <4440000>;
+
+		jeita_temp_t4_to_t5_cc = <2450000>;
+		/* BSP.Charge - 2020.12.17 - modify sw_jeita standard - start */
+		jeita_temp_t3_to_t4_cc = <3200000>;
+		jeita_temp_t2_to_t3_cc = <3200000>;
+		jeita_temp_t1_to_t2_cc = <2450000>;
+		/* BSP.Charge - 2020.12.17 - modify sw_jeita standard - end */
+		jeita_temp_t0_to_t1_cc = <980000>;
+		jeita_temp_below_t0_cc = <490000>;
+
+		temp_t5_thres = <58>;
+		temp_t5_thres_minus_x_degree = <55>;
+		temp_t4_thres = <48>;
+		temp_t4_thres_minus_x_degree = <45>;
+		temp_t3_thres = <15>;
+		temp_t3_thres_plus_x_degree = <23>;
+		temp_t2_thres = <10>;
+		temp_t2_thres_plus_x_degree = <10>;
+		temp_t1_thres = <5>;
+		temp_t1_thres_plus_x_degree = <5>;
+		temp_t0_thres = <0>;
+		temp_t0_thres_plus_x_degree = <0>;
+		temp_neg_10_thres = <10>;
+
+		/* battery temperature protection */
+		enable_min_charge_temp;
+		min_charge_temp = <10>;
+		min_charge_temp_plus_x_degree = <0>;
+		max_charge_temp = <58>;
+		max_charge_temp_minus_x_degree = <56>;
+		/* BSP.Charge - 2020.12.02 - modify sw_jeita standard - end */
+		/* PE */
+		ta_12v_support;
+		ta_9v_support;
+		pe_ichg_level_threshold = <1000000>; /* uA */
+		ta_ac_12v_input_current = <3200000>;
+		ta_ac_9v_input_current = <3200000>;
+		ta_ac_7v_input_current = <3200000>;
+
+		/* PE 2.0 */
+		pe20_ichg_level_threshold = <1000000>; /* uA */
+		ta_start_battery_soc = <0>;
+		ta_stop_battery_soc = <85>;
+
+		/* PE 4.0 */
+		high_temp_to_leave_pe40 = <46>;
+		high_temp_to_enter_pe40 = <39>;
+		low_temp_to_leave_pe40 = <10>;
+		low_temp_to_enter_pe40 = <16>;
+
+		/* PE 4.0 single charger*/
+		pe40_single_charger_input_current = <3000000>;
+		pe40_single_charger_current = <3000000>;
+
+		/* PE 4.0 dual charger*/
+		pe40_dual_charger_input_current = <3000000>;
+		pe40_dual_charger_chg1_current = <2000000>;
+		pe40_dual_charger_chg2_current = <2000000>;
+		pe40_stop_battery_soc = <80>;
+
+		/* PE 4.0 cable impedance (mohm) */
+		pe40_r_cable_1a_lower = <559>;
+		pe40_r_cable_2a_lower = <420>;
+		pe40_r_cable_3a_lower = <279>;
+
+		/* dual charger */
+		chg1_ta_ac_charger_current = <1500000>;
+		chg2_ta_ac_charger_current = <1500000>;
+		slave_mivr_diff = <100000>;
+		dual_polling_ieoc = <750000>;
+
+		/* cable measurement impedance */
+		cable_imp_threshold = <699>;
+		vbat_cable_imp_threshold = <3900000>; /* uV */
+
+		/* bif */
+		bif_threshold1 = <4250000>;
+		bif_threshold2 = <4300000>;
+		bif_cv_under_threshold2 = <4450000>;
+
+		/* PD */
+		pd_vbus_low_bound = <5000000>;
+		pd_vbus_upper_bound = <5000000>;
+		pd_ichg_level_threshold = <1000000>; /* uA */
+		pd_stop_battery_soc = <80>;
+
+		ibus_err = <14>;
+		vsys_watt = <5000000>;
+};

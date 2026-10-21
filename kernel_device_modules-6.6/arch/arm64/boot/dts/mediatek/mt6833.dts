@@ -7139,7 +7139,8 @@ gpufreq: gpufreq {
 	charger = <&mt6360_chg>;
 };
 
-#include "mediatek/bat_setting/mt6833_battery_prop.dtsi"
+/* camellia: Xiaomi camellia battery settings + tables instead of Oppo's */
+#include "mediatek/bat_setting/camellia_battery_prop.dtsi"
 
 &spmi {
 grpid = <11>;

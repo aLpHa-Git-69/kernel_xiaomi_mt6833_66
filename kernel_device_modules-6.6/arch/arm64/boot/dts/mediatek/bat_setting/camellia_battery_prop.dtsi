@@ -1,0 +1,96 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * camellia (Redmi Note 10 5G / POCO M3 Pro 5G) battery: Xiaomi's 4.14 settings
+ * (bat_setting/mt6833_battery_prop.dtsi in camellian-t-oss), moved from the
+ * 4.14 bat_gm30 node to the 6.6 &mtk_gauge node. mtk_battery.c reads both
+ * the upper-case 4.14 names and their kebab-case forms.
+ *
+ * Battery ID (as on 4.14, MTK_GET_BATTERY_ID_BY_AUXADC): resistor on AUXADC
+ * channel 4; 629-829 mV -> battery 0 (68K, COSMX table), 1281-1481 mV ->
+ * battery 1 (NVT 330K); anything else -> last battery id.
+ */
+
+&mtk_gauge {
+	io-channels = <&pmic_auxadc AUXADC_BAT_TEMP>,
+			<&pmic_auxadc AUXADC_BATADC>,
+			<&pmic_auxadc AUXADC_VBIF>,
+			<&pmic_auxadc AUXADC_IMP>,
+			<&pmic_auxadc AUXADC_IMIX_R>,
+			<&auxadc 4>;
+	io-channel-names = "pmic_battery_temp",
+			"pmic_battery_voltage",
+			"pmic_bif_voltage",
+			"pmic_ptim_voltage",
+			"pmic_ptim_r",
+			"batteryID-channel";
+	camellia,bat-id-volt-ranges = <629 829 1281 1481>;
+	/* BSP.Charger - 2020.11.09 - add battery id adc channel - start */
+	/* BSP.Charger - 2020.11.09 - add battery id adc channel - end */
+	DIFFERENCE_FULLOCV_ITH = <(200)>;
+/*	Charging termination current*/
+	SHUTDOWN_1_TIME = <(5)>;
+/*	If ui_soc shows 1% more than X minites, system will shutdown*/
+	KEEP_100_PERCENT = <(1)>;
+/*	The ui_soc will keep 100% until SOC drop X percents after unplugged*/
+	R_FG_VALUE = <(5)>;
+/*	R_sense resistance*/
+	EMBEDDED_SEL = <(1)>;
+/*	Configures whether using embedded battery or not*/
+	PMIC_SHUTDOWN_CURRENT = <(20)>;
+/*	System shutdown current*/
+	FG_METER_RESISTANCE = <(100)>;
+/*	The resistance of PCB*/
+/* BSP.Charger - 2020.12.29 - modify CAR_TUNE_VALUE */
+	CAR_TUNE_VALUE = <(101)>;
+/*	Tune value for current measurement*/
+	PMIC_MIN_VOL = <(33500)>;
+/*	vboot voltage for gauge 0%*/
+	POWERON_SYSTEM_IBOOT = <(500)>;
+/*	power on system iboot*/
+	SHUTDOWN_GAUGE0_VOLTAGE = <(34000)>;
+/*	shutdown gauge 0% voltage*/
+	TEMPERATURE_T0 = <(50)>;
+/*	Battery temperature T0*/
+	TEMPERATURE_T1 = <(25)>;
+/*	Battery temperature T1*/
+	TEMPERATURE_T2 = <(10)>;
+/*	Battery temperature T2*/
+	TEMPERATURE_T3 = <(0)>;
+/*	Battery temperature T3*/
+	TEMPERATURE_T4 = <(-10)>;
+/*	Battery temperature T4*/
+	g_FG_PSEUDO100_T0 = <(97)>;
+/*	Pseudo 100% percentage at T0*/
+	g_FG_PSEUDO100_T1 = <(97)>;
+/*	Pseudo 100% percentage at T1*/
+	g_FG_PSEUDO100_T2 = <(95)>;
+/*	Pseudo 100% percentage at T2*/
+	g_FG_PSEUDO100_T3 = <(92)>;
+/*	Pseudo 100% percentage at T3*/
+	g_FG_PSEUDO100_T4 = <(90)>;
+/*	Pseudo 100% percentage at T4*/
+	Q_MAX_SYS_VOLTAGE_BAT0 = <(3350)>;
+/*	Pseudo1 for hide percentage*/
+	Q_MAX_SYS_VOLTAGE_BAT1 = <(3350)>;
+/*	Pseudo1 for hide percentage*/
+	Q_MAX_SYS_VOLTAGE_BAT2 = <(3350)>;
+/*	Pseudo1 for hide percentage*/
+	Q_MAX_SYS_VOLTAGE_BAT3 = <(3350)>;
+/*	Pseudo1 for hide percentage*/
+	COM_FG_METER_RESISTANCE = <(100)>;
+/*	compensate The resistance of PCB*/
+	COM_R_FG_VALUE = <(0)>;
+/*	compensate R_sense resistance*/
+	enable_tmp_intr_suspend = <(0)>;
+/* Enable update temp when suspend */
+	ACTIVE_TABLE = <(0)>;
+/* Table numbers per battery*/
+	MULTI_TEMP_GAUGE0 = <(1)>;
+/* Multi gauge0 enable*/
+/* #include "mt6833_battery_table.dtsi" */
+/* BSP.Charge - 2020.12.16 -Add charging table start */
+/* BSP.Charge - 2020.12.16 -Add charging table end */
+#include "mtk_camellia_COSMX_68K_battery_table.dtsi"
+#include "mtk_camellia_NVT_330K_battery_table.dtsi"
+#include "camellia_battery_prop_dim2_ext.dtsi"
+};
