@@ -1,0 +1,34 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * camellia: labels the stock (4.14) camellia dtbo.img references but the 6.6
+ * mt6833 base no longer has. camellia's LK applies the dtbo partition on top
+ * of the base dtb from boot.img; with these present the stock overlay applies
+ * cleanly while the dtbo partition stays stock (fastboot boot testing).
+ * Placeholder nodes have no compatible, so no driver binds to them.
+ */
+
+/* renamed in 6.6: camera IO LDO */
+mt_pmic_vcamio_ldo_reg: &mt6359p_vcamio_reg {
+};
+
+/ {
+	board_id: board_id {
+		status = "disabled";
+	};
+	irtx_pwm: irtx_pwm {
+		status = "disabled";
+	};
+	/* 6.6 splits MT6360 into mt6360_chg/regulator/typec */
+	mt6360_pmu: mt6360_pmu_dts {
+		status = "disabled";
+	};
+	mt6360_pmic: mt6360_pmic_dts {
+		status = "disabled";
+	};
+	mt6360_ldo: mt6360_ldo_dts {
+		status = "disabled";
+	};
+	tcpc_pd: tcpc_pd {
+		status = "disabled";
+	};
+};

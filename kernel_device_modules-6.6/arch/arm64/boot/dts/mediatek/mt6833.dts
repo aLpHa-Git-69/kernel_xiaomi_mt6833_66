@@ -7427,3 +7427,6 @@ grpid = <11>;
 	};
 };
 //#endif /* OPLUS_FEATURE_SECURITY_COMMON */
+
+/* camellia: keep the stock camellia dtbo applicable */
+#include "camellia-stock-dtbo-compat.dtsi"
