@@ -32,6 +32,7 @@
 	#size-cells = <2>;
 
 	aliases {
+		serial0 = &apuart0;
 		i2c0 = &i2c0;
 		i2c1 = &i2c1;
 		i2c2 = &i2c2;
