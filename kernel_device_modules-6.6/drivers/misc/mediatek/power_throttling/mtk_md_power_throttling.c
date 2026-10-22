@@ -282,6 +282,8 @@ static int __used parse_md_limit_table(struct device *dev)
 			ret = md_limit_default_setting(dev, i);
                         if (ret)
                                 return ret;
+			/* camellia: defaults are complete; 'num' is unset here (huge kcalloc) */
+			continue;
 		} else if (num <= 0 || num > priv->max_thl_lv) {
 			priv->max_thl_lv = 0;
 			continue;
