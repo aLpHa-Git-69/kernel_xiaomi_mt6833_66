@@ -249,7 +249,12 @@ char *g_dbg_buffer;
 unsigned int g_dbg_buffer_pos;
 static struct pid_info_t *p_pid_buffer;
 
-static DEFINE_SPINLOCK(g_register_spinlock);
+/*
+ * camellia: was a spinlock held (irqs off) across multi-MB GFP_KERNEL
+ * allocations ("sleeping function called from invalid context" on 6.6).
+ * All callers are probe/init or procfs writes, so a mutex is correct.
+ */
+static DEFINE_MUTEX(g_register_lock);
 
 bool mme_register_buffer(unsigned int module, char *module_buf_name, unsigned int type,
 						unsigned int buffer_size)
@@ -257,7 +262,6 @@ bool mme_register_buffer(unsigned int module, char *module_buf_name, unsigned in
 	unsigned long va;
 	unsigned long pa;
 	char module_aee_name[256];
-	unsigned long flags = 0;
 	unsigned int module_buf_size = buffer_size;
 	int ret;
 
@@ -276,14 +280,14 @@ bool mme_register_buffer(unsigned int module, char *module_buf_name, unsigned in
 		return false;
 	}
 
-	spin_lock_irqsave(&g_register_spinlock, flags);
+	mutex_lock(&g_register_lock);
 	if (!g_dbg_buffer) {
 		g_dbg_buffer_pos = 0;
 		g_dbg_buffer = kzalloc(DBG_BUFFER_INIT_SIZE, GFP_KERNEL);
 
 		if (!g_dbg_buffer) {
 			MMEERR("Failed to allocate g_dbg_buffer");
-			spin_unlock_irqrestore(&g_register_spinlock, flags);
+			mutex_unlock(&g_register_lock);
 			return false;
 		}
 
@@ -304,6 +308,7 @@ bool mme_register_buffer(unsigned int module, char *module_buf_name, unsigned in
 		p_pid_buffer = kcalloc(MAX_PID_COUNT, sizeof(struct pid_info_t), GFP_KERNEL);
 		if (!p_pid_buffer) {
 			MMEERR("ERROR: allocate memory for pid_buffer failed");
+			mutex_unlock(&g_register_lock);
 			return false;
 		}
 	}
@@ -320,7 +325,7 @@ bool mme_register_buffer(unsigned int module, char *module_buf_name, unsigned in
 
 		if (!p_mme_ring_buffer[module][type]) {
 			MMEERR("Failed to allocate memory for ring buffer\n");
-			spin_unlock_irqrestore(&g_register_spinlock, flags);
+			mutex_unlock(&g_register_lock);
 			return false;
 		}
 
@@ -331,7 +336,7 @@ bool mme_register_buffer(unsigned int module, char *module_buf_name, unsigned in
 		ret = snprintf(module_aee_name, sizeof(module_aee_name), "MME_%s", module_buf_name);
 		if (ret < 0 || ret >= (sizeof(module_aee_name)-1)) {
 			MMEERR("module aee name snprintf error, ret:%d", ret);
-			spin_unlock_irqrestore(&g_register_spinlock, flags);
+			mutex_unlock(&g_register_lock);
 			return false;
 		}
 		mrdump_mini_add_extra_file(va, pa, mme_globals[module].buffer_bytes[type], module_aee_name);
@@ -349,7 +354,7 @@ bool mme_register_buffer(unsigned int module, char *module_buf_name, unsigned in
 	g_ring_buffer_units[module][type] = mme_globals[module].buffer_units[type] -
 										RESERVE_BUFFER_UNITS;
 
-	spin_unlock_irqrestore(&g_register_spinlock, flags);
+	mutex_unlock(&g_register_lock);
 
 	g_ring_buffer_spinlock[module][type] = t_spinlock;
 	g_print_mme_log[module] = true;
