@@ -632,8 +632,9 @@ int adc_battemp(struct mtk_battery *gm, int res)
 			}
 		}
 
+		/* camellia: degrees like the clamps above (Oppo's tenths left over) */
 		tbatt_value = (((res - res2) * tmp1) +
-			((res1 - res) * tmp2)) * 10 / (res1 - res2);
+			((res1 - res) * tmp2)) / (res1 - res2);
 	}
 	bm_debug(gm, "[%s] %d %d %d %d %d %d\n",
 		__func__,
