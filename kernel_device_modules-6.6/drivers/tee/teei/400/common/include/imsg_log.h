@@ -26,7 +26,8 @@ enum {
 #define IMSG_PROFILE_LEVEL      IMSG_LV_TRACE
 #else
 /* DO NOT change the log level, this is for production */
-#define IMSG_LOG_LEVEL          IMSG_LV_WARN
+/* camellia 6.6 bring-up: INFO (pr_info) to see the uTos handshake; revert to WARN */
+#define IMSG_LOG_LEVEL          IMSG_LV_INFO
 #define IMSG_PROFILE_LEVEL      IMSG_LV_TRACE
 #endif
 
