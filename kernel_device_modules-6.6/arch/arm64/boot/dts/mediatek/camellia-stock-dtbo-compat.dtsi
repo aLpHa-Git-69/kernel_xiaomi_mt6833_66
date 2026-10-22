@@ -31,4 +31,21 @@ mt_pmic_vcamio_ldo_reg: &mt6359p_vcamio_reg {
 	tcpc_pd: tcpc_pd {
 		status = "disabled";
 	};
+
+	/*
+	 * The stock overlay's fragment for &i2c5 adds the old cust-i2c placeholders
+	 * subpmic@34, usb_type_c@4e, subpmic_pmic@1a and subpmic_ldo@64. libfdt adds
+	 * them ahead of mt6360@34 / tcpc@4e, so they take those addresses: MT6360 and
+	 * its TCPC fail to register (no Type-C attach, no USB). Resolve the dtbo's
+	 * i2c5 to this disabled node instead; dtc keeps an explicit __symbols__ entry.
+	 */
+	stock_dtbo_i2c5_sink: stock-dtbo-i2c5-sink {
+		#address-cells = <1>;
+		#size-cells = <0>;
+		status = "disabled";
+	};
+
+	__symbols__ {
+		i2c5 = "/stock-dtbo-i2c5-sink";
+	};
 };

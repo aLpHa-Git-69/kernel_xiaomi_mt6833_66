@@ -554,3 +554,6 @@ void mtk_platform_pm_term(struct kbase_device *kbdev)
     if (IS_ERR_OR_NULL(kbdev))
         return;
 }
+
+/* the mt6833 gpufreq platform must be registered before kbase powers the GPU at probe */
+MODULE_SOFTDEP("pre: mtk_gpufreq_mt6833");
