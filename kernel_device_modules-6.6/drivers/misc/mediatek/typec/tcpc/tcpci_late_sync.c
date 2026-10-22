@@ -83,3 +83,9 @@ MODULE_DESCRIPTION("Richtek TypeC Port Late Sync Driver");
 MODULE_AUTHOR("Jeff Chang <jeff_chang@richtek.com>");
 MODULE_VERSION("1.0.0_MTK");
 MODULE_LICENSE("GPL");
+/*
+ * camellia: this enables the TCPC interrupts and starts the Type-C state
+ * machine for the ports registered when it loads, so load it after the port
+ * driver and the consumers of its notifications.
+ */
+MODULE_SOFTDEP("pre: tcpc_mt6360 rt_pd_manager mtk_chg_type_det mtk_pd_adapter extcon-mtk-usb musb_main");
