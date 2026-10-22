@@ -31,6 +31,12 @@
 
 
 #define SOTER_SHM_NUM_PRIV_PAGES	1
+/*
+ * camellia: uTos there does not answer N_GET_RESERVED_MEM_SIZE (returns 0);
+ * like camellia's 4.14 driver, take the shared memory from the dt
+ * "microtrust,shared_mem" reserved-memory region.
+ */
+#define TEEI_DTS_RESERVED_MEM
 
 static struct reserved_mem *reserved_mem;
 static atomic_t is_shm_pool_available = ATOMIC_INIT(0);
@@ -192,6 +198,14 @@ soter_config_shm_memremap(void **memremaped_shm)
 	struct tee_shm_pool_mem_info dmabuf_info;
 
 #ifdef TEEI_DTS_RESERVED_MEM
+	if (!reserved_mem) {
+		/* module: RESERVEDMEM_OF_DECLARE is not available, look it up */
+		struct device_node *np = of_find_compatible_node(NULL, NULL,
+						"microtrust,shared_mem");
+
+		reserved_mem = np ? of_reserved_mem_lookup(np) : NULL;
+		of_node_put(np);
+	}
 	if (!reserved_mem) {
 		IMSG_ERROR("cannot find reserved memory in device tree\n");
 		return ERR_PTR(-EINVAL);

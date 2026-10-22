@@ -672,6 +672,17 @@
 	microtrust,real-drv = <1>;
 };
 
+/* TEE shared memory, as in camellia's stock dt (soter, isee TEEI_DTS_RESERVED_MEM) */
+&reserved_memory {
+	soter-shared-mem {
+		compatible = "microtrust,shared_mem";
+		no-map;
+		size = <0 0x800000>;
+		alignment = <0 0x1000000>;
+		alloc-ranges = <0 0x40000000 0 0x50000000>;
+	};
+};
+
 &mtk_leds {
 	compatible = "mediatek,disp-leds";
 
