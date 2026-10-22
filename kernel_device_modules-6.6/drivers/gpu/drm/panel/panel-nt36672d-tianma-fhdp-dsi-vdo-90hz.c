@@ -27,6 +27,7 @@
 #include <video/videomode.h>
 
 #include <linux/module.h>
+#include <linux/camellia_sym.h>
 #include <linux/of_platform.h>
 #include <linux/of_graph.h>
 #include <linux/platform_device.h>
@@ -68,17 +69,15 @@ static int current_fps = 60;
 #endif
 /*BSP.Touch - 2020.11.12 - Add for adjust the TP on screen timing*/
 #define TP_SOFT_VDDI 1
-extern int32_t nvt_ts_tp_resume(void) __weak;
-extern int32_t nvt_ts_tp_suspend(void) __weak;
-/* camellia 6.6: touch flag, NULL without the touch module */
-extern bool esd_flag __weak;
+extern int32_t nvt_ts_tp_resume(void);
+extern int32_t nvt_ts_tp_suspend(void);
+extern bool esd_flag;
 #if TP_SOFT_VDDI
-extern void nvt_bootloader_reset_locked(void) __weak;
-extern int32_t nvt_esd_vdd_tp_recovery(void) __weak;
+extern void nvt_bootloader_reset_locked(void);
+extern int32_t nvt_esd_vdd_tp_recovery(void);
 #endif
 /*BSP.Touch - 2020.11.27 - Add for double click*/
-/* camellia 6.6: touch flag, NULL without the touch module */
-extern bool nvt_gesture_flag __weak;
+extern bool nvt_gesture_flag;
 extern int lcm_name[10];
 extern int real_refresh;
 extern int temp_refresh;
@@ -208,14 +207,12 @@ static void tianma_panel_init(struct tianma *ctx)
 	gpiod_set_value(ctx->reset_gpio, 1);
 	usleep_range(10000, 10001);
 #if TP_SOFT_VDDI
-	if ((&esd_flag && esd_flag)) {
-		if (nvt_bootloader_reset_locked)
-			nvt_bootloader_reset_locked();
+	if (CAMELLIA_SYM_READ(esd_flag)) {
+		CAMELLIA_SYM_CALL(nvt_bootloader_reset_locked);
 		tianma_dcs_write_seq_static(ctx, 0xFF, 0xC0);
 		tianma_dcs_write_seq_static(ctx, 0x4B, 0x0);
 		msleep(1000);
-		if (nvt_esd_vdd_tp_recovery)
-			nvt_esd_vdd_tp_recovery();
+		CAMELLIA_SYM_CALL(nvt_esd_vdd_tp_recovery);
 		msleep(1000);
 		tianma_dcs_write_seq_static(ctx, 0xFF, 0xC0);
 		tianma_dcs_write_seq_static(ctx, 0x4B, 0x0E);
@@ -294,10 +291,9 @@ static int nova_tianma_unprepare(struct drm_panel *panel)
 	if (!ctx->prepared)
 		return 0;
 
-	if ((&esd_flag && esd_flag)) {
-		pr_info("%s, Now esd_flag = %d\n", __func__, esd_flag);
-		if (nvt_ts_tp_suspend)
-			nvt_ts_tp_suspend();
+	if (CAMELLIA_SYM_READ(esd_flag)) {
+		pr_info("%s, Now esd_flag = %d\n", __func__, CAMELLIA_SYM_READ(esd_flag));
+		CAMELLIA_SYM_CALL(nvt_ts_tp_suspend);
 	}
 
 	/* BSP.lcm - 2020.12.1 - pull down pwm pin */
@@ -313,7 +309,7 @@ static int nova_tianma_unprepare(struct drm_panel *panel)
 	msleep(120);
 
 	/*BSP.Touch - 2020.11.27 - edit for double click start*/
-	if (!nvt_gesture_flag) {
+	if (!CAMELLIA_SYM_READ(nvt_gesture_flag)) {
 		ctx->bias_neg =
 		    devm_gpiod_get_index(ctx->dev, "bias", 1, GPIOD_OUT_HIGH);
 		gpiod_set_value(ctx->bias_neg, 0);
@@ -385,13 +381,11 @@ static int tianma_prepare(struct drm_panel *panel)
 
 #ifdef VENDOR_EDIT
 	// shifan@bsp.tp 20191226 add for loading tp fw when screen lighting on
-	if (lcd_queue_load_tp_fw)
-		lcd_queue_load_tp_fw();
+	CAMELLIA_SYM_CALL(lcd_queue_load_tp_fw);
 #endif
-	if ((&esd_flag && esd_flag)) {
-		pr_info("%s, Now esd_flag = %d\n", __func__, esd_flag);
-		if (nvt_ts_tp_resume)
-			nvt_ts_tp_resume();
+	if (CAMELLIA_SYM_READ(esd_flag)) {
+		pr_info("%s, Now esd_flag = %d\n", __func__, CAMELLIA_SYM_READ(esd_flag));
+		CAMELLIA_SYM_CALL(nvt_ts_tp_resume);
 	}
 
 	pr_info("%s-\n", __func__);

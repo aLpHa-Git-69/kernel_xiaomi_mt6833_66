@@ -69,6 +69,7 @@
 #define	WAKEUP_OFF	                           0x04
 #define	WAKEUP_ON	                           0x05
 bool	fts_gesture_flag;
+EXPORT_SYMBOL_GPL(fts_gesture_flag);
 
 
 /*****************************************************************************

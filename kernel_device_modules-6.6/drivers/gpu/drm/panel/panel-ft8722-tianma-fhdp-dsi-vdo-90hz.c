@@ -27,6 +27,7 @@
 #include <video/videomode.h>
 
 #include <linux/module.h>
+#include <linux/camellia_sym.h>
 #include <linux/of_platform.h>
 #include <linux/of_graph.h>
 #include <linux/platform_device.h>
@@ -60,18 +61,16 @@ static int current_fps = 60;
 #define LCM_DENSITY (405)
 
 /*BSP.Touch - 2020.11.12 - Add for adjust the TP on screen timing*/
-extern int32_t fts_ts_tp_resume(void) __weak;
-extern int32_t fts_ts_tp_suspend(void) __weak;
+extern int32_t fts_ts_tp_resume(void);
+extern int32_t fts_ts_tp_suspend(void);
 /*BSP.Touch - 2020.11.27 - Add for double click*/
-/* camellia 6.6: touch flag, NULL without the touch module */
-extern bool fts_gesture_flag __weak;
+extern bool fts_gesture_flag;
 extern int lcm_name[10];
 static char bl_tb0[] = { 0x51, 0xff };
 extern int real_refresh;
 extern int temp_refresh;
-extern void fts_fwresume_work(void) __weak;
-/* camellia 6.6: touch flag, NULL without the touch module */
-extern bool esd_flag __weak;
+extern void fts_fwresume_work(void);
+extern bool esd_flag;
 
 extern int _lcm_i2c_write_bytes(unsigned char addr, unsigned char value);
 bool ft8722_new;
@@ -195,8 +194,7 @@ static void tianma_panel_init(struct tianma *ctx)
 	usleep_range(12000, 12001);
 	devm_gpiod_put(ctx->dev, ctx->reset_gpio);
 	// end
-	if (fts_fwresume_work)
-		fts_fwresume_work();
+	CAMELLIA_SYM_CALL(fts_fwresume_work);
 #if HFP_SUPPORT
 	pr_info("%s, fps:%d\n", __func__, current_fps);
 	tianma_dcs_write_seq_static(ctx, 0xFF, 0x25);
@@ -259,10 +257,9 @@ static int ft_tianma_unprepare(struct drm_panel *panel)
 	if (!ctx->prepared)
 		return 0;
 
-	if ((&esd_flag && esd_flag)) {
-		pr_info("%s, Now esd_flag = %d\n", __func__, esd_flag);
-		if (fts_ts_tp_suspend)
-			fts_ts_tp_suspend();
+	if (CAMELLIA_SYM_READ(esd_flag)) {
+		pr_info("%s, Now esd_flag = %d\n", __func__, CAMELLIA_SYM_READ(esd_flag));
+		CAMELLIA_SYM_CALL(fts_ts_tp_suspend);
 	}
 
 	/* BSP.lcm - 2020.11.12 - pull down pwm pin */
@@ -288,7 +285,7 @@ static int ft_tianma_unprepare(struct drm_panel *panel)
 		gpiod_set_value(ctx->bias_pos, 1);
 		devm_gpiod_put(ctx->dev, ctx->bias_pos);
 	} else {
-		if ((&fts_gesture_flag && fts_gesture_flag)) {
+		if (CAMELLIA_SYM_READ(fts_gesture_flag)) {
 			ctx->bias_neg =
 				devm_gpiod_get_index(ctx->dev, "bias", 1, GPIOD_OUT_HIGH);
 			gpiod_set_value(ctx->bias_neg, 1);
@@ -364,13 +361,11 @@ static int ft_tianma_prepare(struct drm_panel *panel)
 
 #ifdef VENDOR_EDIT
 	// shifan@bsp.tp 20191226 add for loading tp fw when screen lighting on
-	if (lcd_queue_load_tp_fw)
-		lcd_queue_load_tp_fw();
+	CAMELLIA_SYM_CALL(lcd_queue_load_tp_fw);
 #endif
-	if ((&esd_flag && esd_flag)) {
-		pr_info("%s, Now esd_flag = %d\n", __func__, esd_flag);
-		if (fts_ts_tp_resume)
-			fts_ts_tp_resume();
+	if (CAMELLIA_SYM_READ(esd_flag)) {
+		pr_info("%s, Now esd_flag = %d\n", __func__, CAMELLIA_SYM_READ(esd_flag));
+		CAMELLIA_SYM_CALL(fts_ts_tp_resume);
 	}
 	pr_info("%s-\n", __func__);
 	return ret;

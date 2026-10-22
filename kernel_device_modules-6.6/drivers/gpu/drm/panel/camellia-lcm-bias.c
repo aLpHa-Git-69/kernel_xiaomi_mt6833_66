@@ -67,7 +67,7 @@ int camellia_bklic_id(void)
 	of_node_put(chosen);
 	return id;
 }
-EXPORT_SYMBOL(camellia_bklic_id);
+EXPORT_SYMBOL_GPL(camellia_bklic_id);
 
 int _lcm_i2c_write_bytes(unsigned char addr, unsigned char value)
 {

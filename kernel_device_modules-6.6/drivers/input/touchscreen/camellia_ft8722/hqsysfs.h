@@ -129,7 +129,7 @@ struct hw_info{
 
 
 /* camellia 6.6: weak, the Huaqin hw-info sysfs module is not ported */
-int hq_regiser_hw_info(enum hardware_id id, char *device_name) __weak;
+int hq_regiser_hw_info(enum hardware_id id, char *device_name);
 int hq_deregister_hw_info(enum hardware_id id, char *device_name);
 int register_kboj_under_hqsysfs(struct kobject *kobj, struct kobj_type *ktype, const char *fmt, ...);
 

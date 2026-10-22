@@ -7,6 +7,7 @@
 #include <linux/err.h>
 #include <linux/kernel.h>
 #include <linux/module.h>
+#include <linux/camellia_sym.h>
 #include <linux/of_platform.h>
 #include <linux/platform_device.h>
 #include <linux/slab.h>
@@ -23,23 +24,20 @@ extern int __weak _gate_ic_backlight_set(unsigned int brightness);
 /*
  * camellia: besides the panel's DCS brightness, Xiaomi's 4.14 leds-mtk-disp
  * also drove the backlight IC LK detected (":bklic=", 24 = KTD3136/3137,
- * 1 = LM3697). All weak: no effect on boards without the camellia modules.
+ * 1 = LM3697). Looked up at runtime: no effect on boards without the camellia modules.
  */
-extern int camellia_bklic_id(void) __weak;
-extern int ktd3137_brightness_set(int brightness) __weak;
-extern int lm3697_set_brightness(int brightness) __weak;
+extern int camellia_bklic_id(void);
+extern int ktd3137_brightness_set(int brightness);
+extern int lm3697_set_brightness(int brightness);
 
 static void camellia_bklic_set(int brightness)
 {
-	int id;
+	int id = CAMELLIA_SYM_CALL_RET(camellia_bklic_id, -1);
 
-	if (!camellia_bklic_id)
-		return;
-	id = camellia_bklic_id();
-	if (id == 24 && ktd3137_brightness_set)
-		ktd3137_brightness_set(brightness);
-	else if (id == 1 && lm3697_set_brightness)
-		lm3697_set_brightness(brightness);
+	if (id == 24)
+		CAMELLIA_SYM_CALL(ktd3137_brightness_set, brightness);
+	else if (id == 1)
+		CAMELLIA_SYM_CALL(lm3697_set_brightness, brightness);
 }
 
 struct mt_leds_disp {

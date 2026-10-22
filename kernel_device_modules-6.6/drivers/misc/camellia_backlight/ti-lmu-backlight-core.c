@@ -386,7 +386,7 @@ int lm3697_set_brightness(int brightness)
 
 	return ti_lmu_backlight_set_brightness(brightness);
 }
-EXPORT_SYMBOL(lm3697_set_brightness);
+EXPORT_SYMBOL_GPL(lm3697_set_brightness);
 
 static int ti_lmu_backlight_update_status(struct backlight_device *bl_dev)
 {

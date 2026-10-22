@@ -752,7 +752,7 @@ int ktd3137_brightness_set(int brightness)
 	ktd3137_brightness_set_workfunc(bkl_chip, brightness);
 	return brightness;
 }
-EXPORT_SYMBOL(ktd3137_brightness_set);
+EXPORT_SYMBOL_GPL(ktd3137_brightness_set);
 
 static int ktd3137_update_brightness(struct backlight_device *bl)
 {

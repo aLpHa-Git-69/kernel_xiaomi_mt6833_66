@@ -27,6 +27,7 @@
 #include <video/videomode.h>
 
 #include <linux/module.h>
+#include <linux/camellia_sym.h>
 #include <linux/of_platform.h>
 #include <linux/of_graph.h>
 #include <linux/platform_device.h>
@@ -68,13 +69,11 @@ static int current_fps = 60;
 #define LCM_DENSITY (405)
 
 /*BSP.Touch - 2020.11.12 - Add for adjust the TP on screen timing*/
-extern int32_t nvt_ts_tp_resume(void) __weak;
-extern int32_t nvt_ts_tp_suspend(void) __weak;
-/* camellia 6.6: touch flag, NULL without the touch module */
-extern bool esd_flag __weak;
+extern int32_t nvt_ts_tp_resume(void);
+extern int32_t nvt_ts_tp_suspend(void);
+extern bool esd_flag;
 /*BSP.Touch - 2020.11.27 - Add for double click*/
-/* camellia 6.6: touch flag, NULL without the touch module */
-extern bool nvt_gesture_flag __weak;
+extern bool nvt_gesture_flag;
 extern int lcm_name[10];
 static char bl_tb0[] = { 0x51, 0xff };
 
@@ -278,10 +277,9 @@ static int truly2_unprepare(struct drm_panel *panel)
 	if (!ctx->prepared)
 		return 0;
 
-	if ((&esd_flag && esd_flag)) {
-		pr_info("%s, Now esd_flag = %d\n", __func__, esd_flag);
-		if (nvt_ts_tp_suspend)
-			nvt_ts_tp_suspend();
+	if (CAMELLIA_SYM_READ(esd_flag)) {
+		pr_info("%s, Now esd_flag = %d\n", __func__, CAMELLIA_SYM_READ(esd_flag));
+		CAMELLIA_SYM_CALL(nvt_ts_tp_suspend);
 	}
 
 	/* BSP.lcm - 2020.11.12 - pull down pwm pin */
@@ -297,7 +295,7 @@ static int truly2_unprepare(struct drm_panel *panel)
 	msleep(120);
 
 	/*BSP.Touch - 2020.11.27 - edit for double click start*/
-	if (!nvt_gesture_flag) {
+	if (!CAMELLIA_SYM_READ(nvt_gesture_flag)) {
 		ctx->bias_neg =
 		    devm_gpiod_get_index(ctx->dev, "bias", 1, GPIOD_OUT_HIGH);
 		gpiod_set_value(ctx->bias_neg, 0);
@@ -319,8 +317,7 @@ static int truly2_unprepare(struct drm_panel *panel)
 		devm_gpiod_put(ctx->dev, ctx->bias_pos);
 	}
 /*BSP.Touch - 2020.11.27 - edit for double click end*/
-	if (nvt_ts_tp_suspend)
-		nvt_ts_tp_suspend();
+	CAMELLIA_SYM_CALL(nvt_ts_tp_suspend);
 	ctx->error = 0;
 	ctx->prepared = false;
 	pr_info("%s--\n", __func__);
@@ -372,13 +369,11 @@ static int truly2_prepare(struct drm_panel *panel)
 
 #ifdef VENDOR_EDIT
 	// shifan@bsp.tp 20191226 add for loading tp fw when screen lighting on
-	if (lcd_queue_load_tp_fw)
-		lcd_queue_load_tp_fw();
+	CAMELLIA_SYM_CALL(lcd_queue_load_tp_fw);
 #endif
-	if ((&esd_flag && esd_flag)) {
-		pr_info("%s, Now esd_flag = %d\n", __func__, esd_flag);
-		if (nvt_ts_tp_resume)
-			nvt_ts_tp_resume();
+	if (CAMELLIA_SYM_READ(esd_flag)) {
+		pr_info("%s, Now esd_flag = %d\n", __func__, CAMELLIA_SYM_READ(esd_flag));
+		CAMELLIA_SYM_CALL(nvt_ts_tp_resume);
 	}
 
 	pr_info("%s-\n", __func__);

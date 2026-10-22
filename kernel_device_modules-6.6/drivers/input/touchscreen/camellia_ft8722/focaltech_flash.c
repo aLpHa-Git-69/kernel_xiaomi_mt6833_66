@@ -32,6 +32,7 @@
 /*****************************************************************************
 * 1.Included header files
 *****************************************************************************/
+#include <linux/camellia_sym.h>
 #include "focaltech_core.h"
 #include "focaltech_flash.h"
 #include "hqsysfs.h"
@@ -1016,6 +1017,7 @@ void fts_fwresume_work(void)
 	FTS_INFO("call.");
 	queue_work(fts_data->ts_workqueue, &fts_data->fwres_work);
 }
+EXPORT_SYMBOL_GPL(fts_fwresume_work);
 
 static int fts_fwupg_get_module_info(struct fts_upgrade *upg)
 {
@@ -1187,8 +1189,7 @@ static void fts_fwupg_work(struct work_struct *work)
 		ret = fts_read_reg(FTS_REG_FW_VER, &fw_version);
 		FTS_INFO("read FW version:0x%02x", fw_version);
 		sprintf(tp_version_info, "[Vendor]Tianma [TP-IC]:FT8722, [FW]0x%x\n", fw_version);
-		if (hq_regiser_hw_info)
-			hq_regiser_hw_info(HWID_CTP, tp_version_info);
+		CAMELLIA_SYM_CALL(hq_regiser_hw_info, HWID_CTP, tp_version_info);
 	}
 }
 
