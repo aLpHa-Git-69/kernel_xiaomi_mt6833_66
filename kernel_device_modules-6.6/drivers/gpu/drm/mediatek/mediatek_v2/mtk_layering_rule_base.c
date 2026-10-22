@@ -75,6 +75,9 @@ static bool have_gpu_cached;
 static int last_fbt_weight;
 
 static DEFINE_MUTEX(layering_info_lock);
+/* camellia: set while a 4.19-UAPI layering request is processed */
+static DEFINE_MUTEX(layering_v419_lock);
+static bool layering_v419;
 
 #define DISP_MML_LAYER_LIMIT 1
 #define DISP_LAYER_RULE_MAX_NUM 1024
@@ -3783,7 +3786,26 @@ _copy_layer_info_from_disp(struct drm_mtk_layering_info *disp_info_user,
 		return -ENOMEM;
 	}
 
-	if (debug_mode) {
+	if (layering_v419) {
+		struct drm_mtk_layer_config_v419 __user *u =
+			(struct drm_mtk_layer_config_v419 __user *)
+			disp_info_user->input_config[disp_idx];
+		struct drm_mtk_layer_config_v419 o;
+		struct drm_mtk_layer_config *k = l_info->input_config[disp_idx];
+		int i;
+
+		BUILD_BUG_ON(sizeof(struct drm_mtk_layer_config_v419) != 60);
+		BUILD_BUG_ON(offsetof(struct drm_mtk_layer_config, buffer_alloc_id) !=
+			     sizeof(o.head));
+		/* no MML on this path: mml_cfg stays zeroed */
+		for (i = 0; i < layer_num; i++) {
+			if (copy_from_user(&o, &u[i], sizeof(o)))
+				return -EFAULT;
+			memcpy(&k[i], o.head, sizeof(o.head));
+			k[i].compress = o.compress;
+			k[i].secure = o.secure;
+		}
+	} else if (debug_mode) {
 		memcpy(l_info->input_config[disp_idx],
 		       disp_info_user->input_config[disp_idx], layer_size);
 	} else {
@@ -3854,7 +3876,26 @@ _copy_layer_info_by_disp(struct drm_mtk_layering_info *disp_info_user,
 	layer_size = sizeof(struct drm_mtk_layer_config) *
 		     disp_info_user->layer_num[disp_idx];
 
-	if (debug_mode) {
+	if (layering_v419) {
+		struct drm_mtk_layer_config_v419 __user *u =
+			(struct drm_mtk_layer_config_v419 __user *)
+			disp_info_user->input_config[disp_idx];
+		struct drm_mtk_layer_config_v419 o;
+		struct drm_mtk_layer_config *k = l_info->input_config[disp_idx];
+		int i;
+
+		for (i = 0; i < disp_info_user->layer_num[disp_idx]; i++) {
+			memcpy(o.head, &k[i], sizeof(o.head));
+			o.compress = k[i].compress;
+			o.secure = k[i].secure;
+			if (copy_to_user(&u[i], &o, sizeof(o))) {
+				ret = -EFAULT;
+				break;
+			}
+		}
+		vfree(l_info->input_config[disp_idx]);
+		vfree(l_info->mml_cfg[disp_idx]);
+	} else if (debug_mode) {
 		memcpy(disp_info_user->input_config[disp_idx],
 		       l_info->input_config[disp_idx], layer_size);
 	} else {
@@ -5575,6 +5616,59 @@ static int gen_hrt_pattern(struct drm_device *dev)
 #endif
 
 /**** UT Program end ****/
+
+int mtk_layering_rule_ioctl_v419(struct drm_device *dev, void __user *argp)
+{
+	struct drm_mtk_layering_info_v419 old;
+	struct drm_mtk_layering_info *info;
+	int i, ret;
+
+	BUILD_BUG_ON(sizeof(struct drm_mtk_layering_info_v419) != 128);
+	if (copy_from_user(&old, argp, sizeof(old)))
+		return -EFAULT;
+	info = kzalloc(sizeof(*info), GFP_KERNEL);
+	if (!info)
+		return -ENOMEM;
+
+	for (i = 0; i < 3; i++) {
+		info->input_config[i] =
+			(struct drm_mtk_layer_config *)old.input_config[i];
+		info->disp_mode[i] = old.disp_mode[i];
+		info->disp_mode_idx[i] = old.disp_mode_idx[i];
+		info->layer_num[i] = old.layer_num[i];
+		info->gles_head[i] = old.gles_head[i];
+		info->gles_tail[i] = old.gles_tail[i];
+		if (old.layer_num[i] > 0)
+			info->disp_list |= BIT(i);
+	}
+	info->hrt_num = old.hrt_num;
+	info->res_idx = old.res_idx;
+	info->hrt_weight = old.hrt_weight;
+	info->hrt_idx = old.hrt_idx;
+
+	mutex_lock(&layering_v419_lock);
+	layering_v419 = true;
+	ret = layering_rule_start(info, 0, dev);
+	layering_v419 = false;
+	mutex_unlock(&layering_v419_lock);
+	if (ret < 0)
+		DDPPR_ERR("layering_rule_start(v419) error:%d\n", ret);
+
+	for (i = 0; i < 3; i++) {
+		old.disp_mode[i] = info->disp_mode[i];
+		old.disp_mode_idx[i] = info->disp_mode_idx[i];
+		old.layer_num[i] = info->layer_num[i];
+		old.gles_head[i] = info->gles_head[i];
+		old.gles_tail[i] = info->gles_tail[i];
+	}
+	old.hrt_num = info->hrt_num;
+	old.res_idx = info->res_idx;
+	old.hrt_weight = info->hrt_weight;
+	old.hrt_idx = info->hrt_idx;
+	kfree(info);
+
+	return copy_to_user(argp, &old, sizeof(old)) ? -EFAULT : 0;
+}
 
 int mtk_layering_rule_ioctl(struct drm_device *dev, void *data,
 			    struct drm_file *file_priv)

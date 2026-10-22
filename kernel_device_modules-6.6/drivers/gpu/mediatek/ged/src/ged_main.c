@@ -287,6 +287,16 @@ static long ged_dispatch(struct file *pFile,
 			ret = ged_bridge_boost_gpu_freq(pvIn, pvOut);
 			break;
 		case GED_BRIDGE_COMMAND_MONITOR_3D_FENCE:
+			/* camellia: stock 4.19-era ged-swd passes only { int fd };
+			 * 6.6 just dumps when dump_flag is set, so that is a no-op
+			 */
+			if (psBridgePackageKM->i32InBufferSize == sizeof(int) &&
+				psBridgePackageKM->i32OutBufferSize >=
+				sizeof(struct GED_BRIDGE_OUT_MONITOR3DFENCE)) {
+				((struct GED_BRIDGE_OUT_MONITOR3DFENCE *)pvOut)->eError = GED_OK;
+				ret = 0;
+				break;
+			}
 			VALIDATE_ARG(MONITOR_3D_FENCE, MONITOR3DFENCE);
 			ret = ged_bridge_monitor_3D_fence(pvIn, pvOut);
 			break;

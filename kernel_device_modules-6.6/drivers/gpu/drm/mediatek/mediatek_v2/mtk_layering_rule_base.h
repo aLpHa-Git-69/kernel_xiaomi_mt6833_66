@@ -245,6 +245,36 @@ bool mtk_is_layer_id_valid(struct drm_mtk_layering_info *disp_info,
 			   int disp_idx, int i);
 int mtk_layering_rule_ioctl(struct drm_device *drm, void *data,
 	struct drm_file *file_priv);
+
+/*
+ * camellia: MTK_LAYERING_RULE as the stock Android 13 hwcomposer (4.19 UAPI)
+ * calls it: 3 CRTCs, no disp_caps/frame_idx/disp_idx/disp_list/wb_cfg, and a
+ * 60-byte drm_mtk_layer_config (no buffer_alloc_id; compress/secure at 56/57).
+ */
+struct drm_mtk_layer_config_v419 {
+	__u32 head[14];	/* ovl_id .. clip, same as drm_mtk_layer_config */
+	__u8 compress;
+	__u8 secure;
+};
+
+struct drm_mtk_layering_info_v419 {
+	struct drm_mtk_layer_config_v419 __user *input_config[3];
+	int disp_mode[3];
+	int disp_mode_idx[3];
+	int layer_num[3];
+	int gles_head[3];
+	int gles_tail[3];
+	int hrt_num;
+	int res_idx;
+	__u32 hrt_weight;
+	__u32 hrt_idx;
+	void __user *mml_cfg[3];
+};
+
+#define DRM_IOCTL_MTK_LAYERING_RULE_V419 DRM_IOWR(DRM_COMMAND_BASE + \
+		DRM_MTK_LAYERING_RULE, struct drm_mtk_layering_info_v419)
+
+int mtk_layering_rule_ioctl_v419(struct drm_device *dev, void __user *argp);
 #if IS_ENABLED(CONFIG_COMPAT)
 int mtk_layering_rule_ioctl_compat(struct file *file, unsigned int cmd,
 	unsigned long arg);

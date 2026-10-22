@@ -692,7 +692,8 @@ static int mtk_pd_adapter_probe(struct platform_device *pdev)
 		if (!info->tcpc[i]) {
 			dev_notice(info->dev, "%s get %s fail\n",
 					      __func__, name);
-			ret = -ENODEV;
+			/* camellia: tcpc_mt6360 registers it later; retry */
+			ret = -EPROBE_DEFER;
 			goto out;
 		}
 

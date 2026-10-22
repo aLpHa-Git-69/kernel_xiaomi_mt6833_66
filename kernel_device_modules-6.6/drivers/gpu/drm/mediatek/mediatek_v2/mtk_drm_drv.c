@@ -10450,11 +10450,27 @@ EXPORT_SYMBOL(mtk_drm_compat_ioctl);
 #define mtk_drm_compat_ioctl NULL
 #endif
 
+/* camellia: the stock 4.19-UAPI hwcomposer's MTK_LAYERING_RULE (see v419) */
+static long mtk_drm_unlocked_ioctl(struct file *filp, unsigned int cmd,
+				   unsigned long arg)
+{
+	struct drm_file *file_priv = filp->private_data;
+
+	if (cmd == DRM_IOCTL_MTK_LAYERING_RULE_V419) {
+		/* MTK_LAYERING_RULE is DRM_AUTH | DRM_RENDER_ALLOW */
+		if (!drm_is_render_client(file_priv) && !file_priv->authenticated)
+			return -EACCES;
+		return mtk_layering_rule_ioctl_v419(file_priv->minor->dev,
+						    (void __user *)arg);
+	}
+	return drm_ioctl(filp, cmd, arg);
+}
+
 static const struct file_operations mtk_drm_fops = {
 	.owner = THIS_MODULE,
 	.open = drm_open,
 	.release = drm_release,
-	.unlocked_ioctl = drm_ioctl,
+	.unlocked_ioctl = mtk_drm_unlocked_ioctl,
 	.mmap = mtk_drm_gem_mmap,
 	.poll = drm_poll,
 	.read = drm_read,
