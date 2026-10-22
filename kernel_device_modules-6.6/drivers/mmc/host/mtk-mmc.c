@@ -4709,7 +4709,8 @@ release_mem:
 host_free:
 	if (!IS_ERR_OR_NULL(host->pinctrl))
 		devm_pinctrl_put(host->pinctrl);
-	if (host->dev_comp->infra_check.enable &&
+	/* dev_comp is only set later in probe; early failures (e.g. regulator defer) land here */
+	if (host->dev_comp && host->dev_comp->infra_check.enable &&
 		host->infra_ack_vaddr != NULL)
 		iounmap(host->infra_ack_vaddr);
 	mmc_free_host(mmc);
