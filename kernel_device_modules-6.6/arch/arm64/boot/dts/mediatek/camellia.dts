@@ -53,6 +53,16 @@
 	 * sets them to the reference board's GPIO11; camellia's TCPC IRQ is GPIO9 */
 	mt6360pd,intr-gpio-num = <9>;
 	mt6360pd,intr-gpio = <&pio 9 0x0>;
+	/* camellia 4.14: role_def 5 (Try.SNK). The 6.6 base's Try.SRC makes a
+	 * PC's DRP port see the phone as a source first, so USB device mode and
+	 * BC1.2 only come up if the PC happens to swap roles back */
+	mt-tcpc,role-def = <5>;
+};
+
+/* camellia 4.14: touch is NT36672C on CS0 / pad 0 or FT8722 on CS1 / pad 1
+ * (by panel); spi-mt65xx gives one chip select per pad-select entry */
+&spi4 {
+	mediatek,pad-select = <0>, <1>;
 };
 
 #ifndef CONFIG_FPGA_EARLY_PORTING
@@ -691,5 +701,15 @@
 		max-brightness = <2047>;
 		max-hw-brightness = <2047>;
 		default-state = "on";
+	};
+};
+
+/* camellia 4.14 base dtb: platform device for the xiaomi-touch mode/feature
+ * glue (touchfeature HAL); FT8722/NT36672C register into it at probe */
+&{/} {
+	xiaomi_touch {
+		compatible = "xiaomi-touch";
+		status = "okay";
+		touch,name = "xiaomi-touch";
 	};
 };

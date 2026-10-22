@@ -165,7 +165,7 @@ int xiaomitouch_register_modedata(struct xiaomi_touch_interface *data)
 	struct xiaomi_touch_interface *touch_data = NULL;
 
 	if (!touch_pdata)
-		ret = -ENOMEM;
+		return -ENOMEM;
 
 	touch_data = touch_pdata->touch_data;
 	pr_info("%s\n", __func__);

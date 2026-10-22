@@ -511,6 +511,18 @@ static void mtk_spi_error_dump(struct spi_controller *ctlr,
 	spi_log_status = LOG_CLOSE;
 }
 
+/*
+ * camellia (4.14 vendor driver): one chip select per "mediatek,pad-select"
+ * entry, and the pad follows the chip select. The FT8722 touch sits on
+ * spi4 CS1 / pad 1, the NT36672C one on CS0 / pad 0.
+ */
+static u32 mtk_spi_pad_sel(struct mtk_spi *mdata, struct spi_device *spi)
+{
+	if (spi_get_chipselect(spi, 0) < mdata->pad_num)
+		return mdata->pad_sel[spi_get_chipselect(spi, 0)];
+	return mdata->pad_sel[MTK_SPI_PAD_SEL];
+}
+
 static void spi_dump_config(struct spi_master *master, struct spi_message *msg)
 {
 	struct spi_device *spi = msg->spi;
@@ -523,7 +535,7 @@ static void spi_dump_config(struct spi_master *master, struct spi_message *msg)
 	spi_debug("chip_config->spi_mode:0x%x\n", spi->mode);
 	spi_debug("chip_config->sample_sel:%d\n", chip_config->sample_sel);
 	spi_debug("chip_config->chip_select:%d,chip_config->pad_sel:%d\n",
-			spi->chip_select, mdata->pad_sel[MTK_SPI_PAD_SEL]);
+			spi->chip_select, mtk_spi_pad_sel(mdata, spi));
 	spi_debug("||**************%s end**************||\n", __func__);
 }
 
@@ -720,18 +732,18 @@ static int mtk_spi_prepare_message(struct spi_master *master,
 
 	/* pad select */
 	if (mdata->dev_comp->need_pad_sel) {
-		writel(mdata->pad_sel[MTK_SPI_PAD_SEL],
+		writel(mtk_spi_pad_sel(mdata, spi),
 		       mdata->base + SPI_PAD_SEL_REG);
 		if (mdata->dev_comp->slice_en) {
 			/* open slice_en rx and tx */
 			reg_val = readl(mdata->base + SPI_SLICE_EN_REG);
 			/* do RX slice_en setting */
 			reg_val &= ~SPI_SLICE_EN_RX_WIDTH_MASK;
-			reg_val |= ((0x1 << mdata->pad_sel[MTK_SPI_PAD_SEL])
+			reg_val |= ((0x1 << mtk_spi_pad_sel(mdata, spi))
 					<< SPI_SLICE_EN_RX_OFFSET);
 			/* do TX slice en setting */
 			reg_val &= ~SPI_SLICE_EN_TX_WIDTH_MASK;
-			reg_val |= ((0x1 << mdata->pad_sel[MTK_SPI_PAD_SEL])
+			reg_val |= ((0x1 << mtk_spi_pad_sel(mdata, spi))
 					<< SPI_SLICE_EN_TX_OFFSET);
 			writel(reg_val, mdata->base + SPI_SLICE_EN_REG);
 		}
@@ -846,18 +858,18 @@ static int mtk_spi_hw_init(struct spi_master *master,
 
 	/* pad select */
 	if (mdata->dev_comp->need_pad_sel) {
-		writel(mdata->pad_sel[MTK_SPI_PAD_SEL],
+		writel(mtk_spi_pad_sel(mdata, spi),
 		       mdata->base + SPI_PAD_SEL_REG);
 		if (mdata->dev_comp->slice_en) {
 			/* open slice_en rx and tx */
 			reg_val = readl(mdata->base + SPI_SLICE_EN_REG);
 			/* do RX slice_en setting */
 			reg_val &= ~SPI_SLICE_EN_RX_WIDTH_MASK;
-			reg_val |= ((0x1 << mdata->pad_sel[MTK_SPI_PAD_SEL])
+			reg_val |= ((0x1 << mtk_spi_pad_sel(mdata, spi))
 					<< SPI_SLICE_EN_RX_OFFSET);
 			/* do TX slice en setting */
 			reg_val &= ~SPI_SLICE_EN_TX_WIDTH_MASK;
-			reg_val |= ((0x1 << mdata->pad_sel[MTK_SPI_PAD_SEL])
+			reg_val |= ((0x1 << mtk_spi_pad_sel(mdata, spi))
 					<< SPI_SLICE_EN_TX_OFFSET);
 			writel(reg_val, mdata->base + SPI_SLICE_EN_REG);
 		}
@@ -1309,12 +1321,12 @@ static int mtk_spi_setup(struct spi_device *spi)
 		*spicfg = mtk_default_chip_info;
 		/* override with dt configured values */
 		if (!of_property_read_u32_index(np, "mediatek,tickdly",
-						mdata->pad_sel[MTK_SPI_PAD_SEL],
+						mtk_spi_pad_sel(mdata, spi),
 						&prop)) {
 			if (prop < (mdata->dev_comp->slice_en ? MTK_SPI_SLICE_EN_MAX_TICK_DLY : MTK_SPI_MAX_TICK_DLY)) {
 				spicfg->tick_delay = prop;
 				dev_info(&spi->dev, "setup pad[%d] tickdly[%d] by dts\n",
-					mdata->pad_sel[MTK_SPI_PAD_SEL], spicfg->tick_delay);
+					mtk_spi_pad_sel(mdata, spi), spicfg->tick_delay);
 			} else {
 				return -EINVAL;
 			}
@@ -1787,6 +1799,8 @@ static int mtk_spi_probe(struct platform_device *pdev)
 				goto err_put_master;
 			}
 		}
+		if (!of_property_present(pdev->dev.of_node, "cs-gpios"))
+			master->num_chipselect = mdata->pad_num;
 	}
 
 	platform_set_drvdata(pdev, master);
@@ -1890,7 +1904,8 @@ static int mtk_spi_probe(struct platform_device *pdev)
 			goto err_put_master;
 		}
 
-		if (!master->cs_gpiods && master->num_chipselect > 1) {
+		if (!master->cs_gpiods && master->num_chipselect > 1 &&
+		    master->num_chipselect != mdata->pad_num) {
 			dev_err(&pdev->dev,
 				"cs_gpiods not specified and num_chipselect > 1\n");
 			ret = -EINVAL;
