@@ -202,8 +202,15 @@ int g_temperature[MAX_TABLE] = {
 };
 
 
-#define BAT_NTC_10 1
+/*
+ * camellia: 100k NTC on BATON, pulled up from VBIF28 (2.8 V, measured via
+ * BIF). Xiaomi's published 4.14 source says 10k/24k, but the shipped MIUI 14
+ * kernel reads BATON 1511 mV / VBIF 2803 mV as 31.6 C and 1520 mV as 31 C:
+ * that only fits the 100k table (found in the stock Image) with ~63.4 k.
+ */
+#define BAT_NTC_10 0
 #define BAT_NTC_47 0
+#define BAT_NTC_100 1
 
 #if (BAT_NTC_10 == 1)
 /* for NTC pull up R */
@@ -214,7 +221,11 @@ int g_temperature[MAX_TABLE] = {
 #define RBAT_PULL_UP_R             61900
 #endif
 
-#define RBAT_PULL_UP_VOLT          1840
+#if (BAT_NTC_100 == 1)
+#define RBAT_PULL_UP_R             63400
+#endif
+
+#define RBAT_PULL_UP_VOLT          2800
 
 #define BIF_NTC_R 16000
 
@@ -241,6 +252,32 @@ struct fg_temp fg_temp_table[21] = {
 		{50, 4161},
 		{55, 3535},
 		{60, 3014}
+};
+#endif
+
+#if (BAT_NTC_100 == 1)
+struct fg_temp fg_temp_table[21] = {
+		{-40, 4251000},
+		{-35, 3005000},
+		{-30, 2149000},
+		{-25, 1554000},
+		{-20, 1135000},
+		{-15, 837800},
+		{-10, 624100},
+		{-5, 469100},
+		{0, 355600},
+		{5, 271800},
+		{10, 209400},
+		{15, 162500},
+		{20, 127000},
+		{25, 100000},
+		{30, 79230},
+		{35, 63180},
+		{40, 50680},
+		{45, 40900},
+		{50, 33190},
+		{55, 27090},
+		{60, 22220}
 };
 #endif
 

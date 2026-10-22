@@ -2820,6 +2820,8 @@ static long mtk_vcu_unlocked_compat_ioctl(struct file *file, unsigned int cmd, u
 	case VCU_GET_OBJECT:
 	case VCU_GET_LOG_OBJECT:
 	case VCU_SET_LOG_OBJECT:
+	case VCU_GET_LOG_OBJECT_V419:	/* the stock vpud is 32-bit */
+	case VCU_SET_LOG_OBJECT_V419:
 	case VCU_GCE_SET_CMD_FLUSH:
 	case VCU_GCE_WAIT_CALLBACK:
 	case VCU_GET_DISP_MAPPED_IOVA:
