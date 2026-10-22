@@ -324,6 +324,25 @@ static int mtk_plane_atomic_get_property(struct drm_plane *plane,
 	return -EINVAL;
 }
 
+/*
+ * camellia: the stock 4.19-UAPI hwcomposer tags framebuffers with
+ * fourcc_mod_code(0x0a, MTK_FMT_*) (premultiplied, secure). 4.19 did not
+ * validate modifiers; 6.6 core only takes the plane's list (LINEAR).
+ */
+#define MTK_FMT_LEGACY_VENDOR	0x0a
+#define MTK_FMT_FLAGS		(MTK_FMT_PREMULTIPLIED | MTK_FMT_SECURE)
+
+static bool mtk_plane_format_mod_supported(struct drm_plane *plane,
+					   u32 format, u64 modifier)
+{
+	u64 vendor = modifier >> 56;
+
+	if (modifier == DRM_FORMAT_MOD_LINEAR)
+		return true;
+	return (vendor == 0 || vendor == MTK_FMT_LEGACY_VENDOR) &&
+	       !(modifier & 0x00ffffffffffffffULL & ~(u64)MTK_FMT_FLAGS);
+}
+
 static const struct drm_plane_funcs mtk_plane_funcs = {
 	.update_plane = drm_atomic_helper_update_plane,
 	.disable_plane = drm_atomic_helper_disable_plane,
@@ -333,6 +352,7 @@ static const struct drm_plane_funcs mtk_plane_funcs = {
 	.atomic_destroy_state = mtk_drm_plane_destroy_state,
 	.atomic_set_property = mtk_plane_atomic_set_property,
 	.atomic_get_property = mtk_plane_atomic_get_property,
+	.format_mod_supported = mtk_plane_format_mod_supported,
 };
 
 static int mtk_plane_atomic_check(struct drm_plane *plane,
@@ -352,6 +372,12 @@ static int mtk_plane_atomic_check(struct drm_plane *plane,
 		DRM_DEBUG_KMS("buffer is null\n");
 		return -EFAULT;
 	}
+
+	/* legacy hwcomposer: blending comes with the modifier, not the property */
+	if ((fb->modifier >> 56) == MTK_FMT_LEGACY_VENDOR)
+		new_plane_state->pixel_blend_mode =
+			(fb->modifier & MTK_FMT_PREMULTIPLIED) ?
+			DRM_MODE_BLEND_PREMULTI : DRM_MODE_BLEND_COVERAGE;
 
 	if (!new_plane_state->crtc)
 		return 0;
