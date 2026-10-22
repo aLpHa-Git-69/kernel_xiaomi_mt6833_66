@@ -841,7 +841,8 @@ static int kpd_pdrv_probe(struct platform_device *pdev)
 			vol_key_info.oplus_vol_up_flag = false;
 			/*return -1;*/
 		}
-		err = gpio_direction_input(vol_key_info.vol_up_gpio);
+		err = vol_key_info.oplus_vol_up_flag ?
+			gpio_direction_input(vol_key_info.vol_up_gpio) : 0;
 
 		if (err < 0) {
 			dev_err(&kpd_oplus->pdev->dev,
@@ -857,7 +858,8 @@ static int kpd_pdrv_probe(struct platform_device *pdev)
 		vol_key_info.oplus_vol_down_flag = false;
 		/*return -1;*/
 	}
-	err = gpio_direction_input(vol_key_info.vol_down_gpio);
+	err = vol_key_info.oplus_vol_down_flag ?
+		gpio_direction_input(vol_key_info.vol_down_gpio) : 0;
 
 	if (err < 0) {
 		dev_err(&kpd_oplus->pdev->dev,
@@ -865,7 +867,13 @@ static int kpd_pdrv_probe(struct platform_device *pdev)
 		return -1;
 	}
 
-	if (init_custom_gpio_state(pdev) < 0) {
+	/*
+	 * camellia: volume keys are on the keypad matrix / PMIC, not Oppo's
+	 * keypad,volume-* GPIOs. Without them, keep the matrix keypad registered
+	 * above instead of failing probe (which also left its irq/input live).
+	 */
+	if ((vol_key_info.oplus_vol_up_flag || vol_key_info.oplus_vol_down_flag) &&
+	    init_custom_gpio_state(pdev) < 0) {
 		pr_err("init gpio state failed\n");
 		return -1;
 	}
