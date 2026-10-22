@@ -59,7 +59,12 @@ static struct mmc_host *mtk_mmc_host[] = {NULL};
 
 /* #define __RPMB_MTK_DEBUG_MSG */
 /* #define __RPMB_MTK_DEBUG_HMAC_VERIFY */
-#define __RPMB_KERNEL_NL_SUPPORT
+/*
+ * camellia: RPMB requests go to UFS directly (as on 4.14). The netlink mode
+ * needs MediaTek's newer userspace RPMB daemon, which camellia's vendor does
+ * not have ("rpmb genl not ready" for every soter request, run 21).
+ */
+/* #define __RPMB_KERNEL_NL_SUPPORT */
 #define __RPMB_IOCTL_SUPPORT
 
 /* TEE usage */
