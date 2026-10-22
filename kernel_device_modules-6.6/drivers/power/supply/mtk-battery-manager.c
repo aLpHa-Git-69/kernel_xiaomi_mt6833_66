@@ -1831,6 +1831,9 @@ static int mtk_bm_probe(struct platform_device *pdev)
 
 	if (psy == NULL || IS_ERR(psy)) {
 		pr_err("[%s]can not get gauge1 psy\n", __func__);
+		/* camellia: the gauge probes after us; wait for it */
+		if (of_property_present(pdev->dev.of_node, "gauge1"))
+			return -EPROBE_DEFER;
 	} else {
 		gauge = (struct mtk_gauge *)power_supply_get_drvdata(psy);
 		if (gauge != NULL) {

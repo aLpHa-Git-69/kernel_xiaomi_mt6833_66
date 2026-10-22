@@ -775,6 +775,35 @@ static int vcu_log_set(struct mtk_vcu *vcu, unsigned long arg)
 	return ret;
 }
 
+/* camellia: 4.19 vpud passes log_info only (no leading type) */
+static int vcu_log_get_v419(struct mtk_vcu *vcu, unsigned long arg)
+{
+	struct log_test_nofuse *log = (struct log_test_nofuse *)vcu->vdec_log_info;
+	int ret;
+
+	ret = wait_event_freezable(vcu->vdec_log_get_wq,
+				atomic_read(&vcu->vdec_log_got));
+	if (ret != 0)
+		return ret;
+	if (copy_to_user((void __user *)arg, log->log_info, LOG_INFO_SIZE))
+		ret = -EINVAL;
+	atomic_set(&vcu->vdec_log_got, 0);
+
+	return ret;
+}
+
+static int vcu_log_set_v419(struct mtk_vcu *vcu, unsigned long arg)
+{
+	struct log_test_nofuse *log = (struct log_test_nofuse *)vcu->vdec_log_info;
+
+	if (copy_from_user(log->log_info, (void __user *)arg, LOG_INFO_SIZE))
+		return -EINVAL;
+	atomic_set(&vcu->vdec_log_set, 1);
+	wake_up(&vcu->vdec_log_set_wq);
+
+	return 0;
+}
+
 static int vcu_gce_set_inst_id(void *ctx, u64 gce_handle)
 {
 	int i;
@@ -2720,6 +2749,12 @@ static long mtk_vcu_unlocked_ioctl(struct file *file, unsigned int cmd, unsigned
 		break;
 	case VCU_GET_LOG_OBJECT:
 		ret = vcu_log_get(vcu_dev, arg);
+		break;
+	case VCU_GET_LOG_OBJECT_V419:
+		ret = vcu_log_get_v419(vcu_dev, arg);
+		break;
+	case VCU_SET_LOG_OBJECT_V419:
+		ret = vcu_log_set_v419(vcu_dev, arg);
 		break;
 	case VCU_SET_LOG_OBJECT:
 		ret = vcu_log_set(vcu_dev, arg);
