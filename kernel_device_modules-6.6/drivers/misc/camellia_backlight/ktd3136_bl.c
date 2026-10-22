@@ -23,6 +23,12 @@
 #include <linux/platform_device.h>
 
 struct ktd3137_chip *bkl_chip;
+/*
+ * camellia 6.6: leds-mtk-disp sets the boot brightness while it registers,
+ * which can be before this chip probes (bkl_chip NULL -> oops). Keep the
+ * last request and apply it at the end of probe.
+ */
+static int ktd_pending_brightness = -1;
 int ktd_hbm_mode;
 
 #define KTD_DEBUG
@@ -672,10 +678,10 @@ void ktd3137_brightness_set_workfunc(struct ktd3137_chip *chip, int brightness)
 		mdelay(10);
 	} else {
 		if (ktd_hbm_mode == 3) {
-			ktd3137_write_reg(bkl_chip->client, REG_MODE, 0xE1);//27.4mA
+			ktd3137_write_reg(chip->client, REG_MODE, 0xE1);//27.4mA
 			LOG_DBG(KERN_INFO "[%s]: ktd_hbm_mode = %d\n", __func__, ktd_hbm_mode);
 		} else if (ktd_hbm_mode == 2) {
-			ktd3137_write_reg(bkl_chip->client, REG_MODE, 0xC9);//25mA
+			ktd3137_write_reg(chip->client, REG_MODE, 0xC9);//25mA
 			LOG_DBG(KERN_INFO "[%s]: ktd_hbm_mode = %d\n", __func__, ktd_hbm_mode);
 		} else {
 			ktd3137_write_reg(chip->client, REG_MODE, 0xA9);//21.8mA
@@ -721,6 +727,8 @@ int ktd_hbm_set(enum backlight_hbm_mode hbm_mode)
 	LOG_DBG("%s enter\n", __func__);
 
 	ktd_hbm_mode = hbm_mode;
+	if (!bkl_chip)
+		return -ENODEV;
 	ktd3137_read_reg(bkl_chip->client, 0x02, &value);
 	LOG_DBG("default cur is %x", value);
 	switch (hbm_mode) {
@@ -749,6 +757,10 @@ int ktd3137_brightness_set(int brightness)
 {
 	LOG_DBG("%s brightness = %d\n", __func__, brightness);
 
+	if (!bkl_chip) {
+		ktd_pending_brightness = brightness;
+		return brightness;
+	}
 	ktd3137_brightness_set_workfunc(bkl_chip, brightness);
 	return brightness;
 }
@@ -1193,6 +1205,8 @@ static int ktd3137_probe(struct i2c_client *client)
 	ktd3137_read_reg(chip->client, 0x0A, &value);
 	//backlight_update_status(chip->bl);
 	bkl_chip = chip;
+	if (ktd_pending_brightness >= 0)
+		ktd3137_brightness_set_workfunc(chip, ktd_pending_brightness);
 exit0:
 	return err;
 }
@@ -1201,6 +1215,7 @@ static void ktd3137_remove(struct i2c_client *client)
 {
 	struct ktd3137_chip *chip = i2c_get_clientdata(client);
 
+	bkl_chip = NULL;
 	chip->bl->props.brightness = 0;
 
 	backlight_update_status(chip->bl);
