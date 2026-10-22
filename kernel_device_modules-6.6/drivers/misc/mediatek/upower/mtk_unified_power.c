@@ -884,3 +884,4 @@ module_init(upower_init);
 module_exit(upower_exit);
 MODULE_DESCRIPTION("MediaTek Unified Power Driver v1.0");
 MODULE_LICENSE("GPL");
+MODULE_SOFTDEP("pre: nvmem_mtk-devinfo");

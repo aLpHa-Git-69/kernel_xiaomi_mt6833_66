@@ -232,10 +232,12 @@ int get_cpu_level(void)
 	if (IS_ERR(efuse_cell)) {
 		pr_info("@%s: cannot get efuse_cell, errno %ld\n",
 			__func__, PTR_ERR(efuse_cell));
+		efuse_cell = NULL;
 		goto exit;
 	}
 	efuse_buf = (unsigned int *)nvmem_cell_read(efuse_cell, &efuse_len);
-	if (!efuse_buf) {
+	if (IS_ERR_OR_NULL(efuse_buf)) {
+		efuse_buf = NULL;
 		upower_info("efuse_buff NULL line: %d", __LINE__);
 		goto exit;
 	}
