@@ -19,7 +19,7 @@
 #include <linux/kernel.h>
 #include <linux/string.h>
 
-#define LCM_I2C_ID_NAME "I2C_LCD_BIAS"
+#define LCM_I2C_ID_NAME "camellia_lcm_bias"	/* "I2C_LCD_BIAS" is taken by mediatek-drm-gateic */
 
 static struct i2c_client *_lcm_i2c_client;
 
