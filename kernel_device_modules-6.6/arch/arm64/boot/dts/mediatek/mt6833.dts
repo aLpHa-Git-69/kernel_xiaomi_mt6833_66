@@ -7409,6 +7409,15 @@ grpid = <11>;
 &hypervisor {
 	status = "disabled";
 };
+
+/*
+ * camellia bring-up: the debug UART stays on earlycon (keep_bootcon). When the
+ * 8250 driver took the port over before its clock/APDMA were ready (load order
+ * with pinctrl first), the board went silent and reset with a kernel exception.
+ */
+&apuart0 {
+	status = "disabled";
+};
 #include "mediatek/cust_mt6833_thermal.dtsi"
 
 //#ifdef OPLUS_FEATURE_SECURITY_COMMON
