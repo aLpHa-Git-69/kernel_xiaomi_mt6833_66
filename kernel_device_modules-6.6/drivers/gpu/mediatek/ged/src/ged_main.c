@@ -212,29 +212,34 @@ static long ged_dispatch(struct file *pFile,
 		psBridgePackageKM->i32OutBufferSize > 0) {
 		int32_t inputBufferSize =
 				psBridgePackageKM->i32InBufferSize;
+		int32_t copySize = inputBufferSize;
 
 		if (GED_BRIDGE_COMMAND_GE_ALLOC ==
 				GED_GET_BRIDGE_ID(
 				psBridgePackageKM->ui32FunctionID)) {
 			inputBufferSize = sizeof(int) +
 			sizeof(uint32_t) * GE_ALLOC_STRUCT_NUM;
-			// hardcode region_num = GE_ALLOC_STRUCT_NUM,
-			// need check input buffer size
-			if (psBridgePackageKM->i32InBufferSize <
-				inputBufferSize) {
-				GED_LOGE("Failed to region_num, it must be %d\n",
+			/*
+			 * camellia: older gralloc (stock Android 13 vendor, 4.19 GED)
+			 * allocates 18 regions, not GE_ALLOC_STRUCT_NUM. Take 1..23
+			 * regions; the rest of the buffer stays zero, so a region_num
+			 * larger than what was passed fails the region size check.
+			 */
+			copySize = min(copySize, inputBufferSize);
+			if (copySize < (int32_t)(sizeof(int) + sizeof(uint32_t))) {
+				GED_LOGE("Failed to region_num, it must be 1..%d\n",
 					GE_ALLOC_STRUCT_NUM);
 				goto dispatch_exit;
 			}
 		}
 
-		pvIn = kmalloc(inputBufferSize, GFP_KERNEL);
+		pvIn = kzalloc(inputBufferSize, GFP_KERNEL);
 		if (pvIn == NULL)
 			goto dispatch_exit;
 
 		if (ged_copy_from_user(pvIn,
 			psBridgePackageKM->pvParamIn,
-			inputBufferSize) != 0) {
+			copySize) != 0) {
 			GED_LOGE("Failed to ged_copy_from_user\n");
 			goto dispatch_exit;
 		}
