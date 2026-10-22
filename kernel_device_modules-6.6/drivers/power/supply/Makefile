@@ -23,8 +23,10 @@ else
 obj-$(CONFIG_MTK_CHARGER) += mtk_charger_framework.o mtk_pd_charging.o charger_class.o adapter_class.o mtk_charger_algorithm_class.o mtk_pd_adapter.o mtk_ufcs_adapter.o
 mtk_charger_framework-objs := mtk_charger.o mtk_charger_intf.o mtk_basic_charger.o mtk_pulse_charger.o mtk_adapter_switch.o
 endif
-# camellia: stock-path ac/usb supplies for the vendor health HAL
+# camellia: stock-path ac/usb supplies for the vendor health HAL, battery cooling device
+# and thermal_message for mi_thermald
 obj-$(CONFIG_MTK_CHARGER) += camellia_mt_charger.o
+camellia_mt_charger-objs := camellia_mt_charger_psy.o camellia_thermal_message.o
 
 
 mtk_pd_charging-objs := mtk_pd.o mtk_pd_hal.o
