@@ -712,4 +712,10 @@
 		status = "okay";
 		touch,name = "xiaomi-touch";
 	};
+
+	/* 4.14 "ac"/"usb" supplies at /sys/devices/platform/mt_charger, the path
+	 * the stock vendor sepolicy labels sysfs_batteryinfo (camellia_mt_charger) */
+	mt_charger {
+		compatible = "mediatek,mt-charger";
+	};
 };

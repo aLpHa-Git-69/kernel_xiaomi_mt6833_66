@@ -23,6 +23,8 @@ else
 obj-$(CONFIG_MTK_CHARGER) += mtk_charger_framework.o mtk_pd_charging.o charger_class.o adapter_class.o mtk_charger_algorithm_class.o mtk_pd_adapter.o mtk_ufcs_adapter.o
 mtk_charger_framework-objs := mtk_charger.o mtk_charger_intf.o mtk_basic_charger.o mtk_pulse_charger.o mtk_adapter_switch.o
 endif
+# camellia: stock-path ac/usb supplies for the vendor health HAL
+obj-$(CONFIG_MTK_CHARGER) += camellia_mt_charger.o
 
 
 mtk_pd_charging-objs := mtk_pd.o mtk_pd_hal.o
