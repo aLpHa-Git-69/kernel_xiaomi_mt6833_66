@@ -175,6 +175,8 @@ static struct mtk_drm_property mtk_plane_property[PLANE_PROP_MAX] = {
 	{DRM_MODE_PROP_ATOMIC, "DIRTY_ROI_W", 0, ULONG_MAX, 0},
 	{DRM_MODE_PROP_ATOMIC, "DIRTY_ROI_H", 0, ULONG_MAX, 0},
 	{DRM_MODE_PROP_ATOMIC, "MODE", 0, UINT_MAX, 0},
+	{DRM_MODE_PROP_ATOMIC, "PLANE_PROP_ALPHA_CON", 0, 0x1, 0x1},
+	{DRM_MODE_PROP_ATOMIC, "PLANE_PROP_PLANE_ALPHA", 0, 0xFF, 0xFF},
 };
 
 static void mtk_plane_reset(struct drm_plane *plane)
@@ -279,6 +281,11 @@ static int mtk_plane_atomic_set_property(struct drm_plane *plane,
 		if (mtk_plane->plane_property[i] == property) {
 			plane_state->prop_val[i] = val;
 			DDPDBG("set property:%s %llu\n", property->name, val);
+			/* 4.19 OVL: constant alpha only applies with ALPHA_CON set */
+			if (i == PLANE_PROP_ALPHA_CON || i == PLANE_PROP_PLANE_ALPHA)
+				state->alpha = plane_state->prop_val[PLANE_PROP_ALPHA_CON] ?
+					(plane_state->prop_val[PLANE_PROP_PLANE_ALPHA] & 0xff) * 0x101 :
+					DRM_BLEND_ALPHA_OPAQUE;
 			return ret;
 		}
 	}

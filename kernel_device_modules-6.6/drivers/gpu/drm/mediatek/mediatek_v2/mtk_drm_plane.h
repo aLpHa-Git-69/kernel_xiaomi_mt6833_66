@@ -121,6 +121,9 @@ enum MTK_PLANE_PROP {
 	PLANE_PROP_DIRTY_ROI_W,
 	PLANE_PROP_DIRTY_ROI_H,
 	PLANE_PROP_MODE,
+	/* camellia: set by the stock 4.19-UAPI hwcomposer, mapped to base.alpha */
+	PLANE_PROP_ALPHA_CON,
+	PLANE_PROP_PLANE_ALPHA,
 	PLANE_PROP_MAX,
 };
 
