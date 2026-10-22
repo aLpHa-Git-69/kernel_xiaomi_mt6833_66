@@ -154,6 +154,25 @@ enum rpmb_region {
 	RPMB_MAX_REGION_CNT
 };
 
+#if IS_ENABLED(CONFIG_MICROTRUST_TEE_SUPPORT)
+/*
+ * camellia: Microtrust (soter) RPMB ioctls used by teei_daemon, from the 4.14
+ * rpmb-mtk driver; 6.6 dropped them ("wrong ioctl code (7)"). Note 5 is also
+ * RPMB_IOCTL_PROGRAM_KEY_REGION3 in 6.6: these are handled first so a soter
+ * write can never reach the one-time key programming path.
+ */
+#define RPMB_IOCTL_SOTER_WRITE_DATA	5
+#define RPMB_IOCTL_SOTER_READ_DATA	6
+#define RPMB_IOCTL_SOTER_GET_CNT	7
+#define RPMB_IOCTL_SOTER_GET_WR_SIZE	8
+#define RPMB_IOCTL_SOTER_SET_KEY	9
+#define RPMB_DATA_BUFF_SIZE		(1024 * 24)
+#define RPMB_ONE_FRAME_SIZE		(512)
+static unsigned char *rpmb_buffer;
+static DEFINE_MUTEX(rpmb_soter_lock);
+u16 rpmb_get_rw_size(struct rpmb_dev *rdev);	/* rpmb core.c, not in linux/rpmb.h */
+#endif
+
 /* RPMB KEYS */
 enum ufs_key_type {
 	RPMB_AUTH_KEY_REGION0 = 0,
@@ -2681,6 +2700,106 @@ static int rpmb_get_key(enum ufs_key_type type, u8 *key)
 	return 0;
 }
 
+#if IS_ENABLED(CONFIG_MICROTRUST_TEE_SUPPORT)
+static int ut_rpmb_req_set_key_ufs(u8 *frame)
+{
+	struct rpmb_data data;
+	struct rpmb_dev *rawdev_ufs_rpmb;
+	int ret;
+
+	rawdev_ufs_rpmb = ufs_mtk_rpmb_get_raw_dev();
+	data.ocmd.frames = rpmb_alloc_frames(1);
+	if (data.ocmd.frames == NULL)
+		return RPMB_ALLOC_ERROR;
+	data.ocmd.nframes = 1;
+	data.req_type = RPMB_PROGRAM_KEY;
+	data.icmd.nframes = 1;
+	data.icmd.frames = (struct rpmb_frame *)frame;
+	ret = rpmb_cmd_req(rawdev_ufs_rpmb, &data, RPMB_REGION0);
+	if (ret)
+		MSG(ERR, "%s: rpmb_cmd_req IO error, ret %d (0x%x)\n",
+			__func__, ret, ret);
+	/* Microtrust TEE checks the write counter in the first frame */
+	memcpy(frame, data.ocmd.frames, RPMB_ONE_FRAME_SIZE);
+	if (data.ocmd.frames->result) {
+		MSG(ERR, "%s, result error!!! (%x)\n", __func__,
+			cpu_to_be16(data.ocmd.frames->result));
+		ret = RPMB_RESULT_ERROR;
+	}
+	kfree(data.ocmd.frames);
+	return ret;
+}
+
+/* Returns -ENOIOCTLCMD for commands that are not Microtrust's. */
+static long rpmb_ioctl_ufs_soter(unsigned int cmd, unsigned long arg)
+{
+	struct rpmb_dev *rawdev_ufs_rpmb;
+	u32 size = 0, arg_k = 0;
+	u8 *frame = NULL;
+	long err = 0;
+
+	switch (cmd) {
+	case RPMB_IOCTL_SOTER_WRITE_DATA:
+	case RPMB_IOCTL_SOTER_READ_DATA:
+	case RPMB_IOCTL_SOTER_SET_KEY:
+		break;
+	case RPMB_IOCTL_SOTER_GET_CNT:
+		err = rpmb_req_get_wc_ufs(RPMB_REGION0, NULL, &arg_k, NULL);
+		if (err) {
+			MSG(ERR, "%s, Microtrust get write counter failed (%lx)\n",
+				__func__, err);
+			return err;
+		}
+		return copy_to_user((void __user *)arg, &arg_k, sizeof(u32)) ?
+			-EFAULT : 0;
+	case RPMB_IOCTL_SOTER_GET_WR_SIZE:
+		rawdev_ufs_rpmb = ufs_mtk_rpmb_get_raw_dev();
+		if (!rawdev_ufs_rpmb)
+			return RPMB_ALLOC_ERROR;
+		arg_k = rpmb_get_rw_size(rawdev_ufs_rpmb);
+		return copy_to_user((void __user *)arg, &arg_k, sizeof(u32)) ?
+			-EFAULT : 0;
+	default:
+		return -ENOIOCTLCMD;
+	}
+
+	/* data commands: u32 size, then size bytes of 512-byte frames */
+	if (!rpmb_buffer)
+		return -ENOMEM;
+	if (copy_from_user(&size, (void __user *)arg, sizeof(size)))
+		return -EFAULT;
+	if (size > RPMB_DATA_BUFF_SIZE - 4) {
+		MSG(ERR, "%s, size(%u+4) is overflow (%d)!\n", __func__,
+			size, RPMB_DATA_BUFF_SIZE);
+		return -EINVAL;
+	}
+
+	mutex_lock(&rpmb_soter_lock);
+	if (copy_from_user(rpmb_buffer, (void __user *)arg, 4 + size)) {
+		err = -EFAULT;
+		goto out;
+	}
+	frame = rpmb_buffer + 4;
+
+	if (cmd == RPMB_IOCTL_SOTER_WRITE_DATA)
+		err = rpmb_req_write_data_ufs(frame, size / RPMB_ONE_FRAME_SIZE);
+	else if (cmd == RPMB_IOCTL_SOTER_READ_DATA)
+		err = rpmb_req_read_data_ufs(frame, size / RPMB_ONE_FRAME_SIZE);
+	else
+		err = ut_rpmb_req_set_key_ufs(frame);
+	if (err) {
+		MSG(ERR, "%s, Microtrust rpmb cmd %u IO error!!!(%lx)\n",
+			__func__, cmd, err);
+		goto out;
+	}
+	if (copy_to_user((void __user *)arg, rpmb_buffer, 4 + size))
+		err = -EFAULT;
+out:
+	mutex_unlock(&rpmb_soter_lock);
+	return err;
+}
+#endif
+
 static long rpmb_ioctl_ufs(struct file *pfile, unsigned int cmd, unsigned long arg)
 {
 	int err = 0;
@@ -2690,6 +2809,15 @@ static long rpmb_ioctl_ufs(struct file *pfile, unsigned int cmd, unsigned long a
 	struct rpmb_dev *rawdev_ufs_rpmb;
 	struct ufs_hba *hba;
 	struct ufs_mtk_host *host;
+
+#if IS_ENABLED(CONFIG_MICROTRUST_TEE_SUPPORT)
+	{
+		long soter = rpmb_ioctl_ufs_soter(cmd, arg);
+
+		if (soter != -ENOIOCTLCMD)
+			return soter;
+	}
+#endif
 
 	rawdev_ufs_rpmb = ufs_mtk_rpmb_get_raw_dev();
 	hba = dev_get_drvdata(rawdev_ufs_rpmb->dev.parent);
@@ -3165,6 +3293,12 @@ static int __init rpmb_init(void)
 #endif
 
 	MSG(INFO, "%s start\n", __func__);
+
+#if IS_ENABLED(CONFIG_MICROTRUST_TEE_SUPPORT)
+	rpmb_buffer = kzalloc(RPMB_DATA_BUFF_SIZE, GFP_KERNEL);
+	if (!rpmb_buffer)
+		return -ENOMEM;
+#endif
 
 	alloc_ret = alloc_chrdev_region(&dev, 0, 1, RPMB_NAME);
 
