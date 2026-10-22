@@ -7401,6 +7401,14 @@ grpid = <11>;
 
 #include "mediatek/cust_mt6833_msdc.dtsi"
 #include "mediatek/trusty.dtsi"
+
+/*
+ * camellia: GenieZone runs without EL2 (LK: "EL2_BOOTING_DISABLED"), so gzvm's
+ * HVC traps as an unhandled exception and panics. 4.14 never used gzvm.
+ */
+&hypervisor {
+	status = "disabled";
+};
 #include "mediatek/cust_mt6833_thermal.dtsi"
 
 //#ifdef OPLUS_FEATURE_SECURITY_COMMON
