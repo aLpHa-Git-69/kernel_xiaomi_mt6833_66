@@ -693,14 +693,22 @@
 	};
 };
 
-&mtk_leds {
-	compatible = "mediatek,disp-leds";
+/*
+ * A new root node rather than &mtk_leds: the stock sepolicy labels the
+ * backlight sysfs_leds by path, /sys/devices/platform/disp_leds/leds/...
+ * (4.14's node name). Under mtk_leds it stays plain sysfs, and the
+ * framework, lights HAL and displayfeature cannot write it.
+ */
+&{/} {
+	disp_leds {
+		compatible = "mediatek,disp-leds";
 
-	backlight {
-		label = "lcd-backlight";
-		max-brightness = <2047>;
-		max-hw-brightness = <2047>;
-		default-state = "on";
+		backlight {
+			label = "lcd-backlight";
+			max-brightness = <2047>;
+			max-hw-brightness = <2047>;
+			default-state = "on";
+		};
 	};
 };
 

@@ -313,6 +313,42 @@ unlock:
 }
 static DEVICE_ATTR_RW(led_type);
 
+/*
+ * camellia: Xiaomi's 4.14 led-class "brightness_clone". The lights HAL writes
+ * the framework's brightness here; Xiaomi's displayfeature service waits on
+ * the change (uevent + sysfs_notify) and sets the backlight itself, with its
+ * low-brightness handling. Without the node every request fails with ENOENT.
+ */
+static ssize_t brightness_clone_show(struct device *dev,
+		struct device_attribute *attr, char *buf)
+{
+	struct led_classdev *led_cdev = dev_get_drvdata(dev);
+	struct led_conf_info *led_conf =
+		container_of(led_cdev, struct led_conf_info, cdev);
+
+	return sprintf(buf, "%u\n", led_conf->brightness_clone);
+}
+
+static ssize_t brightness_clone_store(struct device *dev,
+		struct device_attribute *attr, const char *buf, size_t size)
+{
+	struct led_classdev *led_cdev = dev_get_drvdata(dev);
+	struct led_conf_info *led_conf =
+		container_of(led_cdev, struct led_conf_info, cdev);
+	char *envp[] = { "SOURCE=sysfs", NULL };
+	unsigned long state;
+	ssize_t ret;
+
+	ret = kstrtoul(buf, 10, &state);
+	if (ret)
+		return ret;
+	led_conf->brightness_clone = state;
+	kobject_uevent_env(&led_cdev->dev->kobj, KOBJ_CHANGE, envp);
+	sysfs_notify(&led_cdev->dev->kobj, NULL, "brightness_clone");
+	return size;
+}
+static DEVICE_ATTR_RW(brightness_clone);
+
 
 /****************************************************************************
  * DEBUG MACROS
@@ -673,6 +709,7 @@ static struct attribute *led_class_attrs[] = {
 	&dev_attr_connector_id.attr,
 	&dev_attr_logic_max_brightness.attr,
 	&dev_attr_led_type.attr,
+	&dev_attr_brightness_clone.attr,
 	NULL,
 };
 
