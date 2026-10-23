@@ -1538,15 +1538,21 @@ static int vidioc_vdec_g_selection(struct file *file, void *priv,
 		s->r.height = ctx->picinfo.buf_h;
 		break;
 	case V4L2_SEL_TGT_COMPOSE:
-	case V4L2_SEL_TGT_CROP:
-		if (vdec_if_get_param(ctx, GET_PARAM_CROP_INFO, &(s->r))) {
+	case V4L2_SEL_TGT_CROP: {
+		/* camellia: GET_PARAM_CROP_INFO fills a v4l2_crop (type + rect) */
+		struct v4l2_crop cr = { .type = s->type };
+
+		if (vdec_if_get_param(ctx, GET_PARAM_CROP_INFO, &cr)) {
 			/* set to default value if header info not ready yet*/
 			s->r.left = 0;
 			s->r.top = 0;
 			s->r.width = q_data->visible_width;
 			s->r.height = q_data->visible_height;
+		} else {
+			s->r = cr.c;
 		}
 		break;
+	}
 	default:
 		return -EINVAL;
 	}
