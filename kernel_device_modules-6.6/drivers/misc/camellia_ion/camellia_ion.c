@@ -355,37 +355,62 @@ struct cion_client {
 	char name[ION_MM_DBG_NAME_LEN];
 };
 
+enum cion_dom { CION_VDEC, CION_VENC, CION_MDP, CION_DISP, CION_NR_DOM };
+
 struct cion_handle {
 	struct dma_buf *buf;
 	int refs;
 	int module_id;
-	struct dma_buf_attachment *att;
-	struct sg_table *sgt;
+	/* one mapping per IOMMU domain: vdec/venc 4G~8G, MDP 8G~12G, disp 0~4G */
+	struct dma_buf_attachment *att[CION_NR_DOM];
+	struct sg_table *sgt[CION_NR_DOM];
 };
 
-static struct device *cion_codec_dev[2];	/* vdec, venc */
+static struct device *cion_dom_dev[CION_NR_DOM];
 static DEFINE_MUTEX(cion_dev_lock);
 
-/* 4.14 M4U port ids are (larb << 5) | port: larb 7 is the encoder */
-static struct device *cion_map_device(int module_id)
+/*
+ * 4.14 M4U port ids are (larb << 5) | port. The buffer has to be mapped for a
+ * device in the IOMMU domain the port's larb reads from (its BANK_SEL gives
+ * the upper IOVA bits): larb 7 = venc, larb 2 = MDP (DpFramework in the
+ * composer), larbs 0/1 = display; everything else stays on vdec.
+ */
+static enum cion_dom cion_port_dom(int module_id)
 {
-	static const char * const compat[2] = {
-		"mediatek,mt6833-vcodec-dec", "mediatek,mt6833-vcodec-enc",
+	switch (module_id >> 5) {
+	case 7:
+		return CION_VENC;
+	case 2:
+		return CION_MDP;
+	case 0:
+	case 1:
+		return CION_DISP;
+	default:
+		return CION_VDEC;
+	}
+}
+
+static struct device *cion_dom_device(enum cion_dom dom)
+{
+	static const char * const compat[CION_NR_DOM] = {
+		[CION_VDEC] = "mediatek,mt6833-vcodec-dec",
+		[CION_VENC] = "mediatek,mt6833-vcodec-enc",
+		[CION_MDP] = "mediatek,mdpsys_config",
+		[CION_DISP] = "mediatek,mt6833-disp",
 	};
-	int idx = (module_id >> 5) == 7 ? 1 : 0;
 	struct device_node *np;
 	struct platform_device *pdev;
 
 	mutex_lock(&cion_dev_lock);
-	if (!cion_codec_dev[idx]) {
-		np = of_find_compatible_node(NULL, NULL, compat[idx]);
+	if (!cion_dom_dev[dom]) {
+		np = of_find_compatible_node(NULL, NULL, compat[dom]);
 		pdev = np ? of_find_device_by_node(np) : NULL;
 		of_node_put(np);
 		if (pdev)
-			cion_codec_dev[idx] = &pdev->dev;
+			cion_dom_dev[dom] = &pdev->dev;
 	}
 	mutex_unlock(&cion_dev_lock);
-	return cion_codec_dev[idx];
+	return cion_dom_dev[dom];
 }
 
 static int cion_handle_new(struct cion_client *c, struct dma_buf *buf)
@@ -407,41 +432,42 @@ static int cion_handle_new(struct cion_client *c, struct dma_buf *buf)
 
 static void cion_handle_destroy(struct cion_handle *h)
 {
-	if (h->sgt)
-		dma_buf_unmap_attachment_unlocked(h->att, h->sgt, DMA_BIDIRECTIONAL);
-	if (h->att)
-		dma_buf_detach(h->buf, h->att);
+	int i;
+
+	for (i = 0; i < CION_NR_DOM; i++) {
+		if (h->sgt[i])
+			dma_buf_unmap_attachment_unlocked(h->att[i], h->sgt[i], DMA_BIDIRECTIONAL);
+		if (h->att[i])
+			dma_buf_detach(h->buf, h->att[i]);
+	}
 	dma_buf_put(h->buf);
 	kfree(h);
 }
 
-/* IOVA of a handle in the codec IOMMU domain; mapped once, kept until freed */
+/* IOVA of a handle in the port's IOMMU domain; mapped once per domain, kept until freed */
 static int cion_handle_iova(struct cion_handle *h, int module_id, dma_addr_t *iova)
 {
+	enum cion_dom dom = cion_port_dom(module_id ? module_id : h->module_id);
+	struct dma_buf_attachment *att;
+	struct sg_table *sgt;
 	struct device *dev;
 
-	if (!h->sgt) {
-		dev = cion_map_device(module_id ? module_id : h->module_id);
+	if (!h->sgt[dom]) {
+		dev = cion_dom_device(dom);
 		if (!dev)
 			return -ENODEV;
-		h->att = dma_buf_attach(h->buf, dev);
-		if (IS_ERR(h->att)) {
-			int ret = PTR_ERR(h->att);
-
-			h->att = NULL;
-			return ret;
+		att = dma_buf_attach(h->buf, dev);
+		if (IS_ERR(att))
+			return PTR_ERR(att);
+		sgt = dma_buf_map_attachment_unlocked(att, DMA_BIDIRECTIONAL);
+		if (IS_ERR(sgt)) {
+			dma_buf_detach(h->buf, att);
+			return PTR_ERR(sgt);
 		}
-		h->sgt = dma_buf_map_attachment_unlocked(h->att, DMA_BIDIRECTIONAL);
-		if (IS_ERR(h->sgt)) {
-			int ret = PTR_ERR(h->sgt);
-
-			h->sgt = NULL;
-			dma_buf_detach(h->buf, h->att);
-			h->att = NULL;
-			return ret;
-		}
+		h->att[dom] = att;
+		h->sgt[dom] = sgt;
 	}
-	*iova = sg_dma_address(h->sgt->sgl);
+	*iova = sg_dma_address(h->sgt[dom]->sgl);
 	return 0;
 }
 
@@ -913,9 +939,9 @@ static void __exit cion_exit(void)
 	int i;
 
 	misc_deregister(&cion_misc);
-	for (i = 0; i < ARRAY_SIZE(cion_codec_dev); i++)
-		if (cion_codec_dev[i])
-			put_device(cion_codec_dev[i]);
+	for (i = 0; i < CION_NR_DOM; i++)
+		if (cion_dom_dev[i])
+			put_device(cion_dom_dev[i]);
 }
 module_exit(cion_exit);
 
