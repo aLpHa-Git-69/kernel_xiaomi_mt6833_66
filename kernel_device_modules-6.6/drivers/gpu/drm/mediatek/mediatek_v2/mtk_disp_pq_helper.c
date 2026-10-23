@@ -546,17 +546,61 @@ bool disp_pq_is_cmd_need_pm(enum mtk_pq_frame_cfg_cmd cmd)
 	return ret;
 }
 
+/*
+ * camellia: the proxy ioctl body on a kernel buffer, so the 4.14 PQ ioctls
+ * (mtk_disp_pq_legacy.c) can reuse it.
+ */
+int disp_pq_proxy_kdata(struct drm_device *dev, struct drm_file *file_priv,
+	struct drm_crtc *crtc, unsigned int pq_cmd, void *kdata, unsigned int size)
+{
+	struct mtk_ddp_comp *comp;
+	unsigned int pq_type = pq_cmd >> 16;
+	unsigned int cmd = pq_cmd & 0xffff;
+	unsigned int i, j;
+	unsigned long long time;
+	int ret = -1;
+
+	if (pq_type >= MTK_DISP_PQ_TYPE_MAX)
+		return -1;
+
+	if (atomic_read(&to_mtk_crtc(crtc)->pq_data->pipe_info_filled) != 1 &&
+			cmd != PQ_VIRTUAL_WAIT_CRTC_READY &&
+			cmd != PQ_VIRTUAL_GET_MASTER_INFO) {
+		DDPPR_ERR("%s, crtc %d not ready! cmd:%d\n",
+				__func__, drm_crtc_index(crtc), cmd);
+		return -1;
+	}
+
+	time = sched_clock();
+	if (pq_type == MTK_DISP_VIRTUAL_TYPE) {
+		ret = disp_pq_proxy_virtual_type_impl(crtc, dev, cmd, kdata, file_priv);
+	} else {
+		for_each_comp_in_cur_crtc_path(comp, to_mtk_crtc(crtc), i, j) {
+			if (pq_module_matches[pq_type].type == mtk_ddp_comp_get_type(comp->id)) {
+				ret = mtk_ddp_comp_pq_ioctl_transact(comp, cmd, kdata, size);
+				if (ret < 0)
+					DDPPR_ERR("%s:%d, ioctl transact failed, comp:%d,%d\n",
+						__func__, __LINE__, comp->id, cmd);
+			}
+		}
+	}
+	if (cmd != PQ_AAL_GET_HIST && cmd != PQ_AAL_EVENTCTL && cmd !=  PQ_CCORR_GET_IRQ &&
+			cmd != PQ_VIRTUAL_WAIT_CRTC_READY && cmd != PQ_VIRTUAL_GET_MASTER_INFO &&
+			cmd != PQ_CHIST_GET && cmd != PQ_VIRTUAL_GET_IRQ)
+		DDPINFO("%s, crtc index:%d, pq_type:%d, cmd:%d, use %llu us\n", __func__,
+				drm_crtc_index(crtc), pq_type, cmd, (sched_clock() - time) / 1000);
+	else
+		DDPDBG("%s, crtc index:%d, pq_type:%d, cmd:%d, use %llu us\n", __func__,
+				drm_crtc_index(crtc), pq_type, cmd, (sched_clock() - time) / 1000);
+	return ret;
+}
+
 int mtk_drm_ioctl_pq_proxy(struct drm_device *dev, void *data, struct drm_file *file_priv)
 {
 	struct drm_crtc *crtc;
 	struct mtk_drm_pq_proxy_ctl *params = data;
-	struct mtk_ddp_comp *comp;
-	unsigned int pq_type;
-	unsigned int cmd;
-	unsigned int i, j;
 	char stack_kdata[128];
 	char *kdata = NULL;
-	unsigned long long time;
 	int ret = -1;
 
 	if (!params || !params->size || !params->data) {
@@ -570,56 +614,26 @@ int mtk_drm_ioctl_pq_proxy(struct drm_device *dev, void *data, struct drm_file *
 		return -1;
 	}
 
-	pq_type = params->cmd >> 16;
-	cmd = params->cmd & 0xffff;
-	if (atomic_read(&to_mtk_crtc(crtc)->pq_data->pipe_info_filled) != 1 &&
-			cmd != PQ_VIRTUAL_WAIT_CRTC_READY &&
-			cmd != PQ_VIRTUAL_GET_MASTER_INFO) {
-		DDPPR_ERR("%s, crtc %d not ready! cmd:%d\n",
-				__func__, params->crtc_id, cmd);
-		return -1;
-	}
-
-	time = sched_clock();
 	if (params->size <= sizeof(stack_kdata))
 		kdata = stack_kdata;
 	else
 		kdata = kmalloc(params->size, GFP_KERNEL);
 
 	if (!kdata) {
-		DDPPR_ERR("%s:%d, kdata alloc failed pq_type:%d, cmd:%d\n", __func__,
-				__LINE__, pq_type, cmd);
+		DDPPR_ERR("%s:%d, kdata alloc failed cmd:0x%x\n", __func__,
+				__LINE__, params->cmd);
 		return -1;
 	}
 
 	if (copy_from_user(kdata, (void __user *)params->data, params->size) != 0)
 		goto err;
 
-	if (pq_type == MTK_DISP_VIRTUAL_TYPE) {
-		ret = disp_pq_proxy_virtual_type_impl(crtc, dev, cmd, kdata, file_priv);
-	} else {
-		for_each_comp_in_cur_crtc_path(comp, to_mtk_crtc(crtc), i, j) {
-			if (pq_module_matches[pq_type].type == mtk_ddp_comp_get_type(comp->id)) {
-				ret = mtk_ddp_comp_pq_ioctl_transact(comp, cmd, kdata,
-									params->size);
-				if (ret < 0)
-					DDPPR_ERR("%s:%d, ioctl transact failed, comp:%d,%d\n",
-						__func__, __LINE__, comp->id, cmd);
-			}
-		}
-	}
-	if (cmd > PQ_GET_CMD_START) {
+	ret = disp_pq_proxy_kdata(dev, file_priv, crtc, params->cmd, kdata, params->size);
+
+	if ((params->cmd & 0xffff) > PQ_GET_CMD_START) {
 		if (copy_to_user((void __user *)params->data, kdata,  params->size) != 0)
 			goto err;
 	}
-	if (cmd != PQ_AAL_GET_HIST && cmd != PQ_AAL_EVENTCTL && cmd !=  PQ_CCORR_GET_IRQ &&
-			cmd != PQ_VIRTUAL_WAIT_CRTC_READY && cmd != PQ_VIRTUAL_GET_MASTER_INFO &&
-			cmd != PQ_CHIST_GET && cmd != PQ_VIRTUAL_GET_IRQ)
-		DDPINFO("%s, crtc index:%d, pq_type:%d, cmd:%d, use %llu us\n", __func__,
-				drm_crtc_index(crtc), pq_type, cmd, (sched_clock() - time) / 1000);
-	else
-		DDPDBG("%s, crtc index:%d, pq_type:%d, cmd:%d, use %llu us\n", __func__,
-				drm_crtc_index(crtc), pq_type, cmd, (sched_clock() - time) / 1000);
 err:
 	if (kdata != stack_kdata) {
 		kfree(kdata);
@@ -669,8 +683,49 @@ int mtk_drm_ioctl_pq_frame_config(struct drm_device *dev, void *data,
 	return ret;
 }
 
+static int __disp_pq_helper_frame_config(struct drm_crtc *crtc,
+	struct cmdq_pkt *cmdq_handle, void *data, bool user_lock, bool kmem);
+
 int disp_pq_helper_frame_config(struct drm_crtc *crtc, struct cmdq_pkt *cmdq_handle,
 	void *data, bool user_lock)
+{
+	return __disp_pq_helper_frame_config(crtc, cmdq_handle, data, user_lock, false);
+}
+
+/* camellia: one frame config request whose data is in kernel memory */
+int disp_pq_helper_frame_config_kdata(struct drm_crtc *crtc, unsigned int pq_cmd,
+	void *kdata, unsigned int size, unsigned int check_trigger)
+{
+	struct mtk_drm_pq_param request = {
+		.cmd = pq_cmd,
+		.size = size,
+		.data = kdata,
+	};
+	struct mtk_drm_pq_config_ctl params = {
+		.crtc_id = crtc->base.id,
+		.check_trigger = check_trigger,
+		.len = 1,
+		.data = &request,
+	};
+
+	if (atomic_read(&to_mtk_crtc(crtc)->pq_data->pipe_info_filled) != 1) {
+		DDPPR_ERR("%s, crtc %d not ready!\n", __func__, drm_crtc_index(crtc));
+		return -1;
+	}
+	return __disp_pq_helper_frame_config(crtc, NULL, &params, true, true);
+}
+
+static int pq_copy_in(void *dst, const void *src, unsigned long n, bool kmem)
+{
+	if (kmem) {
+		memcpy(dst, src, n);
+		return 0;
+	}
+	return copy_from_user(dst, (const void __user *)src, n) ? -EFAULT : 0;
+}
+
+static int __disp_pq_helper_frame_config(struct drm_crtc *crtc,
+	struct cmdq_pkt *cmdq_handle, void *data, bool user_lock, bool kmem)
 {
 	struct mtk_drm_pq_config_ctl *params = data;
 	unsigned int cmds_len = params->len;
@@ -697,7 +752,7 @@ int disp_pq_helper_frame_config(struct drm_crtc *crtc, struct cmdq_pkt *cmdq_han
 		return -1;
 	}
 
-	if (copy_from_user(&requests, params->data, sizeof(struct mtk_drm_pq_param) * cmds_len)) {
+	if (pq_copy_in(&requests, params->data, sizeof(struct mtk_drm_pq_param) * cmds_len, kmem)) {
 		mtk_drm_trace_end();
 
 		return -1;
@@ -768,8 +823,8 @@ int disp_pq_helper_frame_config(struct drm_crtc *crtc, struct cmdq_pkt *cmdq_han
 							__func__, __LINE__, comp->id, cmd);
 					continue;
 				}
-				if (copy_from_user(kdata, (void __user *)requests[k].data,
-						requests[k].size) == 0) {
+				if (pq_copy_in(kdata, requests[k].data,
+						requests[k].size, kmem) == 0) {
 					mtk_drm_trace_begin("frame_config(compId: %d)", comp->id);
 
 					if (mtk_ddp_comp_pq_frame_config(comp, pq_cmdq_handle,

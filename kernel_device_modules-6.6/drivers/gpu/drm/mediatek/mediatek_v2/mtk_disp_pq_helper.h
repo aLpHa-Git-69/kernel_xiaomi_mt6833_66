@@ -51,6 +51,10 @@ int mtk_drm_ioctl_pq_frame_config(struct drm_device *dev, void *data,
 	struct drm_file *file_priv);
 int mtk_drm_ioctl_pq_proxy(struct drm_device *dev, void *data,
 	struct drm_file *file_priv);
+int disp_pq_proxy_kdata(struct drm_device *dev, struct drm_file *file_priv,
+	struct drm_crtc *crtc, unsigned int pq_cmd, void *kdata, unsigned int size);
+int disp_pq_helper_frame_config_kdata(struct drm_crtc *crtc, unsigned int pq_cmd,
+	void *kdata, unsigned int size, unsigned int check_trigger);
 int disp_pq_helper_frame_config(struct drm_crtc *crtc, struct cmdq_pkt *cmdq_handle,
 	void *data, bool user_lock);
 int disp_pq_helper_fill_comp_pipe_info(struct mtk_ddp_comp *comp, int *path_order,

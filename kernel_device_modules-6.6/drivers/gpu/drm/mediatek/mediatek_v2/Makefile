@@ -78,6 +78,7 @@ mediatek-drm-y := mtk_drm_drv.o \
 		  mtk_lease.o \
 		  platform/mtk_drm_6835.o \
 		  mtk_disp_pq_helper.o \
+		  mtk_disp_pq_legacy.o \
 		  mtk_disp_vidle.o \
 		  mtk_disp_r2y0.o \
 		  mtk_disp_ovl_exdma.o \

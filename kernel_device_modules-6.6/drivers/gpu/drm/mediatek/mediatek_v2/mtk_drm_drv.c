@@ -67,6 +67,7 @@
 #include "platform/mtk_drm_platform.h"
 #include "mtk_drm_trace.h"
 #include "mtk_disp_pq_helper.h"
+#include "mtk_disp_pq_legacy.h"
 #include "mtk_disp_vidle.h"
 #include "mtk_vdisp_common.h"
 
@@ -10332,6 +10333,7 @@ static const struct drm_ioctl_desc mtk_ioctls[] = {
 				DRM_UNLOCKED),
 	DRM_IOCTL_DEF_DRV(MTK_GET_MODE_EXT_INFO, mtk_drm_get_mode_ext_info_ioctl,
 				  DRM_UNLOCKED),
+	MTK_LEGACY_PQ_IOCTLS,
 	DRM_IOCTL_DEF_DRV(MTK_PQ_PROXY_IOCTL, mtk_drm_ioctl_pq_proxy,
 				  DRM_UNLOCKED),
 	DRM_IOCTL_DEF_DRV(MTK_HWVSYNC_ON, mtk_drm_hwvsync_on_ioctl,
