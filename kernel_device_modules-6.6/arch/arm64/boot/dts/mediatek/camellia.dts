@@ -719,3 +719,34 @@
 		compatible = "mediatek,mt-charger";
 	};
 };
+
+/*
+ * camellia: video codec nodes in the layout of the 4.14 driver the stock
+ * vpud/codec2 need (camellia_vcodec): stock reg order and VCU GCE threads,
+ * "mediatek,larb" and the 4.14 clock names, on the 6.6 clock/IOMMU providers.
+ */
+&vcu {
+	reg = <0 0x16000000 0 0x40000>,	/* VDEC_BASE */
+	      <0 0x17020000 0 0x10000>,	/* VENC_BASE */
+	      <0 0x17820000 0 0x10000>;	/* VENC_C1_BASE (stock) */
+	mediatek,dec_gce_th_num = <1>;
+	mediatek,enc_gce_th_num = <1>;
+	/* dec thread, enc thread, secure enc thread (stock order) */
+	mboxes = <&gce 7 0 1>, <&gce 12 0 1>, <&gce_sec 12 0 1>;
+};
+
+&{/soc/vdec@16000000} {
+	reg = <0 0x1602f000 0 0x1000>,	/* VDEC_SYS */
+	      <0 0x16020000 0 0x400>,	/* VDEC_VLD */
+	      <0 0x16021000 0 0x1000>,	/* VDEC_MC */
+	      <0 0x16023000 0 0x1000>,	/* VDEC_MV */
+	      <0 0x16025000 0 0x1000>;	/* VDEC_MISC */
+	/delete-property/ reg-names;
+	mediatek,larb = <&smi_larb4>;
+	clock-names = "MT_CG_VDEC";
+};
+
+&{/soc/venc@17000000} {
+	mediatek,larb = <&smi_larb7>;
+	clock-names = "MT_CG_VENC";
+};
