@@ -59,9 +59,18 @@ int mtk_drm_legacy_pq_persist_property(struct drm_device *dev, void *data,
 			    PQ_VIRTUAL_SET_PROPERTY, data, sizeof(unsigned int [32]));
 }
 
+/*
+ * 4.14's first field is hw_id (DRM_DISP_CCORR0 = 0); 6.6 reads it as
+ * "linear" and silently drops matrices whose linear flag differs from the
+ * CCORR's (ccorr-linear = 1 here). 4.14 only drove CCORR0, reported linear
+ * in GET_PQ_CAPS, so its matrices are for the linear CCORR.
+ */
 int mtk_drm_legacy_set_ccorr(struct drm_device *dev, void *data,
 	struct drm_file *file_priv)
 {
+	struct DRM_DISP_CCORR_COEF_T *coef = data;
+
+	coef->linear = 1;
 	return legacy_config(dev, MTK_DISP_PQ_CCORR, PQ_CCORR_SET_CCORR, data,
 			     sizeof(struct DRM_DISP_CCORR_COEF_T), 1);
 }
