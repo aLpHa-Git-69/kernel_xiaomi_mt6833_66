@@ -25,7 +25,12 @@ struct mtk_vcu_queue *mtk_vcu_mem_init(struct device *dev,
 	struct mtk_vcu_queue *vcu_queue;
 
 	pr_debug("Allocate new vcu queue !\n");
-	vcu_queue = kzalloc(sizeof(struct mtk_vcu_queue), GFP_KERNEL);
+	/*
+	 * camellia: bufs[] embeds a vb2_buffer per slot on 6.6, ~350 KB; a
+	 * physically contiguous allocation fails once memory is fragmented and
+	 * every later /dev/vcu open (vpud) failed.
+	 */
+	vcu_queue = kvzalloc(sizeof(struct mtk_vcu_queue), GFP_KERNEL);
 	if (vcu_queue == NULL) {
 		pr_info("Allocate new vcu queue fail!\n");
 		return NULL;
@@ -78,7 +83,7 @@ void mtk_vcu_mem_release(struct mtk_vcu_queue *vcu_queue)
 		kfree(tmp);
 	}
 	mutex_unlock(&vcu_queue->mmap_lock);
-	kfree(vcu_queue);
+	kvfree(vcu_queue);
 	vcu_queue = NULL;
 }
 
