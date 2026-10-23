@@ -1048,6 +1048,8 @@ static int fts_fwupg_get_module_info(struct fts_upgrade *upg)
 	return 0;
 }
 
+#define FTS_FW_REQUEST_RETRIES	30
+
 static int fts_get_fw_file_via_request_firmware(struct fts_upgrade *upg)
 {
 	int ret = 0;
@@ -1113,6 +1115,7 @@ static int fts_get_fw_file_via_i(struct fts_upgrade *upg)
 static int fts_fwupg_get_fw_file(struct fts_upgrade *upg)
 {
 	int ret = 0;
+	int i;
 	bool get_fw_i_flag = false;
 
 	FTS_DEBUG("get upgrade fw file");
@@ -1129,7 +1132,18 @@ static int fts_fwupg_get_fw_file(struct fts_upgrade *upg)
 
 	if (FTS_FW_REQUEST_SUPPORT) {
 		msleep(500);
-		ret = fts_get_fw_file_via_request_firmware(upg);
+		/*
+		 * camellia: the firmware is in the ramdisk until first-stage init
+		 * switches root, then in /vendor/firmware once /vendor is mounted.
+		 * A request landing in between fails with -ENOENT, and this
+		 * flashless IC never reports touches without it: retry.
+		 */
+		for (i = 0; i < FTS_FW_REQUEST_RETRIES; i++) {
+			ret = fts_get_fw_file_via_request_firmware(upg);
+			if (ret != -ENOENT)
+				break;
+			msleep(1000);
+		}
 		if (ret != 0) {
 			get_fw_i_flag = true;
 		}
