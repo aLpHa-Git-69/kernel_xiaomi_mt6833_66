@@ -14,10 +14,12 @@
  *    ION_CMD_SYSTEM / ION_CMD_MULTIMEDIA custom ioctls), which vpud's codec
  *    libraries use to turn buffer fds into IOVAs for the codec hardware.
  *
- * libion decides "legacy or modern" from ION_IOC_FREE on handle 0 (-ENOTTY
- * means modern). A file becomes legacy once it issues a MediaTek custom ioctl:
- * mt_ion_open() (libion_mtk) sets the client name right after open, before
- * any legacy call; libdmabufheap never sends custom ioctls.
+ * libion decides "legacy or modern" once per process, from ION_IOC_FREE on
+ * handle 0 on whichever ION file it probes first (-ENOTTY means modern). Like
+ * the 4.14 kernel, always answer legacy: the vendor codec2 calls ion_map() on
+ * every buffer it allocates, which libion only allows on legacy ION, so a
+ * process that probed "modern" could not allocate codec metadata buffers
+ * (thumbnails / MediaMetadataRetriever). The modern ioctls stay available.
  */
 
 #include <linux/compat.h>
@@ -351,7 +353,6 @@ static struct dma_buf *cion_alloc(const char *heap_name, size_t len)
 struct cion_client {
 	struct mutex lock;
 	struct idr handles;
-	bool legacy;
 	char name[ION_MM_DBG_NAME_LEN];
 };
 
@@ -502,8 +503,6 @@ static long cion_free(struct cion_client *c, s32 id)
 {
 	struct cion_handle *h;
 
-	if (!c->legacy)
-		return -ENOTTY;		/* modern ION: no FREE */
 	h = idr_find(&c->handles, id);
 	if (!h)
 		return -EINVAL;
@@ -738,8 +737,6 @@ static long cion_sys(struct cion_client *c, void __user *uarg, bool compat)
 
 static long cion_custom(struct cion_client *c, u32 cmd, void __user *arg, bool compat)
 {
-	/* only MediaTek's libion_mtk sends these: this is a legacy client */
-	c->legacy = true;
 	switch (cmd) {
 	case ION_CMD_SYSTEM:
 		return cion_sys(c, arg, compat);
@@ -826,13 +823,11 @@ static long cion_ioctl_common(struct file *file, unsigned int cmd,
 		ret = cion_modern_alloc(&d.alloc);
 		break;
 	case ION_IOC_ALLOC_LEGACY:
-		c->legacy = true;
 		ret = cion_legacy_alloc(c, d.alloc_l.len, d.alloc_l.heap_id_mask,
 					d.alloc_l.flags, &handle);
 		d.alloc_l.handle = handle;
 		break;
 	case ION_IOC_ALLOC_LEGACY32:
-		c->legacy = true;
 		ret = cion_legacy_alloc(c, d.alloc_l32.len, d.alloc_l32.heap_id_mask,
 					d.alloc_l32.flags, &handle);
 		d.alloc_l32.handle = handle;
