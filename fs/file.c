@@ -496,9 +496,9 @@ static unsigned int find_next_fd(struct fdtable *fdt, unsigned int start)
 /*
  * allocate a file descriptor, mark it busy.
  */
-static int alloc_fd(unsigned start, unsigned end, unsigned flags)
+static int alloc_fd_files(struct files_struct *files, unsigned start,
+			  unsigned end, unsigned flags)
 {
-	struct files_struct *files = current->files;
 	unsigned int fd;
 	int error;
 	struct fdtable *fdt;
@@ -554,6 +554,11 @@ out:
 	return error;
 }
 
+static int alloc_fd(unsigned start, unsigned end, unsigned flags)
+{
+	return alloc_fd_files(current->files, start, end, flags);
+}
+
 int __get_unused_fd_flags(unsigned flags, unsigned long nofile)
 {
 	return alloc_fd(0, nofile, flags);
@@ -599,9 +604,9 @@ EXPORT_SYMBOL(put_unused_fd);
  * as if they had called fput(file).
  */
 
-void fd_install(unsigned int fd, struct file *file)
+static void fd_install_files(struct files_struct *files, unsigned int fd,
+			     struct file *file)
 {
-	struct files_struct *files = current->files;
 	struct fdtable *fdt;
 
 	rcu_read_lock_sched();
@@ -621,6 +626,11 @@ void fd_install(unsigned int fd, struct file *file)
 	BUG_ON(fdt->fd[fd] != NULL);
 	rcu_assign_pointer(fdt->fd[fd], file);
 	rcu_read_unlock_sched();
+}
+
+void fd_install(unsigned int fd, struct file *file)
+{
+	fd_install_files(current->files, fd, file);
 }
 
 EXPORT_SYMBOL(fd_install);
@@ -665,6 +675,58 @@ int close_fd(unsigned fd)
 	return filp_close(file, files);
 }
 EXPORT_SYMBOL_NS(close_fd, ANDROID_GKI_VFS_EXPORT_ONLY); /* for ksys_close() */
+
+/*
+ * camellia: the 4.14 MediaTek video driver hands dma-bufs to the vendor's
+ * vpud by installing fds straight into vpud's file table (it used the
+ * get_files_struct/__alloc_fd/__fd_install/__close_fd exports that are gone
+ * since 5.x); the stock vpud depends on that.
+ */
+static struct files_struct *camellia_get_task_files(struct task_struct *task)
+{
+	struct files_struct *files;
+
+	task_lock(task);
+	files = task->files;
+	if (files)
+		atomic_inc(&files->count);
+	task_unlock(task);
+	return files;
+}
+
+int camellia_task_fd_install(struct task_struct *task, struct file *file,
+			     unsigned int flags)
+{
+	struct files_struct *files = camellia_get_task_files(task);
+	int fd;
+
+	if (!files)
+		return -ESRCH;
+	fd = alloc_fd_files(files, 0, task_rlimit(task, RLIMIT_NOFILE), flags);
+	if (fd >= 0)
+		fd_install_files(files, fd, get_file(file));
+	put_files_struct(files);
+	return fd;
+}
+EXPORT_SYMBOL_GPL(camellia_task_fd_install);
+
+int camellia_task_close_fd(struct task_struct *task, unsigned int fd)
+{
+	struct files_struct *files = camellia_get_task_files(task);
+	struct file *file;
+	int ret = -EBADF;
+
+	if (!files)
+		return -ESRCH;
+	spin_lock(&files->file_lock);
+	file = pick_file(files, fd);
+	spin_unlock(&files->file_lock);
+	if (file)
+		ret = filp_close(file, files);
+	put_files_struct(files);
+	return ret;
+}
+EXPORT_SYMBOL_GPL(camellia_task_close_fd);
 
 /**
  * last_fd - return last valid index into fd table

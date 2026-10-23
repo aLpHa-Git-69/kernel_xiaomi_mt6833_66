@@ -709,6 +709,8 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info);
 
 int dma_buf_fd(struct dma_buf *dmabuf, int flags);
 struct dma_buf *dma_buf_get(int fd);
+struct cred;
+struct file *camellia_dma_buf_view(struct dma_buf *dmabuf, const struct cred *cred);
 void dma_buf_put(struct dma_buf *dmabuf);
 
 struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *,

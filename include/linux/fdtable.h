@@ -124,6 +124,11 @@ int iterate_fd(struct files_struct *, unsigned,
 		const void *);
 
 extern int close_fd(unsigned int fd);
+/* camellia: install/close an fd in another task (4.14 MTK vpud buffer passing) */
+struct task_struct;
+extern int camellia_task_fd_install(struct task_struct *task, struct file *file,
+				    unsigned int flags);
+extern int camellia_task_close_fd(struct task_struct *task, unsigned int fd);
 extern int __close_range(unsigned int fd, unsigned int max_fd, unsigned int flags);
 extern struct file *close_fd_get_file(unsigned int fd);
 extern int unshare_fd(unsigned long unshare_flags, unsigned int max_fds,

@@ -61,6 +61,9 @@
 #undef CREATE_TRACE_POINTS
 #include <trace/hooks/signal.h>
 #include <trace/hooks/dtask.h>
+
+/* camellia: the 4.14 MediaTek VCU (vendor vpud) detects vpud being killed from this */
+EXPORT_TRACEPOINT_SYMBOL_GPL(signal_generate);
 /*
  * SLAB caches for signal bits.
  */

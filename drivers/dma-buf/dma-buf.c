@@ -11,6 +11,8 @@
  * refining of this idea.
  */
 
+#include <linux/cred.h>
+#include <linux/file.h>
 #include <linux/fs.h>
 #include <linux/slab.h>
 #include <linux/dma-buf.h>
@@ -567,11 +569,52 @@ static const struct file_operations dma_buf_fops = {
 /*
  * is_dma_buf_file - Check if struct file* is associated with dma_buf
  */
+static const struct file_operations dma_buf_view_fops;
+
 int is_dma_buf_file(struct file *file)
 {
-	return file->f_op == &dma_buf_fops;
+	return file->f_op == &dma_buf_fops || file->f_op == &dma_buf_view_fops;
 }
 EXPORT_SYMBOL_NS_GPL(is_dma_buf_file, DMA_BUF);
+
+/*
+ * camellia: a second file for a dma-buf, opened with another task's
+ * credentials. The 4.14 MediaTek VCU installs the dma-bufs of codec buffers
+ * into vpud's fd table; vpud may only use files labeled as its own domain
+ * (or mediaserver's), not those of the Codec2 HAL that allocated them. A view
+ * holds a reference on the dma-buf's own file and is never on db_list.
+ */
+static int dma_buf_view_release(struct inode *inode, struct file *file)
+{
+	dma_buf_put(file->private_data);
+	return 0;
+}
+
+static const struct file_operations dma_buf_view_fops = {
+	.release	= dma_buf_view_release,
+	.mmap		= dma_buf_mmap_internal,
+	.llseek		= dma_buf_llseek,
+	.poll		= dma_buf_poll,
+	.unlocked_ioctl	= dma_buf_ioctl,
+	.compat_ioctl	= compat_ptr_ioctl,
+	.show_fdinfo	= dma_buf_show_fdinfo,
+};
+
+struct file *camellia_dma_buf_view(struct dma_buf *dmabuf, const struct cred *cred)
+{
+	const struct cred *old;
+	struct file *file;
+
+	old = override_creds(cred);
+	file = alloc_file_clone(dmabuf->file, O_RDWR, &dma_buf_view_fops);
+	revert_creds(old);
+	if (IS_ERR(file))
+		return file;
+	get_dma_buf(dmabuf);
+	file->private_data = dmabuf;
+	return file;
+}
+EXPORT_SYMBOL_NS_GPL(camellia_dma_buf_view, DMA_BUF);
 
 static struct file *dma_buf_getfile(size_t size, int flags)
 {
@@ -789,6 +832,15 @@ struct dma_buf *dma_buf_get(int fd)
 	if (!is_dma_buf_file(file)) {
 		fput(file);
 		return ERR_PTR(-EINVAL);
+	}
+
+	/* camellia: dma_buf_put() drops the dma-buf's own file, not a view */
+	if (file->f_op == &dma_buf_view_fops) {
+		struct dma_buf *dmabuf = file->private_data;
+
+		get_dma_buf(dmabuf);
+		fput(file);
+		return dmabuf;
 	}
 
 	return file->private_data;
