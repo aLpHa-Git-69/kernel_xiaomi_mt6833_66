@@ -174,16 +174,19 @@ ccflags-y += $(call cc-disable-warning, cast-function-type-strict)
 ccflags-y += -DLINUX
 
 #ifdef OPLUS_BUG_STABILITY
-ccflags-y += -DOPLUS_WLAN_BUG_STABILITY=1
+# camellia: not Oppo hardware
+#ccflags-y += -DOPLUS_WLAN_BUG_STABILITY=1
 #endif  /* OPLUS_BUG_STABILITY */
 
 #ifdef OPLUS_FEATURE_CONN_POWER_MONITOR
 #CONNECTIVITY.WIFI.HARDWARE.POWER, 2022/06/30, add for mtk connectivity power monitor
-ccflags-y += -DOPLUS_FEATURE_CONN_POWER_MONITOR
+# camellia: not Oppo hardware
+#ccflags-y += -DOPLUS_FEATURE_CONN_POWER_MONITOR
 #endif /* OPLUS_FEATURE_CONN_POWER_MONITOR */
 
 #ifdef OPLUS_FEATURE_WIFI_POWER
-ccflags-y += -DOPLUS_FEATURE_WIFI_POWER
+# camellia: not Oppo hardware
+#ccflags-y += -DOPLUS_FEATURE_WIFI_POWER
 #endif /* OPLUS_FEATURE_WIFI_POWER */
 ifneq ($(filter MT6632,$(MTK_COMBO_CHIP)),)
 ccflags-y:=$(filter-out -UMT6632,$(ccflags-y))
@@ -191,11 +194,13 @@ ccflags-y += -DMT6632
 endif
 
 #ifdef OPLUS_FEATURE_WIFI_VENDOR_FT
-ccflags-y += -DOPLUS_FEATURE_WIFI_VENDOR_FT
+# camellia: not Oppo hardware
+#ccflags-y += -DOPLUS_FEATURE_WIFI_VENDOR_FT
 #endif /* OPLUS_FEATURE_WIFI_VENDOR_FT */
 
 #ifdef OPLUS_FEATURE_ROAMING_OPTIMIZATION
-ccflags-y += -DOPLUS_FEATURE_ROAMING_OPTIMIZATION
+# camellia: not Oppo hardware
+#ccflags-y += -DOPLUS_FEATURE_ROAMING_OPTIMIZATION
 #endif /* OPLUS_FEATURE_ROAMING_OPTIMIZATION */
 
 ifneq ($(filter MT7668,$(MTK_COMBO_CHIP)),)
@@ -2851,7 +2856,8 @@ ifeq ($(CONFIG_SUPPORT_PWR_LMT_EMI), y)
 else
     ccflags-y += -DCFG_SUPPORT_PWR_LMT_EMI=0
 #ifdef OPLUS_FEATURE_WIFI_PWR_LMT
-    ccflags-y += -DOPLUS_FEATURE_WIFI_PWR_LMT
+    # camellia: not Oppo hardware
+    #ccflags-y += -DOPLUS_FEATURE_WIFI_PWR_LMT
 #endif /* OPLUS_FEATURE_WIFI_PWR_LMT */
 endif
 
