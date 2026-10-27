@@ -5270,7 +5270,8 @@ gpufreq: gpufreq {
 		/* reserved for overlay by odm */
 	};
 
-	regulator_vibrator: regulator-vibrator {
+	/* camellia: stock vendor sepolicy labels /devices/platform/regulator_vibrator/leds/vibrator */
+	regulator_vibrator: regulator_vibrator {
 		compatible = "regulator-vibrator";
 		label = "vibrator";
 		min-volt = <2800000>;
