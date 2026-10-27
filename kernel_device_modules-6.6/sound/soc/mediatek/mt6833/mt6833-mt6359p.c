@@ -48,6 +48,10 @@
  * mt6833_mt6359_spk_amp_event()
  */
 #define EXT_SPK_AMP_W_NAME "Ext_Speaker_Amp"
+
+/* camellia: FourSemi FS1815 behind LINEOUT L (camellia_fs1815) */
+void fsm_speaker_onn(void);
+void fsm_speaker_off(void);
 #if IS_ENABLED(CONFIG_SND_SOC_OPLUS_PA_MANAGER)
 #define EXT_RCV_AMP_W_NAME "Ext_Reciver_Amp"
 #endif
@@ -229,6 +233,7 @@ static int mt6833_mt6359_spk_amp_event(struct snd_soc_dapm_widget *w,
 		}
 		kspk_enable_spk_pa_state = 1;
 #endif /* OPLUS_FEATURE_SPEAKER_MUTE */
+		fsm_speaker_onn();
 #if IS_ENABLED(CONFIG_SND_SOC_OPLUS_PA_MANAGER)
 		if (rcv_amp_mode == 1) {
 			oplus_ext_amp_recv_l_enable(true);
@@ -242,6 +247,7 @@ static int mt6833_mt6359_spk_amp_event(struct snd_soc_dapm_widget *w,
 #ifdef OPLUS_FEATURE_SPEAKER_MUTE
 		kspk_enable_spk_pa_state = 0;
 #endif /* OPLUS_FEATURE_SPEAKER_MUTE */
+		fsm_speaker_off();
 #if IS_ENABLED(CONFIG_SND_SOC_OPLUS_PA_MANAGER)
 		if (rcv_amp_mode == 1) {
 			oplus_ext_amp_recv_l_enable(false);

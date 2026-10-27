@@ -618,6 +618,9 @@ static const struct snd_kcontrol_new mt6833_afe_barge_in_controls[] = {
 		       mt6833_afe_vow_barge_in_set),
 };
 
+/* camellia: FS1815 speaker PA scene / AGC controls (camellia_fs1815) */
+int fsm_add_control(struct snd_soc_component *component);
+
 int mt6833_add_misc_control(struct snd_soc_component *component)
 {
 	struct mtk_base_afe *afe = snd_soc_component_get_drvdata(component);
@@ -639,6 +642,8 @@ int mt6833_add_misc_control(struct snd_soc_component *component)
 	snd_soc_add_component_controls(component,
 					  mt6833_afe_barge_in_controls,
 					  ARRAY_SIZE(mt6833_afe_barge_in_controls));
+
+	fsm_add_control(component);
 
 	return 0;
 }

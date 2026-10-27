@@ -494,6 +494,11 @@
 };
 /* end modify*/
 
+/* camellia: the FS1815 below sits at 0x34; MTK's generic smart-PA node too */
+&speaker_amp {
+	status = "disabled";
+};
+
 /* BSP.Audio - 2020.11.11 - modify to bring up second PA */
 &i2c6 {
 	fs16xx@34 {
