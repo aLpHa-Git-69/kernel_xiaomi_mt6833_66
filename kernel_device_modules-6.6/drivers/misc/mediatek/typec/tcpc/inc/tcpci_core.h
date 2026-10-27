@@ -275,6 +275,7 @@ struct tcpc_device {
 	struct tcpc_desc desc;
 	struct device dev;
 	uint8_t wake_lock_pd;
+	bool irq_enabled;	/* camellia: tcpc_device_irq_enable() ran */
 	struct wakeup_source *attach_wake_lock;
 	struct wakeup_source *detach_wake_lock;
 

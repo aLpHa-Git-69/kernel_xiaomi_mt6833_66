@@ -376,6 +376,22 @@ skip_get_psy:
 		dev_notice(mci->dev, "Failed to run attach kthread(%d)\n", ret);
 		goto out;
 	}
+
+	/* camellia: catch up on an attach that happened before we registered */
+	for (i = 0; i < mci->nr_port; i++) {
+		switch (tcpm_inquire_typec_attach_state(mci->tcpc[i])) {
+		case TYPEC_ATTACHED_SNK:
+		case TYPEC_ATTACHED_NORP_SRC:
+		case TYPEC_ATTACHED_CUSTOM_SRC:
+		case TYPEC_ATTACHED_DBGACC_SNK:
+			dev_info(mci->dev, "%s port%d already attached\n",
+				 __func__, i);
+			handle_typec_pd_attach(mci, i, ATTACH_TYPE_TYPEC);
+			break;
+		default:
+			break;
+		}
+	}
 	dev_info(mci->dev, "%s successfully\n", __func__);
 
 	return 0;

@@ -43,6 +43,10 @@ static ssize_t tcpc_store_property(struct device *dev,
 struct class *tcpc_class;
 EXPORT_SYMBOL_GPL(tcpc_class);
 
+/* camellia: set once tcpci_late_sync has enabled the registered ports */
+bool tcpc_late_sync_done;
+EXPORT_SYMBOL_GPL(tcpc_late_sync_done);
+
 static int bootmode;
 
 static struct device_type tcpc_dev_type;
@@ -446,6 +450,10 @@ int tcpc_device_irq_enable(struct tcpc_device *tcpc)
 	}
 
 	tcpci_lock_typec(tcpc);
+	if (tcpc->irq_enabled) {
+		tcpci_unlock_typec(tcpc);
+		return 0;
+	}
 	ret = tcpci_init(tcpc, false);
 	if (ret < 0) {
 		tcpci_unlock_typec(tcpc);
@@ -454,6 +462,8 @@ int tcpc_device_irq_enable(struct tcpc_device *tcpc)
 	}
 
 	ret = tcpc_typec_init(tcpc, tcpc->desc.role_def);
+	if (ret >= 0)
+		tcpc->irq_enabled = true;
 	tcpci_unlock_typec(tcpc);
 	if (ret < 0) {
 		pr_err("%s : tcpc typec init fail\n", __func__);

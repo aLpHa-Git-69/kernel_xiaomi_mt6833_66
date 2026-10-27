@@ -71,6 +71,7 @@ static int __tcpc_class_complete_work(struct device *dev, void *data)
 
 static int __init tcpc_class_complete_init(void)
 {
+	tcpc_late_sync_done = true;
 	if (!IS_ERR(tcpc_class)) {
 		class_for_each_device(tcpc_class, NULL, NULL,
 			__tcpc_class_complete_work);

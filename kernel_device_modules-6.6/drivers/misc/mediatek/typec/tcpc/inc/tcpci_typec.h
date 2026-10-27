@@ -9,6 +9,7 @@
 
 struct tcpc_device;
 extern struct class *tcpc_class;
+extern bool tcpc_late_sync_done;
 extern bool tcpc_typec_is_act_as_sink_role(struct tcpc_device *tcpc);
 
 /******************************************************************************
