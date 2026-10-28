@@ -1690,9 +1690,37 @@ err_out:
 	return ret;
 }
 
+/*
+ * camellia: the stock 4.14 sensor HAL uses the old ABI, where every request
+ * carried one 68-byte struct ioctl_packet { type, pad[3], byte[64] }. The 6.6
+ * per-request packets are prefixes of that layout, so only the command number
+ * (which encodes the size) needs translating.
+ */
+#define HF_LEGACY_PACKET_SIZE 68
+static unsigned int hf_manager_legacy_cmd(unsigned int cmd)
+{
+	static const unsigned int map[] = {
+		[1] = HF_MANAGER_REQUEST_REGISTER_STATUS,
+		[2] = HF_MANAGER_REQUEST_BIAS_DATA,
+		[3] = HF_MANAGER_REQUEST_CALI_DATA,
+		[4] = HF_MANAGER_REQUEST_TEMP_DATA,
+		[5] = HF_MANAGER_REQUEST_TEST_DATA,
+		[6] = HF_MANAGER_REQUEST_SENSOR_INFO,
+		[7] = HF_MANAGER_REQUEST_CUST_DATA,
+		[8] = HF_MANAGER_REQUEST_READY_STATUS,
+	};
+	unsigned int nr = _IOC_NR(cmd);
+
+	if (_IOC_TYPE(cmd) == 'a' && _IOC_SIZE(cmd) == HF_LEGACY_PACKET_SIZE &&
+	    nr < ARRAY_SIZE(map) && map[nr])
+		return map[nr];
+	return cmd;
+}
+
 static long hf_manager_ioctl(struct file *filp,
 			unsigned int cmd, unsigned long arg)
 {
+	cmd = hf_manager_legacy_cmd(cmd);
 	switch (cmd) {
 	case HF_MANAGER_REQUEST_REGISTER_STATUS:
 		return hf_manager_ioctl_request_register(filp, cmd, arg);

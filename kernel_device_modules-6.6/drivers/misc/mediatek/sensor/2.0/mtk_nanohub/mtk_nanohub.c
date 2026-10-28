@@ -2436,24 +2436,12 @@ static int mtk_nanohub_report_to_manager(struct data_unit_t *data)
 		case ID_PICK_UP_GESTURE:
 		case ID_STATIONARY_DETECT:
 		case ID_WAKE_GESTURE:
-		case ID_PALM_DETECT:
 			event.timestamp = data->time_stamp;
 			event.sensor_type = id_to_type(data->sensor_type);
 			event.action = data->flush_action;
 			event.word[0] = data->smd_t.state;
 			break;
-		case ID_BACK_TAP_DETECT:
-			event.timestamp = data->time_stamp;
-			event.sensor_type = id_to_type(data->sensor_type);
-			event.action = data->flush_action;
-			event.word[0] = data->smd_t.state;
-		break;
-		case ID_ROTATION_DETECT:
-			event.timestamp = data->time_stamp;
-			event.sensor_type = id_to_type(data->sensor_type);
-			event.action = data->flush_action;
-			event.word[0] = data->smd_t.state;
-		break;
+		/* camellia: Oppo palm/back-tap/rotation detect IDs dropped (not in hf_sensor_type.h) */
 		case ID_TILT_DETECTOR:
 			event.timestamp = data->time_stamp;
 			event.sensor_type = id_to_type(data->sensor_type);
