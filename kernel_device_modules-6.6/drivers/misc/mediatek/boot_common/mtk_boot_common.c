@@ -188,9 +188,15 @@ static const struct sysfs_ops boot_sysfs_ops = {
 	.store = boot_store,
 };
 
-/* boot mode and type */
+/* boot mode and type: camerahalserver's SensorProvider reads boot_mode before using the gyro */
+static struct attribute boot_mode_attr = { .name = "boot_mode", .mode = 0444 };
+static struct attribute boot_type_attr = { .name = "boot_type", .mode = 0444 };
+static struct attribute *boot_attrs[] = { &boot_mode_attr, &boot_type_attr, NULL };
+ATTRIBUTE_GROUPS(boot);
+
 static struct kobj_type boot_ktype = {
 	.sysfs_ops = &boot_sysfs_ops,
+	.default_groups = boot_groups,
 };
 
 /* boot device node */
