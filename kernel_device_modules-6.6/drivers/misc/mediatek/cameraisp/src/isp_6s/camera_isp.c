@@ -5711,6 +5711,13 @@ static long ISP_ioctl(struct file *pFile, unsigned int Cmd, unsigned long Param)
 			Ret = -EFAULT;
 		}
 	} break;
+	case ISP_ION_IMPORT:
+	case ISP_ION_FREE:
+	case ISP_ION_FREE_BY_HWMODULE:
+		/* camellia: the 4.14 HAL keeps ION handles here only to drop them on reset;
+		 * camellia_ion holds the buffers' mappings itself, so accept as no-ops
+		 */
+		break;
 	default: {
 		LOG_NOTICE("Unknown Cmd(%d)\n", Cmd);
 		Ret = -EPERM;

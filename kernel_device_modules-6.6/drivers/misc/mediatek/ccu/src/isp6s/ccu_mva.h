@@ -16,16 +16,16 @@
 #else
 
 #endif
+/* camellia: layout of the 4.14 mt6833 driver the vendor 3A HAL was built against (no chksum) */
 struct CcuMemInfo {
-	unsigned int chksum;
 	int shareFd;
-	char *va;
 	unsigned int align_mva;
 	unsigned int mva;
 	unsigned int size;
 	unsigned int occupiedSize;
 	unsigned int cached;
 	bool ion_log;
+	char *va;
 };
 struct CcuMemHandle {
 	struct CcuMemInfo meminfo;

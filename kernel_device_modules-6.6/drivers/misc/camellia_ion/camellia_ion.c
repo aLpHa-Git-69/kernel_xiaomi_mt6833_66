@@ -374,7 +374,7 @@ static DEFINE_MUTEX(cion_dev_lock);
  * 4.14 M4U port ids are (larb << 5) | port. The buffer has to be mapped for a
  * device in the IOMMU domain the port's larb reads from (its BANK_SEL gives
  * the upper IOVA bits): larb 7 = venc, larb 2 = MDP (DpFramework in the
- * composer), larbs 0/1 = display; everything else stays on vdec.
+ * composer) and the img/cam larbs, larbs 0/1 = display; everything else stays on vdec.
  */
 static enum cion_dom cion_port_dom(int module_id)
 {
@@ -382,6 +382,16 @@ static enum cion_dom cion_port_dom(int module_id)
 	case 7:
 		return CION_VENC;
 	case 2:
+	/* img (DIP/WPE/MFB) and cam (P1/camsv) larbs share MDP's CAM/MDP 8G~12G region */
+	case 9:
+	case 11:
+	case 13:
+	case 14:
+	case 16:
+	case 17:
+	case 18:
+	case 19:
+	case 20:
 		return CION_MDP;
 	case 0:
 	case 1:

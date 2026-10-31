@@ -150,24 +150,6 @@ static irqreturn_t ccu_isr_callback_xxx(int irq, void *device_id)
 	return IRQ_HANDLED;
 }
 
-static uint32_t get_checksum(uint8_t *data, uint32_t size)
-{
-	uint32_t i, val, tv, sz, *ptr;
-
-	if (!data)
-		return 0;
-
-	sz = size >> 2;
-	ptr = (uint32_t *)data;
-	for (i = 0, val = 0; i < sz; ++i)
-		val += ptr[i];
-	for (i = size & ~3, tv = 0; i < size; ++i)
-		tv += ((uint32_t)(data[i])) << ((i & 3) << 3);
-	val = (val + tv) ^ CCU_MAGIC_CHK;
-
-	return val;
-}
-
 #ifdef CCU_QOS_SUPPORT_ENABLE
 static struct regulator *_ccu_qos_request;
 static u64 *_g_freq_steps;
@@ -1419,7 +1401,6 @@ err_attach:
 	case CCU_IOCTL_ALLOC_MEM:
 	{
 		struct CcuMemHandle handle;
-		uint32_t cs;
 
 		ret = copy_from_user(&(handle.meminfo),
 			(void *)arg, sizeof(struct CcuMemInfo));
@@ -1429,16 +1410,6 @@ err_attach:
 			ret);
 			break;
 		}
-		cs = get_checksum((uint8_t *)&(handle.meminfo.shareFd),
-			sizeof(struct CcuMemInfo) - sizeof(unsigned int));
-		if (cs != handle.meminfo.chksum) {
-			LOG_ERR(
-			"CCU_IOCTL_ALLOC_MEM checksum failed: %x\n",
-			cs);
-			ret = -EINVAL;
-			break;
-		}
-
 		ret = ccu_allocate_mem(g_ccu_device, &handle, handle.meminfo.size,
 			handle.meminfo.cached);
 		if (ret != 0) {
@@ -1455,7 +1426,6 @@ err_attach:
 	case CCU_IOCTL_DEALLOC_MEM:
 	{
 		struct CcuMemHandle handle;
-		uint32_t cs;
 
 		ret = copy_from_user(&(handle.meminfo),
 			(void *)arg, sizeof(struct CcuMemInfo));
@@ -1463,13 +1433,6 @@ err_attach:
 			LOG_ERR(
 			"CCU_IOCTL_ALLOC_MEM copy_to_user failed: %d\n",
 			ret);
-			break;
-		}
-
-		cs = get_checksum((uint8_t *)&(handle.meminfo.shareFd),
-				sizeof(struct CcuMemInfo) - sizeof(unsigned int));
-		if (cs != handle.meminfo.chksum) {
-			ret = -EINVAL;
 			break;
 		}
 
