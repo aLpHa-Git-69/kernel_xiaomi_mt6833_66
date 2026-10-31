@@ -19,6 +19,7 @@
 	#size-cells = <0>;
 	fpc_tee@0 {
 		compatible = "goodix,goodix-fp";
+		VFP-supply = <&mt_pmic_vfp_ldo_reg>;
 		reg = <0>;
 		fpc,enable-wakeup;
 		spi-max-frequency = <10000000>;
@@ -29,6 +30,8 @@
 
 &goodix_fp {
 	fpc,gpio_irq = <&pio 22 0>;
+	interrupt-parent = <&pio>;
+	interrupts = <22 IRQ_TYPE_EDGE_FALLING>;
 	pinctrl-names = "default", "reset_high", "reset_low","spi_mode";
 	pinctrl-0 = <&fingerprint_default>;
 	pinctrl-1 = <&fingerprint_reset_high>;

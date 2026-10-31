@@ -763,3 +763,16 @@
 	mediatek,larb = <&smi_larb7>;
 	clock-names = "MT_CG_VENC";
 };
+
+/* ST21NFC on i2c7 @0x08: IRQ GPIO5, reset GPIO48 (4.14 cust.dtsi + mt6833.dts nfc node) */
+&i2c7 {
+	st21nfc@8 {
+		compatible = "st,st21nfc";
+		reg = <0x08>;
+		interrupt-parent = <&pio>;
+		interrupts = <5 IRQ_TYPE_LEVEL_HIGH>;
+		irq-gpios = <&pio 5 0>;
+		reset-gpios = <&pio 48 0>;
+		status = "okay";
+	};
+};
