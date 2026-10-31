@@ -7660,9 +7660,12 @@ void oplus_imgsensor_hwcfg(void)
          oplus_sensor_power_sequence = sensor_power_sequence_23707;
           gImgEepromInfo = gImgEepromInfo_23707;
     }  else {
-         oplus_gimgsensor_sensor_list = gimgsensor_sensor_list_20181;
-         oplus_imgsensor_custom_config = imgsensor_custom_config_20181;
-         oplus_sensor_power_sequence = sensor_power_sequence_20181;
+         /* not an Oppo project (camellia): MediaTek's standard tables, i.e. the
+          * project camera_hw cfg table and the common sensor list/power sequence */
+         oplus_gimgsensor_sensor_list = gimgsensor_sensor_list;
+         oplus_imgsensor_custom_config = imgsensor_custom_config;
+         oplus_sensor_power_sequence = sensor_power_sequence;
+         oplus_platform_power_sequence = platform_power_sequence;
          gImgEepromInfo = gImgEepromInfo_20181;
     }
 }

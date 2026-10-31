@@ -6060,3 +6060,5 @@ MODULE_DESCRIPTION("Camera WPE driver");
 MODULE_AUTHOR("MM3SW5");
 MODULE_IMPORT_NS(DMA_BUF);
 MODULE_LICENSE("GPL");
+/* registers cmdq callbacks via mdp_get_group_*(), which MDP fills in at its init */
+MODULE_SOFTDEP("pre: mdp_drv_mt6833");

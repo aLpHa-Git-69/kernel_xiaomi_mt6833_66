@@ -1452,6 +1452,10 @@ enum IMGSENSOR_RETURN Oplusimgsensor_ldo_powerset(
                     IMGSENSOR_SENSOR_IDX_MAIN2 : sensor_idx;
     pcb = get_PCB_Version();
 
+    /* no Oppo external camera PMIC (e.g. camellia): every pin goes through the generic hw devices */
+    if (pmic_ldo_get_type() < 0)
+        return IMGSENSOR_RETURN_ERROR;
+
     if (is_project(23231)) {
         return Oplusimgsensor_ldo_powerset_23231(sensor_idx,pin,pwr_status);
     }

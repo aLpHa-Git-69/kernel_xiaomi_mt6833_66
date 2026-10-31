@@ -17,7 +17,8 @@ endif
 ifeq ($(CONFIG_MACH_CAMERA_MT6833),y)
 $(info sanjay -------> !!!! $(CONFIG_MACH_CAMERA_MT6833) )
 MTK_DERIVED_PLATFORM := mt6833
-CONFIG_ARCH_MTK_PROJECT := k6833v1_64
+# camellia: Xiaomi camera_project/camellian (sensors + camera_hw power table)
+CONFIG_ARCH_MTK_PROJECT := camellian
 CONFIG_MTK_PLATFORM := mt6853
 subdir-ccflags-y += -DMTK_PLATFORM_MT6833
 endif

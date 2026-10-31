@@ -1669,4 +1669,24 @@ void KD_IMGSENSOR_PROFILE_I2C(char *tag, int trans_num);
 
 #define mDELAY(ms)     mdelay(ms)
 #define uDELAY(us)       udelay(us)
+/* camellia (Xiaomi 4.14 kd_imgsensor.h) */
+#define OV8856_OFILM_FRONT_SENSOR_ID            0x885A
+#define OV8856_AAC_FRONT_SENSOR_ID              0x885B
+#define HI259H_QTECH_MACRO_SENSOR_ID            0xE1
+#define HI259H_AAC_MACRO_SENSOR_ID              (0xE1+1)
+#define OV02B10_AAC_MACRO_SENSOR_ID             0x002B
+#define OV48B_QTECH_MAIN_SENSOR_ID              0x4842
+#define OV48B_AAC_MAIN_SENSOR_ID                0x4843
+#define GC02M1B_QTECH_DEPTH_SENSOR_ID           0x02e0
+#define GC02M1B_AAC_DEPTH_SENSOR_ID             (0x02e0 + 1)
+#define SENSOR_DRVNAME_OV8856_OFILM_FRONT_MIPI_RAW    "ov8856_ofilm_front_mipi_raw"
+#define SENSOR_DRVNAME_OV8856_AAC_FRONT_MIPI_RAW      "ov8856_aac_front_mipi_raw"
+#define SENSOR_DRVNAME_HI259H_QTECH_MACRO_MIPI_RAW    "hi259h_qtech_macro_mipi_raw"
+#define SENSOR_DRVNAME_HI259H_AAC_MACRO_MIPI_RAW      "hi259h_aac_macro_mipi_raw"
+#define SENSOR_DRVNAME_OV02B10_AAC_MACRO_MIPI_RAW      "ov02b10_aac_macro_mipi_raw"
+#define SENSOR_DRVNAME_OV48B_QTECH_MAIN_MIPI_RAW     "ov48b_qtech_main_mipi_raw"
+#define SENSOR_DRVNAME_OV48B_AAC_MAIN_MIPI_RAW       "ov48b_aac_main_mipi_raw"
+#define SENSOR_DRVNAME_GC02M1B_QTECH_DEPTH_MIPI_MONO   "gc02m1b_qtech_depth_mipi_mono"
+#define SENSOR_DRVNAME_GC02M1B_AAC_DEPTH_MIPI_MONO     "gc02m1b_aac_depth_mipi_mono"
+
 #endif              /* _KD_IMGSENSOR_H */
