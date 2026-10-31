@@ -183,6 +183,14 @@ static int mtk_jpeg_querycap(struct file *file, void *priv,
 	return 0;
 }
 
+/* MediaTek-private controls the 4.14-era libJpgEncPipe sets (not in GKI v4l2-ctrls) */
+#ifndef V4L2_CID_JPEG_ENABLE_EXIF
+#define V4L2_CID_JPEG_ENABLE_EXIF (V4L2_CID_JPEG_CLASS_BASE + 5)
+#endif
+#ifndef V4L2_CID_JPEG_DST_OFFSET
+#define V4L2_CID_JPEG_DST_OFFSET (V4L2_CID_JPEG_CLASS_BASE + 6)
+#endif
+
 static int vidioc_jpeg_enc_s_ctrl(struct v4l2_ctrl *ctrl)
 {
 	struct mtk_jpeg_ctx *ctx = ctrl_to_ctx(ctrl);
@@ -197,6 +205,12 @@ static int vidioc_jpeg_enc_s_ctrl(struct v4l2_ctrl *ctrl)
 	case V4L2_CID_JPEG_ACTIVE_MARKER:
 		ctx->enable_exif = ctrl->val & V4L2_JPEG_ACTIVE_MARKER_APP1;
 		break;
+	case V4L2_CID_JPEG_ENABLE_EXIF:
+		ctx->enable_exif = ctrl->val;
+		break;
+	case V4L2_CID_JPEG_DST_OFFSET:
+		ctx->dst_offset = ctrl->val;
+		break;
 	}
 
 	return 0;
@@ -206,12 +220,30 @@ static const struct v4l2_ctrl_ops mtk_jpeg_enc_ctrl_ops = {
 	.s_ctrl = vidioc_jpeg_enc_s_ctrl,
 };
 
+static const struct v4l2_ctrl_config mtk_jpeg_enable_exif_ctrl = {
+	.ops = &mtk_jpeg_enc_ctrl_ops,
+	.id = V4L2_CID_JPEG_ENABLE_EXIF,
+	.name = "Enable Exif",
+	.type = V4L2_CTRL_TYPE_BOOLEAN,
+	.max = 1,
+	.step = 1,
+};
+
+static const struct v4l2_ctrl_config mtk_jpeg_dst_offset_ctrl = {
+	.ops = &mtk_jpeg_enc_ctrl_ops,
+	.id = V4L2_CID_JPEG_DST_OFFSET,
+	.name = "Dst Offset",
+	.type = V4L2_CTRL_TYPE_INTEGER,
+	.max = 0x0FFFFFF0,
+	.step = 1,
+};
+
 static int mtk_jpeg_enc_ctrls_setup(struct mtk_jpeg_ctx *ctx)
 {
 	const struct v4l2_ctrl_ops *ops = &mtk_jpeg_enc_ctrl_ops;
 	struct v4l2_ctrl_handler *handler = &ctx->ctrl_hdl;
 
-	v4l2_ctrl_handler_init(handler, 3);
+	v4l2_ctrl_handler_init(handler, 5);
 
 	v4l2_ctrl_new_std(handler, ops, V4L2_CID_JPEG_RESTART_INTERVAL, 0, 100,
 			  1, 0);
@@ -219,6 +251,8 @@ static int mtk_jpeg_enc_ctrls_setup(struct mtk_jpeg_ctx *ctx)
 			  100, 1, 90);
 	v4l2_ctrl_new_std(handler, ops, V4L2_CID_JPEG_ACTIVE_MARKER, 0,
 			  V4L2_JPEG_ACTIVE_MARKER_APP1, 0, 0);
+	v4l2_ctrl_new_custom(handler, &mtk_jpeg_enable_exif_ctrl, NULL);
+	v4l2_ctrl_new_custom(handler, &mtk_jpeg_dst_offset_ctrl, NULL);
 
 	if (handler->error) {
 		v4l2_ctrl_handler_free(&ctx->ctrl_hdl);
@@ -948,9 +982,9 @@ static int mtk_jpeg_qbuf(struct file *file, void *priv, struct v4l2_buffer *buf)
 			jpeg_src_buf->bs_size = buf->m.planes[0].bytesused;
 	}
 
-	if (buf->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
+	/* libJpgEncPipe passes the offset via V4L2_CID_JPEG_DST_OFFSET and leaves data_offset 0 */
+	if (buf->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE && buf->m.planes[0].data_offset)
 		ctx->dst_offset = buf->m.planes[0].data_offset;
-	}
 
 end:
 	return v4l2_m2m_qbuf(file, fh->m2m_ctx, buf);

@@ -114,7 +114,8 @@ void mtk_jpeg_set_enc_dst(struct mtk_jpeg_ctx *ctx, void __iomem *base,
 	dma_addr += ctx->dst_offset;
 	dma_addr_offset = 0;
 	dma_addr_offsetmask = dma_addr & JPEG_ENC_DST_ADDR_OFFSET_MASK;
-	size = vb2_plane_size(dst_buf, 0);
+	/* the stall address bounds the write; dst_offset is already inside the plane */
+	size = vb2_plane_size(dst_buf, 0) - min_t(size_t, ctx->dst_offset, vb2_plane_size(dst_buf, 0));
 
 	writel(dma_addr_offset & ~0xf, base + JPEG_ENC_OFFSET_ADDR);
 	writel(dma_addr_offsetmask & 0xf, base + JPEG_ENC_BYTE_OFFSET_MASK);
