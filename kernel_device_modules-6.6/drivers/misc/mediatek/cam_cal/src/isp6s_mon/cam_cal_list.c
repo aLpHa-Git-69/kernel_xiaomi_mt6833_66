@@ -4,6 +4,7 @@
  */
 
 #include <linux/kernel.h>
+#include <linux/module.h>
 #include "cam_cal_list.h"
 #include "eeprom_i2c_common_driver.h"
 #include "eeprom_i2c_custom_driver.h"
@@ -13,7 +14,47 @@
 #define MAX_EEPROM_SIZE_32K 0x8000
 #define MAX_EEPROM_SIZE_8K 0x2000
 
+/*
+ * camellia: the GC02M1B depth sensor has no EEPROM; its imgsensor driver reads
+ * the OTP (vendor + fuse id) at probe and registers a reader here, since that
+ * module loads after this one.
+ */
+static cam_cal_cmd_func camellia_gc02m1b_reader[2]; /* [0] QTech, [1] AAC */
+
+void camellia_cam_cal_set_gc02m1b_reader(unsigned int sensor_id,
+					 cam_cal_cmd_func reader)
+{
+	camellia_gc02m1b_reader[sensor_id == GC02M1B_AAC_DEPTH_SENSOR_ID] = reader;
+}
+EXPORT_SYMBOL(camellia_cam_cal_set_gc02m1b_reader);
+
+static unsigned int camellia_gc02m1b_qtech_read(struct i2c_client *client,
+	unsigned int addr, unsigned char *data, unsigned int size)
+{
+	cam_cal_cmd_func reader = camellia_gc02m1b_reader[0];
+
+	return reader ? reader(client, addr, data, size) : 0;
+}
+
+static unsigned int camellia_gc02m1b_aac_read(struct i2c_client *client,
+	unsigned int addr, unsigned char *data, unsigned int size)
+{
+	cam_cal_cmd_func reader = camellia_gc02m1b_reader[1];
+
+	return reader ? reader(client, addr, data, size) : 0;
+}
+
 struct stCAM_CAL_LIST_STRUCT g_camCalList[] = {
+	/* camellia (stock 4.14 mt6853 list) */
+	{OV48B_QTECH_MAIN_SENSOR_ID, 0xA2, Common_read_region, MAX_EEPROM_SIZE_16K},
+	{OV48B_AAC_MAIN_SENSOR_ID, 0xA2, Common_read_region, MAX_EEPROM_SIZE_16K},
+	{OV8856_OFILM_FRONT_SENSOR_ID, 0xA2, Common_read_region},
+	{OV8856_AAC_FRONT_SENSOR_ID, 0xA2, Common_read_region},
+	{HI259H_QTECH_MACRO_SENSOR_ID, 0xA4, Common_read_region},
+	{HI259H_AAC_MACRO_SENSOR_ID, 0xA4, Common_read_region},
+	{OV02B10_AAC_MACRO_SENSOR_ID, 0xA4, Common_read_region},
+	{GC02M1B_QTECH_DEPTH_SENSOR_ID, 0x37, camellia_gc02m1b_qtech_read},
+	{GC02M1B_AAC_DEPTH_SENSOR_ID, 0x37, camellia_gc02m1b_aac_read},
 	{S5K3L6_SENSOR_ID_LIJING, 0xA0, Common_read_region, MAX_EEPROM_SIZE_16K},
 	{SC800CS_SENSOR_ID_LIJING, 0xA0, Common_read_region, MAX_EEPROM_SIZE_16K},
 	{HI846_SENSOR_ID_LIJING, 0x40, Hi846_read_region, MAX_EEPROM_SIZE_16K},

@@ -800,6 +800,11 @@ static kal_int8 gc02m1b_read_general_info(int *addr, kal_uint16 addr_len, kal_ui
 	return 0;
 }
 
+/* camellia: cam_cal reads the depth OTP through this (camera_eeprom module) */
+extern void camellia_cam_cal_set_gc02m1b_reader(unsigned int sensor_id,
+	unsigned int (*reader)(struct i2c_client *, unsigned int,
+			       unsigned char *, unsigned int));
+
 unsigned int
 gc02m1b_read_otp_info(struct i2c_client *client,
 		 unsigned int addr, unsigned char *data, unsigned int size)
@@ -885,6 +890,7 @@ static kal_uint32 get_imgsensor_id(UINT32 *sensor_id)
 		*sensor_id = 0xFFFFFFFF;
 		return ERROR_SENSOR_CONNECT_FAIL;
 	}
+	camellia_cam_cal_set_gc02m1b_reader(GC02M1B_QTECH_DEPTH_SENSOR_ID, gc02m1b_read_otp_info);
 
 	while (imgsensor_info.i2c_addr_table[i] != 0xff) {
 		spin_lock(&imgsensor_drv_lock);
