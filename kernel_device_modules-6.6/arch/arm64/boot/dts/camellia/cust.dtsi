@@ -65,11 +65,6 @@
 		status = "okay";
 	};
 
-	camera_main_eeprom_mtk:camera_main_eeprom@51 {
-		compatible = "mediatek,camera_main_eeprom";
-		reg = <0x51>;
-		status = "okay";
-	};
 
 	camera_main_af_mtk:camera_main_af@0c {
 		compatible = "mediatek,camera_main_af";
@@ -98,11 +93,6 @@
 		status = "okay";
 	};
 
-	camera_sub_eeprom_mtk:camera_sub_eeprom@51 {
-		compatible = "mediatek,camera_sub_eeprom";
-		reg = <0x51>;
-		status = "okay";
-	};
 
 };
 
@@ -180,11 +170,6 @@
 		status = "okay";
 	};
 
-	camera_sub_two_eeprom_mtk:camera_sub_two_eeprom@52 {
-		compatible = "mediatek,camera_sub_two_eeprom";
-		reg = <0x52>;
-		status = "okay";
-	};
 
 };
 
