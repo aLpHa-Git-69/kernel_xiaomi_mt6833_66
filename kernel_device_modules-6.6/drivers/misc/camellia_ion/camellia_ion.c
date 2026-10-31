@@ -392,6 +392,8 @@ static enum cion_dom cion_port_dom(int module_id)
 	case 18:
 	case 19:
 	case 20:
+	case 22: /* CCU0/CCU1 pseudo larbs: CCU issues bank-2 (CAM) addresses */
+	case 23:
 		return CION_MDP;
 	case 0:
 	case 1:
