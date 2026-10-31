@@ -74,6 +74,7 @@
 	camera_main_af_mtk:camera_main_af@0c {
 		compatible = "mediatek,camera_main_af";
 		reg = <0x0c>;
+		vtp-supply = <&mt_pmic_vtp_ldo_reg>; /* VCM power (Xiaomi 4.14 used regulator "vtp") */
 		status = "okay";
 	};
 
