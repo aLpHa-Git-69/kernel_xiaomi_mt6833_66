@@ -11,6 +11,7 @@
  *
  ******************************************************************************/
 #include <linux/atomic.h>
+#include <linux/dma-buf.h>
 #include <linux/cdev.h>
 #include <linux/delay.h>
 #include <linux/device.h>
@@ -4242,6 +4243,134 @@ static inline void ISP_StopSVHW(unsigned int module)
 /*******************************************************************************
  *
  ******************************************************************************/
+/*
+ * 4.14's ENABLE_KEEP_ION_HANDLE with dma-buf references instead of ION handles: the HAL
+ * imports each output buffer per (CAM module, write DMA port) so it stays alive while
+ * the ISP may still DMA into it, even if the HAL closes its fd first. Refcounted per fd
+ * (one buffer can be split into several), dropped on free, free-by-module and last close.
+ */
+#define ISP_KEEP_MAX 128 /* 4.14 _ion_keep_max_ */
+struct isp_keep_buf {
+	int fd;
+	int ct;
+	struct dma_buf *buf;
+};
+static struct isp_keep_buf
+	isp_keep[ISP_CAMSV_START_IDX - ISP_CAM_A_IDX][_dma_max_wr_][ISP_KEEP_MAX];
+static DEFINE_MUTEX(isp_keep_lock);
+/* per session, under isp_keep_lock: imports, single frees, buffers dropped by module */
+static unsigned int isp_keep_imports, isp_keep_frees, isp_keep_module_frees;
+
+static struct isp_keep_buf *isp_keep_tbl(unsigned int dev, unsigned int port)
+{
+	if (dev < ISP_CAM_A_IDX || dev >= ISP_CAMSV_START_IDX || port >= _dma_max_wr_)
+		return NULL;
+	return isp_keep[dev - ISP_CAM_A_IDX][port];
+}
+
+static int isp_keep_import(const struct ISP_DEV_ION_NODE_STRUCT *n)
+{
+	struct isp_keep_buf *t = isp_keep_tbl(n->devNode, n->dmaPort);
+	struct dma_buf *buf;
+	int i, ret = -ENOSPC;
+
+	if (!t || n->memID <= 0) {
+		LOG_NOTICE("ion_import: bad dev(%d)dma(%d)fd(%d)\n",
+			   n->devNode, n->dmaPort, n->memID);
+		return -EFAULT;
+	}
+	buf = dma_buf_get(n->memID);
+	if (IS_ERR(buf)) {
+		LOG_NOTICE("ion_import: fd(%d) is not a dma-buf\n", n->memID);
+		return -EFAULT;
+	}
+	mutex_lock(&isp_keep_lock);
+	for (i = 0; i < ISP_KEEP_MAX; i++)
+		if (t[i].buf == buf && t[i].fd == n->memID) {
+			t[i].ct++;
+			ret = 0;
+			break;
+		}
+	if (!ret)
+		isp_keep_imports++;
+	for (i = 0; ret && i < ISP_KEEP_MAX; i++)
+		if (!t[i].buf) {
+			t[i].fd = n->memID;
+			t[i].ct = 1;
+			t[i].buf = buf;
+			buf = NULL;
+			ret = 0;
+			isp_keep_imports++;
+		}
+	mutex_unlock(&isp_keep_lock);
+	if (buf)	/* already kept, or no room */
+		dma_buf_put(buf);
+	if (ret)
+		LOG_NOTICE("ion_import: dev(%d)dma(%d) no room for fd(%d)\n",
+			   n->devNode, n->dmaPort, n->memID);
+	return ret ? -EFAULT : 0;
+}
+
+static int isp_keep_free(const struct ISP_DEV_ION_NODE_STRUCT *n)
+{
+	struct isp_keep_buf *t = isp_keep_tbl(n->devNode, n->dmaPort);
+	struct dma_buf *buf = NULL;
+	int i;
+
+	if (!t || n->memID <= 0)
+		return -EFAULT;
+	mutex_lock(&isp_keep_lock);
+	for (i = 0; i < ISP_KEEP_MAX; i++)
+		if (t[i].buf && t[i].fd == n->memID)
+			break;
+	if (i < ISP_KEEP_MAX)
+		isp_keep_frees++;
+	if (i < ISP_KEEP_MAX && --t[i].ct == 0) {
+		buf = t[i].buf;
+		t[i].buf = NULL;
+		t[i].fd = 0;
+	}
+	mutex_unlock(&isp_keep_lock);
+	if (i == ISP_KEEP_MAX) {
+		LOG_NOTICE("ion_free: dev(%d)dma(%d)fd(%d) not imported\n",
+			   n->devNode, n->dmaPort, n->memID);
+		return -EFAULT;
+	}
+	if (buf)
+		dma_buf_put(buf);
+	return 0;
+}
+
+/* returns how many buffers were still kept */
+static int isp_keep_free_module(unsigned int dev)
+{
+	unsigned int port;
+	int i, held = 0;
+
+	for (port = 0; port < _dma_max_wr_; port++) {
+		struct isp_keep_buf *t = isp_keep_tbl(dev, port);
+
+		if (!t)
+			return held;
+		mutex_lock(&isp_keep_lock);
+		for (i = 0; i < ISP_KEEP_MAX; i++) {
+			struct dma_buf *buf = t[i].buf;
+
+			if (!buf)
+				continue;
+			t[i].buf = NULL;
+			t[i].fd = 0;
+			t[i].ct = 0;
+			held++;
+			mutex_unlock(&isp_keep_lock);
+			dma_buf_put(buf);
+			mutex_lock(&isp_keep_lock);
+		}
+		mutex_unlock(&isp_keep_lock);
+	}
+	return held;
+}
+
 static long ISP_ioctl(struct file *pFile, unsigned int Cmd, unsigned long Param)
 {
 	int Ret = 0;
@@ -5712,12 +5841,34 @@ static long ISP_ioctl(struct file *pFile, unsigned int Cmd, unsigned long Param)
 		}
 	} break;
 	case ISP_ION_IMPORT:
-	case ISP_ION_FREE:
-	case ISP_ION_FREE_BY_HWMODULE:
-		/* camellia: the 4.14 HAL keeps ION handles here only to drop them on reset;
-		 * camellia_ion holds the buffers' mappings itself, so accept as no-ops
-		 */
-		break;
+	case ISP_ION_FREE: {
+		struct ISP_DEV_ION_NODE_STRUCT IonNode;
+
+		if (copy_from_user(&IonNode, (void __user *)Param, sizeof(IonNode))) {
+			Ret = -EFAULT;
+			break;
+		}
+		Ret = Cmd == ISP_ION_IMPORT ? isp_keep_import(&IonNode) :
+					      isp_keep_free(&IonNode);
+	} break;
+	case ISP_ION_FREE_BY_HWMODULE: {
+		unsigned int module;
+
+		if (copy_from_user(&module, (void __user *)Param, sizeof(module))) {
+			Ret = -EFAULT;
+			break;
+		}
+		if (module < ISP_CAM_A_IDX || module >= ISP_CAMSV_START_IDX) {
+			LOG_NOTICE("ion free by module: module error(%d)\n", module);
+			Ret = -EFAULT;
+			break;
+		}
+		Ret = isp_keep_free_module(module);
+		mutex_lock(&isp_keep_lock);
+		isp_keep_module_frees += Ret;
+		mutex_unlock(&isp_keep_lock);
+		Ret = 0;
+	} break;
 	default: {
 		LOG_NOTICE("Unknown Cmd(%d)\n", Cmd);
 		Ret = -EPERM;
@@ -6284,6 +6435,19 @@ static int ISP_release(struct inode *pInode, struct file *pFile)
 
 	/* reset backup regs */
 	memset(g_BkReg, 0, sizeof(struct _isp_bk_reg_t) * ISP_IRQ_TYPE_AMOUNT);
+
+	/* HW is stopped: drop the buffers kept for its DMA (4.14 freed its ION handles here) */
+	{
+		int held = 0;
+
+		for (i = ISP_CAM_A_IDX; i < ISP_CAMSV_START_IDX; i++)
+			held += isp_keep_free_module(i);
+		mutex_lock(&isp_keep_lock);
+		LOG_INF("kept buffers: %u imported, %u freed, %u freed by module, %d still held at close\n",
+			isp_keep_imports, isp_keep_frees, isp_keep_module_frees, held);
+		isp_keep_imports = isp_keep_frees = isp_keep_module_frees = 0;
+		mutex_unlock(&isp_keep_lock);
+	}
 
 	/* reset secure cam info */
 	if (sec_on) {
@@ -11876,3 +12040,4 @@ module_exit(ISP_Exit);
 MODULE_DESCRIPTION("Camera ISP driver");
 MODULE_AUTHOR("SW7");
 MODULE_LICENSE("GPL");
+MODULE_IMPORT_NS(DMA_BUF);
