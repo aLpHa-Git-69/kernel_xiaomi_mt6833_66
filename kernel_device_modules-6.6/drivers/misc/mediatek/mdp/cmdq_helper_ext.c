@@ -4759,8 +4759,10 @@ void cmdq_core_initialize(void)
 
 	atomic_set(&cmdq_thread_usage, 0);
 
-	cmdq_group_cb = kcalloc(cmdq_mdp_get_func()->getGroupMax(),
-		sizeof(struct CmdqCBkStruct), GFP_KERNEL);
+	/* may already hold callbacks registered before probe, see cmdq_init() */
+	if (!cmdq_group_cb)
+		cmdq_group_cb = kcalloc(cmdq_mdp_get_func()->getGroupMax(),
+			sizeof(struct CmdqCBkStruct), GFP_KERNEL);
 
 	cmdq_wait_queue = kcalloc(max_thread_count, sizeof(*cmdq_wait_queue),
 		GFP_KERNEL);

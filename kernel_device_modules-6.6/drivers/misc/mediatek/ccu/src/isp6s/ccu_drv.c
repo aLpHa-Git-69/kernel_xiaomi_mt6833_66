@@ -1608,6 +1608,38 @@ static int ccu_read_platform_info_from_dt(struct device_node
 	return ret;
 }
 
+#ifdef CCU_QOS_SUPPORT_ENABLE
+/* needs the probed device; module init can run while probe is deferred (first stage) */
+static void ccu_freq_steps_init(void)
+{
+	int fi = 0;
+	unsigned long freq = 0;
+	struct dev_pm_opp *opp = NULL;
+
+	if (_g_freq_steps)
+		return;
+	/*Call pm_qos_add_request when initialize module or driver prob*/
+	dev_pm_opp_of_add_table(g_ccu_device->dev);
+	_ccu_qos_request = devm_regulator_get(g_ccu_device->dev,
+		"dvfsrc-vcore");
+
+	/*Call mmdvfs_qos_get_freq_steps to get supported frequency*/
+	_step_size = dev_pm_opp_get_opp_count(g_ccu_device->dev);
+	_g_freq_steps = kcalloc(_step_size, sizeof(u64), GFP_KERNEL);
+
+	while (!IS_ERR(opp = dev_pm_opp_find_freq_ceil(g_ccu_device->dev,
+		&freq))) {
+		_g_freq_steps[fi] = freq;
+		freq++;
+		fi++;
+		dev_pm_opp_put(opp);
+	}
+
+	if (fi == 0)
+		LOG_ERR("get MMDVFS freq steps failed\n");
+}
+#endif
+
 static int ccu_probe(struct platform_device *pdev)
 {
 #if IS_ENABLED(CONFIG_OF)
@@ -1868,6 +1900,9 @@ EXIT:
 		}
 
 		ccu_init_hw(g_ccu_device);
+#ifdef CCU_QOS_SUPPORT_ENABLE
+		ccu_freq_steps_init();
+#endif
 
 		LOG_INF_MUST("ccu probe succeed...\n");
 
@@ -1966,11 +2001,6 @@ static int ccu1_resume(struct platform_device *pdev)
  *****************************************************************************/
 static int __init CCU_INIT(void)
 {
-#ifdef CCU_QOS_SUPPORT_ENABLE
-	int fi = 0;
-	unsigned long freq = 0;
-	struct dev_pm_opp *opp = NULL;
-#endif
 	/*struct device_node *node = NULL;*/
 
 	g_ccu_device = kzalloc(sizeof(struct ccu_device_s), GFP_KERNEL);
@@ -1998,27 +2028,6 @@ static int __init CCU_INIT(void)
 		return -ENODEV;
 	}
 
-#ifdef CCU_QOS_SUPPORT_ENABLE
-	/*Call pm_qos_add_request when initialize module or driver prob*/
-	dev_pm_opp_of_add_table(g_ccu_device->dev);
-	_ccu_qos_request = devm_regulator_get(g_ccu_device->dev,
-		"dvfsrc-vcore");
-
-	/*Call mmdvfs_qos_get_freq_steps to get supported frequency*/
-	_step_size = dev_pm_opp_get_opp_count(g_ccu_device->dev);
-	_g_freq_steps = kcalloc(_step_size, sizeof(u64), GFP_KERNEL);
-
-	while (!IS_ERR(opp = dev_pm_opp_find_freq_ceil(g_ccu_device->dev,
-		&freq))) {
-		_g_freq_steps[fi] = freq;
-		freq++;
-		fi++;
-		dev_pm_opp_put(opp);
-	}
-
-	if (fi == 0)
-		LOG_ERR("get MMDVFS freq steps failed\n");
-#endif
 
 	return 0;
 }

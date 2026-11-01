@@ -1274,6 +1274,16 @@ static int __init cmdq_init(void)
 	cmdq_mdp_virtual_function_setting();
 	cmdq_mdp_platform_function_setting();
 
+	/*
+	 * DIP/WPE register their group callbacks from module init, which can run while
+	 * our probe is still deferred; the table must exist before then (probe keeps it)
+	 */
+	if (!cmdq_group_cb)
+		cmdq_group_cb = kcalloc(cmdq_mdp_get_func()->getGroupMax(),
+			sizeof(struct CmdqCBkStruct), GFP_KERNEL);
+	if (!cmdq_group_cb)
+		return -ENOMEM;
+
 	status = platform_driver_register(&gCmdqDriver);
 	if (status != 0) {
 		CMDQ_ERR("Failed to register the CMDQ driver(%d)\n", status);

@@ -7,6 +7,7 @@
 #include <linux/module.h>
 #include <linux/regulator/consumer.h>
 #include <linux/sched/clock.h>
+#include <linux/uidgid.h>
 #include <soc/mediatek/mmdvfs_v3.h>
 #include "mmqos-mtk.h"
 #include "mtk-mmdvfs-debug.h"
@@ -371,7 +372,9 @@ static ssize_t camera_max_bw_store(struct device *dev,
 	return count;
 }
 
-static DEVICE_ATTR_WO(camera_max_bw);
+/* camellia: 0220 root:camera, see mtk_mmqos_register_hrt_sysfs() */
+static struct device_attribute dev_attr_camera_max_bw =
+	__ATTR(camera_max_bw, 0220, NULL, camera_max_bw_store);
 
 void mtk_mmqos_init_hrt(struct mmqos_hrt *hrt)
 {
@@ -400,7 +403,16 @@ static struct attribute_group mmqos_hrt_sysfs_attr_group = {
 
 int mtk_mmqos_register_hrt_sysfs(struct device *dev)
 {
-	return sysfs_create_group(&dev->kobj, &mmqos_hrt_sysfs_attr_group);
+	int ret = sysfs_create_group(&dev->kobj, &mmqos_hrt_sysfs_attr_group);
+
+	/*
+	 * camellia: the 4.14 vendor rc never chowns these for camerahalserver (BWC votes
+	 * camera HRT bandwidth here); give them to AID_CAMERA so the group bit applies
+	 */
+	if (!ret)
+		sysfs_group_change_owner(&dev->kobj, &mmqos_hrt_sysfs_attr_group,
+					 GLOBAL_ROOT_UID, KGIDT_INIT(1006));
+	return ret;
 }
 EXPORT_SYMBOL_GPL(mtk_mmqos_register_hrt_sysfs);
 

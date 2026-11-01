@@ -7244,6 +7244,11 @@ static signed int DIP_probe(struct platform_device *pDev)
 		return -ENXIO;
 	}
 
+	/* slots are indexed by dip_of_ids order; first-stage loading can probe them out of
+	 * DT order (IOMMU/larb deferrals), so wait for the earlier ones */
+	if (of_match_node(dip_of_ids, pDev->dev.of_node) - dip_of_ids != nr_dip_devs)
+		return -EPROBE_DEFER;
+
 	nr_dip_devs += 1;
 
 	if (sizeof(struct dip_device) * nr_dip_devs == 0) {
