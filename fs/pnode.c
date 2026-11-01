@@ -443,6 +443,37 @@ int propagate_mount_busy(struct mount *mnt, int refcnt)
 }
 
 /*
+ * Give @mnt's copies in other namespaces @mnt's idmap, so a per-mount remount
+ * (super_operations->remount_mnt, sdcardfs views) is seen everywhere, as Android's
+ * 4.14 propagate_remount() did. The copies are the mounts at the same mountpoint in
+ * the propagation tree of @mnt's parent; @mnt's own peers can't be used: a bind of a
+ * shared mount joins its source's peer group, so sibling views are peers too.
+ *
+ * namespace_sem and mount_lock (for write) must be held.
+ */
+void propagate_mnt_idmap(struct mount *mnt)
+{
+	struct mount *parent = mnt->mnt_parent;
+	struct mnt_idmap *idmap = mnt_idmap(&mnt->mnt);
+	struct mount *m, *child;
+
+	if (parent == mnt)
+		return;
+	for (m = propagation_next(parent, parent); m; m = propagation_next(m, parent)) {
+		struct mnt_idmap *old;
+
+		child = __lookup_mnt(&m->mnt, mnt->mnt_mountpoint);
+		if (!child || child == mnt || child->mnt.mnt_sb != mnt->mnt.mnt_sb ||
+		    child->mnt.mnt_root != mnt->mnt.mnt_root)
+			continue;
+		old = mnt_idmap(&child->mnt);
+		/* pairs with smp_load_acquire() in mnt_idmap(); old is nop or a live view */
+		smp_store_release(&child->mnt.mnt_idmap, mnt_idmap_get(idmap));
+		mnt_idmap_put(old);
+	}
+}
+
+/*
  * Clear MNT_LOCKED when it can be shown to be safe.
  *
  * mount_lock lock must be held for write

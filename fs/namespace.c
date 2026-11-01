@@ -2870,6 +2870,28 @@ static int do_remount(struct path *path, int ms_flags, int sb_flags,
 	if (!can_change_locked_flags(mnt, mnt_flags))
 		return -EPERM;
 
+	if (sb->s_op->remount_mnt) {
+		down_write(&sb->s_umount);
+		err = -EPERM;
+		if (ns_capable(sb->s_user_ns, CAP_SYS_ADMIN)) {
+			err = sb->s_op->remount_mnt(path->mnt, data);
+			if (!err) {
+				lock_mount_hash();
+				set_mount_attributes(mnt, mnt_flags);
+				unlock_mount_hash();
+			}
+		}
+		up_write(&sb->s_umount);
+		if (!err) {
+			namespace_lock();
+			lock_mount_hash();
+			propagate_mnt_idmap(mnt);
+			unlock_mount_hash();
+			namespace_unlock();
+		}
+		return err;
+	}
+
 	fc = fs_context_for_reconfigure(path->dentry, sb_flags, MS_RMT_MASK);
 	if (IS_ERR(fc))
 		return PTR_ERR(fc);

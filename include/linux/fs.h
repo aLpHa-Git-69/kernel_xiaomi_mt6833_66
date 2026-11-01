@@ -2082,6 +2082,11 @@ struct super_operations {
 	long (*free_cached_objects)(struct super_block *,
 				    struct shrink_control *);
 	void (*shutdown)(struct super_block *sb);
+	/*
+	 * Legacy remount of one mount (e.g. a bind) with per-mount options, instead of
+	 * reconfiguring the shared superblock. sdcardfs uses it for vold's views.
+	 */
+	int (*remount_mnt)(struct vfsmount *mnt, char *data);
 };
 
 /*
