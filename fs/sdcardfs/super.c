@@ -263,11 +263,12 @@ static void sdcardfs_umount_begin(struct super_block *sb)
 		lower_sb->s_op->umount_begin(lower_sb);
 }
 
-static int sdcardfs_show_options(struct seq_file *m, struct dentry *root)
+/* per mount: each view shows its own gid/mask */
+static int sdcardfs_show_options(struct seq_file *m, struct vfsmount *mnt)
 {
-	struct sdcardfs_sb_info *sbi = SDCARDFS_SB(root->d_sb);
+	struct sdcardfs_sb_info *sbi = SDCARDFS_SB(mnt->mnt_sb);
 	struct sdcardfs_mount_options *opts = &sbi->options;
-	struct sdcardfs_vfsmount_options *vfsopts = &sbi->vfsopts;
+	const struct sdcardfs_vfsmount_options *vfsopts = view_opts(mnt->mnt_sb, mnt_idmap(mnt));
 
 	if (opts->fs_low_uid != 0)
 		seq_printf(m, ",fsuid=%u", opts->fs_low_uid);
@@ -295,13 +296,30 @@ static int sdcardfs_show_options(struct seq_file *m, struct dentry *root)
 	return 0;
 };
 
+int sdcardfs_on_fscrypt_key_removed(struct notifier_block *nb,
+				    unsigned long action, void *data)
+{
+	struct sdcardfs_sb_info *sbi = container_of(nb, struct sdcardfs_sb_info,
+						    fscrypt_nb);
+
+	/*
+	 * Evict any unused sdcardfs dentries (and hence any unused sdcardfs
+	 * inodes, since sdcardfs doesn't cache unpinned inodes by themselves)
+	 * so that the lower filesystem's encrypted inodes can be evicted.
+	 * This is needed to make the FS_IOC_REMOVE_ENCRYPTION_KEY ioctl
+	 * properly "lock" the files underneath the sdcardfs mount.
+	 */
+	shrink_dcache_sb(sbi->sb);
+	return NOTIFY_OK;
+}
+
 const struct super_operations sdcardfs_sops = {
 	.put_super	= sdcardfs_put_super,
 	.statfs		= sdcardfs_statfs,
 	.remount_mnt	= sdcardfs_remount_mnt,
 	.evict_inode	= sdcardfs_evict_inode,
 	.umount_begin	= sdcardfs_umount_begin,
-	.show_options	= sdcardfs_show_options,
+	.show_mnt_options = sdcardfs_show_options,
 	.alloc_inode	= sdcardfs_alloc_inode,
 	.destroy_inode	= sdcardfs_destroy_inode,
 	.drop_inode	= generic_delete_inode,

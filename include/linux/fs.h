@@ -2087,6 +2087,8 @@ struct super_operations {
 	 * reconfiguring the shared superblock. sdcardfs uses it for vold's views.
 	 */
 	int (*remount_mnt)(struct vfsmount *mnt, char *data);
+	/* show_options() for one mount, for per-mount options (see remount_mnt) */
+	int (*show_mnt_options)(struct seq_file *, struct vfsmount *);
 };
 
 /*
