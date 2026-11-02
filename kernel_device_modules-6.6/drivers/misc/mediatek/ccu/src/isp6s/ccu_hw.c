@@ -299,7 +299,9 @@ static int ccu_enque_cmd_loop(void *arg)
 		LOG_DBG("wait for ccu_dev->cmd_wait\n");
 		add_wait_queue(&ccu_dev->cmd_wait, &wait);
 		while (1) {
-			if (!users_queue_is_empty()) {
+			/* kthread_stop() only wakes us: without this check an empty queue
+			 * puts the thread back to sleep and rmmod hangs in ccu_uninit_hw() */
+			if (!users_queue_is_empty() || kthread_should_stop()) {
 				LOG_DBG("awake & condition pass\n");
 				break;
 			}
@@ -309,6 +311,8 @@ static int ccu_enque_cmd_loop(void *arg)
 			LOG_DBG("awake for ccu_dev->cmd_wait\n");
 		}
 		remove_wait_queue(&ccu_dev->cmd_wait, &wait);
+		if (kthread_should_stop())
+			break;
 
 		ccu_lock_user_mutex();
 
@@ -438,9 +442,6 @@ int ccu_uninit_hw(struct ccu_device_s *device)
 		kthread_stop(enque_task);
 		enque_task = NULL;
 	}
-
-	flush_workqueue(ap_task_manage.ApTaskWorkQueue);
-	destroy_workqueue(ap_task_manage.ApTaskWorkQueue);
 
 	return 0;
 }
