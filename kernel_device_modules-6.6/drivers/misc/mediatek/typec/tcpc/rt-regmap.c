@@ -1486,6 +1486,11 @@ static int rt_regmap_check(struct rt_regmap_device *rd)
 	return 0;
 }
 
+static void rt_regmap_dev_release(struct device *dev)
+{
+	kfree(container_of(dev, struct rt_regmap_device, dev));
+}
+
 struct rt_regmap_device *rt_regmap_device_register_ex
 			(struct rt_regmap_properties *props,
 			 struct rt_regmap_fops *rops,
@@ -1512,6 +1517,7 @@ struct rt_regmap_device *rt_regmap_device_register_ex
 	memcpy(&rd->props, props, sizeof(rd->props));
 	rd->rops = rops;
 	rd->dev.parent = parent;
+	rd->dev.release = rt_regmap_dev_release;
 	dev_set_drvdata(&rd->dev, drvdata);
 	rd->client = client;
 	sema_init(&rd->semaphore, 1);
@@ -1530,7 +1536,8 @@ struct rt_regmap_device *rt_regmap_device_register_ex
 	ret = device_register(&rd->dev);
 	if (ret) {
 		pr_notice("%s device register fail(%d)\n", __func__, ret);
-		goto out;
+		put_device(&rd->dev);
+		return NULL;
 	}
 
 	rd->err_msg = devm_kzalloc(&rd->dev, ERR_MSG_SIZE, GFP_KERNEL);
@@ -1582,6 +1589,7 @@ err_debug:
 err_cacheinit:
 err_msgalloc:
 	device_unregister(&rd->dev);
+	return NULL;
 out:
 	kfree(rd);
 	return NULL;
@@ -1600,7 +1608,6 @@ void rt_regmap_device_unregister(struct rt_regmap_device *rd)
 	debugfs_remove_recursive(rd->rt_den);
 #endif /* CONFIG_DEBUG_FS */
 	device_unregister(&rd->dev);
-	kfree(rd);
 }
 EXPORT_SYMBOL(rt_regmap_device_unregister);
 

@@ -19,7 +19,6 @@
 #include <musb_debug.h>
 #include <musb_dr.h>
 
-#define PROC_DIR_MTK_USB "mtk_usb"
 #define PROC_FILE_REGDUMP "mtk_usb/regdump"
 #define PROC_FILE_TESTMODE "mtk_usb/testmode"
 #define PROC_FILE_REGW "mtk_usb/regw"
@@ -583,7 +582,7 @@ int musb_init_debugfs(struct musb *musb)
 {
 	int ret, idx = 0;
 
-	proc_mkdir(PROC_DIR_MTK_USB, NULL);
+	/* /proc/mtk_usb is created by the PHY driver, which probes first */
 
 	proc_files[idx] = proc_create_data(PROC_FILE_REGDUMP, 0444,
 			NULL, &musb_regdump_fops, musb);
@@ -758,7 +757,7 @@ void musb_dr_debugfs_init(struct musb *musb)
 {
 	int idx = 0;
 
-	proc_mkdir(PROC_DIR_MTK_USB, NULL);
+	/* /proc/mtk_usb is created by the PHY driver, which probes first */
 
 	proc_dr_files[idx++] = proc_create_data(PROC_FILE_MODE, 0644,
 			NULL, &musb_mode_fops, musb);
