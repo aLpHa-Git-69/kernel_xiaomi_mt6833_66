@@ -1776,7 +1776,7 @@ static kal_uint32 feature_control(MSDK_SENSOR_FEATURE_ENUM feature_id,
 	struct SET_PD_BLOCK_INFO_T *PDAFinfo;
 #endif
 
-	LOG_INF("feature_id = %d\n", feature_id);
+	pr_debug(PFX "[%s] feature_id = %d\n", __func__, feature_id);
 	switch (feature_id) {
 	case SENSOR_FEATURE_GET_ANA_GAIN_TABLE:
 		if ((void *)(uintptr_t) (*(feature_data + 1)) == NULL

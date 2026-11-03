@@ -11,7 +11,6 @@ subdir-ccflags-y += \
 	-I$(DEVICE_MODULES_PATH)/drivers/misc/mediatek/ccu/inc \
 	-I$(DEVICE_MODULES_PATH)/drivers/misc/mediatek/imgsensor/inc \
 	-I$(DEVICE_MODULES_PATH)/drivers/misc/mediatek/cam_cal/inc \
-	-DDEBUG \
 
 ifeq ($(CONFIG_MACH_CAMERA_MT6877),y)
 MTK_PLATFORM := mt6853

@@ -1767,7 +1767,7 @@ static kal_uint32 feature_control(MSDK_SENSOR_FEATURE_ENUM feature_id,
 	struct SET_PD_BLOCK_INFO_T *PDAFinfo;
 #endif
 
-	LOG_INF("feature_id = %d\n", feature_id);
+	pr_debug(PFX "[%s] feature_id = %d\n", __func__, feature_id);
 	switch (feature_id) {
 	/*ITS sensor_fusion: Best correlation of 0.000011 at shift of 3.35ms*/
 	/*default shift is 3,the current shift is (3+3.35)*1000000*/

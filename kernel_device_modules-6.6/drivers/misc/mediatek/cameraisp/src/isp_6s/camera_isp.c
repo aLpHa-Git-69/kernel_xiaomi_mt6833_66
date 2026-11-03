@@ -882,10 +882,10 @@ static bool g_is_dumping[ISP_DEV_NODE_NUM] = {0};
 						ptr[NORMAL_STR_LEN*(i+1) - 1] =\
 							'\0';\
 						\
-						LOG_INF("%s",\
+						LOG_VRB("%s",\
 						    &ptr[NORMAL_STR_LEN*i]);\
 					} else {\
-						LOG_INF("%s",\
+						LOG_VRB("%s",\
 						    &ptr[NORMAL_STR_LEN*i]);\
 						break;\
 					} \
