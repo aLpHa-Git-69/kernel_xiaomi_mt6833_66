@@ -20,7 +20,7 @@
 #include "ged.h"
 
 #ifndef CONFIG_MTK_GPU_LEGACY
-#include <gpufreq_v2.h>
+#include <mtk_gpufreq.h>
 #endif /* CONFIG_MTK_GPU_LEGACY */
 
 
