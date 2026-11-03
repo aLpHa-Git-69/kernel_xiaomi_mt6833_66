@@ -2867,8 +2867,8 @@ err_register_drm_panel_notif_failed:
 	if (msm_drm_unregister_client(&ts->drm_notif))
 		NVT_ERR("Error occurred while unregistering drm_notifier.\n");
 err_register_drm_notif_failed:*/
-//#elif defined(CONFIG_FB)
-#if defined(CONFIG_FB)
+#if defined(CONFIG_DRM_MEDIATEK_V2)
+#elif defined(CONFIG_FB)
 	if (fb_unregister_client(&ts->fb_notif))
 		NVT_ERR("Error occurred while unregistering fb_notifier.\n");
 err_register_fb_notif_failed:

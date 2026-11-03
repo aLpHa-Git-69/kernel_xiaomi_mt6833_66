@@ -185,6 +185,10 @@ struct tag_chipid {
 
 struct mtk_drm_private {
 	struct drm_device *drm;
+#ifdef CONFIG_DRM_FBDEV_EMULATION
+	struct drm_fb_helper fb_helper;
+	struct drm_gem_object *fbdev_bo;
+#endif
 	struct device *dma_dev;
 	struct device *mmsys_dev;
 	struct device *side_mmsys_dev;

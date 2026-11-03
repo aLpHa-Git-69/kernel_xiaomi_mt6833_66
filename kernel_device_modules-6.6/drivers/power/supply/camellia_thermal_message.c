@@ -184,6 +184,9 @@ static int screen_state_notifier(struct notifier_block *nb, unsigned long event,
 		WRITE_ONCE(screen_state, 0);
 	else if (*blank == MTK_DISP_BLANK_UNBLANK)
 		WRITE_ONCE(screen_state, 1);
+	else
+		return NOTIFY_DONE;
+	sysfs_notify(&tm_dev->kobj, NULL, "screen_state");
 	return NOTIFY_DONE;
 }
 

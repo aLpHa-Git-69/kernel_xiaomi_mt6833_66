@@ -41,6 +41,7 @@
 #include "mtk_drm_debugfs.h"
 #include "mtk_drm_drv.h"
 #include "mtk_drm_fb.h"
+#include "mtk_drm_fbdev.h"
 #include "mtk_drm_gem.h"
 #include "mtk_drm_session.h"
 #include "mtk_fence.h"
@@ -9412,6 +9413,9 @@ static void mtk_drm_kms_lateinit(struct kthread_work *work)
 	/* Load emi efficiency table for ovl bandwidht monitor */
 	if (private->data->need_emi_eff)
 		mtk_drm_init_emi_eff_table(drm);
+
+	if (mtk_fbdev_init(drm))
+		DDPPR_ERR("%s: fbdev init failed\n", __func__);
 
 	mtk_drm_first_enable(drm);
 
