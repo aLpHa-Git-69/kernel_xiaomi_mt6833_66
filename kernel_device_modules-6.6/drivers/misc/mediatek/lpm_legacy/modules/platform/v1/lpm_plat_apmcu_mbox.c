@@ -20,6 +20,14 @@
 
 #include <lpm_module.h>
 
+#if IS_ENABLED(CONFIG_MTK_LPM_MT6833)
+/* mt6833: cpu/mcusys power-down handshake goes to MCUPM mailbox, as on 4.14 */
+#include <mcupm_driver.h>
+#define LP_MBOX MBOX_MCUPM
+#else
+#define LP_MBOX MBOX_SSPM
+#endif
+
 struct lpm_apmcu_mbox {
 	unsigned int ap_ready;
 	unsigned int reserved1;
@@ -129,29 +137,47 @@ static void apmcu_sspm_mailbox_read(int id, int *buf, unsigned int len)
 #endif
 }
 
+#if IS_ENABLED(CONFIG_MTK_LPM_MT6833)
+static void apmcu_mcupm_mailbox_write(int id, int *buf, unsigned int len)
+{
+	mcupm_mbox_write(APMCU_MCUPM_MBOX_ID, id, (void *)buf, len);
+}
+
+static void apmcu_mcupm_mailbox_read(int id, int *buf, unsigned int len)
+{
+	mcupm_mbox_read(APMCU_MCUPM_MBOX_ID, id, (void *)buf, len);
+}
+#endif
+
 static struct mbox_ops mbox[NF_MBOX] = {
 	[MBOX_SSPM] = {
 		.write = apmcu_sspm_mailbox_write,
 		.read = apmcu_sspm_mailbox_read
-	}
+	},
+#if IS_ENABLED(CONFIG_MTK_LPM_MT6833)
+	[MBOX_MCUPM] = {
+		.write = apmcu_mcupm_mailbox_write,
+		.read = apmcu_mcupm_mailbox_read
+	},
+#endif
 };
 
 static void mtk_lp_apmcu_pwr_ctrl_setting(int dev)
 {
-	mbox[MBOX_SSPM].write(APMCU_MCUPM_MBOX_PWR_CTRL_EN, &dev, 1);
+	mbox[LP_MBOX].write(APMCU_MCUPM_MBOX_PWR_CTRL_EN, &dev, 1);
 }
 
 void mtk_set_lp_apmcu_pll_mode(unsigned int mode)
 {
 	if (mode < NF_MCUPM_ARMPLL_MODE)
-		mbox[MBOX_SSPM].write(APMCU_MCUPM_MBOX_ARMPLL_MODE, &mode, 1);
+		mbox[LP_MBOX].write(APMCU_MCUPM_MBOX_ARMPLL_MODE, &mode, 1);
 }
 EXPORT_SYMBOL(mtk_set_lp_apmcu_pll_mode);
 
 void mtk_set_lp_apmcu_buck_mode(unsigned int mode)
 {
 	if (mode < NF_MCUPM_BUCK_MODE)
-		mbox[MBOX_SSPM].write(APMCU_MCUPM_MBOX_BUCK_MODE, &mode, 1);
+		mbox[LP_MBOX].write(APMCU_MCUPM_MBOX_BUCK_MODE, &mode, 1);
 }
 EXPORT_SYMBOL(mtk_set_lp_apmcu_buck_mode);
 
@@ -159,7 +185,7 @@ bool mtk_lp_apmcu_is_ready(void)
 {
 	int sta = MCUPM_TASK_INIT_FINISH;
 
-	mbox[MBOX_SSPM].read(APMCU_MCUPM_MBOX_TASK_STA, &sta, 1);
+	mbox[LP_MBOX].read(APMCU_MCUPM_MBOX_TASK_STA, &sta, 1);
 
 	return sta == MCUPM_TASK_WAIT || sta == MCUPM_TASK_INIT_FINISH;
 }
@@ -167,7 +193,7 @@ bool mtk_lp_apmcu_is_ready(void)
 void mtk_wait_mbox_init_done(void)
 {
 	int sta = MCUPM_TASK_UNINIT;
-#if IS_ENABLED(CONFIG_MTK_TINYSYS_SSPM_SUPPORT)
+#if IS_ENABLED(CONFIG_MTK_TINYSYS_SSPM_SUPPORT) && !IS_ENABLED(CONFIG_MTK_LPM_MT6833)
 	int ret = 0;
 	struct lpm_apmcu_ipi_data d_lpm_apmcu_ipi = {
 					.ipi_id = APMCU_PM_IPI_UID_MCDI,
@@ -175,7 +201,7 @@ void mtk_wait_mbox_init_done(void)
 					.type = MCDI_IPI_SHARE_SRAM_INFO_GET};
 #endif
 	while (1) {
-
+#if !IS_ENABLED(CONFIG_MTK_LPM_MT6833)
 		if (!lpm_apmcu_mbox_data) {
 #if IS_ENABLED(CONFIG_MTK_TINYSYS_SSPM_SUPPORT)
 			if (!is_sspm_ready()) {
@@ -198,7 +224,8 @@ void mtk_wait_mbox_init_done(void)
 			}
 #endif
 		} else
-			mbox[MBOX_SSPM].read(APMCU_MCUPM_MBOX_TASK_STA, &sta, 1);
+#endif
+			mbox[LP_MBOX].read(APMCU_MCUPM_MBOX_TASK_STA, &sta, 1);
 
 		if (sta == MCUPM_TASK_INIT)
 			break;
@@ -219,9 +246,13 @@ void mtk_wait_mbox_init_done(void)
 
 void mtk_notify_subsys_ap_ready(void)
 {
+#if IS_ENABLED(CONFIG_MTK_LPM_MT6833) && IS_ENABLED(CONFIG_DEVICE_MODULES_MFD_MT6360)
+	int ready = 0x6360;	/* MCUPM then drives the MT6360 bucks, as on 4.14 */
+#else
 	int ready = 1;
+#endif
 
-	mbox[MBOX_SSPM].write(APMCU_MCUPM_MBOX_AP_READY, &ready, 1);
+	mbox[LP_MBOX].write(APMCU_MCUPM_MBOX_AP_READY, &ready, 1);
 }
 
 int mtk_apmcu_mbox_init(void)

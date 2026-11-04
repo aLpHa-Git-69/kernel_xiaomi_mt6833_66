@@ -16,7 +16,9 @@
 #include <lpm.h>
 
 #include <lpm_plat_apmcu.h>
-#if IS_ENABLED(CONFIG_MTK_LPM_MT6781)
+/* MCUPM ready/AP-ready handshake before allowing cpu/mcusys off */
+#define LPM_PLAT_MCU_HANDSHAKE (IS_ENABLED(CONFIG_MTK_LPM_MT6781) || IS_ENABLED(CONFIG_MTK_LPM_MT6833))
+#if LPM_PLAT_MCU_HANDSHAKE
 #include <lpm_plat_apmcu_mbox.h>
 #endif
 #include <lpm_module.h>
@@ -27,7 +29,7 @@ void __iomem *cpu_pm_syssram_base;
 
 #define plat_node_ready()       (cpu_pm_mcusys_base && cpu_pm_syssram_base)
 
-#if IS_ENABLED(CONFIG_MTK_LPM_MT6781)
+#if LPM_PLAT_MCU_HANDSHAKE
 #define BOOT_TIME_LIMIT         60
 static struct task_struct *lpm_plat_task;
 #endif
@@ -249,7 +251,7 @@ static inline void get_monotonic_boottime(struct timespec64 *ts)
 	*ts = ktime_to_timespec64(ktime_get_boottime());
 }
 
-#if IS_ENABLED(CONFIG_MTK_LPM_MT6781)
+#if LPM_PLAT_MCU_HANDSHAKE
 #define DEPD_COND_TYPE_BOOTIME  (1<<0u)
 #define DEPD_COND_TYPE_MCU      (1<<1u)
 
@@ -350,7 +352,7 @@ static int __init lpm_plat_mcusys_ctrl_init(void)
 
 int __init lpm_plat_apmcu_init(void)
 {
-#if IS_ENABLED(CONFIG_MTK_LPM_MT6781)
+#if LPM_PLAT_MCU_HANDSHAKE
 	struct device_node *node = NULL;
 	unsigned int is_mcu_mode = 0;
 #endif
@@ -361,7 +363,7 @@ int __init lpm_plat_apmcu_init(void)
 
 	lpm_plat_pwr_dev_init();
 
-#if IS_ENABLED(CONFIG_MTK_LPM_MT6781)
+#if LPM_PLAT_MCU_HANDSHAKE
 	mtk_apmcu_mbox_init();
 	node = of_find_compatible_node(NULL, NULL, MTK_LPM_DTS_COMPATIBLE);
 	if (node) {

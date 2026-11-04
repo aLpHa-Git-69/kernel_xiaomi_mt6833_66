@@ -734,6 +734,7 @@ int mcupm_mbox_read(unsigned int mbox, unsigned int slot, void *buf,
 	return mtk_mbox_read(&mcupm_mboxdev, mbox, slot,
 				buf, len * MBOX_SLOT_SIZE);
 }
+EXPORT_SYMBOL_GPL(mcupm_mbox_read);
 
 int mcupm_mbox_write(unsigned int mbox, unsigned int slot, void *buf,
 			unsigned int len)

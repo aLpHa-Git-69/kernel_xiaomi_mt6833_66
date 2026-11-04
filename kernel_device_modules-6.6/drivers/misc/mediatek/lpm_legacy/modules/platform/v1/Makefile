@@ -1,7 +1,7 @@
 #source files
 LPM_MODULE_PLAT_PLATFORM_OBJS += lpm_plat.o
 LPM_MODULE_PLAT_PLATFORM_OBJS += lpm_plat_apmcu.o
-ifeq ($(CONFIG_MTK_LPM_MT6781),m)
+ifneq ($(filter m,$(CONFIG_MTK_LPM_MT6781) $(CONFIG_MTK_LPM_MT6833)),)
 ccflags-y += -I$(DEVICE_MODULES_PATH)/drivers/misc/mediatek/sspm/v2/
 LPM_MODULE_PLAT_PLATFORM_OBJS += lpm_plat_apmcu_mbox.o
 endif

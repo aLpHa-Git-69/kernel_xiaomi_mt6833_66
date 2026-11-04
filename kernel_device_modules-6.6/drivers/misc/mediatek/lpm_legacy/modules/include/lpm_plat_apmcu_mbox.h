@@ -7,7 +7,7 @@
 #define __LPM_PLAT_APMCU_MBOX_H__
 
 enum {
-#if IS_ENABLED(CONFIG_MTK_LPM_MT6781)
+#if IS_ENABLED(CONFIG_MTK_LPM_MT6781) || IS_ENABLED(CONFIG_MTK_LPM_MT6833)
 	MBOX_SSPM,
 #endif
 	MBOX_MCUPM,
@@ -15,7 +15,7 @@ enum {
 	NF_MBOX,
 };
 
-#if IS_ENABLED(CONFIG_MTK_LPM_MT6781)
+#if IS_ENABLED(CONFIG_MTK_LPM_MT6781) || IS_ENABLED(CONFIG_MTK_LPM_MT6833)
 
 enum APMCU_PM_IPI_UID {
 	APMCU_PM_IPI_PMSR = 0,
@@ -94,7 +94,7 @@ enum MCDI_IPI_ID_TLB {
 #define MCUPM_TASK_RUN                  4
 #define MCUPM_TASK_PAUSE                5
 
-#if IS_ENABLED(CONFIG_MTK_LPM_MT6781)
+#if IS_ENABLED(CONFIG_MTK_LPM_MT6781) || IS_ENABLED(CONFIG_MTK_LPM_MT6833)
 void mtk_set_lp_apmcu_pll_mode(unsigned int mode);
 void mtk_set_lp_apmcu_buck_mode(unsigned int mode);
 bool mtk_lp_apmcu_is_ready(void);
