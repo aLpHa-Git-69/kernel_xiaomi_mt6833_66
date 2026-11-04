@@ -4991,7 +4991,12 @@ static int __maybe_unused msdc_suspend(struct device *dev)
 	u32 val = 0;
 	int ret = 0;
 
-	if (mmc->caps2 & MMC_CAP2_CQE) {
+	/*
+	 * Runtime suspended means clocks gated: touching CQHCI/MSDC registers
+	 * then stalls the bus forever (camellia: msdc0 has no eMMC, it boots
+	 * from UFS, so it sits runtime suspended and system suspend hung here).
+	 */
+	if ((mmc->caps2 & MMC_CAP2_CQE) && !pm_runtime_status_suspended(dev)) {
 #if IS_ENABLED(CONFIG_DEVICE_MODULES_MMC_MTK_SW_CQHCI)
 		if (host->swcq_host)
 			ret = 0;
