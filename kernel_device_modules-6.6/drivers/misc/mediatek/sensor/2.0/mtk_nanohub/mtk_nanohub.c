@@ -97,6 +97,7 @@ struct mtk_nanohub_device {
 	int32_t mag_config_data[9];
 	/* as 4.14: camellia's sensor HAL sends 6-word als/ps calibration (thresholds) */
 	int32_t light_config_data[6];
+	int32_t rear_light_config_data[3];
 	int32_t proximity_config_data[6];
 	int32_t pressure_config_data[2];
 	int32_t sar_config_data[4];
@@ -477,6 +478,12 @@ static void mtk_nanohub_init_sensor_info(void)
 	p->sensorType = SENSOR_TYPE_MAGNETIC_FIELD;
 	p->gain = 100;
 	strlcpy(p->name, "magnetic", sizeof(p->name));
+	strlcpy(p->vendor, "mtk", sizeof(p->vendor));
+
+	p = &sensor_state[SENSOR_TYPE_REAR_LIGHT];
+	p->sensorType = SENSOR_TYPE_REAR_LIGHT;
+	p->gain = 1;
+	strlcpy(p->name, "rear_light", sizeof(p->name));
 	strlcpy(p->vendor, "mtk", sizeof(p->vendor));
 
 	p = &sensor_state[SENSOR_TYPE_LIGHT];
@@ -1191,6 +1198,7 @@ int mtk_nanohub_get_data_from_hub(uint8_t sensor_id,
 		data->accelerometer_t.status = data_t->accelerometer_t.status;
 		break;
 	case ID_LIGHT:
+	case ID_REAR_LIGHT:
 		data->time_stamp = data_t->time_stamp;
 		data->light = data_t->light;
 		break;
@@ -1313,7 +1321,8 @@ int mtk_nanohub_set_cmd_to_hub(uint8_t sensor_id,
 		}
 		break;
 	case ID_LIGHT:
-		req.set_cust_req.sensorType = ID_LIGHT;
+	case ID_REAR_LIGHT:
+		req.set_cust_req.sensorType = sensor_id;
 		req.set_cust_req.action = SENSOR_HUB_SET_CUST;
 		switch (action) {
 		case CUST_ACTION_GET_RAW_DATA:
@@ -1838,6 +1847,16 @@ static void mtk_nanohub_restoring_config(void)
 		vfree(data);
 	}
 
+	length = sizeof(device->rear_light_config_data);
+	data = vzalloc(length);
+	if (data) {
+		spin_lock(&config_data_lock);
+		memcpy(data, device->rear_light_config_data, length);
+		spin_unlock(&config_data_lock);
+		mtk_nanohub_cfg_to_hub(ID_REAR_LIGHT, data, length);
+		vfree(data);
+	}
+
 	length = sizeof(device->proximity_config_data);
 	data = vzalloc(length);
 	if (data) {
@@ -2114,6 +2133,13 @@ static int mtk_nanohub_config(struct hf_device *hfdev,
 		memcpy(device->light_config_data, data, length);
 		spin_unlock(&config_data_lock);
 		break;
+	case ID_REAR_LIGHT:
+		if (sizeof(device->rear_light_config_data) < length)
+			length = sizeof(device->rear_light_config_data);
+		spin_lock(&config_data_lock);
+		memcpy(device->rear_light_config_data, data, length);
+		spin_unlock(&config_data_lock);
+		break;
 	case ID_PROXIMITY:
 		if (sizeof(device->proximity_config_data) < length)
 			length = sizeof(device->proximity_config_data);
@@ -2235,6 +2261,17 @@ static int mtk_nanohub_custom_cmd(struct hf_device *hfdev,
 			spin_lock(&config_data_lock);
 			memcpy(cust_cmd->data, device->light_config_data,
 					sizeof(device->light_config_data));
+			spin_unlock(&config_data_lock);
+			break;
+		case SENSOR_TYPE_REAR_LIGHT:
+			if (sizeof(cust_cmd->data) <
+					sizeof(device->rear_light_config_data))
+				return -EINVAL;
+			cust_cmd->rx_len =
+				sizeof(device->rear_light_config_data);
+			spin_lock(&config_data_lock);
+			memcpy(cust_cmd->data, device->rear_light_config_data,
+					sizeof(device->rear_light_config_data));
 			spin_unlock(&config_data_lock);
 			break;
 		case SENSOR_TYPE_PROXIMITY:
@@ -2377,6 +2414,7 @@ static int mtk_nanohub_report_to_manager(struct data_unit_t *data)
 			event.word[5] = data->gyroscope_t.z_bias;
 			break;
 		case ID_LIGHT:
+		case ID_REAR_LIGHT:
 			event.timestamp = data->time_stamp;
 			event.sensor_type = id_to_type(data->sensor_type);
 			event.action = data->flush_action;
@@ -2565,6 +2603,13 @@ static int mtk_nanohub_report_to_manager(struct data_unit_t *data)
 			event.sensor_type = id_to_type(data->sensor_type);
 			event.action = data->flush_action;
 			event.word[0] = data->data[0];
+			break;
+		case ID_REAR_LIGHT:
+			event.timestamp = data->time_stamp;
+			event.sensor_type = id_to_type(data->sensor_type);
+			event.action = data->flush_action;
+			event.word[0] = data->data[0];
+			event.word[1] = data->data[1];
 			break;
 		case ID_PRESSURE:
 			event.timestamp = data->time_stamp;

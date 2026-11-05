@@ -291,4 +291,8 @@ enum {
 	SENSOR_ACCURANCY_HIGH,
 };
 
+/* camellia: Xiaomi SCP rear ALS, 4.14 numbering (type 75, after GYRO_SECONDARY) */
+#define SENSOR_TYPE_REAR_LIGHT 75
+#define ID_REAR_LIGHT (SENSOR_TYPE_REAR_LIGHT - ID_OFFSET)
+
 #endif

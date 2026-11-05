@@ -22,6 +22,7 @@ enum sensorlist {
 	front_cct,
 	pwm_rgb,
 	flicker,
+	rear_als,
 	maxhandle,
 };
 
@@ -62,6 +63,9 @@ int sensorlist_sensor_to_handle(int sensor)
                 break;
 	case SENSOR_TYPE_FLICKER:
 		handle = flicker;
+		break;
+	case SENSOR_TYPE_REAR_LIGHT:
+		handle = rear_als;
 		break;
 	}
 	return handle;
@@ -104,6 +108,9 @@ int sensorlist_handle_to_sensor(int handle)
                 break;
 	case flicker:
 		type = SENSOR_TYPE_FLICKER;
+		break;
+	case rear_als:
+		type = SENSOR_TYPE_REAR_LIGHT;
 		break;
 	}
 	return type;
