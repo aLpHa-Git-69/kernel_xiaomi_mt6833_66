@@ -43,6 +43,7 @@
 #include <linux/of_gpio.h>
 #include <linux/of_irq.h>
 #include <linux/string.h>
+#include <linux/mtk_disp_notify.h>
 #if 0
 #include <linux/notifier.h>
 #include <linux/fb.h>
@@ -1494,6 +1495,24 @@ static void fts_resume_work(struct work_struct *work)
 	fts_ts_resume(ts_data->dev);
 }
 
+/* camellia 6.6: MediaTek DRM's blank notifier stands in for 4.14's fb notifier
+ * (suspend puts the IC in gesture mode for double-tap wake) */
+static int disp_notifier_callback(struct notifier_block *self,
+				  unsigned long event, void *data)
+{
+	int *blank = data;
+
+	if (!blank)
+		return 0;
+	if (event == MTK_DISP_EARLY_EVENT_BLANK && *blank == MTK_DISP_BLANK_POWERDOWN) {
+		cancel_work_sync(&fts_data->resume_work);
+		fts_ts_suspend(fts_data->dev);
+	} else if (event == MTK_DISP_EVENT_BLANK && *blank == MTK_DISP_BLANK_UNBLANK) {
+		queue_work(fts_data->ts_workqueue, &fts_data->resume_work);
+	}
+	return 0;
+}
+
 #if 0
 static int fb_notifier_callback(struct notifier_block *self,
 								unsigned long event, void *data)
@@ -1854,6 +1873,10 @@ static int fts_ts_probe_entry(struct fts_ts_data *ts_data)
 	ts_data->pm_suspend = false;
 #endif
 
+	ts_data->fb_notif.notifier_call = disp_notifier_callback;
+	if (mtk_disp_notifier_register("fts_ts", &ts_data->fb_notif))
+		FTS_ERROR("Unable to register disp notifier");
+
 #if 0
 	ts_data->fb_notif.notifier_call = fb_notifier_callback;
 	ret = fb_register_client(&ts_data->fb_notif);
@@ -1970,6 +1993,8 @@ static int fts_ts_remove_entry(struct fts_ts_data *ts_data)
 
 	if (ts_data->ts_workqueue)
 		destroy_workqueue(ts_data->ts_workqueue);
+
+	mtk_disp_notifier_unregister(&ts_data->fb_notif);
 
 #if 0
 	if (fb_unregister_client(&ts_data->fb_notif))
