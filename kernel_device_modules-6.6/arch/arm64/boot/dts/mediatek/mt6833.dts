@@ -3967,8 +3967,7 @@
 
 	scp_dvfs {
 		compatible = "mediatek,scp-dvfs";
-		/* camellia: stock SCP fw has no ULPOSC cali; 6.6 cali (fmeter) always fails and resets SCP */
-		scp-dvfs-disable = <1>; /* 0: enable, 1: disable */
+		scp-dvfs-disable = <0>; /* 0: enable, 1: disable */
 		clocks =
 			<&topckgen_clk CLK_TOP_SCP_SEL>,
 			<&topckgen_clk CLK_TOP_TCK_26M_MX9>,
@@ -4032,7 +4031,8 @@
 			<0x5ea940	0x2900		0x41>;
 		clk-dbg-ver = "v1";
 		ccf-fmeter-support;
-		secure_access = "enable"; /* enable: need to secure access scp */
+		/* camellia's 4.14-era ATF has no SCP DVFS SMCs: ULPOSC on/off and SCP2SPM by register, as on 4.14 */
+		secure_access = "disable"; /* enable: need to secure access scp */
 		legacy-support-v1;
 		scp-dvfs-flag = "enable"; /* enable/disable */
 
