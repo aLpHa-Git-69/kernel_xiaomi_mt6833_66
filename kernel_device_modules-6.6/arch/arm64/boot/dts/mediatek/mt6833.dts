@@ -5349,7 +5349,6 @@ gpufreq: gpufreq {
 	};
 
 	clock_buffer_ctrl: clock_buffer_ctrl {
-		pmic-supply = <&mt6359p_clkbuf>;
 		compatible = "mediatek,mt6833-clkbuf";
 		pmic = <&mt6359p_clkbuf>;
 		pmif = <&pwrap 0>;

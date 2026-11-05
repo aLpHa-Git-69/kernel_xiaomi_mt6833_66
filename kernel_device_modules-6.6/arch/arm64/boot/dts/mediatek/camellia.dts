@@ -781,3 +781,11 @@
 &cam1_vcama {
 	status = "disabled";
 };
+
+/* No MT6382 display bridge on camellia: nothing binds this mailbox, and as an
+ * fw_devlink supplier it held off mediatek-drm until the deferred probe timeout
+ * (~40s), after the composer HAL had already started and crashed.
+ */
+&gce_mbox_bdg {
+	status = "disabled";
+};
