@@ -777,3 +777,9 @@
 		status = "okay";
 	};
 };
+
+/* MediaTek reference board's vcama GPIO regulator: on camellia GPIO92 is unused
+ * (cam1 vcama is GPIO7), stock leaves it an input */
+&cam1_vcama {
+	status = "disabled";
+};
