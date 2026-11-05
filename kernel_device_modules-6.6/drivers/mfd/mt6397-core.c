@@ -24,6 +24,7 @@
 #include <linux/mfd/mt6397/registers.h>
 
 #include <linux/printk.h>
+#include <linux/reboot.h>
 
 #define MT6323_RTC_BASE		0x8000
 #define MT6323_RTC_SIZE		0x40
@@ -770,6 +771,18 @@ static const struct chip_data mt6397_core = {
 	.irq_init = mt6397_irq_init,
 };
 
+#define MT6359P_PPCCTL0		0xa08
+#define MT6359P_RG_PWRHOLD	BIT(0)
+
+/* drop PWRHOLD: the PMIC cuts power (and restarts into KPOC with a charger), as on 4.14 */
+static int mt6359p_power_off(struct sys_off_data *data)
+{
+	struct mt6397_chip *pmic = data->cb_data;
+
+	regmap_update_bits(pmic->regmap, MT6359P_PPCCTL0, MT6359P_RG_PWRHOLD, 0);
+	return NOTIFY_DONE;
+}
+
 static int mt6397_probe(struct platform_device *pdev)
 {
 	int ret;
@@ -809,6 +822,15 @@ static int mt6397_probe(struct platform_device *pdev)
 	pmic->chip_id = (id >> pmic_core->cid_shift) & 0xff;
 
 	platform_set_drvdata(pdev, pmic);
+
+	/* camellia's ATF never powers off on PSCI SYSTEM_OFF (the watchdog resets it): run first */
+	if (pmic_core == &mt6359p_core) {
+		ret = devm_register_sys_off_handler(&pdev->dev, SYS_OFF_MODE_POWER_OFF,
+						    SYS_OFF_PRIO_FIRMWARE + 1,
+						    mt6359p_power_off, pmic);
+		if (ret)
+			return ret;
+	}
 
 	pmic->irq = platform_get_irq(pdev, 0);
 	if (pmic->irq <= 0)
