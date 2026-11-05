@@ -95,12 +95,9 @@ struct mtk_nanohub_device {
 	int32_t acc_config_data[6];
 	int32_t gyro_config_data[12];
 	int32_t mag_config_data[9];
-	int32_t light_config_data[1];
-#ifdef CONFIG_OPLUS_FEATURE_SENSOR_ALGORITHM
-	int32_t proximity_config_data[3];
-#else
-	int32_t proximity_config_data[2];
-#endif
+	/* as 4.14: camellia's sensor HAL sends 6-word als/ps calibration (thresholds) */
+	int32_t light_config_data[6];
+	int32_t proximity_config_data[6];
 	int32_t pressure_config_data[2];
 	int32_t sar_config_data[4];
 	int32_t ois_config_data[12];
