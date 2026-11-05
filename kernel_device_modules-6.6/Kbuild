@@ -171,5 +171,6 @@ obj-m += drivers/misc/camellia_backlight/
 # camellia: touch (FT8722 + Xiaomi touch features)
 obj-m += drivers/input/touchscreen/camellia_xiaomi_touch/
 obj-m += drivers/input/touchscreen/camellia_ft8722/
+obj-m += drivers/input/touchscreen/camellia_nt36672c/
 obj-m += drivers/input/fingerprint/camellia_goodix/
 obj-m += drivers/misc/mediatek/lens/camellia_main/
