@@ -5172,6 +5172,12 @@ gpufreq: gpufreq {
 		pwmsrcclk = <&infracfg_ao_clk>;
 	};
 
+	irtx_pwm: irtx_pwm {
+		compatible = "mediatek,irtx-pwm";
+		pwm_ch = <1>;
+		pwm_data_invert = <0>;
+	};
+
 	spi0: spi0@1100a000 {
 		compatible = "mediatek,mt6765-spi";
 		mediatek,pad-select = <0>;

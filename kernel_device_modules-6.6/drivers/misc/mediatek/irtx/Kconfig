@@ -1,6 +1,5 @@
 config MTK_IRTX_PWM_SUPPORT
 	tristate "Mediatek PWM IR transmitter"
-	depends on RC_CORE
 	depends on ARCH_MEDIATEK
 	depends on MTK_PWM
 	help

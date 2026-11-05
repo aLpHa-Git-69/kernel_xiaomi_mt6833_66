@@ -406,14 +406,12 @@
 	};
 }; /* IRTX GPIO Settings -End */
 
-#if 0 /* camellia 6.6 TODO: no irtx_pwm node/IR driver in 6.6 base; add node + driver */
 &irtx_pwm {
 	pinctrl-names = "irtx_gpio_led_default", "irtx_gpio_led_set";
 	pinctrl-0 = <&irtx_gpio_led_default>;
 	pinctrl-1 = <&irtx_gpio_led_set>;
 	status = "okay";
 };
-#endif
 
 &gps {
 	pinctrl-names = "default",

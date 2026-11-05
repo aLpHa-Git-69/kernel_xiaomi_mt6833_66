@@ -2071,6 +2071,7 @@ static const struct of_device_id pwm_of_match[] = {
 	{.compatible = "mediatek,pwm",},
 	{},
 };
+MODULE_DEVICE_TABLE(of, pwm_of_match);
 
 struct platform_driver pwm_plat_driver = {
 	.probe = mt_pwm_probe,
