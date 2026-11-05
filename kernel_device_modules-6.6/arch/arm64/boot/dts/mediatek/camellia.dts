@@ -522,6 +522,7 @@
  */
 &charger {
 	camellia,sw-jeita-6band;
+	camellia,ignore-atm;
 	/* camellia 4.14 used Xiaomi's "SwitchCharging2"; 6.6 has Basic/Pulse */
 	algorithm_name = "Basic";
 		/* BSP.Charge - 2020.12.02 - Eanble sw_jeita */

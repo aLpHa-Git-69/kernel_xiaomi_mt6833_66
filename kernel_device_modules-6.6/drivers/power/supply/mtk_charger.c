@@ -4086,7 +4086,9 @@ static int mtk_charger_probe(struct platform_device *pdev)
 #endif /* CONFIG_PM */
 	srcu_init_notifier_head(&info->evt_nh);
 	mtk_charger_setup_files(pdev);
-	mtk_charger_get_atm_mode(info);
+	/* camellia: eng LK passes androidboot.atm=enable, which caps PC USB at 100mA */
+	if (!of_property_read_bool(pdev->dev.of_node, "camellia,ignore-atm"))
+		mtk_charger_get_atm_mode(info);
 
 	for (i = 0; i < CHGS_SETTING_MAX; i++) {
 		info->chg_data[i].thermal_charging_current_limit = -1;
