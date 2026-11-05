@@ -789,3 +789,44 @@
 &gce_mbox_bdg {
 	status = "disabled";
 };
+
+/* camellia boots from UFS, there is no eMMC: the reference-board mmc0 only
+ * probed and reset an empty bus. Park its pins pulled down, as stock does.
+ */
+&mmc0 {
+	status = "disabled";
+};
+
+&pio {
+	pinctrl-names = "default";
+	pinctrl-0 = <&camellia_unused_pins>;
+
+	camellia_unused_pins: camellia_unused_pins {
+		pins_msdc0 {
+			pinmux = <PINMUX_GPIO65__FUNC_GPIO65>,
+				 <PINMUX_GPIO66__FUNC_GPIO66>,
+				 <PINMUX_GPIO67__FUNC_GPIO67>,
+				 <PINMUX_GPIO68__FUNC_GPIO68>,
+				 <PINMUX_GPIO69__FUNC_GPIO69>,
+				 <PINMUX_GPIO70__FUNC_GPIO70>,
+				 <PINMUX_GPIO71__FUNC_GPIO71>,
+				 <PINMUX_GPIO72__FUNC_GPIO72>,
+				 <PINMUX_GPIO73__FUNC_GPIO73>,
+				 <PINMUX_GPIO74__FUNC_GPIO74>,
+				 <PINMUX_GPIO75__FUNC_GPIO75>,
+				 <PINMUX_GPIO76__FUNC_GPIO76>;
+			input-enable;
+			bias-pull-down;
+		};
+	};
+};
+
+/* microSD: idle drive strength as on 4.14 (the UHS state already uses 3) */
+&mmc1_pins_default {
+	pins_cmd_dat {
+		drive-strength = <3>;
+	};
+	pins_clk {
+		drive-strength = <3>;
+	};
+};
