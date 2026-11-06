@@ -12,6 +12,9 @@
 
 #include "mtk_cam-job.h"
 
+#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
+#define CAMELLIA_FEATURE_CAMERA_COMMON
+#endif
 
 #define DISABLE_RECOVER_FLOW 0
 

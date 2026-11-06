@@ -9,7 +9,9 @@
 #include "kd_imgsensor_define_v4l2.h"
 #include "mtk_camera-v4l2-controls-common.h"
 #include "mtk_camera-videodev2.h"
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 #include "../src-isp8/camellia/inc/camellia_imgsensor-user.h"
+#endif /* CAMELLIA_FEATURE_CAMERA_COMMON */
 
 #define DEFAULT_WIDTH 1600
 #define DEFAULT_HEIGHT 1200

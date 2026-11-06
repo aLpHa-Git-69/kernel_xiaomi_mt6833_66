@@ -6,6 +6,9 @@
 #ifndef __MTK_CAM_QOF_H
 #define __MTK_CAM_QOF_H
 
+#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
+#define CAMELLIA_FEATURE_CAMERA_COMMON
+#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 
 struct mtk_raw_device;
 struct mtk_cam_ctx;

@@ -15,12 +15,14 @@ IMGSENSOR_DRIVER_OBJ := \
 	../common/$(COMMON_VERSION)/imgsensor_sensor_list.o \
 	imgsensor_clk.o \
 
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 #commented eeprom anil,need to pick from UOS
 IMGSENSOR_DRIVER_OBJ += ../common/$(COMMON_VERSION)/imgsensor_eeprom.o
 IMGSENSOR_DRIVER_OBJ += ../CamelliaImgsensor/imgsensor_hwcfg_custom_v1.o
 IMGSENSOR_DRIVER_OBJ += ../CamelliaImgsensor/imgsensor_hwcfg_mt6768.o
 #IMGSENSOR_DRIVER_OBJ += ../CamelliaImgsensor/imgsensor_hwcfg_custom.o
 #IMGSENSOR_DRIVER_OBJ += ../CamelliaImgsensor/imgsensor_eeprom.o
+#endif
 
 
 ifeq ($(CONFIG_MTK_IMGSENSOR_ISP4_T), m)

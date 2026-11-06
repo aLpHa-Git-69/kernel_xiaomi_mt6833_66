@@ -149,6 +149,9 @@ obj-$(CONFIG_MTK_PKVM_TMEM) += pkvm_tmem/
 obj-$(CONFIG_DEVICE_MODULES_PCIE_MEDIATEK_SMT) += pcie/
 obj-$(CONFIG_MTK_SMAP) += smap/
 obj-$(CONFIG_MTK_WLA) += wla/
+#ifdef CAMELLIA_FEATURE_OEM_OCDT
+obj-$(CONFIG_MTK_BOOT_COMMON) += boot_common/
+#endif
 obj-$(CONFIG_MTK_SPM_CAREVENT) += carevent/
 obj-$(CONFIG_ARM) += arm_div/
 obj-$(CONFIG_ROOTFS_CHECK) += rootfs_check/

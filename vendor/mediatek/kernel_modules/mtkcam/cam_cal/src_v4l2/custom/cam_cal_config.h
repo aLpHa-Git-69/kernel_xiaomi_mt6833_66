@@ -14,10 +14,12 @@
 /*****************************************************************************
  * Structures
  *****************************************************************************/
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 struct ois_cal_data {
 	unsigned char ois_table[2340];
 	unsigned char valid;
 };
+#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 
 struct STRUCT_CALIBRATION_ITEM_STRUCT {
 	unsigned short Include; //calibration layout include this item?
@@ -49,8 +51,10 @@ struct STRUCT_CAM_CAL_CONFIG_STRUCT {
 	unsigned int preload_size;
 	unsigned int has_stored_data;
 	unsigned int base_address;
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 	int (*parsing_ois_cal_data_from_preload)(struct EEPROM_DRV_FD_DATA *pdata,
 			struct ois_cal_data *data);
+#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 	struct i2c_client *client;
 };
 

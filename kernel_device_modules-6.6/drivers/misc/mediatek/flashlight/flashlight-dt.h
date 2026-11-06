@@ -22,12 +22,14 @@
 #define RT4505_DTNAME     "mediatek,flashlights_rt4505"
 #define RT4505_DTNAME_I2C "mediatek,strobe_main"
 #define RT5081_DTNAME     "mediatek,flashlights_rt5081"
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 #define ALADDIN_DTNAME    "mediatek,flashlights_aladdin"
 #define ATOM_DTNAME       "mediatek,flashlights_atom"
 #define ALADDIN_DTNAME_I2C "mediatek,strobe_main"
 #define ATOM_DTNAME_I2C    "mediatek,strobe_main"
 #define ARK_DTNAME        "mediatek,flashlights_ark"
 #define ARK_DTNAME_I2C    "mediatek,strobe_main"
+#endif //CAMELLIA_FEATURE_CAMERA_COMMON
 
 #define ORISA_DTNAME      "mediatek,flashlights_orisa"
 #define ORISA_DTNAME_I2C  "mediatek,strobe_main"

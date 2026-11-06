@@ -11,6 +11,9 @@
 #include "adaptor-def.h"
 #include "mtk-i3c-i2c-wrap.h"
 
+#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
+#define CAMELLIA_FEATURE_CAMERA_COMMON
+#endif
 
 #define MT6985_PHY_CTRL_VERSIONS "mt6985"
 #define MT6897_PHY_CTRL_VERSIONS "mt6897"
@@ -696,9 +699,11 @@ struct subdrv_entry {
 	adaptor_ixc_wr_regs_u8(&subctx->ixc_client, \
 		subctx->i2c_write_id >> 1, list, len)
 
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 #define subdrv_ixc_wr_regs_u8_max(subctx, list, len) \
 	adaptor_ixc_wr_regs_u8_max(&subctx->ixc_client, \
 		subctx->i2c_write_id >> 1, list, len)
+#endif /* CAMELLIA_FEATURE_CAMERA_COMMON */
 
 #define subdrv_ixc_wr_regs_u16(subctx, list, len) \
 	adaptor_ixc_wr_regs_u16(&subctx->ixc_client, \

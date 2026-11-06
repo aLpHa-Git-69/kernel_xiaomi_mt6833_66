@@ -12,6 +12,9 @@
 #include "mtk_cam-plat.h"
 #include "mtk_cam-engine.h"
 #include "mtk_cam-dvfs_qos.h"
+#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
+#define CAMELLIA_FEATURE_CAMERA_COMMON
+#endif
 
 #define MRAW_WRITE_BITS(RegAddr, RegName, FieldName, FieldValue) do {\
 	union RegName reg;\

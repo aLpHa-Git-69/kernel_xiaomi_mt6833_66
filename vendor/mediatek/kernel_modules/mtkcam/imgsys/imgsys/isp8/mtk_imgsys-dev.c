@@ -22,6 +22,9 @@
 #include "mtk-img-ipi.h"
 #include "mtk_header_desc.h"
 
+#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
+#define CAMELLIA_FEATURE_CAMERA_COMMON
+#endif
 
 struct fd_kva_list_t fd_kva_info_list = {
 	.mymutex = __MUTEX_INITIALIZER(fd_kva_info_list.mymutex),

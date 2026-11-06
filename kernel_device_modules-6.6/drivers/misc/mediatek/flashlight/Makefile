@@ -25,7 +25,9 @@ obj-$(CONFIG_MTK_FLASHLIGHT_ATOM)        += flashlights-atom.o
 obj-$(CONFIG_MTK_FLASHLIGHT_MIAMI)       += flashlights-miami.o
 obj-$(CONFIG_MTK_FLASHLIGHT_ARK)         += flashlights-ark.o
 
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 obj-y += ./camellia/flashlight_custom.o
+#endif
 obj-$(CONFIG_MTK_FLASHLIGHT_ORISA)         += flashlights-orisa.o
 
 ccflags-$(CONFIG_MTK_FLASHLIGHT_DEBUG)     := -DDEBUG

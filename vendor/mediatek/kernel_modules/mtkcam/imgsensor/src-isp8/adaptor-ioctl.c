@@ -1626,7 +1626,9 @@ static const struct ioctl_entry ioctl_list[] = {
 	{VIDIOC_MTK_S_TG, s_tg},
 	{VIDIOC_MTK_S_SENSOR_SENTEST_CTRL, sentest_ioctl_entry},
 };
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 #include "camellia/inc/camellia_adaptor-ioctl.h"
+#endif /* CAMELLIA_FEATURE_CAMERA_COMMON */
 long adaptor_ioctl(struct v4l2_subdev *sd, unsigned int cmd, void *arg)
 {
 	int i, ret = -ENOIOCTLCMD;
@@ -1639,7 +1641,9 @@ long adaptor_ioctl(struct v4l2_subdev *sd, unsigned int cmd, void *arg)
 			break;
 		}
 	}
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 	camellia_adaptor_ioctl(sd, cmd, arg, &ret);
+#endif /* CAMELLIA_FEATURE_CAMERA_COMMON */
 	return ret;
 }
 

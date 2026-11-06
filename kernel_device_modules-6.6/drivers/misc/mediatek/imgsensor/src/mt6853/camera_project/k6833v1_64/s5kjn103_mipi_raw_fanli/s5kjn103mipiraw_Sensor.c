@@ -50,6 +50,9 @@
 
 #include "imgsensor_hwcfg_custom.h"
 
+#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
+#define CAMELLIA_FEATURE_CAMERA_COMMON
+#endif
 
 
 /***************Modify Following Strings for Debug**********************/
@@ -61,6 +64,7 @@
 
 #define USE_BURST_MODE 1
 
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 #define DEVICE_VERSION_S5KJN103	 "s5kjn103_mipi_raw_fanli"
 void Camelliaimgsensor_Registdeviceinfo(char *name, char *version, kal_uint8 module_id);
 extern enum IMGSENSOR_RETURN Eeprom_DataInit(
@@ -70,6 +74,7 @@ static kal_uint8 deviceInfo_register_value = 0x00;
 static kal_uint32 streaming_control(kal_bool enable);
 #define MODULE_ID_OFFSET 0x0000
 #define I2C_BUFFER_LEN 1020	/* trans# max is 255, each 4 bytes */
+#endif
 static kal_uint8 otp_data[0x4000] = {0};
 static kal_uint16 table_write_cmos_sensor(kal_uint16 *para, kal_uint32 len);
 static bool bNeedSetNormalMode = KAL_FALSE;
@@ -326,6 +331,7 @@ static struct SET_PD_BLOCK_INFO_T imgsensor_pd_info_2040_1536_preview =
 };
 */
 
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 static kal_uint16 read_module_id(void)
 {
 	kal_uint16 get_byte=0;
@@ -337,6 +343,7 @@ static kal_uint16 read_module_id(void)
 	return get_byte;
 
 }
+#endif
 
 static kal_uint16 read_cmos_sensor(kal_uint32 addr)
 {

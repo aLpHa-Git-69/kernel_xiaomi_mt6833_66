@@ -26,8 +26,13 @@
 #include "mtk_cam-seninf-sentest-ioctrl.h"
 #include "imgsensor-user.h"
 
+#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
+#define CAMELLIA_FEATURE_CAMERA_COMMON
+#endif
 
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 #include <soc/camellia/system/camellia_project.h>
+#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 
 #define SENINF_CK 312000000
 #define CYCLE_MARGIN 1
@@ -2412,7 +2417,11 @@ static void csirx_phyA_dphy_setting(void *base, u64 data_rate)
 	}
 }
 
+#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
+static void csirx_phyA_cphy_setting(void *base, u64 data_rate)
+#else /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 static void csirx_phyA_cphy_setting(void *base, u64 data_rate, bool bw_need_changed)
+#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 {
 	u32 en_16bit_mode = (data_rate > 4500000000) ? 0 : 1;
 	/* set CDPHY 16/32bit mode */
@@ -2428,11 +2437,15 @@ static void csirx_phyA_cphy_setting(void *base, u64 data_rate, bool bw_need_chan
 		SENINF_BITS(base, CDPHY_RX_ANA_0, RG_CSI0_CPHY_EN, 1);
 		/* data rate < 2.5 Gsps */
 		if (data_rate < 2500000000) {
+#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
+			SENINF_BITS(base, CDPHY_RX_ANA_5, RG_CSI0_CDPHY_EQ_BW, 0x1);
+#else /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 			if (bw_need_changed) {
 				SENINF_BITS(base, CDPHY_RX_ANA_5, RG_CSI0_CDPHY_EQ_BW, 0x3);
 			} else {
 				SENINF_BITS(base, CDPHY_RX_ANA_5, RG_CSI0_CDPHY_EQ_BW, 0x1);
 			}
+#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 			SENINF_BITS(base, CDPHY_RX_ANA_5, RG_CSI0_CDPHY_EQ_DG0_EN, 0x1);
 			SENINF_BITS(base, CDPHY_RX_ANA_5, RG_CSI0_CDPHY_EQ_DG1_EN, 0x0);
 			SENINF_BITS(base, CDPHY_RX_ANA_5, RG_CSI0_CDPHY_EQ_SR0, 0x0);
@@ -2586,6 +2599,7 @@ static int csirx_phyA_setting(struct seninf_ctx *ctx)
 	u64 data_rate;
 	u32 pn_swap_en;
 
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 	int prj_id = 0;
 	bool bw_need_changed = false;
 	if (ctx->csi_param.need_bw_change) {
@@ -2599,6 +2613,7 @@ static int csirx_phyA_setting(struct seninf_ctx *ctx)
 		}
 	}
 	dev_info(ctx->dev,"bw_need_changed %d", bw_need_changed);
+#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 
 	if (vc)
 		bit_per_pixel = vc->bit_depth;
@@ -2698,11 +2713,20 @@ static int csirx_phyA_setting(struct seninf_ctx *ctx)
 		SENINF_BITS(baseA, CDPHY_RX_ANA_SETTING_1, RG_SPLIT_EN, (ctx->is_4d1c) ? 0x0 : 0x1);
 		if (ctx->is_4d1c) {
 			/* CPHY configuration(A/B same) */
+#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
+			csirx_phyA_cphy_setting(baseA, data_rate);
+			csirx_phyA_cphy_setting(baseB, data_rate);
+#else /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 			csirx_phyA_cphy_setting(baseA, data_rate, bw_need_changed);
 			csirx_phyA_cphy_setting(baseB, data_rate, bw_need_changed);
+#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 		} else {
 			/* CPHY configuration(A/B same) */
+#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
+			csirx_phyA_cphy_setting(base, data_rate);
+#else /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 			csirx_phyA_cphy_setting(base, data_rate, false);
+#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 		}
 	}
 
@@ -4941,11 +4965,16 @@ static int mtk_cam_get_csi_irq_status(struct seninf_ctx *ctx)
 	void *base_csi_mac;
 	int ret = 0;
 
+#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
+	if (!ctx->streaming)
+		return 0;
+#else /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 	struct seninf_core *core = ctx->core;
 	if (!ctx->csi_streaming || !ctx->streaming || core->refcnt == 0){
 		dev_info(ctx->dev,"CSI_RX%d stream off or runtime_suspend\n", ctx->port);
 		return 0;
 	}
+#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 
 	base_csi_mac = ctx->reg_csirx_mac_csi[(uint32_t)ctx->port];
 	ret = SENINF_READ_REG(base_csi_mac, CSIRX_MAC_CSI2_IRQ_STATUS);
