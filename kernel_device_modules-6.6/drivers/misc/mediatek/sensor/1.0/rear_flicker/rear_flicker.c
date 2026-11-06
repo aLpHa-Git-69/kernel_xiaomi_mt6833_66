@@ -307,10 +307,8 @@ static ssize_t rear_flickerbatch_store(struct device *dev,
 {
 	struct rear_flicker_context *cxt = rear_flicker_context_obj;
 	int handle = 0, flag = 0, err = 0;
-	#ifndef OPLUS_FEATURE_SENSOR_WISELIGHT
 	//int64_t delay_ns = 0;
 	//int64_t latency_ns = 0;
-	#endif
 
 	pr_debug("%s %s\n", __func__, buf);
 	err = sscanf(buf, "%d,%d,%lld,%lld", &handle, &flag, &cxt->rear_flicker_delay_ns,

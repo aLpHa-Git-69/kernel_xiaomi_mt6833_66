@@ -64,9 +64,6 @@
 #define SCP_sensorHub_DEV_NAME "SCP_sensorHub"
 
 #define CHRE_POWER_RESET_NOTIFY
-#ifdef CONFIG_OPLUS_FEATURE_SENSOR_ALGORITHM
-extern void oplus_init_sensor_state(struct SensorState *mSensorState);
-#endif /*OPLUS_FEATURE_SENSOR_ALGORITHM*/
 
 static int sensor_send_timestamp_to_hub(void);
 static int SCP_sensorHub_server_dispatch_data(uint32_t *currWp);
@@ -876,9 +873,6 @@ static void SCP_sensorHub_init_sensor_state(void)
 	mSensorState[SENSOR_TYPE_REAR_FLICKER].sensorType = SENSOR_TYPE_REAR_FLICKER;
 	mSensorState[SENSOR_TYPE_REAR_FLICKER].timestamp_filter = false;
 
-#ifdef CONFIG_OPLUS_FEATURE_SENSOR_ALGORITHM
-	oplus_init_sensor_state(mSensorState);
-#endif /*OPLUS_FEATURE_SENSOR_ALGORITHM*/
 }
 
 static void init_sensor_config_cmd(struct ConfigCmd *cmd,

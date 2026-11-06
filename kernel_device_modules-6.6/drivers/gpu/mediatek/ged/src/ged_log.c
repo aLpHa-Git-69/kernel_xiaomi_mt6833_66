@@ -29,7 +29,6 @@
 #define CREATE_TRACE_POINTS
 #include "ged_tracepoint.h"
 #include "ged_eb.h"
-#include "ged_perfetto_tracepoint.h"
 
 enum {
 	/* 0x00 - 0xff reserved for internal buffer type */

@@ -1,1 +1,1 @@
-obj-m += camellia_oplus_stubs.o
+obj-m += camellia_stubs.o

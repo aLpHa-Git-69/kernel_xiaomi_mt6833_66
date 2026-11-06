@@ -503,7 +503,6 @@ static void dpc_dt_set_update(u16 dt, u32 us)
 	dpc_dt_set(dt, us);
 }
 
-extern int is_ac180;
 static void dpc_duration_update(const u32 us)
 {
 	u32 presz = DPC2_DT_PRESZ;
@@ -529,14 +528,7 @@ static void dpc_duration_update(const u32 us)
 		dpc_dt_set_update(76, us - presz - DPC2_DT_MTCMOS - DPC2_DT_DSION);
 
 		/* wa for 90 hz extra dsi te */
-/* #ifdef OPLUS_FEATURE_DISPLAY */
-		pr_err("dpc_duration_update ac180=%d\n",is_ac180);
-		if (is_ac180 == 1) {
-			dpc_dt_set_update(7, us == 11111 ? 3200 : DPC2_DT_POSTSZ);
-		} else {
-			dpc_dt_set_update(7, us >= 11111 ? 3000 : DPC2_DT_POSTSZ);
-		}
-/* #endif */
+		dpc_dt_set_update(7, us >= 11111 ? 3000 : DPC2_DT_POSTSZ);
 	} else {
 		dpc_dt_set_update( 1, us - DT_OVL_OFFSET);
 		dpc_dt_set_update( 5, us - DT_DISP1_OFFSET);

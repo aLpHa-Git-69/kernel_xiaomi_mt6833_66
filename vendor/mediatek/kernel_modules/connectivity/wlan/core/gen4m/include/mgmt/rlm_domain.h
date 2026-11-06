@@ -1098,13 +1098,6 @@ struct COUNTRY_POWER_LIMIT_TABLE_DEFAULT {
 	uint8_t ucPwrUnit;
 };
 
-#ifdef OPLUS_FEATURE_WIFI_PWR_LMT
-struct oplus_country_pwr_limit_default {
-    uint32_t project;
-    uint16_t tableSize;
-    struct COUNTRY_POWER_LIMIT_TABLE_DEFAULT *pwrLimitTableDefault;
-};
-#endif /*OPLUS_FEATURE_WIFI_PWR_LMT */
 
 struct SUBBAND_CHANNEL {
 	enum ENUM_BAND eBand;
@@ -1235,18 +1228,6 @@ struct COUNTRY_POWER_LIMIT_TABLE_CONFIGURATION_INFO {
 	struct COUNTRY_POWER_LIMIT_TABLE_CONFIGURATION_EHT_INFO EHT;
 };
 
-#ifdef OPLUS_FEATURE_WIFI_POWER
-struct oplus_country_pwr_limit_default_emi {
-    uint32_t project;
-    struct COUNTRY_POWER_LIMIT_TABLE_DEFAULT_INFO *pwrLimitDefaultTableEmi;
-};
-
-struct oplus_country_pwr_limit_configuration_emi {
-    uint32_t project;
-    struct COUNTRY_POWER_LIMIT_TABLE_CONFIGURATION_INFO *pwrLimitConfigurationTableEmi;
-};
-
-#endif /* OPLUS_FEATURE_WIFI_POWER */
 
 typedef void (*PFN_PWR_LMT_DEFAULT_PAYLOAD_FUNC) (
 	struct COUNTRY_POWER_LIMIT_TABLE_DEFAULT *prPwrLimitSubBand,

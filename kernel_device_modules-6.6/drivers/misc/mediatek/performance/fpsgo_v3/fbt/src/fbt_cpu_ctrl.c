@@ -24,9 +24,6 @@
 #include "eas/eas_plus.h"
 #include "fbt_cpu.h"
 
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_GAME_ENABLE) && IS_ENABLED(CONFIG_OPLUS_FEATURE_CPU_GAME)
-#include <../kernel/oplus_cpu/oplus_game/cpufreq_limits.h>
-#endif
 
 /*--------------------------------------------*/
 
@@ -158,9 +155,6 @@ static void __update_cpu_freq_locked(void)
 			else
 				ceiling_to_set = fbt_cur_ceiling[i];
 
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_GAME_ENABLE) && IS_ENABLED(CONFIG_OPLUS_FEATURE_CPU_GAME)
-			ceiling_to_set = max(ceiling_to_set, oplus_game_get_max_freq(i));
-#endif
 			if (fbt_final_ceiling[i] != ceiling_to_set) {
 				fbt_final_ceiling[i] = ceiling_to_set;
 				freq_qos_update_request(&(fbt_cpu_rq[i]), fbt_final_ceiling[i]);
@@ -174,15 +168,6 @@ static void __update_cpu_freq_locked(void)
 	}
 }
 
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_GAME_ENABLE) && IS_ENABLED(CONFIG_OPLUS_FEATURE_CPU_GAME)
-void oplus_game_update_cpu_freq(void)
-{
-	mutex_lock(&cpu_ctrl_lock);
-	__update_cpu_freq_locked();
-	mutex_unlock(&cpu_ctrl_lock);
-}
-EXPORT_SYMBOL_GPL(oplus_game_update_cpu_freq);
-#endif
 
 /*hrtimer trigger*/
 static void enable_cpu_loading_timer(void)
@@ -681,9 +666,6 @@ int fbt_cpu_ctrl_init(void)
 		cfp_req_tbl[i].cb = NULL;
 	}
 
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_GAME_ENABLE) && IS_ENABLED(CONFIG_OPLUS_FEATURE_CPU_GAME)
-	oplus_game_update_cpu_freq_cb = oplus_game_update_cpu_freq;
-#endif
 
 	pr_info("%s done\n", __func__);
 	return 0;

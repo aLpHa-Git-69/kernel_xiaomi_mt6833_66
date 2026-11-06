@@ -4,10 +4,6 @@
 #ifndef __ADAPTOR_I2C_H__
 #define __ADAPTOR_I2C_H__
 
-#ifdef CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE
-#include "oplus/inc/oplus_cam_olc_exception.h"
-#include "adaptor.h"
-#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 
 struct device *adaptor_ixc_get_dev (struct i3c_i2c_device *client);
 void *adaptor_ixc_get_clientdata (struct i3c_i2c_device *client);

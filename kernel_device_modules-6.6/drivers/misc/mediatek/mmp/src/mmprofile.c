@@ -2442,12 +2442,10 @@ static int mmprofile_probe(void)
 		    proc_create("start", 0600,
 				g_p_proc_dir,
 				&mmprofile_proc_start_fops);
-		/*#ifdef OPLUS_FETURE_DISPLAY*/
 		g_p_proc_buffer =
 		    proc_create("buffer", 0404,
 				g_p_proc_dir,
 				&mmprofile_proc_buffer_fops);
-		/*#endif*/
 		g_p_proc_global =
 		    proc_create("global", 0400,
 				g_p_proc_dir,

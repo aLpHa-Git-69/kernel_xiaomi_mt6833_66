@@ -22,7 +22,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam[
 	{"ldo_vcamio_0"},
 	{"avdd1_gpio_1"},
 	{"avdd1_gpio_0"},
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 	{"ldo_vcama1_1"},
 	{"ldo_vcama1_0"},
 	{"ldo_vcamafvdd_1"},
@@ -33,7 +32,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam[
 	{"ldo_vcamiso_0"},
 	{"ldo_vcamiso1_1"},
 	{"ldo_vcamiso1_0"},
-#endif
 };
 
 struct GPIO_PINCTRL gpio_pinctrl_list_cam_dufu[
@@ -49,7 +47,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam_dufu[
 	{"ldo_vcamd_0"},
 	{"ldo_vcamio_1"},
 	{"ldo_vcamio_0"},
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 	{"ldo_vcamaf_1"},
 	{"ldo_vcamaf_0"},
 	{"ldo_vcama1_1"},
@@ -60,7 +57,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam_dufu[
 	{"ldo_vcamiso_0"},
 	{"ldo_vcama1_1"},
 	{"ldo_vcama1_0"},
-#endif
 
 };
 
@@ -77,7 +73,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam_23031[
 	{"ldo_vcamd_0"},
 	{"ldo_vcamio_1"},
 	{"ldo_vcamio_0"},
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 	{"ldo_vcamaf_1"},
 	{"ldo_vcamaf_0"},
 	{"ldo_vcama1_1"},
@@ -88,7 +83,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam_23031[
 	{"ldo_vcamiso_0"},
 	{"ldo_vcama1_1"},
 	{"ldo_vcama1_0"},
-#endif
 };
 
 struct GPIO_PINCTRL gpio_pinctrl_list_cam_23035[
@@ -104,7 +98,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam_23035[
 	{"ldo_vcamd_0"},
 	{"ldo_vcamio_1"},
 	{"ldo_vcamio_0"},
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 	{"ldo_vcamaf_1"},
 	{"ldo_vcamaf_0"},
 	{"ldo_vcama1_1"},
@@ -115,7 +108,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam_23035[
 	{"ldo_vcamiso_0"},
 	{"ldo_vcama1_1"},
 	{"ldo_vcama1_0"},
-#endif
 };
 
 struct GPIO_PINCTRL gpio_pinctrl_list_cam_23051[
@@ -131,7 +123,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam_23051[
 	{"ldo_vcamd_0"},
 	{"ldo_vcamio_1"},
 	{"ldo_vcamio_0"},
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 	{"ldo_vcamaf_1"},
 	{"ldo_vcamaf_0"},
 	{"ldo_vcama1_1"},
@@ -142,7 +133,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam_23051[
 	{"ldo_vcamiso_0"},
 	{"ldo_vcama1_1"},
 	{"ldo_vcama1_0"},
-#endif
 };
 
 struct GPIO_PINCTRL gpio_pinctrl_list_cam_22277[
@@ -158,7 +148,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam_22277[
 	{"ldo_vcamd_0"},
 	{"ldo_vcamio_1"},
 	{"ldo_vcamio_0"},
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 	{"ldo_vcamaf_1"},
 	{"ldo_vcamaf_0"},
 	{"ldo_vcama1_1"},
@@ -169,7 +158,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam_22277[
 	{"ldo_vcamiso_0"},
 	{"ldo_vcama1_1"},
 	{"ldo_vcama1_0"},
-#endif
 };
 
 struct GPIO_PINCTRL gpio_pinctrl_list_cam_23231[
@@ -185,7 +173,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam_23231[
 	{"ldo_vcamd_0"},
 	{"ldo_vcamio_1"},
 	{"ldo_vcamio_0"},
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 	{"ldo_vcamaf_1"},
 	{"ldo_vcamaf_0"},
 	{"ldo_vcama1_1"},
@@ -196,7 +183,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam_23231[
 	{"ldo_vcamiso_0"},
 	{"ldo_vcama1_1"},
 	{"ldo_vcama1_0"},
-#endif
 };
 
 struct GPIO_PINCTRL gpio_pinctrl_list_cam_moss[
@@ -212,7 +198,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam_moss[
         {"ldo_vcamd_0"},
         {"ldo_vcamio_1"},
         {"ldo_vcamio_0"},
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 		{"ldo_vcamaf_1"},
 		{"ldo_vcamaf_0"},
         {"ldo_vcama1_1"},
@@ -223,7 +208,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam_moss[
         {"ldo_vcamois_0"},
         {"ldo_vcamois1_1"},
         {"ldo_vcamois1_0"},
-#endif
 
 };
 
@@ -240,7 +224,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam_lijing[
 	{"ldo_vcamd_0"},
 	{"ldo_vcamio_1"},
 	{"ldo_vcamio_0"},
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 	{"ldo_vcamaf_1"},
 	{"ldo_vcamaf_0"},
 	{"ldo_vcama1_1"},
@@ -251,7 +234,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam_lijing[
 	{"ldo_vcamiso_0"},
 	{"ldo_vcamiso1_1"},
 	{"ldo_vcamiso1_0"},
-#endif
 };
 
 struct GPIO_PINCTRL gpio_pinctrl_list_cam_lijinga[
@@ -267,7 +249,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam_lijinga[
 	{"ldo_vcamd_0"},
 	{"ldo_vcamio_1"},
 	{"ldo_vcamio_0"},
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 	{"ldo_vcamaf_1"},
 	{"ldo_vcamaf_0"},
 	{"ldo_vcama1_1"},
@@ -278,7 +259,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam_lijinga[
 	{"ldo_vcamiso_0"},
 	{"ldo_vcamiso1_1"},
 	{"ldo_vcamiso1_0"},
-#endif
 };
 
 struct GPIO_PINCTRL gpio_pinctrl_list_cam_fanli[
@@ -294,7 +274,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam_fanli[
 	{"ldo_vcamd_0"},
 	{"ldo_vcamio_1"},
 	{"ldo_vcamio_0"},
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 	{"ldo_vcamaf_1"},
 	{"ldo_vcamaf_0"},
 	{"ldo_vcama1_1"},
@@ -305,7 +284,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam_fanli[
 	{"ldo_vcamiso_0"},
 	{"ldo_vcamiso1_1"},
 	{"ldo_vcamiso1_0"},
-#endif
 };
 
 struct GPIO_PINCTRL gpio_pinctrl_list_cam_22693[
@@ -321,7 +299,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam_22693[
 	{"ldo_vcamd_0"},
 	{"ldo_vcamio_1"},
 	{"ldo_vcamio_0"},
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 	{"ldo_vcamaf_1"},
 	{"ldo_vcamaf_0"},
 	{"ldo_vcama1_1"},
@@ -332,7 +309,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam_22693[
 	{"ldo_vcamiso_0"},
 	{"ldo_vcama1_1"},
 	{"ldo_vcama1_0"},
-#endif
 
 };
 
@@ -349,7 +325,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam_22629[
 	{"ldo_vcamd_0"},
 	{"ldo_vcamio_1"},
 	{"ldo_vcamio_0"},
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 	{"ldo_vcamaf_1"},
 	{"ldo_vcamaf_0"},
 	{"ldo_vcama1_1"},
@@ -360,7 +335,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam_22629[
 	{"ldo_vcamiso_0"},
 	{"ldo_vcama1_1"},
 	{"ldo_vcama1_0"},
-#endif
 };
 
 struct GPIO_PINCTRL gpio_pinctrl_list_cam_23687[
@@ -376,7 +350,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam_23687[
 	{"ldo_vcamd_0"},
 	{"ldo_vcamio_1"},
 	{"ldo_vcamio_0"},
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 	{"ldo_vcamaf_1"},
 	{"ldo_vcamaf_0"},
 	{"ldo_vcama1_1"},
@@ -387,7 +360,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam_23687[
 	{"ldo_vcamois_0"},
 	{"ldo_vcama1_1"},
 	{"ldo_vcama1_0"},
-#endif
 };
 
 struct GPIO_PINCTRL gpio_pinctrl_list_cam_blade[
@@ -403,7 +375,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam_blade[
 	{"ldo_vcamd_0"},
 	{"ldo_vcamio_1"},
 	{"ldo_vcamio_0"},
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 	{"ldo_vcamaf_1"},
 	{"ldo_vcamaf_0"},
 	{"ldo_vcama1_1"},
@@ -414,7 +385,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam_blade[
 	{"ldo_vcamiso_0"},
 	{"ldo_vcamiso1_1"},
 	{"ldo_vcamiso1_0"},
-#endif
 };
 
 struct GPIO_PINCTRL gpio_pinctrl_list_cam_hawaii[
@@ -430,7 +400,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam_hawaii[
 	{"ldo_vcamd_0"},
 	{"ldo_vcamio_1"},
 	{"ldo_vcamio_0"},
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 	{"ldo_vcamaf_1"},
 	{"ldo_vcamaf_0"},
 	{"ldo_vcama1_1"},
@@ -441,7 +410,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_cam_hawaii[
 	{"ldo_vcamiso_0"},
 	{"ldo_vcamiso1_1"},
 	{"ldo_vcamiso1_0"},
-#endif
 };
 
 struct GPIO_PINCTRL gpio_pinctrl_list_cam_212a1[
@@ -473,7 +441,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_switch[
 #endif
 
 extern void gpio_dump_regs(void);
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 struct GPIO_PINCTRL gpio_pinctrl_list_ldo_enable[1] = {
 	{"fan53870_chip_enable"}
 };
@@ -482,7 +449,6 @@ struct GPIO_PINCTRL gpio_pinctrl_list_gpio_power[2] = {
 	{"cam0_gpio_power_enable"},
 	{"cam0_gpio_power_disable"}
 };
-#endif
 
 static struct GPIO gpio_instance;
 
@@ -596,7 +562,6 @@ static enum IMGSENSOR_RETURN gpio_init(
 		}
 	}
 	/* for mipi switch platform */
-	#ifdef OPLUS_FEATURE_CAMERA_COMMON
 	if (1) {
 		if (gpio_pinctrl_list_ldo_enable[0].ppinctrl_lookup_names) {
 			pgpio->pinctrl_state_ldo_enable = pinctrl_lookup_state(
@@ -631,7 +596,6 @@ static enum IMGSENSOR_RETURN gpio_init(
 			ret = IMGSENSOR_RETURN_ERROR;
 		}
 	}
-	#endif
 #ifdef MIPI_SWITCH
 	for (i = 0; i < GPIO_CTRL_STATE_MAX_NUM_SWITCH; i++) {
 		if (gpio_pinctrl_list_switch[i].ppinctrl_lookup_names) {
@@ -682,11 +646,7 @@ static enum IMGSENSOR_RETURN gpio_set(
 #ifdef MIPI_SWITCH
 	    pin > IMGSENSOR_HW_PIN_MIPI_SWITCH_SEL ||
 #else
-		#ifdef OPLUS_FEATURE_CAMERA_COMMON
 		pin > IMGSENSOR_HW_PIN_GPIO_POWER_ENABLE ||
-		#else
-		pin > IMGSENSOR_HW_PIN_DOVDD ||
-		#endif
 #endif
 		pin_state < IMGSENSOR_HW_PIN_STATE_LEVEL_0 ||
 		pin_state > IMGSENSOR_HW_PIN_STATE_LEVEL_HIGH)
@@ -705,7 +665,6 @@ static enum IMGSENSOR_RETURN gpio_set(
 	else
 #endif
 	{
-		#ifdef OPLUS_FEATURE_CAMERA_COMMON
 		if (pin == IMGSENSOR_HW_PIN_FAN53870_ENABLE) {
 			ppinctrl_state = pgpio->pinctrl_state_ldo_enable;
 		} else if(pin == IMGSENSOR_HW_PIN_GPIO_POWER_ENABLE) {
@@ -718,11 +677,6 @@ static enum IMGSENSOR_RETURN gpio_set(
 				pgpio->ppinctrl_state_cam[sensor_idx][
 				((pin - IMGSENSOR_HW_PIN_PDN) << 1) + gpio_state];
 		}
-		#else
-		ppinctrl_state =
-			pgpio->ppinctrl_state_cam[(unsigned int)sensor_idx][
-			((pin - IMGSENSOR_HW_PIN_PDN) << 1) + gpio_state];
-		#endif
 	}
 
 	mutex_lock(pgpio->pgpio_mutex);

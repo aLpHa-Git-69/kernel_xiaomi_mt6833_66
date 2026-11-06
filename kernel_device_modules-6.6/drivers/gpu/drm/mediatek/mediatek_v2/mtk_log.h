@@ -330,7 +330,6 @@ int mtk_dprec_logger_pr(unsigned int type, char *fmt, ...);
 		DDPINFO("M_ULOCK_NST[%d]:%s[%d] -\n", i, name, line);	\
 	} while (0)
 
-/* #ifdef OPLUS_FEATURE_DISPLAY */
 #if IS_ENABLED(CONFIG_MTK_AEE_FEATURE)
 #define DDPAEE(string, args...)							\
 	do {									\
@@ -361,7 +360,6 @@ int mtk_dprec_logger_pr(unsigned int type, char *fmt, ...);
 					str, string, ##args);			\
 		DDPPR_ERR("[DDP Fatal Error]" string, ##args);			\
 	} while (0)
-/*# endif */ /* OPLUS_FEATURE_DISPLAY */
 #else /* !CONFIG_MTK_AEE_FEATURE */
 #define DDPAEE(string, args...)                                                \
 	do {                                                                   \

@@ -6302,10 +6302,6 @@ void nicSerInit(struct ADAPTER *prAdapter, const u_int8_t bAtResetFlow)
 	}
 #endif /* _HIF_USB */
 
-#ifdef OPLUS_FEATURE_CONN_POWER_MONITOR
-//add for  connectivity power monitor
-	oplusLpmUeventInit(prAdapter);
-#endif /* OPLUS_FEATURE_CONN_POWER_MONITOR */
 
 }
 
@@ -6319,10 +6315,6 @@ void nicSerDeInit(struct ADAPTER *prAdapter)
 #if defined(_HIF_USB)
 	cnmTimerStopTimer(prAdapter, &rSerSyncTimer);
 #endif
-#ifdef OPLUS_FEATURE_CONN_POWER_MONITOR
-//add for  connectivity power monitor
-	oplusConnUeventDeinit(prAdapter);
-#endif /* OPLUS_FEATURE_CONN_POWER_MONITOR */
 }
 /* fos_change begin */
 #if CFG_SUPPORT_WAKEUP_STATISTICS

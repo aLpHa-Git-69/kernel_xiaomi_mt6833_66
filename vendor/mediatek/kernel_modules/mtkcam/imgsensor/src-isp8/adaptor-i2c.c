@@ -46,18 +46,6 @@ struct cache_wr_regs_u16_ixc {
 	struct i3c_i2c_xfer msg[MAX_MSG_NUM_U16];
 };
 
-#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-inline unsigned char* payLoadConvert(struct adaptor_ctx *ctx, unsigned char* payload, const char* op, u16 addr, u16 reg, u16 val)
-{
-	if (ctx) {
-		scnprintf(payload, PAYLOAD_LENGTH,
-			"NULL$$EventField@@%s$$FieldData@@0x%x$$detailData@@sn=%s,sm=%d,op:%s,addr=0x%x,reg=0x%x,val=0x%x",
-			acquireEventField(EXCEP_I2C), (CAM_RESERVED_ID << 20 | CAM_MODULE_ID << 12 | EXCEP_I2C),
-			ctx->subdrv->name, ctx->subctx.current_scenario_id, op, addr, reg, val);
-	}
-	return payload;
-}
-#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 
 struct device *adaptor_ixc_get_dev (struct i3c_i2c_device *client)
 {
@@ -103,16 +91,6 @@ int adaptor_i2c_rd_u8(struct i2c_client *i2c_client,
 	int ret;
 	u8 buf[2];
 	struct i2c_msg msg[2];
-	#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-	struct v4l2_subdev *sd = NULL;
-	struct adaptor_ctx *ctx = NULL;
-	unsigned char payload[PAYLOAD_LENGTH] = {0x00};
-
-	sd = i2c_get_clientdata(i2c_client);
-	if (sd) {
-		ctx = to_ctx(sd);
-	}
-	#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 
 	if (i2c_client == NULL)
 		return -ENODEV;
@@ -133,10 +111,6 @@ int adaptor_i2c_rd_u8(struct i2c_client *i2c_client,
 	ret = i2c_transfer(i2c_client->adapter, msg, 2);
 	if (ret < 0) {
 		dev_info(&i2c_client->dev, "i2c transfer failed (%d)\n", ret);
-		#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-		if (ctx)
-			cam_olc_raise_exception(EXCEP_I2C, payLoadConvert(ctx, payload, "rd_u8", addr, reg, 0));
-		#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 		return ret;
 	}
 
@@ -151,16 +125,6 @@ int adaptor_i2c_rd_u16(struct i2c_client *i2c_client,
 	int ret;
 	u8 buf[2];
 	struct i2c_msg msg[2];
-	#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-	struct v4l2_subdev *sd = NULL;
-	struct adaptor_ctx *ctx = NULL;
-	unsigned char payload[PAYLOAD_LENGTH] = {0x00};
-
-	sd = i2c_get_clientdata(i2c_client);
-	if (sd) {
-		ctx = to_ctx(sd);
-	}
-	#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 
 	if (i2c_client == NULL)
 		return -ENODEV;
@@ -181,10 +145,6 @@ int adaptor_i2c_rd_u16(struct i2c_client *i2c_client,
 	ret = i2c_transfer(i2c_client->adapter, msg, 2);
 	if (ret < 0) {
 		dev_info(&i2c_client->dev, "i2c transfer failed (%d)\n", ret);
-		#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-		if (ctx)
-			cam_olc_raise_exception(EXCEP_I2C, payLoadConvert(ctx, payload, "rd_u16", addr, reg, 0));
-		#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 		return ret;
 	}
 
@@ -200,16 +160,6 @@ int adaptor_i2c_rd_p8(struct i2c_client *i2c_client,
 	u8 buf[2];
 	struct i2c_msg msg[2];
 	u8 *pbuf;
-	#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-	struct v4l2_subdev *sd = NULL;
-	struct adaptor_ctx *ctx = NULL;
-	unsigned char payload[PAYLOAD_LENGTH] = {0x00};
-
-	sd = i2c_get_clientdata(i2c_client);
-	if (sd) {
-		ctx = to_ctx(sd);
-	}
-	#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 
 	if (i2c_client == NULL)
 		return -ENODEV;
@@ -243,10 +193,6 @@ int adaptor_i2c_rd_p8(struct i2c_client *i2c_client,
 		if (ret < 0) {
 			dev_info(&i2c_client->dev,
 				"i2c transfer failed (%d)\n", ret);
-			#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-			if (ctx)
-				cam_olc_raise_exception(EXCEP_I2C, payLoadConvert(ctx, payload, "rd_p8", addr, reg, 0));
-			#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 			return -EIO;
 		}
 
@@ -264,16 +210,6 @@ int adaptor_i2c_wr_u8(struct i2c_client *i2c_client,
 	int ret;
 	u8 buf[3];
 	struct i2c_msg msg;
-	#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-	struct v4l2_subdev *sd = NULL;
-	struct adaptor_ctx *ctx = NULL;
-	unsigned char payload[PAYLOAD_LENGTH] = {0x00};
-
-	sd = i2c_get_clientdata(i2c_client);
-	if (sd) {
-		ctx = to_ctx(sd);
-	}
-	#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 
 	if (i2c_client == NULL)
 		return -ENODEV;
@@ -290,10 +226,6 @@ int adaptor_i2c_wr_u8(struct i2c_client *i2c_client,
 	ret = i2c_transfer(i2c_client->adapter, &msg, 1);
 	if (ret < 0) {
 		dev_info(&i2c_client->dev, "i2c transfer failed (%d)\n", ret);
-		#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-		if (ctx)
-			cam_olc_raise_exception(EXCEP_I2C, payLoadConvert(ctx, payload, "wr_u8", addr, reg, val));
-		#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 	}
 
 	return ret;
@@ -305,16 +237,6 @@ int adaptor_i2c_wr_u16(struct i2c_client *i2c_client,
 	int ret;
 	u8 buf[4];
 	struct i2c_msg msg;
-	#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-	struct v4l2_subdev *sd = NULL;
-	struct adaptor_ctx *ctx = NULL;
-	unsigned char payload[PAYLOAD_LENGTH] = {0x00};
-
-	sd = i2c_get_clientdata(i2c_client);
-	if (sd) {
-		ctx = to_ctx(sd);
-	}
-	#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 
 	if (i2c_client == NULL)
 		return -ENODEV;
@@ -332,10 +254,6 @@ int adaptor_i2c_wr_u16(struct i2c_client *i2c_client,
 	ret = i2c_transfer(i2c_client->adapter, &msg, 1);
 	if (ret < 0) {
 		dev_info(&i2c_client->dev, "i2c transfer failed (%d)\n", ret);
-		#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-		if (ctx)
-			cam_olc_raise_exception(EXCEP_I2C, payLoadConvert(ctx, payload, "wr_u16", addr, reg, val));
-		#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 	}
 
 	return ret;
@@ -347,16 +265,6 @@ int adaptor_i2c_wr_p8(struct i2c_client *i2c_client,
 	u8 *buf, *pbuf, *pdata;
 	struct i2c_msg msg;
 	int ret, sent, total, cnt;
-	#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-	struct v4l2_subdev *sd = NULL;
-	struct adaptor_ctx *ctx = NULL;
-	unsigned char payload[PAYLOAD_LENGTH] = {0x00};
-
-	sd = i2c_get_clientdata(i2c_client);
-	if (sd) {
-		ctx = to_ctx(sd);
-	}
-	#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 
 	if (i2c_client == NULL)
 		return -ENODEV;
@@ -391,10 +299,6 @@ int adaptor_i2c_wr_p8(struct i2c_client *i2c_client,
 		if (ret < 0) {
 			dev_info(&i2c_client->dev,
 				"i2c transfer failed (%d)\n", ret);
-			#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-			if (ctx)
-				cam_olc_raise_exception(EXCEP_I2C, payLoadConvert(ctx, payload, "wr_p8", addr, reg, 0));
-			#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 			kfree(buf);
 			return -EIO;
 		}
@@ -415,16 +319,6 @@ int adaptor_i2c_wr_p16(struct i2c_client *i2c_client,
 	u16 *pdata;
 	struct i2c_msg msg;
 	int i, ret, sent, total, cnt;
-	#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-	struct v4l2_subdev *sd = NULL;
-	struct adaptor_ctx *ctx = NULL;
-	unsigned char payload[PAYLOAD_LENGTH] = {0x00};
-
-	sd = i2c_get_clientdata(i2c_client);
-	if (sd) {
-		ctx = to_ctx(sd);
-	}
-	#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 
 	if (i2c_client == NULL)
 		return -ENODEV;
@@ -465,10 +359,6 @@ int adaptor_i2c_wr_p16(struct i2c_client *i2c_client,
 		if (ret < 0) {
 			dev_info(&i2c_client->dev,
 				"i2c transfer failed (%d)\n", ret);
-			#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-			if (ctx)
-				cam_olc_raise_exception(EXCEP_I2C, payLoadConvert(ctx, payload, "wr_p16", addr, reg, 0));
-			#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 			kfree(buf);
 			return -EIO;
 		}
@@ -487,16 +377,6 @@ int adaptor_i2c_wr_seq_p8(struct i2c_client *i2c_client,
 	u8 *buf, *pbuf, *pdata;
 	struct i2c_msg msg;
 	int ret, sent, total, cnt;
-	#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-	struct v4l2_subdev *sd = NULL;
-	struct adaptor_ctx *ctx = NULL;
-	unsigned char payload[PAYLOAD_LENGTH] = {0x00};
-
-	sd = i2c_get_clientdata(i2c_client);
-	if (sd) {
-		ctx = to_ctx(sd);
-	}
-	#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 
 	if (i2c_client == NULL)
 		return -ENODEV;
@@ -534,10 +414,6 @@ int adaptor_i2c_wr_seq_p8(struct i2c_client *i2c_client,
 		if (ret < 0) {
 			dev_info(&i2c_client->dev,
 				"i2c transfer failed (%d)\n", ret);
-			#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-			if (ctx)
-				cam_olc_raise_exception(EXCEP_I2C, payLoadConvert(ctx, payload, "wr_seq_p8", addr, reg, 0));
-			#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 			kfree(buf);
 			return -EIO;
 		}
@@ -560,16 +436,6 @@ int adaptor_i2c_wr_regs_u8(struct i2c_client *i2c_client,
 	u8 *pbuf;
 	u16 *plist;
 	int i, ret, sent, total, cnt;
-	#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-	struct v4l2_subdev *sd = NULL;
-	struct adaptor_ctx *ctx = NULL;
-	unsigned char payload[PAYLOAD_LENGTH] = {0x00};
-
-	sd = i2c_get_clientdata(i2c_client);
-	if (sd) {
-		ctx = to_ctx(sd);
-	}
-	#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 
 	if (i2c_client == NULL)
 		return -ENODEV;
@@ -612,10 +478,6 @@ int adaptor_i2c_wr_regs_u8(struct i2c_client *i2c_client,
 		if (ret != cnt) {
 			dev_info(&i2c_client->dev,
 				"i2c transfer failed (%d)\n", ret);
-			#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-			if (ctx)
-				cam_olc_raise_exception(EXCEP_I2C, payLoadConvert(ctx, payload, "wr_regs_u8", addr, list[0], list[1]));
-			#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 			kfree(pmem);
 			return -EIO;
 		}
@@ -636,16 +498,6 @@ int adaptor_i2c_wr_regs_u16(struct i2c_client *i2c_client,
 	u8 *pbuf;
 	u16 *plist;
 	int i, ret, sent, total, cnt;
-	#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-	struct v4l2_subdev *sd = NULL;
-	struct adaptor_ctx *ctx = NULL;
-	unsigned char payload[PAYLOAD_LENGTH] = {0x00};
-
-	sd = i2c_get_clientdata(i2c_client);
-	if (sd) {
-		ctx = to_ctx(sd);
-	}
-	#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 
 	if (i2c_client == NULL)
 		return -ENODEV;
@@ -690,10 +542,6 @@ int adaptor_i2c_wr_regs_u16(struct i2c_client *i2c_client,
 		if (ret != cnt) {
 			dev_info(&i2c_client->dev,
 				"i2c transfer failed (%d)\n", ret);
-			#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-			if (ctx)
-				cam_olc_raise_exception(EXCEP_I2C, payLoadConvert(ctx, payload, "wr_regs_u16", addr, list[0], list[1]));
-			#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 			kfree(pmem);
 			return -EIO;
 		}
@@ -713,16 +561,6 @@ int adaptor_ixc_rd_u8(struct i3c_i2c_device *client,
 	u8 buf[2];
 	struct i3c_i2c_xfer msg[2];
 	struct device *dev = adaptor_ixc_get_dev(client);
-	#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-	struct v4l2_subdev *sd = NULL;
-	struct adaptor_ctx *ctx = NULL;
-	unsigned char payload[PAYLOAD_LENGTH] = {0x00};
-
-	sd = adaptor_ixc_get_clientdata(client);
-	if (sd) {
-		ctx = to_ctx(sd);
-	}
-	#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 
 	if (client == NULL)
 		return -ENODEV;
@@ -746,10 +584,6 @@ int adaptor_ixc_rd_u8(struct i3c_i2c_device *client,
 	ret = i3c_i2c_transfer(client, msg, 2);
 	if (ret < 0) {
 		dev_info(dev, "[%s]ixc transfer failed (%d)\n", __func__,ret);
-		#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-		if (ctx)
-			cam_olc_raise_exception(EXCEP_I2C, payLoadConvert(ctx, payload, "ixc_rd_u8", addr, reg, 0));
-		#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 		return ret;
 	}
 
@@ -765,16 +599,6 @@ int adaptor_ixc_rd_u16(struct i3c_i2c_device *client,
 	u8 buf[2];
 	struct i3c_i2c_xfer msg[2];
 	struct device *dev = adaptor_ixc_get_dev(client);
-	#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-	struct v4l2_subdev *sd = NULL;
-	struct adaptor_ctx *ctx = NULL;
-	unsigned char payload[PAYLOAD_LENGTH] = {0x00};
-
-	sd = adaptor_ixc_get_clientdata(client);
-	if (sd) {
-		ctx = to_ctx(sd);
-	}
-	#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 
 	if (client == NULL)
 		return -ENODEV;
@@ -798,10 +622,6 @@ int adaptor_ixc_rd_u16(struct i3c_i2c_device *client,
 	ret = i3c_i2c_transfer(client, msg, 2);
 	if (ret < 0) {
 		dev_info(dev, "[%s]ixc transfer failed (%d)\n", __func__,ret);
-		#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-		if (ctx)
-			cam_olc_raise_exception(EXCEP_I2C, payLoadConvert(ctx, payload, "ixc_rd_u16", addr, reg, 0));
-		#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 		return ret;
 	}
 
@@ -818,16 +638,6 @@ int adaptor_ixc_rd_p8(struct i3c_i2c_device *client,
 	struct i3c_i2c_xfer msg[2];
 	struct device *dev = adaptor_ixc_get_dev(client);
 	u8 *pbuf;
-	#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-	struct v4l2_subdev *sd = NULL;
-	struct adaptor_ctx *ctx = NULL;
-	unsigned char payload[PAYLOAD_LENGTH] = {0x00};
-
-	sd = adaptor_ixc_get_clientdata(client);
-	if (sd) {
-		ctx = to_ctx(sd);
-	}
-	#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 
 	if (client == NULL)
 		return -ENODEV;
@@ -863,10 +673,6 @@ int adaptor_ixc_rd_p8(struct i3c_i2c_device *client,
 		ret = i3c_i2c_transfer(client, msg, 2);
 		if (ret < 0) {
 			dev_info(dev, "[%s]ixc transfer failed (%d)\n", __func__,ret);
-			#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-			if (ctx)
-				cam_olc_raise_exception(EXCEP_I2C, payLoadConvert(ctx, payload, "ixc_rd_p8", addr, reg, 0));
-			#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 			return -EIO;
 		}
 
@@ -885,16 +691,6 @@ int adaptor_ixc_wr_u8(struct i3c_i2c_device *client,
 	u8 buf[3];
 	struct i3c_i2c_xfer msg;
 	struct device *dev = adaptor_ixc_get_dev(client);
-	#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-	struct v4l2_subdev *sd = NULL;
-	struct adaptor_ctx *ctx = NULL;
-	unsigned char payload[PAYLOAD_LENGTH] = {0x00};
-
-	sd = adaptor_ixc_get_clientdata(client);
-	if (sd) {
-		ctx = to_ctx(sd);
-	}
-	#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 
 	if (client == NULL)
 		return -ENODEV;
@@ -913,10 +709,6 @@ int adaptor_ixc_wr_u8(struct i3c_i2c_device *client,
 	ret = i3c_i2c_transfer(client, &msg, 1);
 	if (ret < 0) {
 		dev_info(dev, "[%s]ixc transfer failed (%d)\n", __func__,ret);
-		#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-		if (ctx)
-			cam_olc_raise_exception(EXCEP_I2C, payLoadConvert(ctx, payload, "ixc_wr_u8", addr, reg, val));
-		#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 	}
 
 	return ret;
@@ -929,16 +721,6 @@ int adaptor_ixc_wr_u16(struct i3c_i2c_device *client,
 	u8 buf[4];
 	struct i3c_i2c_xfer msg;
 	struct device *dev = adaptor_ixc_get_dev(client);
-	#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-	struct v4l2_subdev *sd = NULL;
-	struct adaptor_ctx *ctx = NULL;
-	unsigned char payload[PAYLOAD_LENGTH] = {0x00};
-
-	sd = adaptor_ixc_get_clientdata(client);
-	if (sd) {
-		ctx = to_ctx(sd);
-	}
-	#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 
 	if (client == NULL)
 		return -ENODEV;
@@ -958,10 +740,6 @@ int adaptor_ixc_wr_u16(struct i3c_i2c_device *client,
 	ret = i3c_i2c_transfer(client, &msg, 1);
 	if (ret < 0) {
 		dev_info(dev, "[%s]ixc transfer failed (%d)\n", __func__,ret);
-		#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-		if (ctx)
-			cam_olc_raise_exception(EXCEP_I2C, payLoadConvert(ctx, payload, "ixc_wr_u16", addr, reg, val));
-		#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 	}
 
 	return ret;
@@ -974,16 +752,6 @@ int adaptor_ixc_wr_p8(struct i3c_i2c_device *client,
 	struct i3c_i2c_xfer msg;
 	struct device *dev = adaptor_ixc_get_dev(client);
 	int ret, sent, total, cnt;
-	#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-	struct v4l2_subdev *sd = NULL;
-	struct adaptor_ctx *ctx = NULL;
-	unsigned char payload[PAYLOAD_LENGTH] = {0x00};
-
-	sd = adaptor_ixc_get_clientdata(client);
-	if (sd) {
-		ctx = to_ctx(sd);
-	}
-	#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 
 	if (client == NULL)
 		return -ENODEV;
@@ -1019,10 +787,6 @@ int adaptor_ixc_wr_p8(struct i3c_i2c_device *client,
 		ret = i3c_i2c_transfer(client, &msg, 1);
 		if (ret < 0) {
 			dev_info(dev, "[%s]ixc transfer failed (%d)\n", __func__,ret);
-			#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-			if (ctx)
-				cam_olc_raise_exception(EXCEP_I2C, payLoadConvert(ctx, payload, "ixc_wr_p8", addr, reg, 0));
-			#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 			kfree(buf);
 			return -EIO;
 		}
@@ -1044,16 +808,6 @@ int adaptor_ixc_wr_p16(struct i3c_i2c_device *client,
 	struct i3c_i2c_xfer msg;
 	struct device *dev = adaptor_ixc_get_dev(client);
 	int i, ret, sent, total, cnt;
-	#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-	struct v4l2_subdev *sd = NULL;
-	struct adaptor_ctx *ctx = NULL;
-	unsigned char payload[PAYLOAD_LENGTH] = {0x00};
-
-	sd = adaptor_ixc_get_clientdata(client);
-	if (sd) {
-		ctx = to_ctx(sd);
-	}
-	#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 
 	if (client == NULL)
 		return -ENODEV;
@@ -1095,10 +849,6 @@ int adaptor_ixc_wr_p16(struct i3c_i2c_device *client,
 		ret = i3c_i2c_transfer(client, &msg, 1);
 		if (ret < 0) {
 			dev_info(dev, "[%s]ixc transfer failed (%d)\n", __func__,ret);
-			#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-			if (ctx)
-				cam_olc_raise_exception(EXCEP_I2C, payLoadConvert(ctx, payload, "ixc_wr_p16", addr, reg, 0));
-			#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 			kfree(buf);
 			return -EIO;
 		}
@@ -1118,16 +868,6 @@ int adaptor_ixc_wr_seq_p8(struct i3c_i2c_device *client,
 	struct i3c_i2c_xfer msg;
 	struct device *dev = adaptor_ixc_get_dev(client);
 	int ret, sent, total, cnt;
-	#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-	struct v4l2_subdev *sd = NULL;
-	struct adaptor_ctx *ctx = NULL;
-	unsigned char payload[PAYLOAD_LENGTH] = {0x00};
-
-	sd = adaptor_ixc_get_clientdata(client);
-	if (sd) {
-		ctx = to_ctx(sd);
-	}
-	#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 
 	if (client == NULL)
 		return -ENODEV;
@@ -1166,10 +906,6 @@ int adaptor_ixc_wr_seq_p8(struct i3c_i2c_device *client,
 		ret = i3c_i2c_transfer(client, &msg, 1);
 		if (ret < 0) {
 			dev_info(dev, "[%s]ixc transfer failed (%d)\n", __func__,ret);
-			#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-			if (ctx)
-				cam_olc_raise_exception(EXCEP_I2C, payLoadConvert(ctx, payload, "ixc_wr_seq_p8", addr, reg, 0));
-			#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 			kfree(buf);
 			return -EIO;
 		}
@@ -1193,16 +929,6 @@ int adaptor_ixc_wr_regs_u8(struct i3c_i2c_device *client,
 	u8 *pbuf;
 	u16 *plist;
 	int i, ret, sent, total, cnt;
-	#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-	struct v4l2_subdev *sd = NULL;
-	struct adaptor_ctx *ctx = NULL;
-	unsigned char payload[PAYLOAD_LENGTH] = {0x00};
-
-	sd = adaptor_ixc_get_clientdata(client);
-	if (sd) {
-		ctx = to_ctx(sd);
-	}
-	#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 
 	if (client == NULL)
 		return -ENODEV;
@@ -1246,10 +972,6 @@ int adaptor_ixc_wr_regs_u8(struct i3c_i2c_device *client,
 		ret = i3c_i2c_transfer(client, pmem->msg, cnt);
 		if (ret < 0){
 			dev_info(dev, "[%s]ixc transfer failed (%d)\n", __func__,ret);
-			#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-			if (ctx)
-				cam_olc_raise_exception(EXCEP_I2C, payLoadConvert(ctx, payload, "ixc_wr_regs_u8", addr, plist[0], plist[1]));
-			#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 			kfree(pmem);
 			return -EIO;
 		}
@@ -1272,16 +994,6 @@ int adaptor_ixc_wr_regs_u8_max(struct i3c_i2c_device *client,
 	u8 *pbuf;
 	u16 *plist;
 	int i, ret, sent, total, cnt;
-	#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-	struct v4l2_subdev *sd = NULL;
-	struct adaptor_ctx *ctx = NULL;
-	unsigned char payload[PAYLOAD_LENGTH] = {0x00};
-
-	sd = adaptor_ixc_get_clientdata(client);
-	if (sd) {
-		ctx = to_ctx(sd);
-	}
-	#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 
 	if (client == NULL)
 		return -ENODEV;
@@ -1325,10 +1037,6 @@ int adaptor_ixc_wr_regs_u8_max(struct i3c_i2c_device *client,
 		ret = i3c_i2c_transfer(client, pmem->msg, cnt);
 		if (ret < 0){
 			dev_info(dev, "[%s]ixc transfer failed (%d)\n", __func__,ret);
-			#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-			if (ctx)
-				cam_olc_raise_exception(EXCEP_I2C, payLoadConvert(ctx, payload, "ixc_wr_regs_u8", addr, plist[0], plist[1]));
-			#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 			kfree(pmem);
 			return -EIO;
 		}
@@ -1351,16 +1059,6 @@ int adaptor_ixc_wr_regs_u16(struct i3c_i2c_device *client,
 	u8 *pbuf;
 	u16 *plist;
 	int i, ret, sent, total, cnt;
-	#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-	struct v4l2_subdev *sd = NULL;
-	struct adaptor_ctx *ctx = NULL;
-	unsigned char payload[PAYLOAD_LENGTH] = {0x00};
-
-	sd = adaptor_ixc_get_clientdata(client);
-	if (sd) {
-		ctx = to_ctx(sd);
-	}
-	#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 
 	if (client == NULL)
 		return -ENODEV;
@@ -1405,10 +1103,6 @@ int adaptor_ixc_wr_regs_u16(struct i3c_i2c_device *client,
 
 		if (ret < 0){
 			dev_info(dev, "[%s]ixc transfer failed (%d)\n", __func__,ret);
-			#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-			if (ctx)
-				cam_olc_raise_exception(EXCEP_I2C, payLoadConvert(ctx, payload, "ixc_wr_regs_u16", addr, list[0], list[1]));
-			#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 			kfree(pmem);
 			return -EIO;
 		}

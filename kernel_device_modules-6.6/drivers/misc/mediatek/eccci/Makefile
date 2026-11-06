@@ -87,9 +87,7 @@ ccci_md_all-$(CCCI_OBJ) += fsm/ccci_fsm.o \
 			fsm/ap_md_reg_dump_gen93.o \
 			fsm/ap_md_reg_dump_gen95.o \
 			fsm/ap_md_reg_dump_gen97.o \
-			fsm/ap_md_mem.o \
-			fsm/oplus_criticallog.o \
-			fsm/criticallog_class.o
+			fsm/ap_md_mem.o
 
 # fsm end
 

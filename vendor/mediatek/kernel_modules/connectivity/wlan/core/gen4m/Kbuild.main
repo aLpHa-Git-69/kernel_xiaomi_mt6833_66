@@ -173,35 +173,10 @@ ccflags-y += $(call cc-disable-warning, cast-function-type-strict)
 # because some of common part code is surrounded with this flag
 ccflags-y += -DLINUX
 
-#ifdef OPLUS_BUG_STABILITY
-# camellia: not Oppo hardware
-#ccflags-y += -DOPLUS_WLAN_BUG_STABILITY=1
-#endif  /* OPLUS_BUG_STABILITY */
-
-#ifdef OPLUS_FEATURE_CONN_POWER_MONITOR
-#CONNECTIVITY.WIFI.HARDWARE.POWER, 2022/06/30, add for mtk connectivity power monitor
-# camellia: not Oppo hardware
-#ccflags-y += -DOPLUS_FEATURE_CONN_POWER_MONITOR
-#endif /* OPLUS_FEATURE_CONN_POWER_MONITOR */
-
-#ifdef OPLUS_FEATURE_WIFI_POWER
-# camellia: not Oppo hardware
-#ccflags-y += -DOPLUS_FEATURE_WIFI_POWER
-#endif /* OPLUS_FEATURE_WIFI_POWER */
 ifneq ($(filter MT6632,$(MTK_COMBO_CHIP)),)
 ccflags-y:=$(filter-out -UMT6632,$(ccflags-y))
 ccflags-y += -DMT6632
 endif
-
-#ifdef OPLUS_FEATURE_WIFI_VENDOR_FT
-# camellia: not Oppo hardware
-#ccflags-y += -DOPLUS_FEATURE_WIFI_VENDOR_FT
-#endif /* OPLUS_FEATURE_WIFI_VENDOR_FT */
-
-#ifdef OPLUS_FEATURE_ROAMING_OPTIMIZATION
-# camellia: not Oppo hardware
-#ccflags-y += -DOPLUS_FEATURE_ROAMING_OPTIMIZATION
-#endif /* OPLUS_FEATURE_ROAMING_OPTIMIZATION */
 
 ifneq ($(filter MT7668,$(MTK_COMBO_CHIP)),)
 ccflags-y:=$(filter-out -UMT7668,$(ccflags-y))
@@ -2855,10 +2830,6 @@ ifeq ($(CONFIG_SUPPORT_PWR_LMT_EMI), y)
     ccflags-y += -DCFG_SUPPORT_PWR_LMT_EMI=1
 else
     ccflags-y += -DCFG_SUPPORT_PWR_LMT_EMI=0
-#ifdef OPLUS_FEATURE_WIFI_PWR_LMT
-    # camellia: not Oppo hardware
-    #ccflags-y += -DOPLUS_FEATURE_WIFI_PWR_LMT
-#endif /* OPLUS_FEATURE_WIFI_PWR_LMT */
 endif
 
 ifeq ($(CONFIG_SUPPORT_PHY_ICS_V3), y)
@@ -3087,8 +3058,6 @@ endif
 # Chips Objects List
 # ---------------------------------------------------
 MGMT_OBJS += $(MGMT_DIR)stats.o
-
-MGMT_OBJS += $(MGMT_DIR)oplus_rlm_domain.o
 
 CHIPS_OBJS += $(CHIPS_CMM)cmm_asic_common.o \
               $(CHIPS_CMM)fw_log.o
@@ -3426,11 +3395,6 @@ SYSDVT_OBJS += $(SYSDVT_DIR)dvt_dmashdl.o
 endif
 endif
 
-#ifdef OPLUS_FEATURE_WIFI_HARDWARE_POWER
-#CONNECTIVITY.WIFI.HARDWARE.POWER.26106 2023/06/01 , add for wake up package parse
-OPLUS_WIFI_POWER += oplus_wifi_power/oplus_parse_package.o
-#endif /* OPLUS_FEATURE_WIFI_HARDWARE_POWER */
-
 # ---------------------------------------------------
 # Service git List
 # ---------------------------------------------------
@@ -3475,12 +3439,6 @@ $(MODULE_NAME)-objs  += $(SYSDVT_OBJS)
 $(MODULE_NAME)-objs  += $(CRYPTO_OBJS)
 $(MODULE_NAME)-objs  += $(NAN_OBJS)
 $(MODULE_NAME)-objs  += $(NAN_SEC_OBJS)
-
-#ifdef OPLUS_FEATURE_WIFI_HARDWARE_POWER
-#CONNECTIVITY.WIFI.HARDWARE.POWER.26106 2023/06/01 , add for wake up package parse
-$(MODULE_NAME)-objs  += $(OPLUS_WIFI_POWER)
-ccflags-y += -I$(KO_CODE_PATH)/oplus_wifi_power
-#endif /* OPLUS_FEATURE_WIFI_HARDWARE_POWER */
 
 ifneq ($(findstring UT_TEST_MODE,$(MTK_COMBO_CHIP)),)
 include $(KO_CODE_PATH)/test/ut.make
@@ -3530,6 +3488,4 @@ else
     ccflags-y += -Wframe-larger-than=2048
 endif
 
-#ifdef OPLUS_FEATURE_WIFI_CAPCENTER_GC_AP_CONNECT
 ccflags-y += -DCFG_P2P_CONNECT_ALL_BSS=1
-#endif /* OPLUS_FEATURE_WIFI_CAPCENTER_GC_AP_CONNECT */

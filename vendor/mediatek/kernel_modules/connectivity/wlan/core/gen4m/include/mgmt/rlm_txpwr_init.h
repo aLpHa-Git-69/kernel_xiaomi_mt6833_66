@@ -40,16 +40,12 @@
 #define VLP_NON_SUPPORT     FALSE /* Non-support 6G Very Low Power mode   */
 #endif /* CFG_SUPPORT_WIFI_6G_PWR_MODE */
 
-#include "oplus_rlm_txpwr_init.h"
-#include "oplus_rlm_txpwr_init_lmt.h"
 /* Include channel /rate group power limit header file */
 #if (CFG_SUPPORT_PWR_LMT_EMI == 1)
 #if (COUNTRY_CHANNEL_TXPOWER_LIMIT_CHANNEL_DEFINE == 1)
 #include "rlm_txpwr_data_emi_pri.h"
-#include "oplus_rlm_txpwr_data_emi_pri.h"
 #else
 #include "rlm_txpwr_data_emi_cent.h"
-#include "oplus_rlm_txpwr_data_emi_cent.h"
 #endif /* COUNTRY_CHANNEL_TXPOWER_LIMIT_CHANNEL_DEFINE == 1*/
 #else
 #include "rlm_txpwr_data.h"
@@ -2485,166 +2481,6 @@ struct COUNTRY_POWER_LIMIT_GROUP_TABLE arSupportCountryPowerLmtGrps[] = {
 			/ sizeof(struct COUNTRY_POWER_LIMIT_GROUP_TABLE))
 };
 
-#ifdef OPLUS_FEATURE_WIFI_POWER
-static struct COUNTRY_POWER_LIMIT_COUNTRY_CODE g_u2oplusCountryLimitGrp0[] = {
-	{'A','E'}, {'A','F'}, {'A','L'}, {'A','M'}, {'A','O'}, {'A','T'}, {'A','U'}, {'A','Z'},
-	{'B','A'}, {'B','D'}, {'B','E'}, {'B','G'}, {'B','H'}, {'B','O'}, {'B','Y'},
-	{'C','H'}, {'C','I'}, {'C','M'}, {'C','Y'}, {'C','Z'},
-	{'D','E'}, {'D','K'}, {'D','Z'},
-	{'E','E'}, {'E','G'}, {'E','S'}, {'E','T'},
-	{'F','I'}, {'F','R'},
-	{'G','B'}, {'G','E'}, {'G','H'}, {'G','R'},
-	{'H','K'}, {'H','R'}, {'H','U'},
-	{'I','D'}, {'I','E'}, {'I','L'}, {'I','Q'}, {'I','R'}, {'I','S'}, {'I','T'},
-	{'J','M'}, {'J','O'},
-	{'K','E'}, {'K','G'}, {'K','H'}, {'K','W'}, {'K','Z'},
-	{'L','A'}, {'L','B'}, {'L','I'}, {'L','K'}, {'L','T'}, {'L','U'}, {'L','V'}, {'L','Y'},
-	{'M','A'}, {'M','D'}, {'M','E'}, {'M','K'}, {'M','M'}, {'M','N'}, {'M','O'}, {'M','T'}, {'M','U'}, {'M','Y'},
-	{'N','G'}, {'N','I'}, {'N','L'}, {'N','O'}, {'N','P'}, {'N','Z'},
-	{'O','M'},
-	{'P','H'}, {'P','K'}, {'P','L'}, {'P','S'}, {'P','T'},
-	{'Q','A'},
-	{'R','O'}, {'R','S'}, {'R','U'},
-	{'S','A'}, {'S','E'}, {'S','G'}, {'S','I'}, {'S','K'}, {'S','Y'},
-	{'T','H'}, {'T','J'}, {'T','M'}, {'T','N'}, {'T','R'}, {'T','Z'},
-	{'U','A'}, {'U','Z'},
-	{'V','N'},
-	{'Y','E'},
-	{'Z','A'}
-};
-
-/*FCC&NCC*/
-static struct COUNTRY_POWER_LIMIT_COUNTRY_CODE g_u2oplusCountryLimitGrp1[] = {
-	{'C','A'}, {'C','L'}, {'C','O'}, {'C','R'},
-	{'D','O'},
-	{'G','T'},
-	{'H','N'},
-	{'P','A'}, {'P','E'},{'P','Y'},
-	{'S','V'},
-	{'U','Y'}, {'U','S'}
-};
-
-/*IN*/
-static struct COUNTRY_POWER_LIMIT_COUNTRY_CODE g_u2oplusCountryLimitGrp2[] = {
-	{'I','N'}
-};
-
-/*MX*/
-static struct COUNTRY_POWER_LIMIT_COUNTRY_CODE g_u2oplusCountryLimitGrp3[] = {
-	{'M','X'}
-};
-
-/*BR*/
-static struct COUNTRY_POWER_LIMIT_COUNTRY_CODE g_u2oplusCountryLimitGrp4[] = {
-	{'B','R'}
-};
-
-/*JP*/
-static struct COUNTRY_POWER_LIMIT_COUNTRY_CODE g_u2oplusCountryLimitGrp5[] = {
-	{'J','P'}
-};
-
-/*CN*/
-static struct COUNTRY_POWER_LIMIT_COUNTRY_CODE g_u2oplusCountryLimitGrp6[] = {
-	{'C','N'}
-};
-
-/*lisa fcc*/
-static struct COUNTRY_POWER_LIMIT_COUNTRY_CODE g_u2oplusCountryLimitGrp7[] = {
-        {'B','L'},{'B','R'},
-        {'C','L'},{'C','O'},
-        {'M','X'},
-        {'P','E'},{'P','Y'},
-};
-
-/*AR*/
-static struct COUNTRY_POWER_LIMIT_COUNTRY_CODE g_u2oplusCountryLimitGrp8[] = {
-	{'A','R'}
-};
-
-/*EC*/
-static struct COUNTRY_POWER_LIMIT_COUNTRY_CODE g_u2oplusCountryLimitGrp9[] = {
-	{'E','C'}
-};
-
-/*TW*/
-static struct COUNTRY_POWER_LIMIT_COUNTRY_CODE g_u2oplusCountryLimitGrp10[] = {
-	{'T','W'}
-};
-
-struct COUNTRY_POWER_LIMIT_GROUP_TABLE oplusarSupportCountryPowerLmtGrps[] = {
-	{
-		{'G', '0'},
-		sizeof(g_u2oplusCountryLimitGrp0) /
-			sizeof(struct COUNTRY_POWER_LIMIT_COUNTRY_CODE),
-		g_u2oplusCountryLimitGrp0
-	},
-	{
-		{'G', '1'},
-		sizeof(g_u2oplusCountryLimitGrp1) /
-			sizeof(struct COUNTRY_POWER_LIMIT_COUNTRY_CODE),
-		g_u2oplusCountryLimitGrp1
-	},
-	{
-		{'G', '2'},
-		sizeof(g_u2oplusCountryLimitGrp2) /
-			sizeof(struct COUNTRY_POWER_LIMIT_COUNTRY_CODE),
-		g_u2oplusCountryLimitGrp2
-	},
-	{
-		{'G', '3'},
-		sizeof(g_u2oplusCountryLimitGrp3) /
-			sizeof(struct COUNTRY_POWER_LIMIT_COUNTRY_CODE),
-		g_u2oplusCountryLimitGrp3
-	},
-	{
-		{'G', '4'},
-		sizeof(g_u2oplusCountryLimitGrp4) /
-			sizeof(struct COUNTRY_POWER_LIMIT_COUNTRY_CODE),
-		g_u2oplusCountryLimitGrp4
-	},
-	{
-		{'G', '5'},
-		sizeof(g_u2oplusCountryLimitGrp5) /
-			sizeof(struct COUNTRY_POWER_LIMIT_COUNTRY_CODE),
-		g_u2oplusCountryLimitGrp5
-	},
-	{
-		{'G', '6'},
-		sizeof(g_u2oplusCountryLimitGrp6) /
-			sizeof(struct COUNTRY_POWER_LIMIT_COUNTRY_CODE),
-		g_u2oplusCountryLimitGrp6
-	},
-	{
-		{'G', '7'},
-		sizeof(g_u2oplusCountryLimitGrp7) /
-			sizeof(struct COUNTRY_POWER_LIMIT_COUNTRY_CODE),
-		g_u2oplusCountryLimitGrp7
-	},
-	{
-		{'G', '8'},
-		sizeof(g_u2oplusCountryLimitGrp8) /
-			sizeof(struct COUNTRY_POWER_LIMIT_COUNTRY_CODE),
-		g_u2oplusCountryLimitGrp8
-	},
-	{
-		{'G', '9'},
-		sizeof(g_u2oplusCountryLimitGrp9) /
-			sizeof(struct COUNTRY_POWER_LIMIT_COUNTRY_CODE),
-		g_u2oplusCountryLimitGrp9
-	},
-	{
-		{'G', 'a'},
-		sizeof(g_u2oplusCountryLimitGrp10) /
-			sizeof(struct COUNTRY_POWER_LIMIT_COUNTRY_CODE),
-		g_u2oplusCountryLimitGrp10
-	}
-
-#define OPLUS_COUNTRY_LIMIT_GROUP_NUM \
-		(sizeof(oplusarSupportCountryPowerLmtGrps) \
-			/ sizeof(struct COUNTRY_POWER_LIMIT_GROUP_TABLE))
-};
-#endif /*OPLUS_FEATURE_WIFI_POWER*/
 
 #endif
 #if (CFG_SUPPORT_WIFI_6G_PWR_MODE == 1)

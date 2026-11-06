@@ -41,11 +41,7 @@
 #define RSSI_DIFF_BIG_STEP			15 /* dbm */
 #define RSSI_DIFF_MED_STEP			10 /* dbm */
 #define RSSI_DIFF_SML_STEP			5 /* dbm */
-#ifdef OPLUS_FEATURE_ROAMING_OPTIMIZATION
-#define LOW_RSSI_FOR_5G_BAND                    -75 /* dbm */
-#else
 #define LOW_RSSI_FOR_5G_BAND                    -70 /* dbm */
-#endif /* OPLUS_FEATURE_ROAMING_OPTIMIZATION */
 #define HIGH_RSSI_FOR_5G_BAND                   -60 /* dbm */
 
 #define CHNL_DWELL_TIME_DEFAULT  100
@@ -834,10 +830,6 @@ static uint32_t apsGetEstimatedTput(struct ADAPTER *ad, struct BSS_DESC *bss,
 			est = bss->u2ReducedWanMetrics;
 	}
 
-#ifdef OPLUS_FEATURE_ROAMING_OPTIMIZATION
-	if (bss->eBand == BAND_2G4)
-		est = (est * WEIGHT_GBAND_COEX_DOWNGRADE / 100);
-#else
 #if (CFG_EXT_ROAMING == 1)
 	if (fgIsGBandCoex && bss->eBand == BAND_2G4)
 		est = (est * ad->rWifiVar.ucRBTCETPW / 100);
@@ -845,7 +837,6 @@ static uint32_t apsGetEstimatedTput(struct ADAPTER *ad, struct BSS_DESC *bss,
 	if (fgIsGBandCoex && bss->eBand == BAND_2G4)
 		est = (est * WEIGHT_GBAND_COEX_DOWNGRADE / 100);
 #endif
-#endif /* OPLUS_FEATURE_ROAMING_OPTIMIZATION */
 
 	if (bss->fgIsMCC)
 		est = (est * WEIGHT_MCC_DOWNGRADE / 100);
@@ -1646,32 +1637,6 @@ uint8_t apsSanityCheckBssDesc(struct ADAPTER *prAdapter,
 			return FALSE;
 		}
 #endif
-#ifdef OPLUS_WLAN_BUG_STABILITY
-		if (eRoamReason == ROAMING_REASON_BTM) {
-			struct BSS_DESC *target =
-				aisGetTargetBssDesc(prAdapter, ucBssIndex);
-			if (target) {
-				struct BSS_TRANSITION_MGT_PARAM *prBtmParam =
-					aisGetBTMParam(prAdapter, ucBssIndex);
-				uint8_t ucReqDisassocImminentMode = 0;
-				int32_t rssi1, rssi2;
-				rssi1 = RCPI_TO_dBm(target->ucRCPI);
-				rssi2 = RCPI_TO_dBm(prBssDesc->ucRCPI);
-				ucReqDisassocImminentMode =
-					((prBtmParam->ucRequestMode &
-					WNM_BSS_TM_REQ_DISASSOC_IMMINENT) ||
-					(prBtmParam->ucRequestMode &
-					WNM_BSS_TM_REQ_ESS_DISASSOC_IMMINENT));
-				if ((ucReqDisassocImminentMode == 0) &&
-					(rssi2 < rssi1 || rssi2 < -75)) {
-					DBGLOG(APS, INFO,
-						MACSTR " BTM policy ignore %d (cur=%d)\n",
-						MAC2STR(prBssDesc->aucBSSID), rssi2, rssi1);
-					return FALSE;
-				}
-			}
-		}
-#endif /* OPLUS_WLAN_BUG_STABILITY */
 	}
 
 skip_rcpi_check:

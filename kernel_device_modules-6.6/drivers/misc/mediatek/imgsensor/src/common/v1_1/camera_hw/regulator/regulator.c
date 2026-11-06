@@ -4,11 +4,8 @@
  */
 
 #include "regulator.h"
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 #include "imgsensor.h"
 #include <soc/oplus/system/oplus_project.h>
-#endif
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 static bool regulator_status[IMGSENSOR_SENSOR_IDX_MAX_NUM][REGULATOR_TYPE_MAX_NUM] = {{false}};
 static void check_for_regulator_get(struct REGULATOR *preg,
 struct device *pdevice, unsigned int sensor_index, unsigned int regulator_index);
@@ -16,7 +13,6 @@ static void check_for_regulator_put(struct REGULATOR *preg, unsigned int sensor_
 static struct device_node *of_node_record;
 static struct IMGSENSOR_HW_DEVICE_COMMON *ghw_device_common;
 static DEFINE_MUTEX(g_regulator_state_mutex);
-#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
 static const int regulator_voltage[] = {
 	REGULATOR_VOLTAGE_0,
 	REGULATOR_VOLTAGE_800,
@@ -37,16 +33,13 @@ struct REGULATOR_CTRL regulator_control[REGULATOR_TYPE_MAX_NUM] = {
 	{"vcama"},
 	{"vcamd"},
 	{"vcamio"},
-	#ifdef OPLUS_FEATURE_CAMERA_COMMON
 	{"vcamaf"},
 	{"vcama1"},
 	{"vcamd1"}
-	#endif
 };
 
 static struct REGULATOR reg_instance;
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 extern struct IMGSENSOR gimgsensor;
 struct regulator *regulator_get_regVCAMAF(void)
 {
@@ -69,9 +62,7 @@ struct regulator *regulator_get_regVCAMAF_ALICE(void)
 	struct IMGSENSOR *pimgsensor = &gimgsensor;
 	return regulator_get(&((pimgsensor->hw.common.pplatform_device)->dev), "vcammainaf");
 }
-#endif
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 extern struct IMGSENSOR gimgsensor;
 struct regulator *regulator_get_regVCAMAF_20609(void)
 {
@@ -86,14 +77,11 @@ struct regulator *regulator_get_regVCAMAF_bladeb(void)
 	return regulator_get(&((pimgsensor->hw.common.pplatform_device)->dev), "vtp");
 }
 EXPORT_SYMBOL(regulator_get_regVCAMAF_bladeb);
-#endif
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 extern unsigned int pmic_config_interface(unsigned int RegNum,
 				   unsigned int val,
 				   unsigned int MASK,
 				   unsigned int SHIFT);
-#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
 
 static enum IMGSENSOR_RETURN regulator_init(
 	void *pinstance,
@@ -103,16 +91,12 @@ static enum IMGSENSOR_RETURN regulator_init(
 	int type, idx, ret = 0;
 	char str_regulator_name[LENGTH_FOR_SNPRINTF];
 
-	#ifdef OPLUS_FEATURE_CAMERA_COMMON
 	ghw_device_common = pcommon;
 	of_node_record = pcommon->pplatform_device->dev.of_node;
-	#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
-	#ifdef OPLUS_FEATURE_CAMERA_COMMON
 	if (is_project(22629) || is_project(22710) || is_project(22711)) {
 		//pmic_config_interface(0x1b14, 0xffff, 0xFFFF, 0x0);
 		//pmic_config_interface(0x1c54, 0x1c72, 0xFFFF, 0x0);
 	}
-	#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
 	for (idx = IMGSENSOR_SENSOR_IDX_MIN_NUM;
 		idx < IMGSENSOR_SENSOR_IDX_MAX_NUM;
 		idx++) {
@@ -167,7 +151,6 @@ static enum IMGSENSOR_RETURN regulator_release(void *pinstance)
 	return IMGSENSOR_RETURN_SUCCESS;
 }
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 static struct regulator *regulator_reinit(void *pinstance, int sensor_idx, int type)
 {
 	struct REGULATOR *preg = (struct REGULATOR *)pinstance;
@@ -182,11 +165,9 @@ static struct regulator *regulator_reinit(void *pinstance, int sensor_idx, int t
 		regulator_get(&((pimgsensor->hw.common.pplatform_device)->dev), str_regulator_name);
 	pr_err("reinit %s regulator[%d][%d] = %pK\n", str_regulator_name,
 			sensor_idx, type, preg->pregulator[sensor_idx][type]);
-	#ifdef OPLUS_FEATURE_CAMERA_COMMON
 	if (is_project(22629) || is_project(22710) || is_project(22711)) {
 		//pmic_config_interface(0x1b14, 0xfbff, 0xFFFF, 0x0);
 	}
-	#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
 	//msleep(10);
 	if(IS_ERR(preg->pregulator[sensor_idx][type])){
 		pr_err("regulator reinit fail %pK\n",preg->pregulator[sensor_idx][type]);
@@ -196,7 +177,6 @@ static struct regulator *regulator_reinit(void *pinstance, int sensor_idx, int t
 		return preg->pregulator[sensor_idx][type];
 	}
 }
-#endif
 
 static enum IMGSENSOR_RETURN regulator_set(
 	void *pinstance,
@@ -208,7 +188,6 @@ static enum IMGSENSOR_RETURN regulator_set(
 	struct REGULATOR     *preg = (struct REGULATOR *)pinstance;
 	int reg_type_offset;
 	atomic_t             *enable_cnt;
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 	if (is_project(22083) || is_project(22084) || is_project(22291) || is_project(22292) || is_project(22631) || is_project(22632) || is_project(23602)
 	|| is_project(23053) || is_project(23054) || is_project(23253) || is_project(23055)
 	|| is_project(21101) || is_project(21102) || is_project(21235) || is_project(21236) || is_project(21041) || is_project(21042)
@@ -361,12 +340,7 @@ static enum IMGSENSOR_RETURN regulator_set(
 			return IMGSENSOR_RETURN_SUCCESS;
 		}
 	}
-#endif
-	#ifdef OPLUS_FEATURE_CAMERA_COMMON
 	if (pin > IMGSENSOR_HW_PIN_FAN53870_ENABLE   ||
-	#else
-	if (pin > IMGSENSOR_HW_PIN_DOVDD   ||
-	#endif
 	    pin < IMGSENSOR_HW_PIN_AVDD    ||
 	    pin_state < IMGSENSOR_HW_PIN_STATE_LEVEL_0 ||
 	    pin_state >= IMGSENSOR_HW_PIN_STATE_LEVEL_HIGH)
@@ -374,14 +348,11 @@ static enum IMGSENSOR_RETURN regulator_set(
 
 	reg_type_offset = REGULATOR_TYPE_VCAMA;
 
-	#ifdef OPLUS_FEATURE_CAMERA_COMMON
 	if (ghw_device_common)
 		check_for_regulator_get(preg, &ghw_device_common->pplatform_device->dev, sensor_idx,(reg_type_offset + pin - IMGSENSOR_HW_PIN_AVDD));
-	#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
 	pregulator = preg->pregulator[(unsigned int)sensor_idx][
 		reg_type_offset + pin - IMGSENSOR_HW_PIN_AVDD];
 
-	#ifdef OPLUS_FEATURE_CAMERA_COMMON
 	if(IS_ERR(pregulator)) {
 		pregulator = regulator_reinit(preg, sensor_idx, reg_type_offset + pin - IMGSENSOR_HW_PIN_AVDD);
 		if (IS_ERR(pregulator)) {
@@ -393,7 +364,6 @@ static enum IMGSENSOR_RETURN regulator_set(
 			return IMGSENSOR_RETURN_ERROR;
 		}
 	}
-	#endif
 	enable_cnt = &preg->enable_cnt[(unsigned int)sensor_idx][
 		reg_type_offset + pin - IMGSENSOR_HW_PIN_AVDD];
 
@@ -411,11 +381,9 @@ static enum IMGSENSOR_RETURN regulator_set(
 				  regulator_voltage[
 				  pin_state - IMGSENSOR_HW_PIN_STATE_LEVEL_0]);
 			}
-			#ifdef OPLUS_FEATURE_CAMERA_COMMON
 			if (!regulator_set_load(pregulator, 10000)) {
 				PK_DBG("set load success");
 			}
-			#endif
 
 			if (regulator_enable(pregulator)) {
 				PK_PR_ERR(
@@ -423,9 +391,7 @@ static enum IMGSENSOR_RETURN regulator_set(
 				pin,
 				regulator_voltage[
 				  pin_state - IMGSENSOR_HW_PIN_STATE_LEVEL_0]);
-				#ifdef OPLUS_FEATURE_CAMERA_COMMON
 				check_for_regulator_put(preg, sensor_idx, (reg_type_offset + pin - IMGSENSOR_HW_PIN_AVDD));
-				#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
 				return IMGSENSOR_RETURN_ERROR;
 			}
 			atomic_inc(enable_cnt);
@@ -437,14 +403,10 @@ static enum IMGSENSOR_RETURN regulator_set(
 				PK_PR_ERR(
 					"[regulator]fail to regulator_disable, powertype: %d\n",
 					pin);
-				#ifdef OPLUS_FEATURE_CAMERA_COMMON
 				check_for_regulator_put(preg, sensor_idx,(reg_type_offset + pin - IMGSENSOR_HW_PIN_AVDD));
-				#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
 				return IMGSENSOR_RETURN_ERROR;
 			}
-			#ifdef OPLUS_FEATURE_CAMERA_COMMON
 			check_for_regulator_put(preg, sensor_idx,(reg_type_offset + pin - IMGSENSOR_HW_PIN_AVDD));
-			#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
 			atomic_dec(enable_cnt);
 		}
 	} else {
@@ -457,7 +419,6 @@ static enum IMGSENSOR_RETURN regulator_set(
 	return IMGSENSOR_RETURN_SUCCESS;
 }
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 static void check_for_regulator_get(struct REGULATOR *preg,
 	struct device *pdevice, unsigned int sensor_index,
 	unsigned int regulator_index)
@@ -526,14 +487,10 @@ static void check_for_regulator_put(struct REGULATOR *preg,
 	mutex_unlock(&g_regulator_state_mutex);
 	return;
 }
-#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
 static enum IMGSENSOR_RETURN regulator_dump(void *pinstance)
 {
 	struct REGULATOR *preg = (struct REGULATOR *)pinstance;
 	int i, j;
-	#ifndef OPLUS_FEATURE_CAMERA_COMMON
-	int enable = 0;
-	#endif
 
 	for (j = IMGSENSOR_SENSOR_IDX_MIN_NUM;
 		j < IMGSENSOR_SENSOR_IDX_MAX_NUM;
@@ -542,7 +499,6 @@ static enum IMGSENSOR_RETURN regulator_dump(void *pinstance)
 		for (i = REGULATOR_TYPE_VCAMA;
 		i < REGULATOR_TYPE_MAX_NUM;
 		i++) {
-			#ifdef OPLUS_FEATURE_CAMERA_COMMON
 			if (IS_ERR_OR_NULL(preg->pregulator[j][i])) {
 				PK_DBG("regulator idx(%d, %d) alread release ", j, i);
 				return IMGSENSOR_RETURN_SUCCESS;
@@ -555,22 +511,6 @@ static enum IMGSENSOR_RETURN regulator_dump(void *pinstance)
 						regulator_get_voltage(
 						preg->pregulator[j][i]));
 			}
-			#else
-			if (!preg->pregulator[j][i])
-				continue;
-
-			if (regulator_is_enabled(preg->pregulator[j][i]) &&
-				atomic_read(&preg->enable_cnt[j][i]) != 0)
-				enable = 1;
-			else
-				enable = 0;
-
-			PK_DBG("[sensor_dump][regulator] index= %d, %s = %d, enable = %d\n",
-				j,
-				regulator_control[i].pregulator_type,
-				regulator_get_voltage(preg->pregulator[j][i]),
-				enable);
-			#endif
 		}
 	}
 	return IMGSENSOR_RETURN_SUCCESS;

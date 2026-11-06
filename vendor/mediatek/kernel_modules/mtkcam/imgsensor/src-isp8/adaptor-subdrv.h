@@ -428,9 +428,6 @@ struct subdrv_static_ctx {
 	int (*mcss_init)(void *arg);
 	int (*mcss_update_subdrv_para)(void *arg, int scenario_id);
 
-#ifdef CONFIG_OPLUS_CAMERA_NOTIFY
-	bool oplus_notify_chg_flag;
-#endif /* CONFIG_OPLUS_CAMERA_NOTIFY */
 };
 
 #define HDR_CAP_IHDR 0x1

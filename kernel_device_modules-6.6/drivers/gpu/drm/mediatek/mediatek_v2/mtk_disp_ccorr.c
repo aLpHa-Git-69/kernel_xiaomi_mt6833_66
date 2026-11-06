@@ -351,9 +351,6 @@ int disp_ccorr_set_color_matrix(struct mtk_ddp_comp *comp, struct cmdq_pkt *hand
 	struct mtk_disp_ccorr *ccorr_data = comp_to_ccorr(comp);
 	struct mtk_disp_ccorr_primary *primary_data = ccorr_data->primary_data;
 	struct DRM_DISP_CCORR_COEF_T *ccorr;
-	#ifdef OPLUS_FEATURE_DISPLAY
-	struct mtk_drm_crtc *mtk_crtc = comp->mtk_crtc;
-	#endif /* OPLUS_FEATURE_DISPLAY */
 
 	if (handle == NULL) {
 		DDPPR_ERR("%s: cmdq can not be NULL\n", __func__);
@@ -412,10 +409,6 @@ int disp_ccorr_set_color_matrix(struct mtk_ddp_comp *comp, struct cmdq_pkt *hand
 	else
 		ccorr_without_gamma = 1;
 
-	#ifdef OPLUS_FEATURE_DISPLAY
-	if(mtk_crtc->panel_ext->params->oplus_panel_ccorr_gamma)
-		ccorr_without_gamma = 0;
-	#endif /* OPLUS_FEATURE_DISPLAY */
 
 	// hint: 0: identity matrix; 1: arbitraty matrix
 	// fte_flag: true: gpu overlay && hwc not identity matrix

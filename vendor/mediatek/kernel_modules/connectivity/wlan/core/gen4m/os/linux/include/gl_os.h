@@ -1193,10 +1193,6 @@ struct GLUE_INFO {
 #endif /* CFG_SUPPORT_HIF_REG_WORK */
 	u_int8_t fgWlanUevent;
 
-#ifdef OPLUS_FEATURE_CONN_POWER_MONITOR
-//add for  connectivity power monitor
-	struct work_struct rOplusLpmEventWork;
-#endif /* OPLUS_FEATURE_CONN_POWER_MONITOR */
 
 #if CFG_SUPPORT_TPUT_FACTOR
 #if KERNEL_VERSION(5, 4, 0) <= CFG80211_VERSION_CODE

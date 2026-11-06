@@ -168,7 +168,6 @@ extern struct IMGSENSOR_SENSOR_LIST gimgsensor_sensor_list_21881[];
 
 extern struct CAMERA_DEVICE_INFO gImgEepromInfo_21881;
 #endif
-extern struct IMGSENSOR_HW_POWER_SEQ *oplus_sensor_power_on_sequence;
 extern struct IMGSENSOR_HW_POWER_SEQ *oplus_sensor_power_sequence;
 extern struct IMGSENSOR_HW_CFG *oplus_imgsensor_custom_config;
 extern struct IMGSENSOR_SENSOR_LIST *oplus_gimgsensor_sensor_list;

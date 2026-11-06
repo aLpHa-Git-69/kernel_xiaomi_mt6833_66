@@ -72,9 +72,6 @@
 #ifdef CONFIG_MTK_I2C_EXTENSION
 #include <linux/dma-mapping.h>
 #endif
-#if defined(CONFIG_OPLUS_FEATURE_FEEDBACK) || defined(CONFIG_OPLUS_FEATURE_FEEDBACK_MODULE)
-#include <soc/oplus/system/kernel_fb.h>
-#endif
 
 #if IS_ENABLED(CONFIG_FB)
 #include <linux/fb.h>

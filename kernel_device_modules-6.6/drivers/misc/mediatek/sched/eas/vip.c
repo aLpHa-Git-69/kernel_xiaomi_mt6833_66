@@ -12,10 +12,6 @@
 #include "sched_trace.h"
 #include "eas_plus.h"
 
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_SCHED_ASSIST)
-#include <../kernel/oplus_cpu/sched/sched_assist/sa_fair.h>
-#include <../kernel/oplus_cpu/sched/sched_assist/sa_common.h>
-#endif
 
 unsigned int ls_vip_threshold                   =  DEFAULT_VIP_PRIO_THRESHOLD;
 bool vip_enable;
@@ -406,13 +402,6 @@ void check_vip_num(struct rq *rq)
 
 static void set_ots_vip(struct task_struct *p, int vip)
 {
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_SCHED_ASSIST)
-	struct oplus_task_struct *ots = get_oplus_task_struct(p);
-	if (IS_ERR_OR_NULL(ots))
-		return;
-
-	atomic_set(&ots->is_vip_mvp, vip);
-#endif
 }
 
 static void insert_vip_task(struct rq *rq, struct vip_task_struct *vts,
@@ -1208,11 +1197,6 @@ void vip_replace_next_task_fair(void *unused, struct rq *rq, struct task_struct 
 	struct vip_task_struct *vts;
 	struct task_struct *vip;
 
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_SCHED_ASSIST)
-	android_rvh_replace_next_task_fair_handler(unused, rq, p, se, repick, simple, prev);
-	if (*repick)
-		return;
-#endif
 
 	if (unlikely(!vip_enable))
 		return;

@@ -66,8 +66,6 @@ ccci_fsm_all-y := ap_md_mem.o \
 			mdee_dumper_v2.o \
 			mdee_dumper_v3.o \
 			mdee_dumper_v5.o \
-			oplus_criticallog.o \
-			criticallog_class.o \
 			mdee_dumper_v6.o
 
 endif

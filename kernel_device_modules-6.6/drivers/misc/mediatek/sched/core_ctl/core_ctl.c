@@ -35,9 +35,6 @@
 extern int get_immediate_tslvts1_1_wrap(void);
 #endif
 
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_PIPELINE)
-#include <../kernel/oplus_cpu/sched/sched_assist/sa_pipeline.h>
-#endif
 
 #define TAG "core_ctl"
 
@@ -234,10 +231,6 @@ MODULE_PARM_DESC(policy_enable, "echo cpu pause policy if needed");
 static unsigned int apply_limits(const struct cluster_data *cluster,
 				 unsigned int need_cpus)
 {
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_PIPELINE)
-	if (cluster->boost && oplus_is_pipeline_scene())
-		return cluster->num_cpus;
-#endif
 
 	return min(max(cluster->min_cpus, need_cpus), cluster->max_cpus);
 }
@@ -2343,9 +2336,6 @@ static int __init core_ctl_init(void)
 	if (ret)
 		pr_info("%s: Could not register register_pt_isolate_cb\n", TAG);
 
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_PIPELINE)
-	oplus_core_ctl_set_boost = core_ctl_set_boost;
-#endif
 
 	initialized = true;
 	return 0;

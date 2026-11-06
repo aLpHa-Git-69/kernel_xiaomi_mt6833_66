@@ -2229,13 +2229,6 @@ enum ENUM_MTK_OUI_CHIP_CAP {
 #define VENDOR_OUI_TYPE_MBO                         22
 #define VENDOR_OUI_TYPE_OWE                         28
 
-#ifdef OPLUS_FEATURE_WIFI_VENDOR_FT
-#define VENDOR_OUI_H3C                              0x000fe2
-#define VENDOR_H3C_OUI_TYPE                         0xc80401
-#define VENDOR_OUI_H3C_LEN                          0x0B
-#define VENDOR_MDIE_LEN                             0x05
-#define VENDOR_RSNIE_MAX_LEN                        0xff
-#endif /* OPLUS_FEATURE_WIFI_VENDOR_FT */
 
 #define VENDOR_IE_TYPE_MBO                          0x506f9a16
 

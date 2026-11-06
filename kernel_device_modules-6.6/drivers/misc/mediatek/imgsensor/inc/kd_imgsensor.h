@@ -6,9 +6,6 @@
 #ifndef _KD_IMGSENSOR_H
 #define _KD_IMGSENSOR_H
 
-#ifndef OPLUS_FEATURE_CAMERA_COMMON
-#define OPLUS_FEATURE_CAMERA_COMMON
-#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 
 #include <linux/ioctl.h>
 #include <linux/i3c/device.h>
@@ -411,7 +408,6 @@
 #define SHARP3D_SENSOR_ID                       0x003d
 #define T8EV5_SENSOR_ID                         0x1011
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 #define S5KJN103_SENSOR_ID_LIJING                         0x38E6//(0x38E1+5)
 #define S5K3L6_SENSOR_ID_LIJING                           0x30CA//(0x30C6+4)
 #define SC800CS_SENSOR_ID_LIJING                          0xd127 //(0xd126+1)
@@ -424,9 +420,7 @@
 #define SENSOR_DRVNAME_HI846_MIPI_RAW_LIJING          "hi846_mipi_raw_lijing"
 #define SENSOR_DRVNAME_SC201CS_MIPI_RAW_LIJING        "sc201cs_mipi_raw_lijing"
 #define SENSOR_DRVNAME_C2519_MIPI_RAW_LIJING          "c2519_mipi_raw_lijing"
-#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 #define S5KJN103_SENSOR_ID_FANLI                         0x38E7//(0x38E1+6)
 #define S5K3L6_SENSOR_ID_FANLI                           0x30CB//(0x30C6+5)
 #define OV08D10_SENSOR_ID_FANLI                          0x56084702  /*0x56084700+2*/
@@ -437,9 +431,7 @@
 #define SENSOR_DRVNAME_OV08D10_MIPI_RAW_FANLI        "ov08d10_mipi_raw_fanli"
 #define SENSOR_DRVNAME_S5KJN103_MIPI_RAW_FANLI       "s5kjn103_mipi_raw_fanli"
 #define SENSOR_DRVNAME_S5K3L6_MIPI_RAW_FANLI         "s5k3l6_mipi_raw_fanli"
-#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 #define SENSOR_DRVNAME_HI846P2Q_MIPI_RAW         "hi846p2q_mipi_raw"
 #define SENSOR_DRVNAME_OV02A10P2Q_MIPI_MONO      "ov02a10p2q_mipi_mono"
 #define SENSOR_DRVNAME_OV02A10P2Q_MIPI_MONO1     "ov02a10p2q_mipi_mono1"
@@ -447,9 +439,7 @@
 #define SENSOR_DRVNAME_GC02M0P2Q_MIPI_MONO1      "gc02m0p2q_mipi_mono1"
 #define SENSOR_DRVNAME_GC5035_MIPI_RAW          "gc5035_mipi_raw"
 #define SENSOR_DRVNAME_S5KGD1SP_MIPI_RAW        "s5kgd1sp_mipi_raw"
-#endif
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 #define S5K3L6_SENSOR_ID_LIJINGA                           0x30CC//(0x30C6+6)
 #define HI846_SENSOR_ID_LIJINGA                            0x0850 //(0x0846+10)
 #define HI556_SENSOR_ID_LIJINGA                            0x0561 //(0x0556+11)
@@ -462,7 +452,6 @@
 #define SENSOR_DRVNAME_SC201CS_MIPI_RAW_LIJINGA        "sc201cs_mipi_raw_lijinga"
 #define SENSOR_DRVNAME_SC520CS_MIPI_RAW_LIJINGA        "sc520cs_mipi_raw_lijinga"
 
-#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
 
 #define S5KGD1SP_SENSOR_ID                      0x0841
 #define HI846_SENSOR_ID                         0x0846
@@ -731,7 +720,6 @@
 #define SENSOR_DRVNAME_OV13870_MIPI_RAW_5MP     "ov13870_mipi_raw_5mp"
 #define SENSOR_DRVNAME_OV8856_MIPI_RAW_5MP      "ov8856_mipi_raw_5mp"
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 #define S5KGW1_SENSOR_ID                        0x0971
 #define S5KGH1_SENSOR_ID                        0x0881
 #define S5K3M5_SENSOR_ID                        0x30D5
@@ -769,7 +757,6 @@
 #define IMX471_SENSOR_ID                        0x20000
 #define SENSOR_DRVNAME_IMX471_MIPI_RAW          "imx471_mipi_raw"
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 #define OV02A10_MONO_SENSOR_ID                  0x2509
 #define OV48B_SENSOR_ID                         0x564842
 #define GC02K0_SENSOR_ID                        0x2385
@@ -801,10 +788,7 @@
 #define SENSOR_DRVNAME_OV02B10_MIPI_RAW         "ov02b10_mipi_raw"
 
 #define SENSOR_DRVNAME_GC02K0_MIPI_RAW          "gc02k0_mipi_raw"
-#endif
-#endif
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 #define PASCALD_TRULY_MAIN_OV13B10_SENSOR_ID               0x560D43
 #define PASCALD_QTECH_MAIN_OV13B10_SENSOR_ID               0x560D44
 #define PASCALD_HLT_FRONT_GC5035_SENSOR_ID                 0x5036
@@ -843,9 +827,7 @@
 #define SENSOR_DRVNAME_PASCALE_HLT_MACRO_OV02B10           "pascale_hlt_macro_ov02b10"
 #define OV02B1B_MIPI_SENSOR_ID                             0x002B
 #define GC02M1B_MIPI_SENSOR_ID                             0x02E0
-#endif //OPLUS_FEATURE_CAMERA_COMMON
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 #define ZHAOYUN_QTECH_MAIN_OV13B10_SENSOR_ID               0x560D45 /*0x560D42+3*/
 #define SENSOR_DRVNAME_ZHAOYUN_QTECH_MAIN_OV13B10          "zhaoyun_qtech_main_ov13b10"
 #define ZHAOYUNLITE_QTECH_MAIN_OV13B10_SENSOR_ID               0x560D46 /*0x560D42+4*/
@@ -865,8 +847,6 @@
 #define ZHAOYUN_SHINETECH_MAIN_S5K3L6_SENSOR_ID            0x30C9 /*0x30C6 + 3*/
 #define SENSOR_DRVNAME_ZHAOYUN_SHINETECH_MAIN_S5K3L6       "zhaoyun_shinetech_main_s5k3l6"
 #define ZHAOYUN_PROJECT                                    12
-#endif //OPLUS_FEATURE_CAMERA_COMMON
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 #define LIMU_QTECH_MAIN_OV13B10_SENSOR_ID               0x560D49 /*0x560D42+7*/
 #define SENSOR_DRVNAME_LIMU_QTECH_MAIN_OV13B10          "limu_qtech_main_ov13b10"
 #define LIMU_OPTICS_FRONT_GC5035_SENSOR_ID              0x5036  /*0x5035 + 1*/
@@ -880,9 +860,7 @@
 #define LIMU_OPTICS_VGA_GC030A_SENSOR_ID                0x030a /*0x030a*/
 #define SENSOR_DRVNAME_LIMU_OPTICS_VGA_GC030A           "limu_optics_vga_gc030a"
 #define LIMU_PROJECT                                    10
-#endif //OPLUS_FEATURE_CAMERA_COMMON
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 /* Parker-A. These sensor IDs should match with those in kd_imgsensor.h in user space */
 #define PARKERA_QTECH_MAIN_OV13B10_SENSOR_ID               0x560D48 /*0x560D42+6*/
 #define SENSOR_DRVNAME_PARKERA_QTECH_MAIN_OV13B10          "parkera_qtech_main_ov13b10"
@@ -940,7 +918,6 @@
 #define PARKERB_SHINETECH_MONO_GC02M1B_SENSOR_ID_ORIGINAL           0x02EF /*0x02E0 + 15*/
 #define PARKERB_HLT_MICRO_GC02M1_SENSOR_ID_ORIGINAL                 0x02F0 /*0x02E0 + 16*/
 #define PARKERB_SHINETECH_MACRO_OV02B10_SENSOR_ID_ORIGINAL          0x0030 /*0x002B + 5 */
-#endif //OPLUS_FEATURE_CAMERA_COMMON
 
 #define SENSOR_DRVNAME_S5KGD1SP_MIPI_RAW        "s5kgd1sp_mipi_raw"
 #define SENSOR_DRVNAME_HI846_MIPI_RAW           "hi846_mipi_raw"
@@ -974,7 +951,6 @@
 #define SENSOR_DRVNAME_LT7911_MIPI_YUV        "lt7911_mipi_yuv"
 
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 #define SENSOR_ID_OFFSET_KONKA                  0x2000
 #define KONKAMAIN_SENSOR_ID                     (0x0966 + SENSOR_ID_OFFSET_KONKA)
 #define SENSOR_DRVNAME_KONKAMAIN_MIPI_RAW       "konkamain_mipi_raw"
@@ -989,9 +965,7 @@
 
 #define YALAMAIN_SENSOR_ID                      (0x0906 + SENSOR_ID_OFFSET_KONKA)
 #define SENSOR_DRVNAME_YALAMAIN_MIPI_RAW        "yalamain_mipi_raw"
-#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 #define SENSOR_ID_OFFSET_KKTH                  0x3000
 #define KKTHMAIN_SENSOR_ID                      (0x0906 + SENSOR_ID_OFFSET_KKTH)
 #define SENSOR_DRVNAME_KKTHMAIN_MIPI_RAW        "kkthmain_mipi_raw"
@@ -1001,7 +975,6 @@
 #define SENSOR_DRVNAME_KKTHTELE_MIPI_RAW         "kkthtele_mipi_raw"
 #define KKTHFRONT_SENSOR_ID                    (0x0615 + SENSOR_ID_OFFSET_KKTH)
 #define SENSOR_DRVNAME_KKTHFRONT_MIPI_RAW        "kkthfront_mipi_raw"
-#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 
 #define SENSOR_DRVNAME_IMX355_MIPI_RAW_LAFITE    "imx355_mipi_raw_lafite"
 #define SENSOR_DRVNAME_OV02B10_MIPI_RAW         "ov02b10_mipi_raw"
@@ -1015,7 +988,6 @@
 #define OV32A1Q_SENSOR_ID_20645                       0x563244
 #define SENSOR_DRVNAME_OV32A1Q_MIPI_RAW_20645         "ov32a1q_mipi_raw_20645"
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 #define SENSOR_DRVNAME_OV64B_MIPI_RAW           "ov64b_mipi_raw"
 #define IMX615_SENSOR_ID                              0x0615
 #define SENSOR_DRVNAME_IMX615_MIPI_RAW                "imx615_mipi_raw"
@@ -1039,7 +1011,6 @@
 #define SENSOR_DRVNAME_IMX355_MIPI_RAW_21881          "imx355_mipi_raw21881"
 #define GC02M1B_SENSOR_ID_21881                       (0x02e0 + 0xd000)  //add offset to avoid tuning params mapping error
 #define SENSOR_DRVNAME_GC02M1B_MIPI_MONO_21881        "gc02m1b_mipi_mono21881"
-#endif
 #define SENSOR_DRVNAME_OV64B_MIPI_RAW                 "ov64b_mipi_raw"
 #define OV48B_SENSOR_ID                         0x564842
 #define SENSOR_DRVNAME_OV48B_MIPI_RAW           "ov48b_mipi_raw"
@@ -1163,7 +1134,6 @@
 #define SENSOR_DRVNAME_OV02B1B_MIPI_MONO22633         "ov02b1b_mipi_mono22633"
 /*Cam.Drv add for chengdu 20221213*/
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 #define S5KGM1ST_SENSOR_ID                           0xF8D1
 #define S5K3L6_SENSOR_ID                             0x30C6
 #define S5KJN103_SENSOR_ID                           0x38E1
@@ -1174,18 +1144,14 @@
 #define SENSOR_DRVNAME_GC02M1B_MIPI_MONO      "gc02m1b_mipi_mono"
 #define SENSOR_DRVNAME_S5KJN103_MIPI_RAW      "s5kjn103_mipi_raw"
 #define SENSOR_DRVNAME_S5K3P9SP_MIPI_RAW      "s5k3p9sp_mipi_raw"
-#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 #define S5K3L6_SENSOR_ID_ALICERT                             0x30C9//(0x30C6+3)
 #define IMX355_SENSOR_ID_ALICERT                             0x035A//(0x0355+5)
 #define GC02M1B_SENSOR_ID_ALICERT                            0x02E9//(0x02E0+9)
 #define SENSOR_DRVNAME_S5K3L6_MIPI_RAW_ALICERT        "s5k3l6_mipi_raw_alicert"
 #define SENSOR_DRVNAME_IMX355_MIPI_RAW_ALICERT        "imx355_mipi_raw_alicert"
 #define SENSOR_DRVNAME_GC02M1B_MIPI_MONO_ALICERT      "gc02m1b_mipi_mono_alicert"
-#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 #define S5KJN103_SENSOR_ID_ALICER                            0x38E2//(0x38E1+1)
 #define IMX355_SENSOR_ID_ALICER                              0x0358//(0x0355+3)
 #define GC02M1B_SENSOR_ID_ALICER                             0x02E8//(0x02E0+8)
@@ -1194,7 +1160,6 @@
 #define SENSOR_DRVNAME_IMX355_MIPI_RAW_ALICER         "imx355_mipi_raw_alicer"
 #define SENSOR_DRVNAME_GC02M1B_MIPI_MONO_ALICER       "gc02m1b_mipi_mono_alicer"
 #define SENSOR_DRVNAME_S5KGM1ST_MIPI_RAW_ALICER       "s5kgm1st_mipi_raw_alicer"
-#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
 
 #define SENSOR_DRVNAME_GC02M1B_MIPI_MONO0       "gc02m1b_mipi_mono0"
 #define SENSOR_DRVNAME_GC02M1B_MIPI_MONO1       "gc02m1b_mipi_mono1"
@@ -1225,7 +1190,6 @@
 #define GC02M1_SENSOR_ID_21851                     (0x02e0 + IVAN_OFFSET)
 #define SENSOR_DRVNAME_GC02M1_MIPI_RAW21851        "gc02m1_mipi_raw21851"
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 #define S5KGW3_SENSOR_ID_20631                        0x731A
 #define OV32A1Q_SENSOR_ID_20631                       0x563245
 #define HI846_SENSOR_ID_20631                         0x084D
@@ -1246,9 +1210,7 @@
 #define SENSOR_DRVNAME_IMX471_MIPI_RAW_ATHENSC        "imx471_mipi_raw_athensc"
 #define SENSOR_DRVNAME_HI846_MIPI_RAW_ATHENSC         "hi846_mipi_raw_athensc"
 
-#endif
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 #define IMX682_SENSOR_ID_20615                        0x0683 /*0x0682+1*/
 #define SENSOR_DRVNAME_IMX682_MIPI_RAW_20615          "imx682_mipi_raw_20615"
 #define IMX471_SENSOR_ID_20615                        0x20001 /*0x20000+1*/
@@ -1303,9 +1265,7 @@
 #define SENSOR_DRVNAME_OV02B1B_MIPI_MONO_21690        "ov02b1b_mipi_mono_21690"
 #define GC02M1BSY_SENSOR_ID_21690                     0x02eb /*0x02e1+10*/
 #define SENSOR_DRVNAME_GC02M1BSY_MIPI_RAW_21690       "gc02m1bsy_mipi_raw_21690"
-#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 #define OV64B_SENSOR_ID_20619                         0x5667 /*0x5665+2*/
 #define SENSOR_DRVNAME_OV64B_MIPI_RAW_20619           "ov64b_mipi_raw_20619"
 #define IMX471_SENSOR_ID_20619                        0x20004 /*0x20000+4*/
@@ -1314,7 +1274,6 @@
 #define SENSOR_DRVNAME_HI846_MIPI_RAW_20619           "hi846_mipi_raw_20619"
 #define OV02B10_SENSOR_ID_20619                       0x0038 /*0x002B+13*/
 #define SENSOR_DRVNAME_OV02B10_MIPI_RAW_20619         "ov02b10_mipi_raw_20619"
-#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
 
 #define CARR_OV13B10_SENSOR_ID                         0x560D43 // (0x560D42 + 1)
 #define CARR_S5K3L6_SENSOR_ID                          0x30C7 // (0x30C6 + 1)
@@ -1346,7 +1305,6 @@
 #define GC02M1_SENSOR_ID_21651                        0x02e6 /*0x02e0+6*/
 #define SENSOR_DRVNAME_GC02M1_MIPI_RAW_21651          "gc02m1_mipi_raw_21651"
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 /*even*/
 #define EVEN_QTECH_MAIN_S5KGM1ST03_SENSOR_ID                   0xF8D4
 #define SENSOR_DRVNAME_EVEN_QTECH_MAIN_S5KGM1ST03     "even_qtech_main_s5kgm1st03"
@@ -1376,7 +1334,6 @@
 #define SENSOR_DRVNAME_HI846_CHIVASMIPI_RAW          "hi846_chivasmipi_raw"
 #define GC02K0_SENSOR_ID_CHIVAS                      0x2386
 #define SENSOR_DRVNAME_GC02K0_CHIVASMIPI_RAW         "gc02k0_chivasmipi_raw"
-#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
 
 /*aladdin*/
 #define ALADDIN_OV50D40_SENSOR_ID                  0x565044
@@ -1432,7 +1389,6 @@
 #define SENSOR_DRVNAME_HI846_MIPI_RAW_ATHENSD           "hi846_mipi_raw_athensd"
 #define SENSOR_DRVNAME_GC02K_MIPI_RAW_ATHENSD           "gc02k_mipi_raw_athensd"
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 #define IMX686_SENSOR_ID_20601                   0x687
 #define OV32A1Q_SENSOR_ID_20601                  0x563242
 #define HI846_SENSOR_ID_20601                    0x848
@@ -1444,9 +1400,7 @@
 #define SENSOR_DRVNAME_HI846_MIPI_RAW_20601       "hi846_mipi_raw_20601"
 #define SENSOR_DRVNAME_GC02M1B_MIPI_RAW_20601     "gc02m1b_mipi_raw_20601"
 #define SENSOR_DRVNAME_GC2385_MIPI_RAW_20601      "gc2385_mipi_raw_20601"
-#endif
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 #define SENSOR_ID_OFFSET_BLADE                     0xa
 #define HI556_SENSOR_ID_BLADE                      (0x0556 + SENSOR_ID_OFFSET_BLADE)
 #define SENSOR_DRVNAME_HI556_MIPI_RAW_BLADE        "hi556_mipi_raw_blade"
@@ -1468,9 +1422,7 @@
 #define SENSOR_DRVNAME_C2599_MIPI_MONO_BLADE       "c2599_mipi_mono_blade"
 #define SC201CS1_SENSOR_ID_BLADE                   0xeb2c
 #define SENSOR_DRVNAME_SC201CS_MIPI_RAW_BLADE "sc201cs_mipi_raw_blade"
-#endif
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 #define S5KGM1ST_SENSOR_ID_APOLLOF                     0xF8D7
 #define S5K3P9SP_SENSOR_ID_APOLLOF                     0x310C
 #define OV02B10_SENSOR_ID_APOLLOF                      0x0034
@@ -1482,9 +1434,7 @@
 #define SENSOR_DRVNAME_OV02B10_MIPI_RAW_APOLLOF          "ov02b10_mipi_raw_apollof"
 #define SENSOR_DRVNAME_OV02B1B_MIPI_MONO_APOLLOF         "ov02b1b_mipi_mono_apollof"
 #define SENSOR_DRVNAME_OV64B_MIPI_RAW_APOLLOF            "ov64b_mipi_raw_apollof"
-#endif
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 #define OV64B40_SENSOR_ID_HAWAII                           0x5667  /*0x5664+3*/
 #define SENSOR_DRVNAME_OV64B40_MIPI_RAW_HAWAII             "ov64b40_mipi_raw_hawaii"
 #define OV08D10_SENSOR_ID_HAWAII                           0x56084701  /*0x56084700+1*/
@@ -1493,10 +1443,8 @@
 #define SENSOR_DRVNAME_OV16A1Q_MIPI_RAW_HAWAII             "ov16a1q_mipi_raw_hawaii"
 #define OV02B1B_SENSOR_ID_HAWAII                           0x002E
 #define SENSOR_DRVNAME_OV02B1B_MIPI_MONO_HAWAII            "ov02b1b_mipi_mono_hawaii"
-#endif
 
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 #define S5KGM1ST_SENSOR_ID_APOLLOB                     0xF8D6 // (0xF8D1 + 4)
 #define SENSOR_DRVNAME_S5KGM1ST_MIPI_RAW_APOLLOB       "s5kgm1st_mipi_raw_apollob"
 #define IMX355_SENSOR_ID_APOLLOB                       0x356  // (0x355 + 1)
@@ -1509,7 +1457,6 @@
 #define SENSOR_DRVNAME_S5K3P9SP_MIPI_RAW_APOLLOB       "s5k3p9sp_mipi_raw_apollob"
 #define OV13B10_SENSOR_ID_APOLLOB                      0x560D45 // (0x560D42 + 3)
 #define SENSOR_DRVNAME_OV13B10_MIPI_RAW_APOLLOB        "ov13b10_mipi_raw_apollob"
-#endif
 
 #define SENSOR_ID_OFFSET_21015                  0xE000
 #define IMX709_SENSOR_ID_21015                  (0x0709 + SENSOR_ID_OFFSET_21015)

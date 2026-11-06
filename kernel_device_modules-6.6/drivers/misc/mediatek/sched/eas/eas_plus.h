@@ -319,8 +319,6 @@ extern void mtk_select_task_rq_rt(void *data, struct task_struct *p, int cpu, in
 				int flags, int *target_cpu);
 extern int mtk_sched_asym_cpucapacity;
 
-extern void oppo_show_cpuinfo_max_freq(void *data, struct cpufreq_policy *policy,
-                unsigned int *max_freq);
 
 extern void mtk_find_lowest_rq(void *data, struct task_struct *p, struct cpumask *lowest_mask,
 				int ret, int *lowest_cpu);

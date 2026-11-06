@@ -1516,12 +1516,8 @@
 
 #define CFG_SUPPORT_DYNAMIC_PWR_LIMIT_ANT_TAG	1
 
-#ifndef OPLUS_WLAN_BUG_STABILITY
 ////Modify for disable arp vo setting
 #define CFG_CHANGE_CRITICAL_PACKET_PRIORITY     1
-#else  /* OPLUS_WLAN_BUG_STABILITY */
-#define CFG_CHANGE_CRITICAL_PACKET_PRIORITY     0
-#endif /* OPLUS_WLAN_BUG_STABILITY */
 
 #ifndef CFG_TX_HIF_PORT_QUEUE
 #define CFG_TX_HIF_PORT_QUEUE		0
@@ -1666,11 +1662,7 @@
  * changed to partial scan. The unit of this value is second
  */
 #ifndef CFG_SUPPORT_FULL2PARTIAL_SCAN
-#ifndef OPLUS_WLAN_BUG_STABILITY
 #define CFG_SUPPORT_FULL2PARTIAL_SCAN      (1)
-#else /* OPLUS_WLAN_BUG_STABILITY */
-#define CFG_SUPPORT_FULL2PARTIAL_SCAN      (0)
-#endif /* OPLUS_WLAN_BUG_STABILITY */
 #endif
 #define CFG_SCAN_FULL2PARTIAL_PERIOD       (60)
 
@@ -3149,11 +3141,7 @@
  * 1 : Primary Channel (config in rlm_txpwr_data_emi_pri.h)
  *------------------------------------------------------------------------------
  */
-#ifndef OPLUS_FEATURE_WIFI_POWER
 #define COUNTRY_CHANNEL_TXPOWER_LIMIT_CHANNEL_DEFINE 1
-#else
-#define COUNTRY_CHANNEL_TXPOWER_LIMIT_CHANNEL_DEFINE 0
-#endif
 
 /*------------------------------------------------------------------------------
  * Flags of using wmt driver to wifi on with test mode

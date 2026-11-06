@@ -32,9 +32,6 @@
 #include "mtk_energy_model/v1/energy_model.h"
 #endif
 
-#ifdef CONFIG_OPLUS_SCHED_GROUP_OPT
-#include <../kernel/oplus_cpu/sched/sched_assist/sa_group.h>
-#endif
 
 #define DEFAULT_GRP_THRESHOLD	20
 #define DEFAULT_GRP_THRESHOLD_UTIL	460
@@ -388,9 +385,6 @@ static void group_android_rvh_cpu_cgroup_online(void *unused, struct cgroup_subs
 
 	group_update_tg_pointer(css);
 
-#ifdef CONFIG_OPLUS_SCHED_GROUP_OPT
-	oplus_update_tg_map(css);
-#endif
 }
 
 static void group_android_rvh_cpu_cgroup_attach(void *unused,

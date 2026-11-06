@@ -15,9 +15,6 @@
 #define OPLUS_ARCH_EXTENDS
 #endif
 
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-#include "../feedback/oplus_audio_kernel_fb.h"
-#endif /* CONFIG_OPLUS_FEATURE_MM_FEEDBACK */
 
 enum AUD_TX_LCH_RPT {
 	AUD_TX_LCH_RPT_NO_REPEAT = 0,
@@ -568,11 +565,6 @@ static int mt6991_pcm1_status_set(struct snd_kcontrol *kcontrol,
 			} else
 				 break;
 		}
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-		if (reset_pcm) {
-			pr_err_fb("%s(), reset pcm, i = %d, val = 0x%x", __func__, i, val);
-		}
-#endif
 	}
 	return 0;
 }

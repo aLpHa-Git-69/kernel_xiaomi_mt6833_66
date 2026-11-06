@@ -318,9 +318,6 @@ static int cs_press_iic_write(unsigned char regAddress, unsigned char *dat, unsi
 {
     int ret = 0;
     int i = 0;
-#if defined(CONFIG_OPLUS_FEATURE_FEEDBACK) || defined(CONFIG_OPLUS_FEATURE_FEEDBACK_MODULE)
-    char payload[1024] = {0x00};
-#endif
 
     if(dat == NULL){
         LOG_ERR("input buf is NULL\n");
@@ -332,12 +329,6 @@ static int cs_press_iic_write(unsigned char regAddress, unsigned char *dat, unsi
     }
     ret = cs_i2c_write_bytes(g_cs_press.client, regAddress, dat, length);
     if(ret < 0){
-#if defined(CONFIG_OPLUS_FEATURE_FEEDBACK) || defined(CONFIG_OPLUS_FEATURE_FEEDBACK_MODULE)
-        scnprintf(payload, sizeof(payload),
-                   "NULL$$EventField@@I2cWrite$$FieldData@@Err%d$$detailData@@%u[%*ph]%d",
-                   ret, regAddress, length, dat, length);
-        oplus_kevent_fb(PSW_BSP_KEYPAD, CS_PRESS_FB_BUS_TRANS_TYPE, payload);
-#endif
         i = g_cs_press.bus_error_cnt % BUS_ERROR_MSG_CNT;
         memset(g_cs_press.bus_error_msg[i], 0, BUS_ERROR_MSG_SIZE);
         scnprintf(g_cs_press.bus_error_msg[i], sizeof(g_cs_press.bus_error_msg[i]) - 1,
@@ -359,9 +350,6 @@ static int cs_press_iic_read(unsigned char regAddress, unsigned char *dat, unsig
 {
     int ret = 0;
     int i = 0;
-#if defined(CONFIG_OPLUS_FEATURE_FEEDBACK) || defined(CONFIG_OPLUS_FEATURE_FEEDBACK_MODULE)
-    char payload[1024] = {0x00};
-#endif
 
     if(dat == NULL){
         LOG_ERR("input buf is NULL\n");
@@ -375,12 +363,6 @@ static int cs_press_iic_read(unsigned char regAddress, unsigned char *dat, unsig
     ret = cs_i2c_read_bytes(g_cs_press.client, regAddress, dat, length);
     if(ret < 0){
         LOG_ERR("cs_i2c_read_bytes err\n");
-#if defined(CONFIG_OPLUS_FEATURE_FEEDBACK) || defined(CONFIG_OPLUS_FEATURE_FEEDBACK_MODULE)
-        scnprintf(payload, sizeof(payload),
-                   "NULL$$EventField@@I2cRead$$FieldData@@Err%d$$detailData@@%u[%*ph]%d",
-                   ret, regAddress, length, dat, length);
-        oplus_kevent_fb(PSW_BSP_KEYPAD, CS_PRESS_FB_BUS_TRANS_TYPE, payload);
-#endif
         i = g_cs_press.bus_error_cnt % BUS_ERROR_MSG_CNT;
         memset(g_cs_press.bus_error_msg[i], 0, BUS_ERROR_MSG_SIZE);
         scnprintf(g_cs_press.bus_error_msg[i], sizeof(g_cs_press.bus_error_msg[i]) - 1,
@@ -402,9 +384,6 @@ static int cs_press_iic_write_double_reg(unsigned short regAddress, unsigned cha
 {
     int ret = 0;
     int i = 0;
-#if defined(CONFIG_OPLUS_FEATURE_FEEDBACK) || defined(CONFIG_OPLUS_FEATURE_FEEDBACK_MODULE)
-    char payload[1024] = {0x00};
-#endif
 
     if(dat == NULL){
         LOG_ERR("input buf is NULL\n");
@@ -418,12 +397,6 @@ static int cs_press_iic_write_double_reg(unsigned short regAddress, unsigned cha
     ret = cs_i2c_write_bytes_by_u16_addr(g_cs_press.client, regAddress, dat,length);
     if (ret < 0) {
         LOG_ERR("cs_i2c_read_bytes err\n");
-#if defined(CONFIG_OPLUS_FEATURE_FEEDBACK) || defined(CONFIG_OPLUS_FEATURE_FEEDBACK_MODULE)
-        scnprintf(payload, sizeof(payload),
-                   "NULL$$EventField@@I2cWriteDouble$$FieldData@@Err%d$$detailData@@%u[%*ph]%d",
-                   ret, regAddress, length, dat, length);
-        oplus_kevent_fb(PSW_BSP_KEYPAD, CS_PRESS_FB_BUS_TRANS_TYPE, payload);
-#endif
         i = g_cs_press.bus_error_cnt % BUS_ERROR_MSG_CNT;
         memset(g_cs_press.bus_error_msg[i], 0, BUS_ERROR_MSG_SIZE);
         scnprintf(g_cs_press.bus_error_msg[i], sizeof(g_cs_press.bus_error_msg[i]) - 1,
@@ -444,9 +417,6 @@ static int cs_press_iic_read_double_reg(unsigned short regAddress, unsigned char
 {
     int ret = 0;
     int i = 0;
-#if defined(CONFIG_OPLUS_FEATURE_FEEDBACK) || defined(CONFIG_OPLUS_FEATURE_FEEDBACK_MODULE)
-    char payload[1024] = {0x00};
-#endif
 
     if(dat == NULL){
         LOG_ERR("input buf is NULL\n");
@@ -460,12 +430,6 @@ static int cs_press_iic_read_double_reg(unsigned short regAddress, unsigned char
     ret = cs_i2c_read_bytes_by_u16_addr(g_cs_press.client, regAddress, dat, length);
     if (ret < 0) {
         LOG_ERR("cs_i2c_read_double_reg err\n");
-#if defined(CONFIG_OPLUS_FEATURE_FEEDBACK) || defined(CONFIG_OPLUS_FEATURE_FEEDBACK_MODULE)
-        scnprintf(payload, sizeof(payload),
-                   "NULL$$EventField@@I2cReadDouble$$FieldData@@Err%d$$detailData@@%u[%*ph]%d",
-                   ret, regAddress, length, dat, length);
-        oplus_kevent_fb(PSW_BSP_KEYPAD, CS_PRESS_FB_BUS_TRANS_TYPE, payload);
-#endif
         i = g_cs_press.bus_error_cnt % BUS_ERROR_MSG_CNT;
         memset(g_cs_press.bus_error_msg[i], 0, BUS_ERROR_MSG_SIZE);
         scnprintf(g_cs_press.bus_error_msg[i], sizeof(g_cs_press.bus_error_msg[i]) - 1,
@@ -1865,9 +1829,6 @@ int fml_firmware_send_data(unsigned char *data, int len)
     int fw_len = 0;
     int ret = 0;
     char result = 0;
-#if defined(CONFIG_OPLUS_FEATURE_FEEDBACK) || defined(CONFIG_OPLUS_FEATURE_FEEDBACK_MODULE)
-    char payload[1024] = {0x00};
-#endif
 
     if(data == NULL){
         ret = -1;
@@ -1902,33 +1863,12 @@ int fml_firmware_send_data(unsigned char *data, int len)
     {
         ret  = -1;
         LOG_ERR("Burning firmware fails\n");
-#if defined(CONFIG_OPLUS_FEATURE_FEEDBACK) || defined(CONFIG_OPLUS_FEATURE_FEEDBACK_MODULE)
-        memset(payload, 0, 1024);
-        scnprintf(payload, sizeof(payload),
-                   "NULL$$EventField@@FwUpdate$$FieldData@@FwUpdate$$detailData@@result=0x%x", result);
-        LOG_INFO("%s\n", payload);
-        oplus_kevent_fb(PSW_BSP_KEYPAD, CS_PRESS_FB_FW_UPDATE_TYPE, payload);
-#endif
         g_cs_press.fw_update_error = result;
     }
 exit_fw_buf:
     msleep(100);
     cs_press_get_noise_var(g_cs_press.dac_noise_var_boot);
     cs_press_get_offset(g_cs_press.dac_offset_boot);
-#if defined(CONFIG_OPLUS_FEATURE_FEEDBACK) || defined(CONFIG_OPLUS_FEATURE_FEEDBACK_MODULE)
-    memset(payload, 0, 1024);
-    scnprintf(payload, sizeof(payload),
-               "NULL$$EventField@@Offset$$FieldData@@Offset$$detailData@@offset[0]=%d,offset[1]=%d",
-               g_cs_press.dac_offset_boot[0], g_cs_press.dac_offset_boot[1]);
-    LOG_INFO("%s\n", payload);
-    oplus_kevent_fb(PSW_BSP_KEYPAD, CS_PRESS_FB_OFFSET_TYPE, payload);
-    memset(payload, 0, 1024);
-    scnprintf(payload, sizeof(payload),
-               "NULL$$EventField@@Noise$$FieldData@@NoiseVar$$detailData@@noiseVar[0]=%d,noiseVar[1]=%d",
-               g_cs_press.dac_noise_var_boot[0], g_cs_press.dac_noise_var_boot[1]);
-    LOG_INFO("%s\n", payload);
-    oplus_kevent_fb(PSW_BSP_KEYPAD, CS_PRESS_FB_NOISE_VAR_TYPE, payload);
-#endif
     LOG_INFO("end\n");
     return ret;
 }

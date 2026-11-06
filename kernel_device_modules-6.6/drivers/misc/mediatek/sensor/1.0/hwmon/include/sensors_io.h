@@ -213,13 +213,8 @@ struct compat_biometric_threshold {
 #define SAR 0x91
 #define SAR_IOCTL_INIT _IOW(SAR, 0x01, int)
 
-#ifdef CONFIG_OPLUS_FEATURE_SENSOR
-#define SAR_IOCTL_READ_SENSORDATA _IOR(SAR, 0x02, struct SAR_SENSOR_DATA)
-#define SAR_IOCTL_GET_CALI  _IOR(SAR, 0x03, struct SAR_SENSOR_DATA)
-#else
 #define SAR_IOCTL_READ_SENSORDATA _IOR(SAR, 0x02, struct SENSOR_DATA)
 #define SAR_IOCTL_GET_CALI  _IOR(SAR, 0x03, struct SENSOR_DATA)
-#endif
 
 #define SAR_IOCTL_ENABLE_CALI _IO(SAR, 0x04)
 #if IS_ENABLED(CONFIG_COMPAT)

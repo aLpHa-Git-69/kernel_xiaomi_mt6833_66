@@ -30,21 +30,6 @@
 
 #include <mt-plat/mtk_irq_mon.h>
 #include "arch.h"
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_ABNORMAL_FLAG)
-#include <../kernel/oplus_cpu/oplus_overload/task_overload.h>
-#endif
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_SCHED_ASSIST)
-#include <../kernel/oplus_cpu/sched/sched_assist/sa_common.h>
-#endif
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_LOADBALANCE)
-#include <../kernel/oplus_cpu/sched/sched_assist/sa_balance.h>
-#endif
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_GKI_CPUFREQ_BOUNCING)
-#include <../kernel/oplus_cpu/cpufreq_bouncing/cpufreq_bouncing.h>
-#endif
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_FRAME_BOOST)
-#include <../kernel/oplus_cpu/sched/frame_boost/frame_group.h>
-#endif
 
 MODULE_LICENSE("GPL");
 
@@ -772,20 +757,10 @@ void check_for_migration(struct task_struct *p)
 	int new_cpu = -1, better_idle_cpu = -1;
 	int cpu = task_cpu(p);
 	struct rq *rq = cpu_rq(cpu);
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_FRAME_BOOST)
-	bool need_up_migrate = false;
-#endif
 
 	irq_log_store();
 
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_FRAME_BOOST)
-	if (fbg_need_up_migration(p, rq))
-		need_up_migrate = true;
-
-	if (rq->misfit_task_load || need_up_migrate) {
-#else
 	if (rq->misfit_task_load) {
-#endif
 		struct em_perf_domain *pd;
 		struct cpufreq_policy *policy;
 		int opp_curr = 0, thre = 0, thre_idx = 0;
@@ -872,25 +847,11 @@ void hook_scheduler_tick(void *data, struct rq *rq)
 		return;
 
 	struct root_domain *rd = rq->rd;
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_GKI_CPUFREQ_BOUNCING)
-        int this_cpu = cpu_of(rq);
-        struct cpufreq_policy *pol = cpufreq_cpu_get_raw(this_cpu);
-
-        if (pol)
-                cb_update(pol, ktime_get_ns());
-#endif
 
 	rcu_read_lock();
 	rd->android_vendor_data1 = system_has_many_heavy_task();
 	rcu_read_unlock();
 
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_LOADBALANCE)
-	if (__oplus_tick_balance(NULL, rq))
-		return;
-#endif
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_ABNORMAL_FLAG)
-	test_task_overload(rq->curr);
-#endif /* #OPLUS_FEATURE_ABNORMAL_FLAG */
 
 	if (rq->curr->policy == SCHED_NORMAL)
 		check_for_migration(rq->curr);
@@ -903,9 +864,6 @@ void mtk_hook_after_enqueue_task(void *data, struct rq *rq,
 	struct sugov_rq_data *sugov_data_ptr;
 	struct sugov_rq_data *sugov_data_ptr2;
 
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_SCHED_ASSIST)
-	android_rvh_after_enqueue_task_handler(data, rq, p, flags);
-#endif
 
 	if (!get_eas_hook())
 		return;
@@ -1125,9 +1083,6 @@ void mtk_sched_switch(void *data, struct task_struct *prev,
 	if (next->pid == 0)
 		per_cpu(sbb, rq->cpu)->active = 0;
 
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_SCHED_ASSIST)
-	android_rvh_schedule_handler(data, prev, next, rq);
-#endif
 
 	if (trace_sched_stat_vdeadline_enabled()) {
 		if (prev->pid != 0 && next->pid != 0) {
@@ -1191,35 +1146,6 @@ int set_util_est_ctrl(bool enable)
 {
 	sysctl_util_est = enable;
 	return 0;
-}
-
-unsigned int fake_cpuinfo_max_freq_cpu = -1;
-DEFINE_MUTEX(fake_cpuinfo_max_freq_cpu_mutex);
-
-void oppo_show_cpuinfo_max_freq(void *data, struct cpufreq_policy *policy, unsigned int *max_freq)
-{
-    struct cpufreq_policy *bpolicy;
-    unsigned int temp = -1;
-
-    mutex_lock(&fake_cpuinfo_max_freq_cpu_mutex);
-    temp = fake_cpuinfo_max_freq_cpu;
-    mutex_unlock(&fake_cpuinfo_max_freq_cpu_mutex);
-
-    if (temp < 0 || temp > 6)
-        return;
-
-    if (!policy)
-        return;
-
-    if (!cpumask_test_cpu(7,policy->related_cpus) || cpumask_weight(policy->related_cpus) > 1)
-        return;
-
-    bpolicy = cpufreq_cpu_get(temp);
-    if (!bpolicy)
-        return;
-
-    *max_freq = bpolicy->cpuinfo.max_freq;
-    cpufreq_cpu_put(bpolicy);
 }
 
 int set_cpus_allowed_ptr_by_kernel(struct task_struct *p, const struct cpumask *new_mask)

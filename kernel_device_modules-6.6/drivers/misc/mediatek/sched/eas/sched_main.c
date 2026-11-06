@@ -25,9 +25,6 @@
 #include "sched_sys_common.h"
 #include "sugov/cpufreq.h"
 #include "eas_adpf.h"
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_SCHED_ASSIST)
-#include <../kernel/oplus_cpu/sched/sched_assist/sa_common.h>
-#endif
 #if IS_ENABLED(CONFIG_MTK_GEARLESS_SUPPORT)
 #include "mtk_energy_model/v3/energy_model.h"
 #else
@@ -199,10 +196,6 @@ static void sched_queue_task_hook(void *data, struct rq *rq, struct task_struct 
 				p->cpus_ptr->bits[0]);
 	}
 
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_SCHED_ASSIST)
-	if (type == dequeue)
-		android_rvh_dequeue_task_handler(data, rq, p, flags);
-#endif
 	irq_log_store();
 }
 
@@ -1152,7 +1145,6 @@ static int __init mtk_scheduler_init(void)
 	if (ret)
 		pr_info("register mtk_cpu_util_cfs_boost_hook hooks failed, returned %d\n", ret);
 
-    ret = register_trace_android_rvh_show_max_freq(oppo_show_cpuinfo_max_freq, NULL);
 
 	ret = register_trace_android_vh_scheduler_tick(hook_scheduler_tick, NULL);
 	if (ret)

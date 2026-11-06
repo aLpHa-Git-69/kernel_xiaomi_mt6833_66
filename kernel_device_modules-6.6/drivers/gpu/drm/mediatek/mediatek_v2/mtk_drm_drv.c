@@ -113,19 +113,6 @@
 
 #include "mtk_disp_vdisp_ao.h"
 
-#ifdef OPLUS_FEATURE_DISPLAY
-#include "oplus_display_sysfs_attrs.h"
-#include "oplus_display_device.h"
-#include "oplus_display_trackpoint_report.h"
-#include <mt-plat/mtk_boot_common.h>
-extern unsigned int silence_mode;
-extern int oplus_ofp_get_fp_type(void *buf);
-static unsigned int fp_type;
-static bool is_get_fp_type = false;
-#endif /* OPLUS_FEATURE_DISPLAY  */
-#ifdef OPLUS_FEATURE_DISPLAY_ADFR
-#include "oplus_adfr.h"
-#endif /* OPLUS_FEATURE_DISPLAY_ADFR  */
 
 
 #if IS_ENABLED(CONFIG_DRM_MEDIATEK_AUTO)
@@ -1075,12 +1062,6 @@ static void mtk_atomic_doze_update_pq(struct drm_crtc *crtc, unsigned int stage,
 		crtc->state->active, old_state, stage);
 	mtk_state = to_mtk_crtc_state(crtc->state);
 
-#ifdef OPLUS_FEATURE_DISPLAY
-	if (!is_get_fp_type) {
-		is_get_fp_type = true;
-		oplus_ofp_get_fp_type(&fp_type);
-	}
-#endif
 
 	if (!crtc->state->active) {
 		if (mtk_state->doze_changed &&
@@ -1137,22 +1118,14 @@ static void mtk_atomic_doze_update_pq(struct drm_crtc *crtc, unsigned int stage,
 	for_each_comp_in_cur_crtc_path(comp, mtk_crtc, i, j) {
 		if (comp && (mtk_ddp_comp_get_type(comp->id) == MTK_DISP_AAL ||
 
-#ifdef OPLUS_FEATURE_DISPLAY
-				(fp_type != 0x10 && mtk_ddp_comp_get_type(comp->id) == MTK_DISP_CCORR)||
-#else
 				mtk_ddp_comp_get_type(comp->id) == MTK_DISP_CCORR ||
-#endif
 				mtk_ddp_comp_get_type(comp->id) == MTK_DISP_COLOR||
 				mtk_ddp_comp_get_type(comp->id) == MTK_DMDP_AAL)) {
 			if (comp->funcs && comp->funcs->bypass)
 				mtk_ddp_comp_bypass(comp, bypass, PQ_FEATURE_KRN_DOZE, cmdq_handle);
 		}
 
-#ifdef OPLUS_FEATURE_DISPLAY
-		if (fp_type != 0x10 && (comp->doze_bypass & DOZE_BYPASS_PQ))
-#else
 		if (comp->doze_bypass & DOZE_BYPASS_PQ)
-#endif
 			mtk_ddp_comp_bypass(comp, bypass, PQ_FEATURE_KRN_DOZE, cmdq_handle);
 	}
 
@@ -1160,11 +1133,7 @@ static void mtk_atomic_doze_update_pq(struct drm_crtc *crtc, unsigned int stage,
 		for_each_comp_in_dual_pipe(comp, mtk_crtc, i, j) {
 			if (comp && (mtk_ddp_comp_get_type(comp->id) == MTK_DISP_AAL ||
 
-#ifdef OPLUS_FEATURE_DISPLAY
-				(fp_type != 0x10 && mtk_ddp_comp_get_type(comp->id) == MTK_DISP_CCORR)||
-#else
 				mtk_ddp_comp_get_type(comp->id) == MTK_DISP_CCORR ||
-#endif
 
 				mtk_ddp_comp_get_type(comp->id) == MTK_DISP_COLOR||
 				mtk_ddp_comp_get_type(comp->id) == MTK_DMDP_AAL)) {
@@ -1172,11 +1141,7 @@ static void mtk_atomic_doze_update_pq(struct drm_crtc *crtc, unsigned int stage,
 					mtk_ddp_comp_bypass(comp, bypass, PQ_FEATURE_KRN_DOZE, cmdq_handle);
 			}
 
-#ifdef OPLUS_FEATURE_DISPLAY
-			if(fp_type != 0x10 && (comp->doze_bypass & DOZE_BYPASS_PQ))
-#else
 			if(comp->doze_bypass & DOZE_BYPASS_PQ)
-#endif
 				mtk_ddp_comp_bypass(comp, bypass, PQ_FEATURE_KRN_DOZE, cmdq_handle);
 		}
 	}
@@ -1885,25 +1850,6 @@ static void mtk_atomic_complete(struct mtk_drm_private *private,
 
 	{
 	unsigned int crtc_mask = mtk_atomic_crtc_mask(drm, state);
-#ifdef OPLUS_FEATURE_DISPLAY_ADFR
-	if (private->crtc[0]) {
-		oplus_adfr_set_current_crtc(private->crtc[0]);
-	} else if (private->crtc[3]) {
-		oplus_adfr_set_current_crtc(private->crtc[3]);
-	}
-
-	if (crtc_mask & BIT(0)) {
-		struct mtk_drm_crtc *mtk_crtc = to_mtk_crtc(private->crtc[0]);
-		if (mtk_crtc) {
-			oplus_adfr_auto_mode_update(mtk_crtc);
-		}
-	} else if (crtc_mask & BIT(3)) {
-		struct mtk_drm_crtc *mtk_crtc = to_mtk_crtc(private->crtc[3]);
-		if (mtk_crtc) {
-			oplus_adfr_auto_mode_update(mtk_crtc);
-		}
-	}
-#endif
 	}
 
 	mtk_atomic_disp_rsz_roi(drm, state);
@@ -7453,7 +7399,6 @@ static void mtk_drm_get_top_clk(struct mtk_drm_private *priv)
 	}
 }
 static unsigned int clk_unprepare_trigger = 0;
-extern int is_ac180;
 void mtk_drm_top_clk_prepare_enable(struct drm_crtc *crtc)
 {
 	struct mtk_drm_private *priv = crtc->dev->dev_private;
@@ -7462,12 +7407,6 @@ void mtk_drm_top_clk_prepare_enable(struct drm_crtc *crtc)
 	int ret, clk_ref_cnt = 0;
 	unsigned long flags = 0;
 	struct mtk_drm_crtc *mtk_crtc = NULL;
-/* #ifdef OPLUS_FEATURE_DISPLAY */
-	struct mtk_crtc_state *state = to_mtk_crtc_state(crtc->state);
-	struct drm_display_mode *adjust_mode;
-	unsigned int cur_fps = 0;
-	int mode_idx = 0;
-/* #endif */
 	int crtc_idx = drm_crtc_index(crtc);
 
 	if (priv->top_clk_num <= 0)
@@ -7500,32 +7439,7 @@ void mtk_drm_top_clk_prepare_enable(struct drm_crtc *crtc)
 			if (crtc_idx == 0) {
 				CRTC_MMP_MARK(crtc_idx, enter_vidle,
 					(0xc10c | 0x10000000), atomic_read(&top_clk_ref));
-/* #ifdef OPLUS_FEATURE_DISPLAY */
-				mtk_crtc = to_mtk_crtc(priv->crtc[0]);
-				mode_idx = mtk_crtc->mode_idx;
-				adjust_mode = &(mtk_crtc->avail_modes[mode_idx]);
-				cur_fps = drm_mode_vrefresh(adjust_mode);
-				pr_err("mtk_drm_top_clk_prepare_enable ac180=%d\n",is_ac180);
-			if (is_ac180 == 1) {
-				if (crtc->state->mode.hskew == OPLUS_ADFR || crtc->state->mode.hskew == OPLUS_MFR ||
-					state->prop_val[CRTC_PROP_DOZE_ACTIVE]) {
-					DDPINFO("%s oa aod close vidle\n", __func__);
-					mtk_vidle_config_ff(false);
-				} else {
-					DDPINFO("%s open vidle\n", __func__);
-					mtk_vidle_config_ff(true);
-				}
-			} else {
-				if (crtc->state->mode.hskew == OPLUS_ADFR || crtc->state->mode.hskew == OPLUS_MFR ||
-					state->prop_val[CRTC_PROP_DOZE_ACTIVE] || cur_fps == 60 || cur_fps == 90) {
-					DDPINFO("%s oa aod 60&90 close vidle\n", __func__);
-					mtk_vidle_config_ff(false);
-				} else {
-					DDPINFO("%s open vidle\n", __func__);
-					mtk_vidle_config_ff(true);
-				}
-			}
-/* #endif */
+				mtk_vidle_config_ff(true);
 			} else {
 				CRTC_MMP_MARK(crtc_idx, leave_vidle,
 					(0xc10c | 0x20000000), atomic_read(&top_clk_ref));
@@ -12174,14 +12088,6 @@ SKIP_OVLSYS_CONFIG:
 
 	memcpy(&mydev, pdev, sizeof(mydev));
 
-#ifdef OPLUS_FEATURE_DISPLAY
-	pr_info("[%s] get_boot_mode() is %d\n", __func__, get_boot_mode());
-	if ((get_boot_mode() == SILENCE_BOOT)
-			||(get_boot_mode() == OPPO_SAU_BOOT)) {
-		pr_info("[%s] set silence_mode to 1\n", __func__);
-		silence_mode = 1;
-	}
-#endif /* OPLUS_FEATURE_DISPLAY */
 
 	return 0;
 
@@ -12453,11 +12359,6 @@ static int __init mtk_drm_init(void)
 			goto err;
 		}
 	}
-#ifdef OPLUS_FEATURE_DISPLAY
-	oplus_display_private_api_init();
-	oplus_display_panel_init();
-	oplus_display_trackpoint_report_init();
-#endif /* OPLUS_FEATURE_DISPLAY  */
 	DDPINFO("%s-\n", __func__);
 
 	return 0;

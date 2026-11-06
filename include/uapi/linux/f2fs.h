@@ -48,25 +48,6 @@
 #define F2FS_IOC_SET_EXTRA_ATTR		_IOW(F2FS_IOCTL_MAGIC, 27,	\
 						struct f2fs_extra_attr)
 
-#define F2FS_DEDUP_IOC_BASE	(100)
-#define F2FS_IOC_DEDUP_CREATE		_IOW(F2FS_IOCTL_MAGIC,	\
-					F2FS_DEDUP_IOC_BASE + 0, struct f2fs_dedup_src)
-#define F2FS_IOC_DEDUP_FILE		_IOW(F2FS_IOCTL_MAGIC,	\
-					F2FS_DEDUP_IOC_BASE + 1, struct f2fs_dedup_dst)
-#define F2FS_IOC_DEDUP_REVOKE		_IOW(F2FS_IOCTL_MAGIC,	\
-					F2FS_DEDUP_IOC_BASE + 2, struct f2fs_dedup_revoke)
-#define F2FS_IOC_DEDUP_GET_FILE_INFO	_IOR(F2FS_IOCTL_MAGIC,	\
-					F2FS_DEDUP_IOC_BASE + 3, struct f2fs_dedup_file_info)
-#define F2FS_IOC_DEDUP_GET_SYS_INFO	_IOR(F2FS_IOCTL_MAGIC,	\
-					F2FS_DEDUP_IOC_BASE + 4, struct f2fs_dedup_sys_info)
-
-#define F2FS_IOC_CLONE_FILE		_IOW(F2FS_IOCTL_MAGIC,	\
-					F2FS_DEDUP_IOC_BASE + 5, struct f2fs_clone_info)
-#define F2FS_IOC_MODIFY_CHECK	_IOWR(F2FS_IOCTL_MAGIC,	\
-					F2FS_DEDUP_IOC_BASE + 6, struct f2fs_modify_check_info)
-#define F2FS_IOC_DEDUP_PERM_CHECK \
-			_IO(F2FS_IOCTL_MAGIC, F2FS_DEDUP_IOC_BASE + 7)
-
 /*
  * should be same as XFS_IOC_GOINGDOWN.
  * Flags for going down operation used by FS_IOC_GOINGDOWN
@@ -148,46 +129,5 @@ struct f2fs_extra_attr {
 	__u32 rsvd2;
 	__u64 attr;		/* attr value or pointer */
 };
-
-/* F2FS_IOC_DEDUP_CREATE */
-struct f2fs_dedup_src {
-	int inner_fd;
-};
-
-/* F2FS_IOC_DEDUP_FILE */
-struct f2fs_dedup_dst {
-	int base_fd;
-	int tmp_fd;
-};
-
-/* F2FS_IOC_DEDUP_REVOKE */
-struct f2fs_dedup_revoke {
-	int revoke_fd;
-};
-
-/* F2FS_IOC_DEDUP_GET_FILE_INFO */
-struct f2fs_dedup_file_info {
-	short is_deduped;
-	short is_layered;
-	int group;
-};
-
-/* F2FS_IOC_DEDUP_GET_SYS_INFO */
-struct f2fs_dedup_sys_info {
-	__u64 file_count;
-	__u64 file_space;		/* MB */
-};
-
-struct f2fs_clone_info {
-	int src_fd;
-	int flags;	/* meta/data index */
-};
-
-struct f2fs_modify_check_info {
-	int flag;	/* data/meta */
-	int mode;	/* set/get/clear */
-};
-
-#define F2FS_KBYTE_SHIFT	10
 
 #endif /* _UAPI_LINUX_F2FS_H */

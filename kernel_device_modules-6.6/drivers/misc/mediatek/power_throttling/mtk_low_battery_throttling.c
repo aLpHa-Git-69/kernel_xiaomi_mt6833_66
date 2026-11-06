@@ -15,9 +15,6 @@
 #include "mtk_low_battery_throttling.h"
 #include "pmic_lbat_service.h"
 #include "pmic_lvsys_notify.h"
-//#ifdef OPLUS_BUG_STABILITY
-#include <soc/oplus/boot/boot_mode.h>
-//#endif
 #define CREATE_TRACE_POINTS
 #include "mtk_low_battery_throttling_trace.h"
 #include "../mbraink/mbraink_ioctl_struct_def.h"
@@ -819,12 +816,8 @@ static int __used pt_check_power_off(void)
 		pt_power_off_cnt = 0;
 
 	if (pt_power_off_cnt >= 4) {
-		//#ifdef OPLUS_BUG_STABILITY
-		if (get_boot_mode() != META_BOOT && get_boot_mode() != FACTORY_BOOT) {
-			pr_info("Powering off by PT.\n");
-			kernel_power_off();
-		}
-		//#endif
+		pr_info("Powering off by PT.\n");
+		kernel_power_off();
 	}
 
 	return ret;

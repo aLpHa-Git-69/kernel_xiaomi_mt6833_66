@@ -38,14 +38,7 @@
 #include <linux/mfd/mt6685-audclk.h>
 #endif
 
-#ifndef OPLUS_ARCH_EXTENDS
-#define OPLUS_ARCH_EXTENDS
-#endif
 
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-#include "../feedback/oplus_audio_kernel_fb.h"
-static int first_err = 0;
-#endif /* CONFIG_OPLUS_FEATURE_MM_FEEDBACK */
 
 #define MTKAIFV4_SUPPORT
 //#define VIVO_CUS
@@ -123,16 +116,6 @@ static int mt6681_sw_normal_mode(struct mt6681_priv *priv, bool enable)
 		if ((data1 != 0x7f) || (data2 != 0x1) ||((data3 & 0x2) != 0x2)) {
 			dev_info(priv->dev, "%s() [Resume] MT6681_MTC_STS0/MT6681_MTC_STS2/MT6681_VCC_STS0 = 0x%x/0x%x/0x%x, status error, need retry & resume\n",
 				 __func__, data1, data2, data3);
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-                if (first_err) {
-			pr_err_fb("%s() [Resume] MT6681_MTC_STS0/MT6681_MTC_STS2/MT6681_VCC_STS0 = 0x%x/0x%x/0x%x, status error, need retry & resume",
-				 __func__, data1, data2, data3);
-                } else {
-// ignore first err
-                    first_err = 1;
-                }
-
-#endif
 			/*
 			  * MT6681_TOP_CON2
 			  * [1] 0: sw mode 1: hw mode
@@ -2858,7 +2841,8 @@ static int mic_mux_enum_get(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_v
 	ucontrol->value.enumerated.item[0] = val;
 
 	dev_info(priv->dev, "%s(), w->name %s = mux %d\n", __func__, w->name, val);
-	return 0;
+
+	return 0;
 }
 static int mic_mux_enum_put(struct snd_kcontrol *kcontrol, struct snd_ctl_elem_value *ucontrol)
 {
@@ -6475,16 +6459,9 @@ static int mt_mic_bias_0_event(struct snd_soc_dapm_widget *w,
 			break;
 		}
 
-#ifdef OPLUS_ARCH_EXTENDS
 		regmap_update_bits(priv->regmap, MT6681_AUDENC_PMU_CON59,
 			RG_AUDMICBIAS0VREF_MASK_SFT,
 			MIC_BIAS_2P7 << RG_AUDMICBIAS0VREF_SFT);
-#else
-		/* MISBIAS0 = 1P9V */
-		regmap_update_bits(priv->regmap, MT6681_AUDENC_PMU_CON59,
-				   RG_AUDMICBIAS0VREF_MASK_SFT,
-				   MIC_BIAS_1P9 << RG_AUDMICBIAS0VREF_SFT);
-#endif
 		if (priv->vow_setup) {
 			regmap_update_bits(priv->regmap,
 					   MT6681_AUDENC_PMU_CON59,
@@ -6551,11 +6528,9 @@ static int mt_mic_bias_1_event(struct snd_soc_dapm_widget *w,
 				   RG_AUDMICBIAS1DCSW1PEN_MASK_SFT,
 				   0x0 << RG_AUDMICBIAS1DCSW1PEN_SFT);
 
-#ifdef OPLUS_ARCH_EXTENDS
 		regmap_update_bits(priv->regmap, MT6681_AUDENC_PMU_CON61,
 			RG_AUDMICBIAS1VREF_MASK_SFT,
 			MIC_BIAS_2P7 << RG_AUDMICBIAS1VREF_SFT);
-#endif
 
 		if (priv->vow_setup) {
 			regmap_update_bits(priv->regmap,
@@ -6629,16 +6604,9 @@ static int mt_mic_bias_2_event(struct snd_soc_dapm_widget *w,
 			break;
 		}
 
-#ifdef OPLUS_ARCH_EXTENDS
 		regmap_update_bits(priv->regmap, MT6681_AUDENC_PMU_CON63,
 				   RG_AUDMICBIAS2VREF_MASK_SFT,
 				   MIC_BIAS_2P7 << RG_AUDMICBIAS2VREF_SFT);
-#else
-		/* MISBIAS2 = 1P9V */
-		regmap_update_bits(priv->regmap, MT6681_AUDENC_PMU_CON63,
-				   RG_AUDMICBIAS2VREF_MASK_SFT,
-				   MIC_BIAS_1P9 << RG_AUDMICBIAS2VREF_SFT);
-#endif
 		if (priv->vow_setup) {
 			regmap_update_bits(priv->regmap,
 					   MT6681_AUDENC_PMU_CON63,
@@ -6715,17 +6683,10 @@ static int mt_mic_bias_3_event(struct snd_soc_dapm_widget *w,
 			break;
 		}
 
-#ifdef OPLUS_ARCH_EXTENDS
 		regmap_update_bits(priv->regmap, MT6681_AUDENC_PMU_CON65,
 				   RG_AUDMICBIAS3VREF_MASK_SFT,
 				   MIC_BIAS_2P7 << RG_AUDMICBIAS3VREF_SFT);
 
-#else
-		/* MISBIAS3 = 1P9V */
-		regmap_update_bits(priv->regmap, MT6681_AUDENC_PMU_CON65,
-				   RG_AUDMICBIAS3VREF_MASK_SFT,
-				   MIC_BIAS_1P9 << RG_AUDMICBIAS3VREF_SFT);
-#endif
 		if (priv->vow_setup) {
 			regmap_update_bits(priv->regmap,
 					   MT6681_AUDENC_PMU_CON65,
@@ -11679,20 +11640,9 @@ static int mt_pga_5_event(struct snd_soc_dapm_widget *w,
 		return -EINVAL;
 	}
 
-#ifdef OPLUS_ARCH_EXTENDS
-	if (priv->vow_mic_pga_gain != -1) {
-		mic_gain_5 = priv->vow_setup ? priv->vow_mic_pga_gain :
-				priv->ana_gain[AUDIO_ANALOG_VOLUME_MICAMP5];
-	} else {
-                /* if vow is enabled, always set volume as 12 (18dB) */
-		mic_gain_5 = priv->vow_setup ? 12 :
-				priv->ana_gain[AUDIO_ANALOG_VOLUME_MICAMP5];
-	}
-#else
 	/* if vow is enabled, always set volume as 12 (18dB) */
 	mic_gain_5 = priv->vow_setup ? 12 :
-		     priv->ana_gain[AUDIO_ANALOG_VOLUME_MICAMP5];
-#endif
+			priv->ana_gain[AUDIO_ANALOG_VOLUME_MICAMP5];
 	dev_info(
 		priv->dev,
 		"%s(), event = 0x%x, mic_type %d, mic_gain_5 %d, mux_pga %d, vow_setup %d\n",
@@ -11867,20 +11817,9 @@ static int mt_pga_6_event(struct snd_soc_dapm_widget *w,
 		return -EINVAL;
 	}
 
-#ifdef OPLUS_ARCH_EXTENDS
-	if (priv->vow_mic_pga_gain != -1) {
-		mic_gain_6 = priv->vow_setup ? priv->vow_mic_pga_gain :
-				priv->ana_gain[AUDIO_ANALOG_VOLUME_MICAMP6];
-	} else {
-                /* if vow is enabled, always set volume as 12 (18dB) */
-		mic_gain_6 = priv->vow_setup ? 12 :
-				priv->ana_gain[AUDIO_ANALOG_VOLUME_MICAMP6];
-	}
-#else
 	/* if vow is enabled, always set volume as 12 (18dB) */
 	mic_gain_6 = priv->vow_setup ? 12 :
-		     priv->ana_gain[AUDIO_ANALOG_VOLUME_MICAMP6];
-#endif
+			priv->ana_gain[AUDIO_ANALOG_VOLUME_MICAMP6];
 	dev_info(
 		priv->dev,
 		"%s(), event = 0x%x, mic_type %d, mic_gain_6 %d, mux_pga %d, vow_setup %d\n",
@@ -35349,16 +35288,6 @@ static int mt6681_parse_dt(struct mt6681_priv *priv)
 	np = of_get_child_by_name(dev->parent->of_node, "mt6681-sound");
 	if (!np)
 		return -EINVAL;
-#ifdef OPLUS_ARCH_EXTENDS
-	/* get breeno vow mic pga gain */
-	ret = of_property_read_u32(np, "oplus,vow-mic-pga-gain",
-				   &priv->vow_mic_pga_gain);
-	if (ret) {
-		dev_dbg(dev, "%s() failed to read vow-mic-pga-gain, default disable\n",
-			__func__);
-		priv->vow_mic_pga_gain = -1;
-	}
-#endif
 	/* get mic type */
 	ret = of_property_read_u32(np, "mediatek,dmic-mode",
 				   &priv->dmic_one_wire_mode);

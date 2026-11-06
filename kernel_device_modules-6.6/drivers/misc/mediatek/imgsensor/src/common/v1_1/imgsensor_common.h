@@ -31,9 +31,7 @@
 #define IMGSENSOR_TOSTRING(value)           #value
 #define IMGSENSOR_STRINGIZE(stringizedName) IMGSENSOR_TOSTRING(stringizedName)
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 #define MIPI_SWITCH
-#endif
 
 enum IMGSENSOR_ARCH {
 	IMGSENSOR_ARCH_V1 = 0,
@@ -46,7 +44,6 @@ enum IMGSENSOR_RETURN {
 	IMGSENSOR_RETURN_ERROR   = -1,
 };
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 #define CAMERA_MODULE_SN_LENGTH                (20)
 #define AESYNC_DATA_LENGTH_TOTAL               (65)
 #define DUALCAM_CALI_DATA_LENGTH               (1561)
@@ -103,7 +100,6 @@ enum IMGSENSOR_RETURN {
 
 
 extern char gOtpCheckdata[7][40];
-#endif
 
 #define LENGTH_FOR_SNPRINTF 256
 #endif

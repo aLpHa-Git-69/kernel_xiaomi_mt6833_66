@@ -510,7 +510,7 @@ int bleoffload_core_init(void)
 	memset(&g_bleoffload_ctx, 0, sizeof(struct bleoffload_core_ctx));
 
 	/* Create bleoffload thread */
-	ret = msg_thread_init(&ctx->msg_ctx, "oplus_bleoffload_thread",
+	ret = msg_thread_init(&ctx->msg_ctx, "bleoffload_thread",
 					bleoffload_core_opfunc, BLEOFFLOAD_OPID_MAX);
 
 	if (ret) {

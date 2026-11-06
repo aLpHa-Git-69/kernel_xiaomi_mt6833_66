@@ -23,10 +23,6 @@
  */
 #include "precomp.h"
 #include "radiotap.h"
-#ifdef OPLUS_FEATURE_CONN_POWER_MONITOR
-//add for mtk connectivity power monitor
-#include "oplus_parse_package.h"
-#endif /* OPLUS_FEATURE_CONN_POWER_MONITOR */
 
 /*******************************************************************************
  *                              C O N S T A N T S
@@ -448,14 +444,6 @@ void nic_rxd_v2_check_wakeup_reason(
 	uint32_t u4HeaderOffset;
 	u_int8_t fgDrop = FALSE;
 
-#ifdef OPLUS_FEATURE_CONN_POWER_MONITOR
-	//add for mtk connectivity power monitor
-	char pucLogContent[256] = {'\0'};
-	uint16_t packageType = 0;
-	packageType = ParseRxPackage(prSwRfb);
-	snprintf(pucLogContent, sizeof(pucLogContent), "%d", packageType);
-	oplusLpmSendUevent(prAdapter, pucLogContent);
-#endif /* OPLUS_FEATURE_CONN_POWER_MONITOR */
 
 	prChipInfo = prAdapter->chip_info;
 
@@ -609,15 +597,6 @@ void nic_rxd_v2_check_wakeup_reason(
 			DBGLOG(RX, INFO,
 				" IP ID 0x%04x wakeup host\n",
 				u2Temp);
-#ifdef OPLUS_FEATURE_CONN_POWER_MONITOR
-			//add for mtk connectivity power monitor
-			snprintf(pucLogContent, sizeof(pucLogContent), "wakeup_reason=%d;%d.%d.%d.%d;%u;%d.%d.%d.%d;%u;", pvHeader[ETH_HLEN + 9],
-				pvHeader[ETH_HLEN + 12], pvHeader[ETH_HLEN + 13], pvHeader[ETH_HLEN + 14], pvHeader[ETH_HLEN + 15],
-				(pvHeader[ETH_HLEN + 20] << 8) | pvHeader[ETH_HLEN + 21],
-				pvHeader[ETH_HLEN + 16], pvHeader[ETH_HLEN + 17], pvHeader[ETH_HLEN + 18], pvHeader[ETH_HLEN + 19],
-				(pvHeader[ETH_HLEN + 22] << 8) | pvHeader[ETH_HLEN + 23]);
-			oplusLpmSendUevent(prAdapter, pucLogContent);
-#endif /* OPLUS_FEATURE_CONN_POWER_MONITOR */
 			break;
 		case ETH_P_ARP:
 			break;
@@ -631,17 +610,6 @@ void nic_rxd_v2_check_wakeup_reason(
 		case ETH_P_IPX:
 		case ETH_P_VLAN:
 		case ETH_PRO_TDLS:
-#ifdef OPLUS_FEATURE_CONN_POWER_MONITOR
-			//add for mtk connectivity power monitor
-			if (u2Temp == ETH_P_IPV6) {
-				snprintf(pucLogContent, sizeof(pucLogContent), "wakeup_reason=%d;%pI6;%u;%pI6;%u;", pvHeader[ETH_HLEN + 6],
-					&(pvHeader[ETH_HLEN + 8]),
-					(pvHeader[ETH_HLEN + 40] << 8) | pvHeader[ETH_HLEN + 41],
-					&(pvHeader[ETH_HLEN + 24]),
-					(pvHeader[ETH_HLEN + 42] << 8) | pvHeader[ETH_HLEN + 43]);
-				oplusLpmSendUevent(prAdapter, pucLogContent);
-			}
-#endif /* OPLUS_FEATURE_CONN_POWER_MONITOR */
 			DBGLOG(RX, INFO,
 				"Data Packet, EthType 0x%04x wakeup host\n",
 				u2Temp);

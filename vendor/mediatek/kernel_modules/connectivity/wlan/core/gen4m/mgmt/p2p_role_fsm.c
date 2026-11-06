@@ -4842,10 +4842,6 @@ p2pRoleFsmGetStaStatistics(struct ADAPTER *prAdapter,
 	struct P2P_ROLE_FSM_INFO *prP2pRoleFsmInfo =
 		(struct P2P_ROLE_FSM_INFO *) ulParamPtr;
 	struct BSS_INFO *prP2pBssInfo = (struct BSS_INFO *) NULL;
-#ifdef OPLUS_FEATURE_WIFI_POWER
-//CONNECTIVITY.WIFI.HARDWARE.POWER.7757678, 2024/08/15, limitedly print debug info once in 10s .
-	static DEFINE_RATELIMIT_STATE(_rs, 10 * HZ, 1);
-#endif
 
 	if ((!prAdapter) || (!prP2pRoleFsmInfo)) {
 		DBGLOG(P2P, ERROR, "prAdapter=NULL || prP2pRoleFsmInfo=NULL\n");
@@ -4923,12 +4919,6 @@ p2pRoleFsmGetStaStatistics(struct ADAPTER *prAdapter,
 			&(prP2pRoleFsmInfo->rP2pRoleFsmGetStatisticsTimer),
 			P2P_ROLE_GET_STATISTICS_TIME);
 
-#ifdef OPLUS_FEATURE_WIFI_POWER
-//CONNECTIVITY.WIFI.HARDWARE.POWER.7757678, 2024/08/15, limitedly print debug info once in 10s .
-		if (__ratelimit(&_rs)) {
-			DBGLOG(P2P, INFO, "start timer %s", __func__);
-		}
-#endif
 	}
 #endif
 }

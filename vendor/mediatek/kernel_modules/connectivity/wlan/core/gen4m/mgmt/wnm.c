@@ -678,9 +678,6 @@ void wnmRecvBTMRequest(struct ADAPTER *prAdapter, struct SW_RFB *prSwRfb)
 	uint8_t ucStatus = 0;
 	struct BSS_DESC *prBssDesc;
 	struct AIS_FSM_INFO *ais = aisGetAisFsmInfo(prAdapter, ucBssIndex);
-#ifdef OPLUS_WLAN_BUG_STABILITY
-	int32_t cTargetRssi = prAdapter->prGlueInfo->i4RssiCache[ucBssIndex];
-#endif /* OPLUS_WLAN_BUG_STABILITY */
 
 	prRxFrame = (struct ACTION_BTM_REQ_FRAME *) prSwRfb->pvHeader;
 	if (!prRxFrame)
@@ -868,16 +865,6 @@ void wnmRecvBTMRequest(struct ADAPTER *prAdapter, struct SW_RFB *prSwRfb)
 		goto send_response;
 	}
 
-#ifdef OPLUS_WLAN_BUG_STABILITY
-	if (!(ucRequestMode & WNM_BSS_TM_REQ_DISASSOC_IMMINENT) &&
-		!(ucRequestMode & WNM_BSS_TM_REQ_ESS_DISASSOC_IMMINENT) &&
-		cTargetRssi > -65) {
-		DBGLOG(WNM, WARN, "BTM: ignore nonurgent BTM request (%d)\n",
-			ucRequestMode);
-		ucStatus = WNM_BSS_TM_REJECT_UNSPECIFIED;
-		goto send_response;
-	}
-#endif /* OPLUS_WLAN_BUG_STABILITY */
 
 	prMsg = (struct MSG_AIS_BSS_TRANSITION *)cnmMemAlloc(
 		prAdapter, RAM_TYPE_MSG, sizeof(struct MSG_AIS_BSS_TRANSITION));

@@ -37,9 +37,6 @@
 #include "mtk_pbm.h" /* DLPT */
 #include "mtk_peak_power_budget.h"
 #endif
-#ifndef OPLUS_FEATURE_CAMERA_COMMON
-#define OPLUS_FEATURE_CAMERA_COMMON
-#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 
 /******************************************************************************
  * Definition
@@ -67,7 +64,6 @@ static int pt_strict; /* always be zero in C standard */
 #endif
 
 static int pt_is_low(int pt_low_vol, int pt_low_bat, int pt_over_cur);
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 #include <soc/oplus/system/oplus_project.h>
 extern const struct flashlight_device_id flashlight_id_dual[];
 extern const struct flashlight_device_id flashlight_id_single[];
@@ -79,7 +75,6 @@ extern const struct flashlight_device_id flashlight_id_orisa[];
 extern const struct flashlight_device_id flashlight_id_miami[];
 const struct flashlight_device_id *flashlight_id;
 int flashlight_device_num = 0;
-#endif
 #endif
 
 /******************************************************************************
@@ -289,7 +284,6 @@ int flashlight_get_part_index(int part_id)
 }
 EXPORT_SYMBOL(flashlight_get_part_index);
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 static int select_lednum(struct flashlight_dev *fdev, int lednum)
 {
 	struct flashlight_dev_arg fl_dev_arg;
@@ -315,7 +309,6 @@ static int select_lednum(struct flashlight_dev *fdev, int lednum)
 	fdev->enable = 1;
 	return 0;
 }
-#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
 
 /******************************************************************************
  * Flashlight devices
@@ -383,7 +376,6 @@ int flashlight_dev_register(
 	int type_index, ct_index, part_index;
 	int i;
 
-	#ifdef OPLUS_FEATURE_CAMERA_COMMON
 	if (is_project(19537) || is_project(19538) ||
 		is_project(19539) || is_project(19536) ||
 		is_project(19541) || is_project(20291) ||
@@ -430,7 +422,6 @@ int flashlight_dev_register(
 		flashlight_id = flashlight_id_ark;
 		flashlight_device_num = 1;
 	}
-	#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
 
 	for (i = 0; i < flashlight_device_num; i++) {
 		if (!strncmp(name, flashlight_id[i].name,
@@ -613,16 +604,12 @@ static int flashlight_update_charger_status(struct flashlight_dev *fdev)
 
 	/* ioctl */
 	fl_dev_arg.channel = fdev->dev_id.channel;
-	#ifdef OPLUS_FEATURE_CAMERA_COMMON
 	fl_dev_arg.arg = fdev->charger_status;
-	#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
 	if (fdev->ops->flashlight_ioctl(FLASH_IOC_IS_CHARGER_READY,
 				(unsigned long)&fl_dev_arg))
 		pr_info("Failed to get charger status\n");
-	#ifdef OPLUS_FEATURE_CAMERA_COMMON
 	else if (fl_dev_arg.arg == 2)
 		fdev->charger_status = FLASHLIGHT_CHARGER_READY;
-	#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
 	else
 		fdev->charger_status = fl_dev_arg.arg;
 
@@ -879,12 +866,6 @@ static long _flashlight_ioctl(
 	case FLASH_IOC_IS_LOW_POWER:
 		fl_arg.arg = 0;
 #ifdef CONFIG_MTK_FLASHLIGHT_PT
-	#ifndef OPLUS_FEATURE_CAMERA_COMMON
-		fl_arg.arg = pt_is_low(pt_low_vol, pt_low_bat, pt_over_cur);
-		if (fl_arg.arg)
-			pr_debug("Pt status: (%d,%d,%d)\n",
-					pt_low_vol, pt_low_bat, pt_over_cur);
-	#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
 #endif
 		if (copy_to_user((void __user *)arg, (void *)&fl_arg,
 					sizeof(struct flashlight_user_arg))) {
@@ -911,9 +892,7 @@ static long _flashlight_ioctl(
 
 	case FLASH_IOC_IS_CHARGER_READY:
 		mutex_lock(&fl_mutex);
-		#ifdef OPLUS_FEATURE_CAMERA_COMMON
 		fdev->charger_status = fl_arg.arg;
-		#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
 		flashlight_update_charger_status(fdev);
 		mutex_unlock(&fl_mutex);
 		fl_arg.arg = fdev->charger_status;
@@ -1021,7 +1000,6 @@ static long _flashlight_ioctl(
 		}
 		break;
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
 	case OPLUS_FLASH_IOC_SELECT_LED_NUM:
 		pr_info("OPLUS_FLASH_IOC_SELECT_LED_NUM(%d,%d,%d): %d\n",
 				type, ct, part, fl_arg.arg);
@@ -1029,7 +1007,6 @@ static long _flashlight_ioctl(
 		ret = select_lednum(fdev, fl_arg.arg);
 		mutex_unlock(&fl_mutex);
 		break;
-#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
 
 	default:
 		if (fdev->ops)
@@ -2170,12 +2147,6 @@ static int __init flashlight_init(void)
 	}
 
 #ifdef CONFIG_MTK_FLASHLIGHT_PT
-	#ifndef OPLUS_FEATURE_CAMERA_COMMON
-	register_low_battery_notify(
-			&pt_low_vol_callback, LOW_BATTERY_PRIO_FLASHLIGHT, NULL);
-	register_bp_thl_notify(
-			&pt_low_bat_callback, BATTERY_PERCENT_PRIO_FLASHLIGHT);
-	#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
 	register_battery_oc_notify(
 			&pt_oc_callback, BATTERY_OC_PRIO_FLASHLIGHT, NULL);
 #endif

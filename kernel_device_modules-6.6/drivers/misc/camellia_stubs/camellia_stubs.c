@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: GPL-2.0
 /*
- * camellia: neutral stand-ins for Oppo (oplus) helper symbols.
+ * camellia: neutral stand-ins for vendor helper symbols.
  *
- * Oppo's MT6833 6.6 release calls a few functions from Oppo modules that are
- * not published (oplus_project, device_info) from inside MediaTek drivers
- * (display, keypad, thermal, modem, flashlight, SD card). These stubs answer
- * "retail build, not an Oppo project, nothing registered", so every caller
- * takes MediaTek's standard path.
+ * Some MediaTek drivers in this tree (display, keypad, thermal, modem,
+ * flashlight, SD card, camera) call project-info, device-info, camera-LDO
+ * and charger hooks whose providers are not part of the camellia build.
+ * These stubs answer "retail build, no project match, nothing registered",
+ * so every caller takes MediaTek's standard path.
  */
 #include <linux/module.h>
 #include <linux/errno.h>
@@ -35,7 +35,7 @@ int register_device_proc_for_emmc(char *emmc, char *emmc_fw, void *mmc)
 }
 EXPORT_SYMBOL(register_device_proc_for_emmc);
 
-/* camera (imgsensor ISP6S_MON): Oppo's external camera LDOs, charger and devinfo hooks */
+/* camera (imgsensor ISP6S_MON): external camera LDOs, charger and devinfo hooks */
 int register_device_proc(char *name, char *version, char *vendor)
 {
 	return 0;
@@ -62,7 +62,7 @@ EXPORT_SYMBOL(fan53870_cam_ldo_disable);
 
 int pmic_ldo_get_type(void)
 {
-	return -1;	/* no Oppo camera PMIC */
+	return -1;	/* no external camera PMIC */
 }
 EXPORT_SYMBOL(pmic_ldo_get_type);
 
@@ -93,5 +93,5 @@ void oplus_chg_set_camera_status(bool val)
 }
 EXPORT_SYMBOL(oplus_chg_set_camera_status);
 
-MODULE_DESCRIPTION("camellia: neutral stubs for unpublished Oppo helper symbols");
+MODULE_DESCRIPTION("camellia: neutral stubs for vendor helper symbols");
 MODULE_LICENSE("GPL");

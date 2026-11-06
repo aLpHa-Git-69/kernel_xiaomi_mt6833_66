@@ -1,4 +1,3 @@
 # SPDX-License-Identifier: GPL-2.0-only
 
 source "drivers/misc/mediatek/Kconfig"
-source "drivers/misc/oplus/cs_press/Kconfig"

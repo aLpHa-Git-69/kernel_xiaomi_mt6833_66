@@ -33,12 +33,6 @@
 #include "adsp_logger.h"
 #include "adsp_bus_monitor.h"
 
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-#include <soc/oplus/system/oplus_mm_kevent_fb.h>
-#define OPLUS_AUDIO_EVENTID_ADSP_RECOVERY_FAIL   (10045)
-#define OPLUS_ADSP_CRASH_FB_VERSION              "1.0.0"
-#define OPLUS_ADSP_RECOVERY_FAIL_FB_VERSION      "1.0.0"
-#endif /* CONFIG_OPLUS_FEATURE_MM_FEEDBACK */
 
 #define ADSP_MAGIC_PATTERN      (0xAD5BAD5B)
 #define ADSP_MISC_BUF_SIZE      0x10000 //64KB
@@ -304,10 +298,6 @@ static void adsp_exception_dump(struct adsp_exception_control *ctrl)
 	}
 	pr_info("%s", detail);
 
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-	mm_fb_audio_kevent_named(OPLUS_AUDIO_EVENTID_ADSP_CRASH, \
-				MM_FB_KEY_RATELIMIT_5MIN, "FieldData@@%s$$detailData@@audio$$module@@adsp", coredump->assert_log);
-#endif //CONFIG_OPLUS_FEATURE_MM_FEEDBACK
 
 	/* adsp aed api, only detail information available*/
 	aed_common_exception_api("adsp", (const int *)coredump, coredump_size,
@@ -433,12 +423,6 @@ void adsp_aed_worker(struct work_struct *ws)
 		pr_info("%s, reset retry.... (%d)", __func__, retry);
 		msleep(20);
 	}
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-	if (ret) {
-		mm_fb_audio_kevent_named(OPLUS_AUDIO_EVENTID_ADSP_RECOVERY_FAIL, \
-			MM_FB_KEY_RATELIMIT_5MIN, "payload@@ADSP DEAD! Recovery Fail,ret=%d", ret);
-	}
-#endif //CONFIG_OPLUS_FEATURE_MM_FEEDBACK
 #if IS_ENABLED(CONFIG_MTK_AEE_FEATURE)
 	if (ret) {
 #if IS_ENABLED(CONFIG_MTK_EMI)
@@ -511,12 +495,6 @@ int init_adsp_exception_control(struct device *dev,
 #endif
 	timer_setup(&ctrl->wdt_timer, adsp_wdt_counter_reset, 0);
 
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-	pr_info("%s: event_id=%u, version:%s\n", __func__, \
-		OPLUS_AUDIO_EVENTID_ADSP_CRASH, OPLUS_ADSP_CRASH_FB_VERSION);
-	pr_info("%s: event_id=%u, version:%s\n", __func__, \
-		OPLUS_AUDIO_EVENTID_ADSP_RECOVERY_FAIL, OPLUS_ADSP_RECOVERY_FAIL_FB_VERSION);
-#endif /* CONFIG_OPLUS_FEATURE_MM_FEEDBACK */
 	return 0;
 }
 

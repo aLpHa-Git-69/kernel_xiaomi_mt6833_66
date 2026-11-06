@@ -1669,10 +1669,8 @@ coredump_fail_unlock:
 				skb->len > 7 && skb->data[0] == 0xFF &&
 				skb->data[3] == 0x3A && skb->data[4] == 0xFC) {
 		BTMTK_INFO_RAW(skb->data, skb->len, "%s: FW Schedule Event:", __func__);
-		//#ifdef OPLUS_BT_STACK_UNIFY
 		// Do not send fw schedule evt to host,since we are not using mbarin.
 		return 1;
-		//#endif /* OPLUS_BT_STACK_UNIFY */
 	} else if ((bt_cb(skb)->pkt_type == HCI_EVENT_PKT) &&
 				skb->len > 7 && skb->data[0] == 0xFF &&
 				skb->data[1] == 0x02 && skb->data[2] == 0x20) {

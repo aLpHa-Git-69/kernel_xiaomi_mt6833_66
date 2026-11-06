@@ -1593,9 +1593,6 @@ static int imgsensor_probe(struct i3c_i2c_device *client)
 	ret = adaptor_hw_init(ctx);
 	if (ret) {
 		adaptor_loge(ctx, "failed to init hw handles\n");
-		#if defined(OPLUS_FEATURE_CAMERA_COMMON) && defined(CONFIG_OPLUS_CAM_EVENT_REPORT_MODULE)
-		push_sensor_name(ctx->subdrv->name);
-		#endif /* OPLUS_FEATURE_CAMERA_COMMON */
 		return ret;
 	}
 

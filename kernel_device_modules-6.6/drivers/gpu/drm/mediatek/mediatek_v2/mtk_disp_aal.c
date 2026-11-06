@@ -535,10 +535,8 @@ void disp_aal_notify_backlight_changed(struct mtk_ddp_comp *comp,
 
 	if (trans_backlight == 0) {
 		aal_data->primary_data->backlight_set = trans_backlight;
-#ifndef OPLUS_FEATURE_DISPLAY_APOLLO
 		if (aal_data->primary_data->led_type != TYPE_ATOMIC)
 			mtk_leds_brightness_set(connector_id, 0, 0, (0X1<<SET_BACKLIGHT_LEVEL));
-#endif
 		/* set backlight = 0 may be not from AAL, */
 		/* we have to let AALService can turn on backlight */
 		/* on phone resumption */
@@ -547,11 +545,9 @@ void disp_aal_notify_backlight_changed(struct mtk_ddp_comp *comp,
 		((aal_data->primary_data->relay_state != 0) &&
 		!pq_data->new_persist_property[DISP_PQ_CCORR_SILKY_BRIGHTNESS])) {
 		/* AAL Service is not running */
-#ifndef OPLUS_FEATURE_DISPLAY_APOLLO
 		if (aal_data->primary_data->led_type != TYPE_ATOMIC)
 			mtk_leds_brightness_set(connector_id, trans_backlight,
 						0, (0X1<<SET_BACKLIGHT_LEVEL));
-#endif
 	}
 	spin_lock_irqsave(&aal_data->primary_data->hist_lock, flags);
 	aal_data->primary_data->hist.backlight = trans_backlight;

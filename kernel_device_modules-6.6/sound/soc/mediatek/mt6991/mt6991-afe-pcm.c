@@ -42,9 +42,6 @@
 #include "../ultrasound/ultra_scp/mtk-scp-ultra-common.h"
 #endif
 
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-#include "../feedback/oplus_audio_kernel_fb.h"
-#endif /* CONFIG_OPLUS_FEATURE_MM_FEEDBACK */
 
 // ALPS08709395: AudioQOS, set VIP
 #include <linux/sched/cputime.h>
@@ -111,11 +108,7 @@ static int mt6991_fe_startup(struct snd_pcm_substream *substream,
 	ret = snd_pcm_hw_constraint_integer(runtime,
 					    SNDRV_PCM_HW_PARAM_PERIODS);
 	if (ret < 0)
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-		dev_err_fb_fatal_delay(afe->dev, "snd_pcm_hw_constraint_integer failed\n");
-#else
 		dev_info(afe->dev, "snd_pcm_hw_constraint_integer failed\n");
-#endif
 
 	/* dynamic allocate irq to memif */
 	if (memif->irq_usage < 0) {
@@ -125,13 +118,8 @@ static int mt6991_fe_startup(struct snd_pcm_substream *substream,
 			/* link */
 			memif->irq_usage = irq_id;
 		} else {
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-			dev_err_fb_fatal_delay(afe->dev, "%s() error: no more asys irq\n",
-				__func__);
-#else
 			dev_info(afe->dev, "%s() error: no more asys irq\n",
 				__func__);
-#endif
 			ret = -EBUSY;
 		}
 	}
@@ -213,15 +201,9 @@ int mt6991_fe_trigger(struct snd_pcm_substream *substream, int cmd,
 			ret = mtk_memif_set_enable(afe, id);
 
 			if (ret) {
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-				dev_err_fb_fatal_delay(afe->dev,
-					"%s(), error, id %d, memif enable, ret %d\n",
-					__func__, id, ret);
-#else
 				dev_info(afe->dev,
 					"%s(), error, id %d, memif enable, ret %d\n",
 					__func__, id, ret);
-#endif
 				return ret;
 			}
 			if (!strcmp(memif->data->name, "VUL8") || !strcmp(memif->data->name, "VUL_CM0")) {
@@ -297,15 +279,9 @@ int mt6991_fe_trigger(struct snd_pcm_substream *substream, int cmd,
 		if (is_afe_need_triggered(memif)) {
 			ret = mtk_memif_set_disable(afe, id);
 			if (ret) {
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-				dev_err_fb_fatal_delay(afe->dev,
-					"%s(), error, id %d, memif enable, ret %d\n",
-					__func__, id, ret);
-#else
 				dev_info(afe->dev,
 					"%s(), error, id %d, memif enable, ret %d\n",
 					__func__, id, ret);
-#endif
 			}
 			if (!strcmp(memif->data->name, "VUL8") || !strcmp(memif->data->name, "VUL_CM0"))
 				mt6991_enable_cm(afe, CM0, 0);
@@ -12528,11 +12504,7 @@ static int mt6991_afe_pcm_dev_probe(struct platform_device *pdev)
 	/* init audio related clock */
 	ret = mt6991_init_clock(afe);
 	if (ret) {
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-		dev_err_fb_fatal_delay(dev, "init clock error: %d\n", ret);
-#else
 		dev_info(dev, "init clock error: %d\n", ret);
-#endif
 		return ret;
 	}
 
@@ -12577,11 +12549,7 @@ static int mt6991_afe_pcm_dev_probe(struct platform_device *pdev)
 	/* init gpio */
 	ret = mt6991_afe_gpio_init(afe);
 	if (ret)
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-		dev_err_fb_fatal_delay(dev, "init gpio error\n");
-#else
 		dev_info(dev, "init gpio error\n");
-#endif
 
 #if !IS_ENABLED(CONFIG_NEBULA_SND_PASSTHROUGH)
 	/* init sram */
@@ -12630,11 +12598,7 @@ static int mt6991_afe_pcm_dev_probe(struct platform_device *pdev)
 	/* request irq */
 	irq_id = platform_get_irq(pdev, 0);
 	if (irq_id <= 0) {
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-		dev_err_fb_fatal_delay(dev, "%pOFn no irq found\n", dev->of_node);
-#else
 		dev_info(dev, "%pOFn no irq found\n", dev->of_node);
-#endif
 		return irq_id < 0 ? irq_id : -ENXIO;
 	}
 #if IS_ENABLED(CONFIG_NEBULA_SND_PASSTHROUGH)
@@ -12649,20 +12613,12 @@ static int mt6991_afe_pcm_dev_probe(struct platform_device *pdev)
 			       IRQF_TRIGGER_NONE,
 			       "Afe_ISR_Handle", (void *)afe);
 	if (ret) {
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-		dev_err_fb_fatal_delay(dev, "could not request_irq for Afe_ISR_Handle\n");
-#else
 		dev_info(dev, "could not request_irq for Afe_ISR_Handle\n");
-#endif
 		return ret;
 	}
 	ret = enable_irq_wake(irq_id);
 	if (ret < 0)
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-		dev_err_fb_fatal_delay(dev, "enable_irq_wake %d err: %d\n", irq_id, ret);
-#else
 		dev_info(dev, "enable_irq_wake %d err: %d\n", irq_id, ret);
-#endif
 #endif
 
 #if !defined(SKIP_SMCC_SB)
@@ -12763,11 +12719,6 @@ err_find_pmic:
 
 err_pm_disable:
 	pm_runtime_disable(&pdev->dev);
-#if IS_ENABLED(CONFIG_OPLUS_FEATURE_MM_FEEDBACK)
-	if (ret) {
-		pr_err_fb_fatal_delay("%s:failed ret=%d", __func__, ret);
-	}
-#endif /* CONFIG_OPLUS_FEATURE_MM_FEEDBACK */
 	return ret;
 }
 

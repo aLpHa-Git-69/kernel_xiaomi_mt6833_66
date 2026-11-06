@@ -29,15 +29,8 @@
 #include "sensor_list.h"
 #include "mtk_nanohub_ipi.h"
 
-#ifdef CONFIG_OPLUS_FEATURE_SENSOR_ALGORITHM
-#include "../oplus_sensor_devinfo/sensor_devinfo_v2.h"
-#endif
 
 extern int __init nanohub_init(void);
-#ifdef CONFIG_OPLUS_FEATURE_SENSOR_ALGORITHM
-extern void virtual_sensor_report_data(struct data_unit_t *data,int handle);
-extern void oplus_init_sensor_state(struct SensorState *mSensorState);
-#endif
 
 /* ALGIN TO SCP SENSOR_IPI_SIZE AT FILE CONTEXTHUB_FW.H, ALGIN
  * TO SCP_SENSOR_HUB_DATA UNION, ALGIN TO STRUCT DATA_UNIT_T
@@ -102,10 +95,6 @@ struct mtk_nanohub_device {
 	int32_t pressure_config_data[2];
 	int32_t sar_config_data[4];
 	int32_t ois_config_data[12];
-#ifdef CONFIG_OPLUS_FEATURE_SENSOR_ALGORITHM
-	int32_t cct_config_data[6];
-	int32_t pwm_rgb_config_data[6];
-#endif
 };
 
 static uint8_t rtc_compensation_suspend;
@@ -297,14 +286,6 @@ static int mtk_nanohub_direct_push_work(void *data)
     return 0;
 }
 
-#ifdef CONFIG_OPLUS_FEATURE_SENSOR_ALGORITHM
-static void
-SCP_sensorHub_set_oplus_cmd(union SCP_SENSOR_HUB_DATA *rsp,
-					int rx_len)
-{
-	mtk_nanohub_ipi_complete((unsigned char *)rsp, rx_len);
-}
-#endif
 
 static void mtk_nanohub_common_cmd(union SCP_SENSOR_HUB_DATA *rsp,
 					unsigned int rx_len)
@@ -413,9 +394,6 @@ static void mtk_nanohub_ipi_handler(int id,
 		cmd->handler(rsp, len);
 	else {
 		pr_err("IPI_SENSOR cannot find cmd!\n");
-#ifdef CONFIG_OPLUS_FEATURE_SENSOR_ALGORITHM
-		SCP_sensorHub_set_oplus_cmd(rsp, len);
-#endif
 	}
 }
 
@@ -629,65 +607,6 @@ static void mtk_nanohub_init_sensor_info(void)
 	p->gain = 1000000;
 	strlcpy(p->name, "ois", sizeof(p->name));
 	strlcpy(p->vendor, "mtk", sizeof(p->vendor));
-#ifdef CONFIG_OPLUS_FEATURE_SENSOR_ALGORITHM
-	p = &sensor_state[SENSOR_TYPE_RAW_MAG];
-	p->sensorType = SENSOR_TYPE_RAW_MAG;
-	p->gain = 1;
-	p->rate = SENSOR_RATE_ONCHANGE;
-	strlcpy(p->name, "raw_mag", sizeof(p->name));
-	strlcpy(p->vendor, "oplus", sizeof(p->vendor));
-
-	p = &sensor_state[SENSOR_TYPE_REAR_ALS];
-	p->sensorType = SENSOR_TYPE_REAR_ALS;
-	p->gain = 1;
-	p->rate = SENSOR_RATE_ONCHANGE;
-	strlcpy(p->name, "rear_als", sizeof(p->name));
-	strlcpy(p->vendor, "oplus", sizeof(p->vendor));
-
-	p = &sensor_state[SENSOR_TYPE_CCT];
-	p->sensorType = SENSOR_TYPE_CCT;
-	p->gain = 1;
-	p->rate = SENSOR_RATE_ONCHANGE;
-	strlcpy(p->name, "cct", sizeof(p->name));
-	strlcpy(p->vendor, "oplus", sizeof(p->vendor));
-
-	p = &sensor_state[SENSOR_TYPE_FLICKER];
-	p->sensorType = SENSOR_TYPE_FLICKER;
-	p->gain = 1;
-	p->rate = SENSOR_RATE_ONCHANGE;
-	strlcpy(p->name, "flicker", sizeof(p->name));
-	strlcpy(p->vendor, "oplus", sizeof(p->vendor));
-
-	p = &sensor_state[SENSOR_TYPE_SARS];
-	p->sensorType = SENSOR_TYPE_SARS;
-	p->rate = SENSOR_RATE_ONCHANGE;
-	p->gain = 1;
-	strlcpy(p->name, "sars", sizeof(p->name));
-	strlcpy(p->vendor, "mtk", sizeof(p->vendor));
-
-	p = &sensor_state[SENSOR_TYPE_AI_SHUTTER];
-	p->sensorType = SENSOR_TYPE_AI_SHUTTER;
-	p->gain = 1;
-	p->rate = SENSOR_RATE_ONCHANGE;
-	strlcpy(p->name, "ai_shutter", sizeof(p->name));
-	strlcpy(p->vendor, "oplus", sizeof(p->vendor));
-
-	p = &sensor_state[SENSOR_TYPE_FRONT_CCT];
-	p->sensorType = SENSOR_TYPE_FRONT_CCT;
-	p->gain = 1;
-	p->rate = SENSOR_RATE_ONCHANGE;
-	strlcpy(p->name, "cct", sizeof(p->name));
-	strlcpy(p->vendor, "oplus", sizeof(p->vendor));
-
-	p = &sensor_state[SENSOR_TYPE_PWM_RGB];
-	p->sensorType = SENSOR_TYPE_PWM_RGB;
-	p->gain = 1;
-	p->rate = SENSOR_RATE_ONCHANGE;
-	strlcpy(p->name, "pwm_rgb", sizeof(p->name));
-	strlcpy(p->vendor, "oplus", sizeof(p->vendor));
-
-	oplus_init_sensor_state(sensor_state);
-#endif /*OPLUS_FEATURE_SENSOR_ALGORITHM*/
 
 }
 
@@ -1594,96 +1513,6 @@ int mtk_nanohub_set_cmd_to_hub(uint8_t sensor_id,
 			return -1;
 		}
 		break;
-#ifdef CONFIG_OPLUS_FEATURE_SENSOR_ALGORITHM
-	case ID_CCT:
-		req.set_cust_req.sensorType = ID_CCT;
-		req.set_cust_req.action = SENSOR_HUB_SET_CUST;
-		switch (action) {
-		case CUST_ACTION_GET_RAW_DATA:
-			req.set_cust_req.getRawData.action =
-				CUST_ACTION_GET_RAW_DATA;
-			len = offsetof(struct SCP_SENSOR_HUB_SET_CUST_REQ,
-				custData) + sizeof(req.set_cust_req.getRawData);
-			err = mtk_nanohub_req_send(&req);
-			if (err == 0) {
-				if ((req.set_cust_rsp.action !=
-					SENSOR_HUB_SET_CUST)
-					|| (req.set_cust_rsp.errCode != 0)) {
-					pr_err("get_raw fail!\n");
-					return -1;
-				}
-				if (req.set_cust_rsp.getRawData.action !=
-					CUST_ACTION_GET_RAW_DATA) {
-					pr_err("get_raw fail!\n");
-					return -1;
-				}
-				pGetRawData = &req.set_cust_rsp.getRawData;
-				*((uint8_t *) data) =
-					pGetRawData->uint8_data[0];
-			} else {
-				pr_err("get_raw failed!\n");
-			}
-			return 0;
-		case CUST_ACTION_GET_SENSOR_INFO:
-			req.set_cust_req.getInfo.action =
-				CUST_ACTION_GET_SENSOR_INFO;
-			len = offsetof(struct SCP_SENSOR_HUB_SET_CUST_REQ,
-				custData) + sizeof(req.set_cust_req.getInfo);
-			break;
-		default:
-			return -1;
-		}
-		break;
-	case ID_PWM_RGB:
-		req.set_cust_req.sensorType = ID_PWM_RGB;
-		req.set_cust_req.action = SENSOR_HUB_SET_CUST;
-		switch (action) {
-		case CUST_ACTION_GET_RAW_DATA:
-			req.set_cust_req.getRawData.action =
-					CUST_ACTION_GET_RAW_DATA;
-			len = offsetof(struct SCP_SENSOR_HUB_SET_CUST_REQ,
-					custData) + sizeof(req.set_cust_req.getRawData);
-			err = mtk_nanohub_req_send(&req);
-			if (err == 0) {
-				if ((req.set_cust_rsp.action != SENSOR_HUB_SET_CUST)
-						|| (req.set_cust_rsp.errCode != 0)) {
-					pr_err("get_raw fail!\n");
-					return -1;
-				}
-				if (req.set_cust_rsp.getRawData.action != CUST_ACTION_GET_RAW_DATA) {
-					pr_err("get_raw fail!\n");
-					return -1;
-				}
-				pGetRawData = &req.set_cust_rsp.getRawData;
-				*((uint8_t *) data) = pGetRawData->uint8_data[0];
-			} else {
-				pr_err("get_raw failed!\n");
-			}
-			return 0;
-		case CUST_ACTION_GET_SENSOR_INFO:
-			req.set_cust_req.getInfo.action = CUST_ACTION_GET_SENSOR_INFO;
-			len = offsetof(struct SCP_SENSOR_HUB_SET_CUST_REQ,
-					custData) + sizeof(req.set_cust_req.getInfo);
-			break;
-		default:
-			return -1;
-		}
-		break;
-		case ID_FLICKER:
-			req.set_cust_req.sensorType = ID_FLICKER;
-			req.set_cust_req.action = SENSOR_HUB_SET_CUST;
-			switch (action) {
-			case CUST_ACTION_GET_SENSOR_INFO:
-				req.set_cust_req.getInfo.action =
-					CUST_ACTION_GET_SENSOR_INFO;
-				len = offsetof(struct SCP_SENSOR_HUB_SET_CUST_REQ,
-					custData) + sizeof(req.set_cust_req.getInfo);
-			break;
-		default:
-			return -1;
-		}
-		break;
-#endif
 	default:
 		req.set_cust_req.sensorType = sensor_id;
 		req.set_cust_req.action = SENSOR_HUB_SET_CUST;
@@ -1896,27 +1725,6 @@ static void mtk_nanohub_restoring_config(void)
 		mtk_nanohub_cfg_to_hub(ID_OIS, data, length);
 		vfree(data);
 	}
-#ifdef CONFIG_OPLUS_FEATURE_SENSOR_ALGORITHM
-	length = sizeof(device->cct_config_data);
-	data = vzalloc(length);
-	if (data) {
-		spin_lock(&config_data_lock);
-		memcpy(data, device->cct_config_data, length);
-		spin_unlock(&config_data_lock);
-		mtk_nanohub_cfg_to_hub(ID_CCT, data, length);
-		vfree(data);
-	}
-
-	length = sizeof(device->pwm_rgb_config_data);
-	data = vzalloc(length);
-	if (data) {
-		spin_lock(&config_data_lock);
-		memcpy(data, device->pwm_rgb_config_data, length);
-		spin_unlock(&config_data_lock);
-		mtk_nanohub_cfg_to_hub(ID_PWM_RGB, data, length);
-		vfree(data);
-	}
-#endif
 }
 
 static void mtk_nanohub_start_timesync(void)
@@ -2168,20 +1976,6 @@ static int mtk_nanohub_config(struct hf_device *hfdev,
 		memcpy(device->ois_config_data, data, length);
 		spin_unlock(&config_data_lock);
 		break;
-#ifdef CONFIG_OPLUS_FEATURE_SENSOR_ALGORITHM
-	case ID_CCT:
-		length = sizeof(device->cct_config_data);
-		spin_lock(&config_data_lock);
-		memcpy(device->cct_config_data, data, length);
-		spin_unlock(&config_data_lock);
-		break;
-	case ID_PWM_RGB:
-		length = sizeof(device->pwm_rgb_config_data);
-		spin_lock(&config_data_lock);
-		memcpy(device->pwm_rgb_config_data, data, length);
-		spin_unlock(&config_data_lock);
-		break;
-#endif
 	}
 	if (!length) {
 		pr_err("%s type(%d) length fail\n", __func__, sensor_type);
@@ -2316,35 +2110,6 @@ static int mtk_nanohub_custom_cmd(struct hf_device *hfdev,
 					sizeof(device->ois_config_data));
 			spin_unlock(&config_data_lock);
 			break;
-#ifdef CONFIG_OPLUS_FEATURE_SENSOR_ALGORITHM
-		case SENSOR_TYPE_CCT:
-			if (sizeof(cust_cmd->data) <
-					sizeof(device->cct_config_data))
-				return -EINVAL;
-			spin_lock(&config_data_lock);
-			memcpy(cust_cmd->data, device->cct_config_data,
-					sizeof(device->cct_config_data));
-			spin_unlock(&config_data_lock);
-			break;
-		case SENSOR_TYPE_FRONT_CCT:
-			if (sizeof(cust_cmd->data) <
-					sizeof(device->cct_config_data))
-				return -EINVAL;
-			spin_lock(&config_data_lock);
-			memcpy(cust_cmd->data, device->cct_config_data,
-				sizeof(device->cct_config_data));
-			spin_unlock(&config_data_lock);
-			break;
-		case SENSOR_TYPE_PWM_RGB:
-			if (sizeof(cust_cmd->data) <
-					sizeof(device->pwm_rgb_config_data))
-				return -EINVAL;
-			spin_lock(&config_data_lock);
-			memcpy(cust_cmd->data, device->pwm_rgb_config_data,
-					sizeof(device->pwm_rgb_config_data));
-			spin_unlock(&config_data_lock);
-			break;
-#endif
 		default:
 			pr_notice("SensorType:%d not support CUST_CMD_CALI!\n",
 				sensor_type);
@@ -2368,13 +2133,6 @@ static int mtk_nanohub_report_to_manager(struct data_unit_t *data)
 		return 0;
 
 	memset(&event, 0, sizeof(struct hf_manager_event));
-#ifdef CONFIG_OPLUS_FEATURE_SENSOR_ALGORITHM
-	if(data->sensor_type >= ID_OPLUS_VIRTUAL_SENSOR_START &&
-		data->sensor_type < ID_VIRTUAL_SENSOR_MAX) {
-		virtual_sensor_report_data(data,data->sensor_type);
-		return 0;
-	}
-#endif
 	if (data->flush_action == DATA_ACTION) {
 		switch (data->sensor_type) {
 		case ID_ACCELEROMETER:
@@ -2509,10 +2267,6 @@ static int mtk_nanohub_report_to_manager(struct data_unit_t *data)
 			event.word[3] = data->data[3];
 			event.word[4] = data->data[4];
 			event.word[5] = data->data[5];
-#ifdef CONFIG_OPLUS_FEATURE_SENSOR_ALGORITHM
-			event.word[6] = data->data[6];
-			event.word[7] = data->data[7];
-#endif
 			debug_count_data %= 10;
 			if (debug_count_data == 0) {
 				pr_err("mtk_nanohub_report_to_manager: sensor_type:%d, data[0]:%d, data[1]:%d, data[2]:%d, data[3]:%d, data[4]:%d, data[5]:%d, data[6]:%d, data[7]:%d\n",

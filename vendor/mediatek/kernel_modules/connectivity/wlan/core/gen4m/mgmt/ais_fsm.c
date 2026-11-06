@@ -52,11 +52,6 @@
 #define RSSI_BAD_NEED_ROAM_24G_TO_5G_6G         -40 /* dbm */
 #endif
 
-#ifdef OPLUS_FEATURE_ROAMING_OPTIMIZATION
-#define RCPI_DIFF_DRIVER_ROAM_24G_TO_5G			 10 /* 5 dbm */
-#define RCPI_DIFF_DRIVER_ROAM_5G_TO_24G			 20 /* 10 dbm */
-#define RCPI_WEAK_SIGNAL_THRESHOLD				 70 /* -75 dbm */
-#endif /* OPLUS_FEATURE_ROAMING_OPTIMIZATION */
 
 /* When roam to 5G AP, the AP's rcpi should great than
  * RCPI_THRESHOLD_ROAM_2_5G dbm
@@ -7544,9 +7539,6 @@ uint8_t aisCheckNeedDriverRoaming(
 		struct BSS_DESC_SET set = {0};
 		struct BSS_DESC *target;
 		struct BSS_DESC *bss;
-#ifdef OPLUS_FEATURE_ROAMING_OPTIMIZATION
-		int band5GRcpi = 0;
-#endif
 
 		bss = apsSearchBssDescByScore(prAdapter,
 			ROAMING_REASON_INACTIVE, ucBssIndex, &set);
@@ -7556,52 +7548,6 @@ uint8_t aisCheckNeedDriverRoaming(
 		/* Driver roaming prefer 5g/6g */
 		target = aisGetMainLinkBssDesc(ais);
 
-#ifdef OPLUS_FEATURE_ROAMING_OPTIMIZATION
-		/* 2.4 -> 5 */
-#if (CFG_SUPPORT_WIFI_6G == 1)
-		if ((bss->eBand == BAND_5G || bss->eBand == BAND_6G)
-#else
-		if (bss->eBand == BAND_5G
-#endif
-			&& target->eBand == BAND_2G4) {
-			if (rssi > RSSI_BAD_NEED_ROAM_24G_TO_5G_6G)
-				return FALSE;
-			if (bss->ucRCPI > RCPI_WEAK_SIGNAL_THRESHOLD) {
-				band5GRcpi = bss->ucRCPI + 20;
-			} else {
-				band5GRcpi = bss->ucRCPI + 8;
-			}
-			if (bss->ucRCPI >= RCPI_THRESHOLD_ROAM_TO_5G_6G ||
-				band5GRcpi - target->ucRCPI > RCPI_DIFF_DRIVER_ROAM_24G_TO_5G) {
-				DBGLOG(AIS, INFO,
-					"Driver trigger roaming to 5G band.\n");
-				return TRUE;
-			}
-		} else if (bss->eBand == BAND_2G4 && target->eBand == BAND_5G) {
-			if (target->ucRCPI > RCPI_THRESHOLD_ROAM_TO_5G_6G)
-				return FALSE;
-			if (target->ucRCPI > RCPI_WEAK_SIGNAL_THRESHOLD) {
-				band5GRcpi = target->ucRCPI + 20;
-			} else {
-				band5GRcpi = target->ucRCPI + 8;
-			}
-
-			if (bss->ucRCPI - band5GRcpi > RCPI_DIFF_DRIVER_ROAM_5G_TO_24G) {
-				DBGLOG(AIS, INFO,
-					"Driver trigger roaming to 2.4G band.\n");
-				return TRUE;
-			}
-		} else {
-			if (rssi > RSSI_BAD_NEED_ROAM)
-				return FALSE;
-			if (bss->ucRCPI - target->ucRCPI >
-				RCPI_DIFF_DRIVER_ROAM) {
-				DBGLOG(AIS, INFO,
-				"Driver trigger roaming for other cases.\n");
-				return TRUE;
-			}
-		}
-#else
 		/* 2.4 -> 5 */
 #if (CFG_SUPPORT_WIFI_6G == 1)
 		if ((bss->eBand == BAND_5G || bss->eBand == BAND_6G)
@@ -7627,7 +7573,6 @@ uint8_t aisCheckNeedDriverRoaming(
 				return TRUE;
 			}
 		}
-#endif /* OPLUS_FEATURE_ROAMING_OPTIMIZATION */
 	}
 #endif
 	return FALSE;

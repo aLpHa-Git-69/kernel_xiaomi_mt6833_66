@@ -1920,9 +1920,3 @@ void nicRxSetUnUseCnt(struct ADAPTER *prAdapter,
 	uint32_t u4UnUseCnt, u_int8_t fgAdjustNow);
 #endif /* _NIC_RX_H */
 
-#ifdef OPLUS_FEATURE_CONN_POWER_MONITOR
-//add for connectivity power monitor
-int oplusLpmUeventInit(struct ADAPTER *prAdapter);
-void oplusConnUeventDeinit(struct ADAPTER *prAdapter);
-int oplusLpmSendUevent(struct ADAPTER *prAdapter, const char *);
-#endif /* OPLUS_FEATURE_CONN_POWER_MONITOR */
