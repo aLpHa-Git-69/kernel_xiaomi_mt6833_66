@@ -200,7 +200,7 @@ enum scp_reserve_mem_id_t {
 	SCP_CHRE_TO_MEM_ID,
 	SCP_LOW_PWR_DBG_MEM_ID,
 	SCP_DBI_MEM_ID = 20,
-/* #ifdef OPLUS_FEATURE_SENSOR_SMEM */
+/* #ifdef CAMELLIA_FEATURE_SENSOR_SMEM */
 	SCP_TMP_21 = 21,
 	SCP_TMP_22 = 22,
 	SCP_TMP_23 = 23,
@@ -209,7 +209,7 @@ enum scp_reserve_mem_id_t {
 	SCP_SENSOR_SHARE_MEM_ID = 26,
 	SENS_FB_MEM_ID = 27,
 	SENS_PSEUDO_SENSOR_MEM_ID = 28,
-/* #endif OPLUS_FEATURE_SENSOR_SMEM */
+/* #endif CAMELLIA_FEATURE_SENSOR_SMEM */
 	NUMS_MEM_ID,
 };
 

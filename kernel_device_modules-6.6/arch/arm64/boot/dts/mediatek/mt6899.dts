@@ -14271,7 +14271,7 @@ sw_info,frame_id,custom,pipeline_stage,RPID,UID";
 				mode-ddr-reserve = <BOOT_DDR_RSVD>;
 				mode-meta = <BOOT_META>;
 				mode-rpmbpk = <BOOT_RPMBPK>;
-				//#ifdef OPLUS_FEATURE_OEM_BOOT_MODE
+				//#ifdef CAMELLIA_FEATURE_OEM_BOOT_MODE
 				mode-kernel = <BOOT_KERNEL>;
 				mode-silence = <BOOT_SILENCE>;
 				mode-sau = <BOOT_SAU>;
@@ -15438,11 +15438,11 @@ sw_info,frame_id,custom,pipeline_stage,RPID,UID";
 					<17 0x8000 0x0>, /* scp chre from */
 					<18 0x8000 0x0>, /* scp chre to */
 					<19 0x200 0x0>,  /* low power debug */
-					/* #ifdef OPLUS_FEATURE_SENSOR_SMEM */
+					/* #ifdef CAMELLIA_FEATURE_SENSOR_SMEM */
 					<26 0x100000  0x0>, /* sensor share memory*/
 					<27 0x11000 0x0>, /* sensor monitor*/
 					<28 0x10000 0x0>; /* pseudo sensor for data/fault inject*/
-					/* #endif OPLUS_FEATURE_SENSOR_SMEM */
+					/* #endif CAMELLIA_FEATURE_SENSOR_SMEM */
 
 			scp-resource-dump = "enable";   /* enable dump scp related resource */
 			/* regulator */
@@ -16077,19 +16077,19 @@ sw_info,frame_id,custom,pipeline_stage,RPID,UID";
 		};
 
 		shell_front {
-			compatible = "oplus,shell-temp";
+			compatible = "camellia,shell-temp";
 		};
 
 		shell_frame {
-			compatible = "oplus,shell-temp";
+			compatible = "camellia,shell-temp";
 		};
 
 		shell_back {
-			compatible = "oplus,shell-temp";
+			compatible = "camellia,shell-temp";
 		};
 	};
 
-    /*OPLUS_FEATURE_key_DOWN*/
+    /*CAMELLIA_FEATURE_key_DOWN*/
 	keypad: kp@1c00e000 {
 		compatible = "mediatek,kp";
  		reg = <0 0x1c00e000 0 0x1000>;
@@ -16105,7 +16105,7 @@ sw_info,frame_id,custom,pipeline_stage,RPID,UID";
 		clocks = <&clk26m>;
 		clock-names = "kpd";
 	};
-	/*OPLUS_FEATURE_key_DOWN*/
+	/*CAMELLIA_FEATURE_key_DOWN*/
 
 	snd_scp_ultra: snd-scp-ultra {
 		compatible = "mediatek,snd-scp-ultra";
@@ -16555,15 +16555,15 @@ sw_info,frame_id,custom,pipeline_stage,RPID,UID";
 		bootmode = <&chosen>;
 	};
 
-	//#ifdef OPLUS_FEATURE_SECURITY_COMMON
-	oplus_secure_common:oplus_secure_common {
-		compatible = "oplus,secure_common";
-		oplus,sec_reg_num = <0>;
-		oplus,sec_en_anti_reg = <0>;
-		oplus,sec_override1_reg = <0>;
-		oplus,override1_en_value = <0>;
+	//#ifdef CAMELLIA_FEATURE_SECURITY_COMMON
+	camellia_secure_common:camellia_secure_common {
+		compatible = "camellia,secure_common";
+		camellia,sec_reg_num = <0>;
+		camellia,sec_en_anti_reg = <0>;
+		camellia,sec_override1_reg = <0>;
+		camellia,override1_en_value = <0>;
 	};
-	//#endif  /* OPLUS_FEATURE_SECURITY_COMMON */
+	//#endif  /* CAMELLIA_FEATURE_SECURITY_COMMON */
 
 	lk_charger: lk-charger {
 		compatible = "mediatek,lk_charger";
@@ -17359,7 +17359,7 @@ sw_info,frame_id,custom,pipeline_stage,RPID,UID";
 	};
 };
 
-//#ifdef OPLUS_FEATURE_SECURITY_COMMON
+//#ifdef CAMELLIA_FEATURE_SECURITY_COMMON
 //&mtkheap_page_svp {
 //	status = "ok";
 //};
@@ -17384,7 +17384,7 @@ sw_info,frame_id,custom,pipeline_stage,RPID,UID";
 //		compatible = "mediatek,mtk_sec_video_path_support";
 //	};
 };
-//#endif /* OPLUS_FEATURE_SECURITY_COMMON */
+//#endif /* CAMELLIA_FEATURE_SECURITY_COMMON */
 
 &hypervisor {
 	status = "okay";

@@ -32,8 +32,8 @@
 #include "flashlight-core.h"
 #include "flashlight-dt.h"
 #include "flashlight.h"
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
-#include <soc/oplus/system/oplus_project.h>
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
+#include <soc/camellia/system/camellia_project.h>
 #endif
 
 /* device tree should be defined in flashlight-dt.h */
@@ -88,7 +88,7 @@ static struct work_struct aladdin_work_ch2;
 /* define device id */
 #define USE_SC6607_IC	0x66h
 
-extern void oplus_chg_set_camera_on(bool val);
+extern void camellia_chg_set_camera_on(bool val);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -221,7 +221,7 @@ static int aladdin_enable_ch1(void)
 	} else {
 		/* flash mode */
 		if (aladdin_charge_enable == 0){
-			oplus_chg_set_camera_on(1);
+			camellia_chg_set_camera_on(1);
 			aladdin_charge_enable = 1;
 		}
 		aladdin_reg_enable = ALADDIN_ENABLE_LED1_FLASH;
@@ -242,7 +242,7 @@ static int aladdin_enable_ch2(void)
 	} else {
 		/* flash mode */
 		if (aladdin_charge_enable == 0){
-			oplus_chg_set_camera_on(1);
+			camellia_chg_set_camera_on(1);
 			aladdin_charge_enable = 1;
 		}
 		aladdin_reg_enable |= ALADDIN_ENABLE_LED2_FLASH;
@@ -299,10 +299,10 @@ static int aladdin_disable(int channel)
 	}
 
 	if (aladdin_flash_mode == 4 && aladdin_charge_enable == 1) {
-		oplus_chg_set_camera_on(0);
+		camellia_chg_set_camera_on(0);
 		aladdin_charge_enable = 0;
 	} else if (aladdin_flash_mode == 3 && aladdin_charge_mode == 1 && aladdin_charge_enable == 0) {
-		oplus_chg_set_camera_on(1);
+		camellia_chg_set_camera_on(1);
 		aladdin_charge_enable = 1;
 		aladdin_charge_mode = 0;
 	}
@@ -597,7 +597,7 @@ static int aladdin_set_driver(int set)
 		if (use_count < 0)
 			use_count = 0;
 		if (aladdin_charge_enable == 1) {
-			oplus_chg_set_camera_on(0);
+			camellia_chg_set_camera_on(0);
 			aladdin_charge_enable = 0;
 		}
 		pr_info("Unset driver: %d\n", use_count);

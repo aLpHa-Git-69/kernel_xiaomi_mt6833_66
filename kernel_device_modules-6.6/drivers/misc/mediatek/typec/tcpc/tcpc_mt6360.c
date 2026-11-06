@@ -647,7 +647,7 @@ static int mt6360_enable_usbid_polling(struct mt6360_chip *chip, bool en)
 {
 	int ret;
 
-	if (en == chip->wd_polling)	/* camellia: Oppo usbid_as_wd0 (always false) dropped */
+	if (en == chip->wd_polling)	/* camellia: Camellia usbid_as_wd0 (always false) dropped */
 		return 0;
 	if (en) {
 		ret = charger_dev_set_usbid_src_ton(chip->chgdev, 100000);

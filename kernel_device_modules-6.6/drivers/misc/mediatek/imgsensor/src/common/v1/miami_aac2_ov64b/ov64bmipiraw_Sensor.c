@@ -466,13 +466,13 @@ static void read_EepromQSC(void)
     gImgEepromInfo.camNormdata[0][0] = Eeprom_1ByteDataRead(0x00, 0xA0);
     gImgEepromInfo.camNormdata[0][1] = Eeprom_1ByteDataRead(0x01, 0xA0);
     imgsensor_info.module_id = Eeprom_1ByteDataRead(0x00, 0xA0);
-    Oplusimgsensor_Registdeviceinfo(gImgEepromInfo.pCamModuleInfo[0].name,
+    Camelliaimgsensor_Registdeviceinfo(gImgEepromInfo.pCamModuleInfo[0].name,
                                     gImgEepromInfo.pCamModuleInfo[0].version,
                                     imgsensor_info.module_id);
     for(i = 2; i < 8; i++) {
        gImgEepromInfo.camNormdata[0][i] = Eeprom_1ByteDataRead(0x04+i, 0xA0);
     }
-    for (i = 0; i < OPLUS_CAMERASN_LENS; i ++) {
+    for (i = 0; i < CAMELLIA_CAMERASN_LENS; i ++) {
        gImgEepromInfo.camNormdata[0][8+i] = Eeprom_1ByteDataRead(0xB0+i, 0xA0);
        LOG_INF("gImgEepromInfo.camNormdata[0][8+i]:0x%x\n", gImgEepromInfo.camNormdata[0][8+i]);
     }

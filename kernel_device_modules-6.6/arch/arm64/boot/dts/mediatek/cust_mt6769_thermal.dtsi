@@ -3,17 +3,17 @@
 
 &soc {
 
-	//#ifdef OPLUS_FEATURE_POWER_THERMAL
+	//#ifdef CAMELLIA_FEATURE_POWER_THERMAL
 	shell_front {
-		compatible = "oplus,shell-temp";
+		compatible = "camellia,shell-temp";
 	};
 
 	shell_frame {
-		compatible = "oplus,shell-temp";
+		compatible = "camellia,shell-temp";
 	};
 
 	shell_back {
-		compatible = "oplus,shell-temp";
+		compatible = "camellia,shell-temp";
 	};
-//#endif /* OPLUS_FEATURE_POWER_THERMAL */
+//#endif /* CAMELLIA_FEATURE_POWER_THERMAL */
 };

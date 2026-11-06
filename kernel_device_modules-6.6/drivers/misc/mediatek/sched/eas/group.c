@@ -35,9 +35,9 @@
 
 #define DEFAULT_GRP_THRESHOLD	20
 #define DEFAULT_GRP_THRESHOLD_UTIL	460
-/* #if IS_ENABLED(CONFIG_OPLUS_FEATURE_BENCHOPT) */
+/* #if IS_ENABLED(CONFIG_CAMELLIA_FEATURE_BENCHOPT) */
 extern void cpuqos_v3_register_cgroup_colocate_ops(int (*set)(int, int), int (*get)(int));
-/* #endif CONFIG_OPLUS_FEATURE_BENCHOPT */
+/* #endif CONFIG_CAMELLIA_FEATURE_BENCHOPT */
 static struct grp *related_thread_groups[GROUP_ID_RECORD_MAX];
 static u32 GP_mode = GP_MODE_0;
 static int grp_threshold[GROUP_ID_RECORD_MAX] = {DEFAULT_GRP_THRESHOLD, DEFAULT_GRP_THRESHOLD,
@@ -577,9 +577,9 @@ void group_init(void)
 
 	group_init_tg_pointers();
 	group_register_hooks();
-/* #if IS_ENABLED(CONFIG_OPLUS_FEATURE_BENCHOPT) */
+/* #if IS_ENABLED(CONFIG_CAMELLIA_FEATURE_BENCHOPT) */
 	cpuqos_v3_register_cgroup_colocate_ops(group_set_cgroup_colocate, group_get_cgroup_colocate);
-/* #endif CONFIG_OPLUS_FEATURE_BENCHOPT */
+/* #endif CONFIG_CAMELLIA_FEATURE_BENCHOPT */
 }
 
 void group_exit(void)

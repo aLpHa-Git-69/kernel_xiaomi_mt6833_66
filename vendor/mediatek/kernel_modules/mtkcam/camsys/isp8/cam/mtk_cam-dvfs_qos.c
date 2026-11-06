@@ -32,8 +32,8 @@
 #define ICCPATH_NAME_SIZE 32
 #define LCM(a,b) ((a) / gcd(a, b) * (b))
 
-#ifndef OPLUS_FEATURE_CAMERA_COMMON
-#define OPLUS_FEATURE_CAMERA_COMMON
+#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
+#define CAMELLIA_FEATURE_CAMERA_COMMON
 #endif
 
 struct dvfs_stream_info {

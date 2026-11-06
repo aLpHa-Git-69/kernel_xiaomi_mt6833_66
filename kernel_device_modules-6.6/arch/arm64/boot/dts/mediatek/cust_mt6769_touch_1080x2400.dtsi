@@ -11,7 +11,7 @@
     status = "ok";
 
     touch_ts@0 {
-                compatible = "oplus,tp_noflash";
+                compatible = "camellia,tp_noflash";
                 reg = <0>;
                 chip-name = "NF_ILI7807S","NF_NT36672C";
                 status = "ok";

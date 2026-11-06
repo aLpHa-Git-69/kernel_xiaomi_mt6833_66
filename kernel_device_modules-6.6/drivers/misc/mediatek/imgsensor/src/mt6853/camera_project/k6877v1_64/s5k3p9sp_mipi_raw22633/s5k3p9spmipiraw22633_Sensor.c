@@ -50,7 +50,7 @@ extern enum IMGSENSOR_RETURN Eeprom_DataInit(
             kal_uint32 sensorID);
 
 extern struct CAMERA_DEVICE_INFO gImgEepromInfo;
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 #define DEVICE_VERSION_S5k3P9SP     "s5k3p9sp"
 //extern void register_imgsensor_deviceinfo(char *name, char *version, u8 module_id);
 static kal_uint8 deviceInfo_register_value = 0x00;
@@ -68,7 +68,7 @@ static DEFINE_SPINLOCK(imgsensor_drv_lock);
 
 static struct imgsensor_info_struct imgsensor_info = {
 		.sensor_id = S5K3P9SP_SENSOR_ID22633,
-		#ifdef OPLUS_FEATURE_CAMERA_COMMON
+		#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 		.module_id = 0x04,	//0x01 Sunny,0x05 QTEK
 		#endif
 		.checksum_value = 0xffb1ec31,
@@ -247,7 +247,7 @@ MUINT32  sn_inf_sub_S5K3P9SP[13];
 /*0 flag   1-12 data*/
 /****hope add end****/
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 static kal_uint16 read_module_id(void)
 {
 	kal_uint16 get_byte=0;
@@ -4555,7 +4555,7 @@ static kal_uint32 get_imgsensor_id(UINT32 *sensor_id)
 			if (*sensor_id == S5K3P9SP_SENSOR_ID) {
 				*sensor_id = imgsensor_info.sensor_id;
 				LOG_INF("i2c write id: 0x%x, sensor id: 0x%x\n", imgsensor.i2c_write_id, *sensor_id);
-				#ifdef OPLUS_FEATURE_CAMERA_COMMON
+				#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 				imgsensor_info.module_id = read_module_id();
 				read_eeprom_SN();
 				read_eeprom_CamInfo();
@@ -5487,7 +5487,7 @@ static kal_uint32 feature_control(MSDK_SENSOR_FEATURE_ENUM feature_id,
 			}
 			break;
 
-	#ifdef OPLUS_FEATURE_CAMERA_COMMON
+	#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 	case SENSOR_FEATURE_GET_MODULE_INFO:
 		LOG_INF("S5K3P9SP GET_MODULE_CamInfo:%d %d\n", *feature_para_len, *feature_data_32);
 		*(feature_data_32 + 1) = (gS5k3p9sp_CamInfo[1] << 24)
@@ -5607,7 +5607,7 @@ static kal_uint32 feature_control(MSDK_SENSOR_FEATURE_ENUM feature_id,
 	case SENSOR_FEATURE_CHECK_SENSOR_ID:
 		get_imgsensor_id(feature_return_para_32);
 		break;
-	#ifdef OPLUS_FEATURE_CAMERA_COMMON
+	#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 	/*Caohua.Lin@CAmera, modify for different module 20180723*/
 	case SENSOR_FEATURE_CHECK_MODULE_ID:
 		*feature_return_para_32 = imgsensor_info.module_id;
@@ -5794,7 +5794,7 @@ static kal_uint32 feature_control(MSDK_SENSOR_FEATURE_ENUM feature_id,
 			(UINT32)*feature_return_para_32);
 			*feature_para_len = 4;
 		break;
-	#ifdef OPLUS_FEATURE_CAMERA_COMMON
+	#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 	case SENSOR_FEATURE_GET_4CELL_DATA:
 		{
 			int type = (kal_uint16)(*feature_data);

@@ -22,9 +22,9 @@
 #include <aee.h>
 #endif
 
-#ifndef OPLUS_FEATURE_CAMERA_COMMON
-#define OPLUS_FEATURE_CAMERA_COMMON
-#endif /* OPLUS_FEATURE_CAMERA_COMMON */
+#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
+#define CAMELLIA_FEATURE_CAMERA_COMMON
+#endif /* CAMELLIA_FEATURE_CAMERA_COMMON */
 
 // --------- DMA-BUF ----------
 #include <linux/dma-heap.h>

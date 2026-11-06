@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
-* Copyright (C) 2020-2021 Oplus. All rights reserved.
+* Copyright (C) 2020-2021 Camellia. All rights reserved.
 */
 
-//#ifdef OPLUS_FEATURE_CHG_BASIC
+//#ifdef CAMELLIA_FEATURE_CHG_BASIC
 /*
  *
  * CPU:				--> MT6877
@@ -392,7 +392,7 @@
 	qcom,default_little_cool_vfloat_over_sw_limit = <4475>;
 	//qcom,usbtemp_dischg_by_pmic;
 	qcom,support_usbtemp_protect_v2;
-	oplus,pdqc_9v_voltage_adaptive;
+	camellia,pdqc_9v_voltage_adaptive;
 	//for PD9V or QC9V
 	qcom,vbatt_pdqc_to_5v_thr = <4500>;
 	qcom,vbatt_pdqc_to_9v_thr = <4500>;
@@ -881,7 +881,7 @@
 
 &odm {
 	optiga {
-		compatible = "oplus-optiga";
+		compatible = "camellia-optiga";
 		status = "ok";
 		pinctrl-names = "optiga_active";
 		pinctrl-0 = <&optiga_active>;
@@ -890,17 +890,17 @@
 		key-id = <1>;
 		vusb-supply = <&mt6359p_vusb_reg>;
 	};
-	oplus,track-charge {
-		compatible = "oplus,track-charge";
+	camellia,track-charge {
+		compatible = "camellia,track-charge";
 		track,fast_chg_break_t_thd = <1000>;
 		track,general_chg_break_t_thd = <200>;
 		track,voocphy_type = <3>;
 		track,wired_max_power = <67000>;
 		track,wired_fast_chg_scheme = <1>;
 	};
-	oplus_battery_log: oplus,battery_log {
-		compatible = "oplus,battery_log";
-		oplus,battery_log_support;
+	camellia_battery_log: camellia,battery_log {
+		compatible = "camellia,battery_log";
+		camellia,battery_log_support;
 	};
 };
 
@@ -913,4 +913,4 @@
 		};
 	};
 };
-//#endif /*OPLUS_FEATURE_CHG_BASIC*/
+//#endif /*CAMELLIA_FEATURE_CHG_BASIC*/

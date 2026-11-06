@@ -3599,24 +3599,24 @@
 	touch:touch {
 		compatible = "goodix,touch";
 	};
-        //#ifdef OPLUS_FEATURE_FINGERPRINT
- 	oplus_fp_common:oplus_fp_common { //Slave driver and CS ID
- 		compatible = "oplus,fp_common"; //Manufacture, and Model
+        //#ifdef CAMELLIA_FEATURE_FINGERPRINT
+ 	camellia_fp_common:camellia_fp_common { //Slave driver and CS ID
+ 		compatible = "camellia,fp_common"; //Manufacture, and Model
  	};
  	silead_fp: silead_fp {
  		status        = "ok";
  		compatible = "sil,silead_fp-pins";
  	};
-        //#endif /* OPLUS_FEATURE_FINGERPRINT */
-        //#ifdef OPLUS_FEATURE_BOOT_SECURITY
-        oplus_secure_common:oplus_secure_common {
-                compatible = "oplus,secure_common";
-                oplus,sec_reg_num = <0>;
-                oplus,sec_en_anti_reg = <0>;
-                oplus,sec_override1_reg = <0>;
-                oplus,override1_en_value = <0>;
+        //#endif /* CAMELLIA_FEATURE_FINGERPRINT */
+        //#ifdef CAMELLIA_FEATURE_BOOT_SECURITY
+        camellia_secure_common:camellia_secure_common {
+                compatible = "camellia,secure_common";
+                camellia,sec_reg_num = <0>;
+                camellia,sec_en_anti_reg = <0>;
+                camellia,sec_override1_reg = <0>;
+                camellia,override1_en_value = <0>;
         };
-        //#endif /* OPLUS_FEATURE_BOOT_SECURITY */
+        //#endif /* CAMELLIA_FEATURE_BOOT_SECURITY */
 
 	/* Microtrust SW IRQ number 85(117) ~ 90(122) */
 	utos: utos {
@@ -5863,8 +5863,8 @@ gpufreq: gpufreq {
 		charger = <&mt6360_chg>;
 		tcpc = "type_c_port0";
 		mediatek,bypss-typec-sink = <1>;
-//#ifdef OPLUS_FEATURE_CHG_BASIC
-		oplus,vbus_set = <1>;
+//#ifdef CAMELLIA_FEATURE_CHG_BASIC
+		camellia,vbus_set = <1>;
 //#endif
 
 		port {
@@ -6345,9 +6345,9 @@ gpufreq: gpufreq {
 		};
 	};
 
-	//oplus extend audio
+	//camellia extend audio
 	audio_extend: audio_extend {
-		compatible = "oplus,asoc-audio";
+		compatible = "camellia,asoc-audio";
 	};
 
 	mtk_ssc: mtk_ssc {
@@ -7150,7 +7150,7 @@ gpufreq: gpufreq {
 	charger = <&mt6360_chg>;
 };
 
-/* camellia: Xiaomi camellia battery settings + tables instead of Oppo's */
+/* camellia: Xiaomi camellia battery settings + tables instead of Camellia's */
 #include "mediatek/bat_setting/camellia_battery_prop.dtsi"
 
 &spmi {
@@ -7391,12 +7391,12 @@ grpid = <11>;
 	};
 	aud_gpio_i2s5_on: aud_gpio_i2s5_on {
 	};
-	//#ifdef OPLUS_VENDOR_SWTP
+	//#ifdef CAMELLIA_VENDOR_SWTP
         swtp: swtp {
         };
         swtp_1: swtp_1 {
         };
-	//#endif  /*OPLUS_VENDOR_SWTP*/
+	//#endif  /*CAMELLIA_VENDOR_SWTP*/
 };
 
 &mddriver {
@@ -7430,7 +7430,7 @@ grpid = <11>;
 };
 #include "mediatek/cust_mt6833_thermal.dtsi"
 
-//#ifdef OPLUS_FEATURE_SECURITY_COMMON
+//#ifdef CAMELLIA_FEATURE_SECURITY_COMMON
 &mtkheap_page_svp {
 	status = "ok";
 };
@@ -7455,7 +7455,7 @@ grpid = <11>;
 		compatible = "mediatek,mtk_sec_video_path_support";
 	};
 };
-//#endif /* OPLUS_FEATURE_SECURITY_COMMON */
+//#endif /* CAMELLIA_FEATURE_SECURITY_COMMON */
 
 /* camellia: keep the stock camellia dtbo applicable */
 #include "camellia-stock-dtbo-compat.dtsi"

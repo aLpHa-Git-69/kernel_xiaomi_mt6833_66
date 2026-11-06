@@ -23,7 +23,7 @@ CONFIG_MTK_PLATFORM := mt6853
 subdir-ccflags-y += -DMTK_PLATFORM_MT6833
 endif
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 ifeq ($(CONFIG_MACH_CAMERA_MT6877),y)
 subdir-ccflags-y += -DSENSOR_PLATFORM_NEXT_A
 endif
@@ -54,11 +54,11 @@ imgsensor_isp6s_mon-objs += ../common/$(COMMON_VERSION)/imgsensor_sensor_list.o
 imgsensor_isp6s_mon-objs += ../common/$(COMMON_VERSION)/seninf_clk.o
 imgsensor_isp6s_mon-objs += ../common/$(COMMON_VERSION)/seninf.o
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
-imgsensor_isp6s_mon-objs += ../OplusImgsensor/imgsensor_eeprom.o
-imgsensor_isp6s_mon-objs += ../OplusImgsensor/imgsensor_hwcfg_custom.o
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
+imgsensor_isp6s_mon-objs += ../CamelliaImgsensor/imgsensor_eeprom.o
+imgsensor_isp6s_mon-objs += ../CamelliaImgsensor/imgsensor_hwcfg_custom.o
 
-imgsensor_isp6s_mon-objs += ../OplusImgsensor/imgsensor_hwcfg_mt6853.o
+imgsensor_isp6s_mon-objs += ../CamelliaImgsensor/imgsensor_hwcfg_mt6853.o
 
 #endif
 
@@ -135,8 +135,8 @@ subdir-ccflags-y		+= -I$(IMGSENSOR_DRIVER_PATH)/common/$(COMMON_VERSION)/camera_
 # Enable parallelism
 subdir-ccflags-y += -DSENSOR_PARALLEISM
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
-# Oplus platformflag
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
+# Camellia platformflag
 subdir-ccflags-y += -DSENSOR_PLATFORM_5G_B
 #endif
 ifneq (,$(wildcard $(IMGSENSOR_DRIVER_PATH)/$(CONFIG_MTK_PLATFORM_SENSOR)/seninf_$(MTK_DERIVED_PLATFORM)))

@@ -1,6 +1,6 @@
 &odm {
     nfc_chipset:nfc_chipset {
-            compatible = "oplus-nfc-chipset";
+            compatible = "camellia-nfc-chipset";
             chipset-20795 = "ST21H";
             chipset-20796 = "ST21H";
             chipset-2070B = "ST21H";

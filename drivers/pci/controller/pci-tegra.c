@@ -195,8 +195,8 @@
 
 #define RP_VEND_XP	0x00000f00
 #define  RP_VEND_XP_DL_UP			(1 << 30)
-#define  RP_VEND_XP_OPPORTUNISTIC_ACK		(1 << 27)
-#define  RP_VEND_XP_OPPORTUNISTIC_UPDATEFC	(1 << 28)
+#define  RP_VEND_XP_CAMELLIARTUNISTIC_ACK		(1 << 27)
+#define  RP_VEND_XP_CAMELLIARTUNISTIC_UPDATEFC	(1 << 28)
 #define  RP_VEND_XP_UPDATE_FC_THRESHOLD_MASK	(0xff << 18)
 
 #define RP_VEND_CTL0	0x00000f44
@@ -541,8 +541,8 @@ static void tegra_pcie_enable_rp_features(struct tegra_pcie_port *port)
 
 	/* Optimal settings to enhance bandwidth */
 	value = readl(port->base + RP_VEND_XP);
-	value |= RP_VEND_XP_OPPORTUNISTIC_ACK;
-	value |= RP_VEND_XP_OPPORTUNISTIC_UPDATEFC;
+	value |= RP_VEND_XP_CAMELLIARTUNISTIC_ACK;
+	value |= RP_VEND_XP_CAMELLIARTUNISTIC_UPDATEFC;
 	writel(value, port->base + RP_VEND_XP);
 
 	/*

@@ -215,7 +215,7 @@ static struct pinctrl_state *vcamaf_pio_off;
 #define CAMAF_GPIO_OFF "camaf_m1_gpio_off"
 extern int fan53870_cam_ldo_set_voltage(int LDO_NUM, int set_mv);
 extern int fan53870_cam_ldo_disable(int LDO_NUM);
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 #if !defined(CONFIG_MACH_MT6765)
 extern int pmic_ldo_set_voltage_mv(unsigned int ldo_num, int set_mv);
 extern int pmic_ldo_set_disable(unsigned int ldo_num);

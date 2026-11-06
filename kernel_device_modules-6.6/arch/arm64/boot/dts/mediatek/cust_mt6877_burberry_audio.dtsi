@@ -32,12 +32,12 @@
 	scl-gpio-id = <36>;
 	sda-gpio-id = <37>;
 	was4783: was4783@42 {
-		 compatible = "oplus,typec-switch-i2c";
+		 compatible = "camellia,typec-switch-i2c";
 		 reg = <0x42>;
 		 pinctrl-names = "default";
 		 pinctrl-0 = <&typec_switch_hs_det>;
-		 oplus,hs-det-gpio = <&pio 113 0>;
-		 oplus,hp-bypass = <1>;
+		 camellia,hs-det-gpio = <&pio 113 0>;
+		 camellia,hp-bypass = <1>;
 		 status = "okay";
 	};
 	sipa_i2c_L: sipa_i2c@6c{
@@ -57,20 +57,20 @@
 	};
 };
 
-//#ifdef OPLUS_FEATURE_AUDIODRIVER
+//#ifdef CAMELLIA_FEATURE_AUDIODRIVER
 //add for type-c headset and si smartpa
-//oplus extend audio
+//camellia extend audio
 &audio_extend {
 	//for sipa speaker
-	oplus,speaker-vendor = "sipa";
-	oplus,speaker-i2s-id = <3>;
-	oplus,speaker-i2s-id-in = <0>;
-	oplus,speaker-codec-name = "sipa_i2c.6-006c","sipa_i2c.6-006d";
-	oplus,speaker-codec-dai-name = "sia91xx-aif-6-6c","sia91xx-aif-6-6d";
-	oplus,spk-i2s-index = <3 9>;
+	camellia,speaker-vendor = "sipa";
+	camellia,speaker-i2s-id = <3>;
+	camellia,speaker-i2s-id-in = <0>;
+	camellia,speaker-codec-name = "sipa_i2c.6-006c","sipa_i2c.6-006d";
+	camellia,speaker-codec-dai-name = "sia91xx-aif-6-6c","sia91xx-aif-6-6d";
+	camellia,spk-i2s-index = <3 9>;
 };
 
-//#endif /* OPLUS_FEATURE_AUDIODRIVER */
+//#endif /* CAMELLIA_FEATURE_AUDIODRIVER */
 &pio {
 	sia91xx_gpio_L: sia91xx_gpio_L {
 		pins_cmd_dat {

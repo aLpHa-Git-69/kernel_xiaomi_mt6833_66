@@ -12,7 +12,7 @@
     status = "ok";
 
 	ilitek@0 {
-		compatible = "oplus,tp_noflash";
+		compatible = "camellia,tp_noflash";
 		reg = <0>;
 		chip-num = <3>;
 		chip-name = "NF_ILI9883C","NF_ILI9883C","NF_ILI9883C";

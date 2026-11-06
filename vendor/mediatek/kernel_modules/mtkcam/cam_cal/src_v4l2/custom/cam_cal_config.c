@@ -40,10 +40,10 @@ struct STRUCT_CAM_CAL_CONFIG_STRUCT *cam_cal_config_list[] = {CAM_CAL_CONFIG_LIS
 unsigned short cam_cal_number =
 		sizeof(cam_cal_config_list)/sizeof(struct STRUCT_CAM_CAL_CONFIG_STRUCT *);
 static struct STRUCT_CAM_CAL_CONFIG_STRUCT *cam_cal_config;
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 static struct ois_cal_data preload_ois;
 static bool do_set_ois_once = false;
-#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
+#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 int version;
 
 unsigned int show_cmd_error_log(enum ENUM_CAMERA_CAM_CAL_TYPE_ENUM cmd)
@@ -995,7 +995,7 @@ unsigned int get_cal_data(struct EEPROM_DRV_FD_DATA *pdata, unsigned int *pGetSe
 	return result;
 }
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 static void parsing_ois_cal_data_in_preload(struct EEPROM_DRV_FD_DATA *pdata)
 {
 	if (cam_cal_config->parsing_ois_cal_data_from_preload == NULL)
@@ -1008,7 +1008,7 @@ static void parsing_ois_cal_data_in_preload(struct EEPROM_DRV_FD_DATA *pdata)
 	}
 	return;
 }
-#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
+#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 
 int read_data(struct EEPROM_DRV_FD_DATA *pdata, unsigned int sensor_id, unsigned int device_id,
 		unsigned int offset, unsigned int length, unsigned char *data)
@@ -1030,9 +1030,9 @@ int read_data(struct EEPROM_DRV_FD_DATA *pdata, unsigned int sensor_id, unsigned
 				kfree(pdata->pdrv->config_info.mp_eeprom_preload);
 				pdata->pdrv->config_info.mp_eeprom_preload = NULL;
 			}
-			#ifdef OPLUS_FEATURE_CAMERA_COMMON
+			#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 			parsing_ois_cal_data_in_preload(pdata);
-			#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
+			#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 		}
 		if (!(pdata->pdrv->config_info.mp_eeprom_preload == NULL ||
 				offset < staAddr || offset + length > staAddr + bufSize)) {
@@ -1133,7 +1133,7 @@ int read_cam_cal(unsigned int sensor_id, unsigned char *buf,
 }
 EXPORT_SYMBOL(read_cam_cal);
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 void custom_eeprom_read(bool *is_valid, void *d_data)
 {
 	*is_valid = (preload_ois.valid == 0x01) ? true : false;
@@ -1142,4 +1142,4 @@ void custom_eeprom_read(bool *is_valid, void *d_data)
 	return;
 }
 EXPORT_SYMBOL(custom_eeprom_read);
-#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
+#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/

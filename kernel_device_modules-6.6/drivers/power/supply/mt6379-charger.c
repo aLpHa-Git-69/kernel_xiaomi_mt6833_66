@@ -1362,7 +1362,7 @@ static void mt6379_charger_bc12_work_func(struct work_struct *work)
 		cdata->psy_desc.type = POWER_SUPPLY_TYPE_USB_DCP;
 		cdata->psy_type[active_idx] = POWER_SUPPLY_TYPE_USB_DCP;
 		cdata->psy_usb_type[active_idx] = POWER_SUPPLY_USB_TYPE_DCP;
-/* oplus add for dp after bc12 done*/
+/* camellia add for dp after bc12 done*/
 		bc12_en = true;
 		/* Put UFCS attach event */
 		if (active_idx == 0 && val == PORT_STAT_DCP) {
@@ -1372,19 +1372,19 @@ static void mt6379_charger_bc12_work_func(struct work_struct *work)
 
 		break;
 	case PORT_STAT_SDP:
-/* oplus add for pd become usb port */
+/* camellia add for pd become usb port */
 		cdata->psy_desc.type = POWER_SUPPLY_TYPE_USB;
 		cdata->psy_type[active_idx] = POWER_SUPPLY_TYPE_USB;
 		cdata->psy_usb_type[active_idx] = POWER_SUPPLY_USB_TYPE_SDP;
 		break;
 	case PORT_STAT_CDP:
-/* oplus add for pd become usb port */
+/* camellia add for pd become usb port */
 		cdata->psy_desc.type = POWER_SUPPLY_TYPE_USB_CDP;
 		cdata->psy_type[active_idx] = POWER_SUPPLY_TYPE_USB_CDP;
 		cdata->psy_usb_type[active_idx] = POWER_SUPPLY_USB_TYPE_CDP;
 		break;
 	case PORT_STAT_UNKNOWN_TA:
-/* oplus modify for charging */
+/* camellia modify for charging */
 		cdata->psy_desc.type = POWER_SUPPLY_TYPE_USB;
 		cdata->psy_type[active_idx] = POWER_SUPPLY_TYPE_USB;
 		cdata->psy_usb_type[active_idx] = POWER_SUPPLY_USB_TYPE_DCP;

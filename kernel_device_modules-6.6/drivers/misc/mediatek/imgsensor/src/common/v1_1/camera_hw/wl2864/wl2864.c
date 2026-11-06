@@ -13,7 +13,7 @@
 
 #include "wl2864.h"
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 /*Pengfei.Zhang@ODM Cam.Drv 20210705 avoid wl2864 power up confict*/
 static struct wl2864 wl2864_instance;
 #endif
@@ -53,7 +53,7 @@ static const int extldo_regulator_voltage[] = {
 
 static enum IMGSENSOR_RETURN wl2864_init(void *pinstance, struct IMGSENSOR_HW_DEVICE_COMMON *pcommon)
 {
-	#ifdef OPLUS_FEATURE_CAMERA_COMMON
+	#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 	/*Pengfei.Zhang@ODM Cam.Drv 20210705 avoid wl2864 power up confict*/
 	struct wl2864 *pinst = (struct wl2864 *)pinstance;
 	pinst->pwl2864_mutex = &pcommon->pinctrl_mutex;
@@ -74,7 +74,7 @@ static enum IMGSENSOR_RETURN wl2864_set(
 	enum IMGSENSOR_HW_PIN_STATE pin_state)
 {
 int i,ret;
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 /*Pengfei.Zhang@ODM Cam.Drv 20210705 avoid wl2864 power up confict*/
 struct wl2864 *pinst = (struct wl2864 *)pinstance;
 #endif
@@ -94,7 +94,7 @@ for(i=0;i<(sizeof(ldolist)/sizeof(ldolist[0]));i++)
 					ldolist[i].wl2864ldo,
 					extldo_regulator_voltage[pin_state-EXTLDO_REGULATOR_VOLTAGE_0]);
 
-			#ifdef OPLUS_FEATURE_CAMERA_COMMON
+			#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 			/*Pengfei.Zhang@ODM Cam.Drv 20210705 avoid wl2864 power up confict*/
 			mutex_lock(pinst->pwl2864_mutex);
 			camera_ldo_set_ldo_value(ldolist[i].wl2864ldo,extldo_regulator_voltage[pin_state-EXTLDO_REGULATOR_VOLTAGE_0]);
@@ -123,7 +123,7 @@ static struct IMGSENSOR_HW_DEVICE device = {
 	.set       = wl2864_set,
 	.release   = wl2864_release,
 	.id        = IMGSENSOR_HW_ID_WL2864,
-	#ifdef OPLUS_FEATURE_CAMERA_COMMON
+	#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 	/*Pengfei.Zhang@ODM Cam.Drv 20210705 avoid wl2864 power up confict*/
 	.pinstance = (void *)&wl2864_instance,
 	#endif

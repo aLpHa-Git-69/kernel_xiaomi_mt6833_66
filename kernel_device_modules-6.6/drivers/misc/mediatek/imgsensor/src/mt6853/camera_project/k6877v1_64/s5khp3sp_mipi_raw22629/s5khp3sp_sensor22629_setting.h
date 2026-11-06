@@ -35981,7 +35981,7 @@ kal_uint16 addr_data_pair_video_hp3_otp[] = {
 kal_uint16 addr_data_pair_hs_hp3_otp[] = {
 	//===================================================
 	// product: HP3
-	// customer: OPPO/realme
+	// customer: CAMELLIA/realme
 	// provider: SONG
 	// date : 20221205
 	// reference version : 
@@ -37718,7 +37718,7 @@ kal_uint16 addr_data_pair_slim_hp3_otp[] = {
 kal_uint16 addr_data_pair_cus1_hp3_otp[] = {
 	//===================================================
 	// product: HP3
-	// customer: OPPO/realme
+	// customer: CAMELLIA/realme
 	// provider: SONG
 	// date : 20221205
 	// reference version : 
@@ -37845,7 +37845,7 @@ kal_uint16 addr_data_pair_cus1_hp3_otp[] = {
 kal_uint16 addr_data_pair_cus2_hp3_otp[] = {
 	//===================================================
 	// product: HP3
-	// customer: OPPO/realme
+	// customer: CAMELLIA/realme
 	// provider: SONG
 	// date : 20221205
 	// reference version : 
@@ -41152,7 +41152,7 @@ kal_uint16 addr_data_pair_cus6_hp3_otp[] = {
 kal_uint16 addr_data_pair_cus7_hp3_otp[] = {
 	//===================================================
 	// product: HP3
-	// customer: OPPO/realme
+	// customer: CAMELLIA/realme
 	// provider: SONG
 	// date : 20221205
 	// reference version : 

@@ -11,7 +11,7 @@
 
     touch_ts@0 {
         reg = <0>;
-        compatible = "oplus,tp_noflash";
+        compatible = "camellia,tp_noflash";
         spi-max-frequency = <9600000>;
         status = "okay";
 		chip-name = "NF_ILI9883C","NF_ILI9883C";
@@ -39,7 +39,7 @@
 
 		platform_support_project = <23618 23702 23703 23704>;
 		platform_support_project_dir = <23703 23703 23703 23703>;
-		platform_support_project_commandline = "oplus23703_ili9883c_hkc_hdp_dsi_vdo","oplus23703_ili9883c_dj_hdp_dsi_vdo";
+		platform_support_project_commandline = "camellia23703_ili9883c_hkc_hdp_dsi_vdo","camellia23703_ili9883c_dj_hdp_dsi_vdo";
 
 		touchpanel,smooth-level = <255 5 4 3 2 1>;
 		touchpanel,sensitive-level = <255 1 2 3 4 5>;

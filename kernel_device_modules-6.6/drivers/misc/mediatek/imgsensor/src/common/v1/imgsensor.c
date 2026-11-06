@@ -35,11 +35,11 @@
 #include <linux/compat.h>
 #endif
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
-#include <soc/oplus/system/oplus_project.h>
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
+#include <soc/camellia/system/camellia_project.h>
 #include "imgsensor_hwcfg_custom_v1.h"
 #include "imgsensor_eeprom.h"
-#endif //OPLUS_FEATURE_CAMERA_COMMON
+#endif //CAMELLIA_FEATURE_CAMERA_COMMON
 // #if IS_ENABLED(CONFIG_MTK_CCU)
 // #include "ccu_inc.h"
 // #endif
@@ -513,19 +513,19 @@ int imgsensor_set_driver(struct IMGSENSOR_SENSOR *psensor)
 
 	imgsensor_mutex_init(psensor_inst);
 
-	#ifndef OPLUS_FEATURE_CAMERA_COMMON
+	#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
 	imgsensor_i2c_init(&psensor_inst->i2c_cfg,
 	imgsensor_custom_config[
 	(unsigned int)psensor_inst->sensor_idx].i2c_dev);
-	#else //OPLUS_FEATURE_CAMERA_COMMON
-	Oplusimgsensor_i2c_init(psensor_inst);
+	#else //CAMELLIA_FEATURE_CAMERA_COMMON
+	Camelliaimgsensor_i2c_init(psensor_inst);
 	pr_info("Yogesh imgsensor_set_driver aladin Selected\n");
-	pSensorList = Oplusimgsensor_Sensorlist();
+	pSensorList = Camelliaimgsensor_Sensorlist();
 	if (pSensorList == NULL) {
 	    pSensorList = kdSensorList;
 	}
 
-	#endif //OPLUS_FEATURE_CAMERA_COMMON
+	#endif //CAMELLIA_FEATURE_CAMERA_COMMON
 	imgsensor_i2c_filter_msg(&psensor_inst->i2c_cfg, true);
 
 	if (get_search_list) {
@@ -2326,7 +2326,7 @@ static inline int adopt_CAMERA_HW_FeatureControl(void *pBuf)
 	case SENSOR_FEATURE_SET_MCLK_DRIVE_CURRENT:
 	{
 		MUINT32 __current = (*(MUINT32 *)pFeaturePara);
-		oplus_imgsensor_set_mclkcurrent(&__current);
+		camellia_imgsensor_set_mclkcurrent(&__current);
 		if (gimgsensor.mclk_set_drive_current != NULL) {
 			gimgsensor.mclk_set_drive_current(
 			gimgsensor.hw.pdev[IMGSENSOR_HW_ID_MCLK]->pinstance,
@@ -3162,9 +3162,9 @@ static int imgsensor_probe(struct platform_device *pdev)
 	// pgimgsensor->clk.pplatform_device = pdev;
 	// imgsensor_clk_init(&pgimgsensor->clk);
 #endif
-	#ifdef OPLUS_FEATURE_CAMERA_COMMON
-	oplus_imgsensor_hwcfg();
-	#endif //OPLUS_FEATURE_CAMERA_COMMON
+	#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
+	camellia_imgsensor_hwcfg();
+	#endif //CAMELLIA_FEATURE_CAMERA_COMMON
 
 #ifndef CONFIG_FPGA_EARLY_PORTING
 	imgsensor_clk_init(&pgimgsensor->clk);

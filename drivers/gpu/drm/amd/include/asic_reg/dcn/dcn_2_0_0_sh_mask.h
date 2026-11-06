@@ -10244,7 +10244,7 @@
 #define HUBPXFC0_HUBP_XFC_CNTL__XBUF_FULL_ENABLE__SHIFT                                                       0x5
 #define HUBPXFC0_HUBP_XFC_CNTL__BW_REDUCTION_MODE__SHIFT                                                      0x6
 #define HUBPXFC0_HUBP_XFC_CNTL__ALPHA_POSITION__SHIFT                                                         0x7
-#define HUBPXFC0_HUBP_XFC_CNTL__SXFCDPE_OPPORTUNISTIC_PACKING__SHIFT                                          0x8
+#define HUBPXFC0_HUBP_XFC_CNTL__SXFCDPE_CAMELLIARTUNISTIC_PACKING__SHIFT                                          0x8
 #define HUBPXFC0_HUBP_XFC_CNTL__RD_VMID__SHIFT                                                                0x14
 #define HUBPXFC0_HUBP_XFC_CNTL__CHUNK_SIZE__SHIFT                                                             0x18
 #define HUBPXFC0_HUBP_XFC_CNTL__MXFC_ENABLE_MASK                                                              0x00000001L
@@ -10253,7 +10253,7 @@
 #define HUBPXFC0_HUBP_XFC_CNTL__XBUF_FULL_ENABLE_MASK                                                         0x00000020L
 #define HUBPXFC0_HUBP_XFC_CNTL__BW_REDUCTION_MODE_MASK                                                        0x00000040L
 #define HUBPXFC0_HUBP_XFC_CNTL__ALPHA_POSITION_MASK                                                           0x00000080L
-#define HUBPXFC0_HUBP_XFC_CNTL__SXFCDPE_OPPORTUNISTIC_PACKING_MASK                                            0x00000100L
+#define HUBPXFC0_HUBP_XFC_CNTL__SXFCDPE_CAMELLIARTUNISTIC_PACKING_MASK                                            0x00000100L
 #define HUBPXFC0_HUBP_XFC_CNTL__RD_VMID_MASK                                                                  0x00F00000L
 #define HUBPXFC0_HUBP_XFC_CNTL__CHUNK_SIZE_MASK                                                               0x07000000L
 //HUBPXFC0_HUBP_XFC_XBUF_RD_BASE0_ADDR_LSB
@@ -11339,7 +11339,7 @@
 #define HUBPXFC1_HUBP_XFC_CNTL__XBUF_FULL_ENABLE__SHIFT                                                       0x5
 #define HUBPXFC1_HUBP_XFC_CNTL__BW_REDUCTION_MODE__SHIFT                                                      0x6
 #define HUBPXFC1_HUBP_XFC_CNTL__ALPHA_POSITION__SHIFT                                                         0x7
-#define HUBPXFC1_HUBP_XFC_CNTL__SXFCDPE_OPPORTUNISTIC_PACKING__SHIFT                                          0x8
+#define HUBPXFC1_HUBP_XFC_CNTL__SXFCDPE_CAMELLIARTUNISTIC_PACKING__SHIFT                                          0x8
 #define HUBPXFC1_HUBP_XFC_CNTL__RD_VMID__SHIFT                                                                0x14
 #define HUBPXFC1_HUBP_XFC_CNTL__CHUNK_SIZE__SHIFT                                                             0x18
 #define HUBPXFC1_HUBP_XFC_CNTL__MXFC_ENABLE_MASK                                                              0x00000001L
@@ -11348,7 +11348,7 @@
 #define HUBPXFC1_HUBP_XFC_CNTL__XBUF_FULL_ENABLE_MASK                                                         0x00000020L
 #define HUBPXFC1_HUBP_XFC_CNTL__BW_REDUCTION_MODE_MASK                                                        0x00000040L
 #define HUBPXFC1_HUBP_XFC_CNTL__ALPHA_POSITION_MASK                                                           0x00000080L
-#define HUBPXFC1_HUBP_XFC_CNTL__SXFCDPE_OPPORTUNISTIC_PACKING_MASK                                            0x00000100L
+#define HUBPXFC1_HUBP_XFC_CNTL__SXFCDPE_CAMELLIARTUNISTIC_PACKING_MASK                                            0x00000100L
 #define HUBPXFC1_HUBP_XFC_CNTL__RD_VMID_MASK                                                                  0x00F00000L
 #define HUBPXFC1_HUBP_XFC_CNTL__CHUNK_SIZE_MASK                                                               0x07000000L
 //HUBPXFC1_HUBP_XFC_XBUF_RD_BASE0_ADDR_LSB
@@ -12434,7 +12434,7 @@
 #define HUBPXFC2_HUBP_XFC_CNTL__XBUF_FULL_ENABLE__SHIFT                                                       0x5
 #define HUBPXFC2_HUBP_XFC_CNTL__BW_REDUCTION_MODE__SHIFT                                                      0x6
 #define HUBPXFC2_HUBP_XFC_CNTL__ALPHA_POSITION__SHIFT                                                         0x7
-#define HUBPXFC2_HUBP_XFC_CNTL__SXFCDPE_OPPORTUNISTIC_PACKING__SHIFT                                          0x8
+#define HUBPXFC2_HUBP_XFC_CNTL__SXFCDPE_CAMELLIARTUNISTIC_PACKING__SHIFT                                          0x8
 #define HUBPXFC2_HUBP_XFC_CNTL__RD_VMID__SHIFT                                                                0x14
 #define HUBPXFC2_HUBP_XFC_CNTL__CHUNK_SIZE__SHIFT                                                             0x18
 #define HUBPXFC2_HUBP_XFC_CNTL__MXFC_ENABLE_MASK                                                              0x00000001L
@@ -12443,7 +12443,7 @@
 #define HUBPXFC2_HUBP_XFC_CNTL__XBUF_FULL_ENABLE_MASK                                                         0x00000020L
 #define HUBPXFC2_HUBP_XFC_CNTL__BW_REDUCTION_MODE_MASK                                                        0x00000040L
 #define HUBPXFC2_HUBP_XFC_CNTL__ALPHA_POSITION_MASK                                                           0x00000080L
-#define HUBPXFC2_HUBP_XFC_CNTL__SXFCDPE_OPPORTUNISTIC_PACKING_MASK                                            0x00000100L
+#define HUBPXFC2_HUBP_XFC_CNTL__SXFCDPE_CAMELLIARTUNISTIC_PACKING_MASK                                            0x00000100L
 #define HUBPXFC2_HUBP_XFC_CNTL__RD_VMID_MASK                                                                  0x00F00000L
 #define HUBPXFC2_HUBP_XFC_CNTL__CHUNK_SIZE_MASK                                                               0x07000000L
 //HUBPXFC2_HUBP_XFC_XBUF_RD_BASE0_ADDR_LSB
@@ -13529,7 +13529,7 @@
 #define HUBPXFC3_HUBP_XFC_CNTL__XBUF_FULL_ENABLE__SHIFT                                                       0x5
 #define HUBPXFC3_HUBP_XFC_CNTL__BW_REDUCTION_MODE__SHIFT                                                      0x6
 #define HUBPXFC3_HUBP_XFC_CNTL__ALPHA_POSITION__SHIFT                                                         0x7
-#define HUBPXFC3_HUBP_XFC_CNTL__SXFCDPE_OPPORTUNISTIC_PACKING__SHIFT                                          0x8
+#define HUBPXFC3_HUBP_XFC_CNTL__SXFCDPE_CAMELLIARTUNISTIC_PACKING__SHIFT                                          0x8
 #define HUBPXFC3_HUBP_XFC_CNTL__RD_VMID__SHIFT                                                                0x14
 #define HUBPXFC3_HUBP_XFC_CNTL__CHUNK_SIZE__SHIFT                                                             0x18
 #define HUBPXFC3_HUBP_XFC_CNTL__MXFC_ENABLE_MASK                                                              0x00000001L
@@ -13538,7 +13538,7 @@
 #define HUBPXFC3_HUBP_XFC_CNTL__XBUF_FULL_ENABLE_MASK                                                         0x00000020L
 #define HUBPXFC3_HUBP_XFC_CNTL__BW_REDUCTION_MODE_MASK                                                        0x00000040L
 #define HUBPXFC3_HUBP_XFC_CNTL__ALPHA_POSITION_MASK                                                           0x00000080L
-#define HUBPXFC3_HUBP_XFC_CNTL__SXFCDPE_OPPORTUNISTIC_PACKING_MASK                                            0x00000100L
+#define HUBPXFC3_HUBP_XFC_CNTL__SXFCDPE_CAMELLIARTUNISTIC_PACKING_MASK                                            0x00000100L
 #define HUBPXFC3_HUBP_XFC_CNTL__RD_VMID_MASK                                                                  0x00F00000L
 #define HUBPXFC3_HUBP_XFC_CNTL__CHUNK_SIZE_MASK                                                               0x07000000L
 //HUBPXFC3_HUBP_XFC_XBUF_RD_BASE0_ADDR_LSB
@@ -14624,7 +14624,7 @@
 #define HUBPXFC4_HUBP_XFC_CNTL__XBUF_FULL_ENABLE__SHIFT                                                       0x5
 #define HUBPXFC4_HUBP_XFC_CNTL__BW_REDUCTION_MODE__SHIFT                                                      0x6
 #define HUBPXFC4_HUBP_XFC_CNTL__ALPHA_POSITION__SHIFT                                                         0x7
-#define HUBPXFC4_HUBP_XFC_CNTL__SXFCDPE_OPPORTUNISTIC_PACKING__SHIFT                                          0x8
+#define HUBPXFC4_HUBP_XFC_CNTL__SXFCDPE_CAMELLIARTUNISTIC_PACKING__SHIFT                                          0x8
 #define HUBPXFC4_HUBP_XFC_CNTL__RD_VMID__SHIFT                                                                0x14
 #define HUBPXFC4_HUBP_XFC_CNTL__CHUNK_SIZE__SHIFT                                                             0x18
 #define HUBPXFC4_HUBP_XFC_CNTL__MXFC_ENABLE_MASK                                                              0x00000001L
@@ -14633,7 +14633,7 @@
 #define HUBPXFC4_HUBP_XFC_CNTL__XBUF_FULL_ENABLE_MASK                                                         0x00000020L
 #define HUBPXFC4_HUBP_XFC_CNTL__BW_REDUCTION_MODE_MASK                                                        0x00000040L
 #define HUBPXFC4_HUBP_XFC_CNTL__ALPHA_POSITION_MASK                                                           0x00000080L
-#define HUBPXFC4_HUBP_XFC_CNTL__SXFCDPE_OPPORTUNISTIC_PACKING_MASK                                            0x00000100L
+#define HUBPXFC4_HUBP_XFC_CNTL__SXFCDPE_CAMELLIARTUNISTIC_PACKING_MASK                                            0x00000100L
 #define HUBPXFC4_HUBP_XFC_CNTL__RD_VMID_MASK                                                                  0x00F00000L
 #define HUBPXFC4_HUBP_XFC_CNTL__CHUNK_SIZE_MASK                                                               0x07000000L
 //HUBPXFC4_HUBP_XFC_XBUF_RD_BASE0_ADDR_LSB
@@ -15719,7 +15719,7 @@
 #define HUBPXFC5_HUBP_XFC_CNTL__XBUF_FULL_ENABLE__SHIFT                                                       0x5
 #define HUBPXFC5_HUBP_XFC_CNTL__BW_REDUCTION_MODE__SHIFT                                                      0x6
 #define HUBPXFC5_HUBP_XFC_CNTL__ALPHA_POSITION__SHIFT                                                         0x7
-#define HUBPXFC5_HUBP_XFC_CNTL__SXFCDPE_OPPORTUNISTIC_PACKING__SHIFT                                          0x8
+#define HUBPXFC5_HUBP_XFC_CNTL__SXFCDPE_CAMELLIARTUNISTIC_PACKING__SHIFT                                          0x8
 #define HUBPXFC5_HUBP_XFC_CNTL__RD_VMID__SHIFT                                                                0x14
 #define HUBPXFC5_HUBP_XFC_CNTL__CHUNK_SIZE__SHIFT                                                             0x18
 #define HUBPXFC5_HUBP_XFC_CNTL__MXFC_ENABLE_MASK                                                              0x00000001L
@@ -15728,7 +15728,7 @@
 #define HUBPXFC5_HUBP_XFC_CNTL__XBUF_FULL_ENABLE_MASK                                                         0x00000020L
 #define HUBPXFC5_HUBP_XFC_CNTL__BW_REDUCTION_MODE_MASK                                                        0x00000040L
 #define HUBPXFC5_HUBP_XFC_CNTL__ALPHA_POSITION_MASK                                                           0x00000080L
-#define HUBPXFC5_HUBP_XFC_CNTL__SXFCDPE_OPPORTUNISTIC_PACKING_MASK                                            0x00000100L
+#define HUBPXFC5_HUBP_XFC_CNTL__SXFCDPE_CAMELLIARTUNISTIC_PACKING_MASK                                            0x00000100L
 #define HUBPXFC5_HUBP_XFC_CNTL__RD_VMID_MASK                                                                  0x00F00000L
 #define HUBPXFC5_HUBP_XFC_CNTL__CHUNK_SIZE_MASK                                                               0x07000000L
 //HUBPXFC5_HUBP_XFC_XBUF_RD_BASE0_ADDR_LSB

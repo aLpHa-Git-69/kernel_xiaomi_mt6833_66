@@ -11,8 +11,8 @@
 #include "mt6991-afe-common.h"
 #include "mt6991-interconnection.h"
 
-#ifndef OPLUS_ARCH_EXTENDS
-#define OPLUS_ARCH_EXTENDS
+#ifndef CAMELLIA_ARCH_EXTENDS
+#define CAMELLIA_ARCH_EXTENDS
 #endif
 
 
@@ -503,7 +503,7 @@ static struct snd_soc_dai_driver mtk_dai_pcm_driver[] = {
 	},
 };
 
-#ifdef OPLUS_ARCH_EXTENDS
+#ifdef CAMELLIA_ARCH_EXTENDS
 //MD call noise workaround
 static int mt6991_pcm1_status_get(struct snd_kcontrol *kcontrol,
 			     struct snd_ctl_elem_value *ucontrol)
@@ -606,7 +606,7 @@ int mt6991_dai_pcm_register(struct mtk_base_afe *afe)
 	dai->dapm_routes = mtk_dai_pcm_routes;
 	dai->num_dapm_routes = ARRAY_SIZE(mtk_dai_pcm_routes);
 
-#ifdef OPLUS_ARCH_EXTENDS
+#ifdef CAMELLIA_ARCH_EXTENDS
 //MD call noise workaround
 	dai->controls = mtk_dai_pcm_controls;
 	dai->num_controls = ARRAY_SIZE(mtk_dai_pcm_controls);

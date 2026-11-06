@@ -12,7 +12,7 @@
 	status = "okay";
 
 	touchscreen@0 {
-		compatible = "oplus,tp_noflash";
+		compatible = "camellia,tp_noflash";
 		reg = <0>;
 		chip-num = <2>;
 		chip-name = "NF_NT36672C","NF_ILI7807S";

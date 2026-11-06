@@ -28,8 +28,8 @@
 #include <linux/i2c.h>
 #include <linux/slab.h>
 #include <linux/pinctrl/consumer.h>
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
-#include <soc/oplus/system/oppo_project.h>
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
+#include <soc/camellia/system/camellia_project.h>
 #endif
 
 #include "flashlight-core.h"
@@ -86,7 +86,7 @@ static struct work_struct ark_work_ch2;
 /* define device id */
 #define USE_SC6607_IC	0x66h
 
-extern void oplus_chg_set_camera_on(bool val);
+extern void camellia_chg_set_camera_on(bool val);
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -217,7 +217,7 @@ static int ark_enable_ch1(void)
 		/* torch mode */
 		if (ark_charge_mode == FLASHLIGHT_CHARGER_READY && ark_flash_cts_enable == 0) {
 			if (ark_charge_enable == 0) {
-				oplus_chg_set_camera_on(1);
+				camellia_chg_set_camera_on(1);
 				ark_charge_enable = 1;
 			}
 			ark_flash_mode++;
@@ -246,7 +246,7 @@ static int ark_enable_ch2(void)
 	} else {
 		/* flash mode */
 		if (ark_charge_enable == 0){
-			oplus_chg_set_camera_on(1);
+			camellia_chg_set_camera_on(1);
 			ark_charge_enable = 1;
 		}
 		ark_reg_enable |= ARK_ENABLE_LED2_FLASH;
@@ -303,12 +303,12 @@ static int ark_disable(int channel)
 	}
 
 	if (ark_flash_mode == 1 && ark_charge_enable == 1) {
-		oplus_chg_set_camera_on(0);
+		camellia_chg_set_camera_on(0);
 		ark_charge_enable = 0;
 		ark_flash_mode = -1;
 		ark_charge_mode = 0;
 	} else if (ark_flash_mode == 3 && ark_charge_mode == 1 && ark_charge_enable == 0) {
-		oplus_chg_set_camera_on(1);
+		camellia_chg_set_camera_on(1);
 		ark_charge_enable = 1;
 		ark_charge_mode = 0;
 	}
@@ -608,7 +608,7 @@ static int ark_set_driver(int set)
 		if (use_count < 0)
 			use_count = 0;
 		if (ark_charge_enable == 1) {
-			oplus_chg_set_camera_on(0);
+			camellia_chg_set_camera_on(0);
 			ark_charge_enable = 0;
 		}
 		ark_flash_cts_enable = 0;

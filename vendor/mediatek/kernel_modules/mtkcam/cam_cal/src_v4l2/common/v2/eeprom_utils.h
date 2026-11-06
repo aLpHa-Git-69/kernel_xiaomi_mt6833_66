@@ -12,11 +12,11 @@
 
 #define must_log(...) pr_debug(__VA_ARGS__)
 
-#ifndef OPLUS_FEATURE_CAMERA_COMMON
+#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
 #define error_log(...) pr_debug("error: " __VA_ARGS__)
-#else /*OPLUS_FEATURE_CAMERA_COMMON*/
+#else /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 #define error_log(...) pr_info("error: " __VA_ARGS__)
-#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
+#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 
 #define debug_log(...) \
 do { \

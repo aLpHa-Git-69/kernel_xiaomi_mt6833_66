@@ -24,11 +24,11 @@
 #include "adaptor-ctrls.h"
 #include "adaptor-util.h"
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 #define KONKAUTELE_AF_SLAVE_ID	0x32
 #define DW9786_CHIP_EN 0xE000
 extern struct mutex dw9786_mutex;
-#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
+#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 
 static const char * const clk_names[] = {
 	ADAPTOR_CLK_NAMES
@@ -83,7 +83,7 @@ u64 ixc_table_write(struct subdrv_ctx *ctx, u16 *list, u32 len)
 	return (ixc_end-ixc_start)/1000;
 }
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 u64 ixc_table_rewrite(struct subdrv_ctx *ctx, u16 *list, u32 len)
 {
 	int ret = 1;
@@ -120,7 +120,7 @@ u64 ixc_table_rewrite(struct subdrv_ctx *ctx, u16 *list, u32 len)
 	ixc_end = ktime_get_boottime_ns();
 	return (ixc_end-ixc_start)/1000;
 }
-#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
+#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 
 static void dump_i2c_buf(struct subdrv_ctx *ctx)
 {
@@ -307,20 +307,20 @@ bool probe_eeprom(struct subdrv_ctx *ctx)
 	u32 header_id = 0;
 	u32 addr_header_id = 0;
 	struct eeprom_info_struct *info = ctx->s_ctx.eeprom_info;
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 	unsigned short stdby[17] = {0x0100, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
 								0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
 								0x0000, 0x0000, 0x0000};
 	u16 dw9786_status;
 	int ret = 0;
-#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
+#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 
 	if (info == NULL) {
 		DRV_LOG_MUST(ctx, "sensor no support eeprom\n");
 		return FALSE;
 	}
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 	if(ctx->s_ctx.sensor_id == KONKAUTELE_SENSOR_ID) {
 		mutex_lock(&dw9786_mutex);
 		DRV_LOG_MUST(ctx, "dw9786_mutex: %p\n", &dw9786_mutex);
@@ -337,7 +337,7 @@ bool probe_eeprom(struct subdrv_ctx *ctx)
 		}
 		mutex_unlock(&dw9786_mutex);
 	}
-#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
+#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 
 	eeprom_num = ctx->s_ctx.eeprom_num;
 	if (ctx->eeprom_index < ctx->s_ctx.eeprom_num) {
@@ -3318,11 +3318,11 @@ void sensor_init(struct subdrv_ctx *ctx)
 			(*ctx->power_on_profile_en))
 			time_boot_begin = ktime_get_boottime_ns();
 
-		#ifndef OPLUS_FEATURE_CAMERA_COMMON
+		#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
 		ixc_time = ixc_table_write(ctx, ctx->s_ctx.init_setting_table, ctx->s_ctx.init_setting_len);
-		#else /*OPLUS_FEATURE_CAMERA_COMMON*/
+		#else /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 		ixc_time = ixc_table_rewrite(ctx, ctx->s_ctx.init_setting_table, ctx->s_ctx.init_setting_len);
-		#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
+		#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 
 		if ((ctx->power_on_profile_en != NULL) &&
 			(*ctx->power_on_profile_en)) {
@@ -3961,13 +3961,13 @@ int common_control(struct subdrv_ctx *ctx,
 		switch (ctx->sensor_mode_ops) {
 		case AOV_MODE_CTRL_OPS_SENSING_CTRL:
 		default:
-		#ifndef OPLUS_FEATURE_CAMERA_COMMON
+		#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
 			ixc_time = ixc_table_write(ctx, ctx->s_ctx.mode[scenario_id].mode_setting_table,
 				ctx->s_ctx.mode[scenario_id].mode_setting_len);
-		#else /*OPLUS_FEATURE_CAMERA_COMMON*/
+		#else /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 			ixc_time = ixc_table_rewrite(ctx, ctx->s_ctx.mode[scenario_id].mode_setting_table,
 				ctx->s_ctx.mode[scenario_id].mode_setting_len);
-		#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
+		#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 			break;
 		case AOV_MODE_CTRL_OPS_MONTION_DETECTION_CTRL:
 			/* set eint gpio */
@@ -3980,15 +3980,15 @@ int common_control(struct subdrv_ctx *ctx,
 					state_names[STATE_EINT], ret);
 			else
 				DRV_LOG(ctx, "select(%s)(correct)\n", state_names[STATE_EINT]);
-		#ifndef OPLUS_FEATURE_CAMERA_COMMON
+		#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
 			ixc_time = ixc_table_write(ctx,
 				ctx->s_ctx.mode[scenario_id].mode_setting_table_for_md,
 				ctx->s_ctx.mode[scenario_id].mode_setting_len_for_md);
-		#else /*OPLUS_FEATURE_CAMERA_COMMON*/
+		#else /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 			ixc_time = ixc_table_rewrite(ctx,
 				ctx->s_ctx.mode[scenario_id].mode_setting_table_for_md,
 				ctx->s_ctx.mode[scenario_id].mode_setting_len_for_md);
-		#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
+		#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 			break;
 		}
 

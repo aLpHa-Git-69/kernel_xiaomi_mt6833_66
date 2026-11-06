@@ -10,12 +10,12 @@
 #include <dt-bindings/pinctrl/mt6877-pinfunc.h>
 
 /* Trustonic Mobilecore real driver */
-/* #ifdef OPLUS_FEATURE_SECURITY_COMMON */
+/* #ifdef CAMELLIA_FEATURE_SECURITY_COMMON */
 &mobicore{
      trustonic,real-drv = <1>;
      trustonic,sel2-support = <0>;
 };
-/* #endif OPLUS_FEATURE_SECURITY_COMMON */
+/* #endif CAMELLIA_FEATURE_SECURITY_COMMON */
 
 /* chosen */
 &chosen {
@@ -430,7 +430,7 @@
 		compatible = "richtek,rt5512";
 		#sound-dai-cells = <0>;
 		reg = <0x5c>;
-//#ifdef OPLUS_FEATURE_AUDIODRIVER
+//#ifdef CAMELLIA_FEATURE_AUDIODRIVER
 		status = "disable";
 //#else
 //		status = "okay";

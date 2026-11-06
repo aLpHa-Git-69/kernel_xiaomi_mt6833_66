@@ -10,7 +10,7 @@
 
     touch_ts@0 {
         reg = <0>;
-        compatible = "oplus,tp_noflash";
+        compatible = "camellia,tp_noflash";
         spi-max-frequency = <9600000>;
         status = "okay";
         project_id = <24713>;
@@ -38,7 +38,7 @@
 
 		platform_support_project = <24713 24714 24715 24728>;
 		platform_support_project_dir = <24713 24713 24713 24713>;
-		platform_support_project_commandline = "oplus23703_ili9883c_hkc_hdp_dsi_vdo","oplus23703_ili9883c_dj_hdp_dsi_vdo";
+		platform_support_project_commandline = "camellia23703_ili9883c_hkc_hdp_dsi_vdo","camellia23703_ili9883c_dj_hdp_dsi_vdo";
                 firmware_name = "AB923HKC01","AB923DJN01";
 		touchpanel,smooth-level = <255 5 4 3 2 1>;
 		touchpanel,sensitive-level = <255 1 2 3 4 5>;

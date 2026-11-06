@@ -83,15 +83,15 @@ void pmic_gpio_enable(int pwr_status)
 }
 EXPORT_SYMBOL(pmic_gpio_enable);
 
-void oplus_chg_set_camera_on(bool val)
+void camellia_chg_set_camera_on(bool val)
 {
 }
-EXPORT_SYMBOL(oplus_chg_set_camera_on);
+EXPORT_SYMBOL(camellia_chg_set_camera_on);
 
-void oplus_chg_set_camera_status(bool val)
+void camellia_chg_set_camera_status(bool val)
 {
 }
-EXPORT_SYMBOL(oplus_chg_set_camera_status);
+EXPORT_SYMBOL(camellia_chg_set_camera_status);
 
 MODULE_DESCRIPTION("camellia: neutral stubs for vendor helper symbols");
 MODULE_LICENSE("GPL");

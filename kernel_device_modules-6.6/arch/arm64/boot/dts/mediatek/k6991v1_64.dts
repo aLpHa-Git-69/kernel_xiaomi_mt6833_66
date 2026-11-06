@@ -14,12 +14,12 @@
 #include <dt-bindings/power/mt6991-power.h>
 
 /* Trustonic Mobilecore real driver */
-/* #ifdef OPLUS_FEATURE_SECURITY_COMMON */
+/* #ifdef CAMELLIA_FEATURE_SECURITY_COMMON */
 &mobicore{
 	trustonic,real-drv = <1>;
 	trustonic,sel2-support = <0>;
 };
-/* #endif OPLUS_FEATURE_SECURITY_COMMON */
+/* #endif CAMELLIA_FEATURE_SECURITY_COMMON */
 
 &chosen {
 bootargs_ext = "rcu_nocbs=0-7";

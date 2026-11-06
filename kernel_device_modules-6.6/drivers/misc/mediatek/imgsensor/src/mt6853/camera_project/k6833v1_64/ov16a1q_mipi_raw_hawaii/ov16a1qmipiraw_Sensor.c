@@ -58,7 +58,7 @@
 #define LOG_INF(format, args...)    pr_debug(PFX "[%s] " format, __func__, ##args)
 
 static DEFINE_SPINLOCK(imgsensor_drv_lock);
-//#ifdef OPLUS_FEATURE_CAMERA_COMMON
+//#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 extern void register_imgsensor_deviceinfo(char *name, char *version, u8 module_id);
 static kal_uint8 deviceInfo_register_value = 0x00;
 extern enum IMGSENSOR_RETURN Eeprom_DataInit(
@@ -512,7 +512,7 @@ static void read_4cell_from_eeprom(char* data, char* src, int addr, int len)
 }
 
 
-//#ifdef OPLUS_FEATURE_CAMERA_COMMON
+//#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 static BYTE ov16a1q_hawaii_common_data[CAMERA_EEPPROM_COMDATA_LENGTH] = { 0 };
 static kal_uint16 read_ov16a1q_hawaii_eeprom_module(kal_uint32 addr)
 {
@@ -564,7 +564,7 @@ static void read_ov16a1q_hawaii_module_data(UINT32 sensor_id)
                ov16a1q_hawaii_common_data[idx + 2],
                ov16a1q_hawaii_common_data[idx + 3]);
 }
-//#endif  /* OPLUS_FEATURE_CAMERA_COMMON */
+//#endif  /* CAMELLIA_FEATURE_CAMERA_COMMON */
 
 static kal_uint32 get_imgsensor_id(UINT32 *sensor_id)
 {
@@ -592,9 +592,9 @@ static kal_uint32 get_imgsensor_id(UINT32 *sensor_id)
                 read_4cell_from_eeprom(NULL, FOUR_CELL_DPC,
                     FOUR_CELL_DPC_ADDR, FOUR_CELL_DPC_SIZE);
 
-//#ifdef OPLUS_FEATURE_CAMERA_COMMON
+//#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
                 read_ov16a1q_hawaii_module_data(*sensor_id);
-//#endif  /* OPLUS_FEATURE_CAMERA_COMMON */
+//#endif  /* CAMELLIA_FEATURE_CAMERA_COMMON */
                 return ERROR_NONE;
             }
 
@@ -1726,7 +1726,7 @@ static kal_uint32 feature_control(MSDK_SENSOR_FEATURE_ENUM feature_id,
         break;
     case SENSOR_FEATURE_SET_LSC_TBL:
         break;
-//#ifdef OPLUS_FEATURE_CAMERA_COMMON
+//#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
     case SENSOR_FEATURE_GET_MODULE_INFO:
         break;
     case SENSOR_FEATURE_GET_MODULE_SN:
@@ -1744,7 +1744,7 @@ static kal_uint32 feature_control(MSDK_SENSOR_FEATURE_ENUM feature_id,
         break;
     case SENSOR_FEATURE_GET_DISTORTIONPARAMS:
         break;
-//#endif /* OPLUS_FEATURE_CAMERA_COMMON */
+//#endif /* CAMELLIA_FEATURE_CAMERA_COMMON */
     default:
         break;
     }

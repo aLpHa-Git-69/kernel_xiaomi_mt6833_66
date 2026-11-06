@@ -12,8 +12,8 @@
  */
 
 #include "imgsensor_eeprom.h"
-#include <soc/oplus/device_info.h>
-#include <soc/oplus/system/oplus_project.h>
+#include <soc/camellia/device_info.h>
+#include <soc/camellia/system/camellia_project.h>
 #define DUMP_EEPROM 0
 
 kal_uint16 Eeprom_1ByteDataRead(kal_uint16 addr, kal_uint16 slaveaddr)
@@ -311,7 +311,7 @@ void Eeprom_CamInfoDataRead(enum IMGSENSOR_SENSOR_IDX sensor_idx, kal_uint16 sla
     pCamDeviceObj->camNormdata[sensor_idx][1] =
                 (kal_uint8)Eeprom_1ByteDataRead(dataAddr+1, slaveAddr);
     /*Register Module Info*/
-    Oplusimgsensor_Registdeviceinfo(pCamDeviceObj->pCamModuleInfo[sensor_idx].name,
+    Camelliaimgsensor_Registdeviceinfo(pCamDeviceObj->pCamModuleInfo[sensor_idx].name,
                                     pCamDeviceObj->pCamModuleInfo[sensor_idx].version,
                                     module_id);
     /*Read Module Info High-6bytes*/
@@ -330,8 +330,8 @@ void Eeprom_CamSNDataRead(enum IMGSENSOR_SENSOR_IDX sensor_idx, kal_uint16 slave
 
     /*Read camera SN-23bytes*/
     dataAddr = pCamDeviceObj->pCamModuleInfo[sensor_idx].i4CamSNAddr;
-    for (i = 0; i < OPLUS_CAMERASN_LENS; i++) {
-        pCamDeviceObj->camNormdata[sensor_idx][OPLUS_CAMMODULEINFO_LENS+i] =
+    for (i = 0; i < CAMELLIA_CAMERASN_LENS; i++) {
+        pCamDeviceObj->camNormdata[sensor_idx][CAMELLIA_CAMMODULEINFO_LENS+i] =
             (kal_uint8)Eeprom_1ByteDataRead(dataAddr+i, slaveAddr);
     }
 }
@@ -344,7 +344,7 @@ void Eeprom_CamAFCodeDataRead(enum IMGSENSOR_SENSOR_IDX sensor_idx, kal_uint16 s
 
     /*Read AF MAC+50+100+Inf+StereoDac*/
     if (pCamDeviceObj->pCamModuleInfo[sensor_idx].i4AfSupport) {
-        dataCnt = OPLUS_CAMMODULEINFO_LENS + OPLUS_CAMERASN_LENS;
+        dataCnt = CAMELLIA_CAMMODULEINFO_LENS + CAMELLIA_CAMERASN_LENS;
         for (i = 0; i < 4; i ++) {
             dataAddr = pCamDeviceObj->pCamModuleInfo[sensor_idx].i4AFCodeAddr[i];
             pCamDeviceObj->camNormdata[sensor_idx][dataCnt] =
@@ -359,7 +359,7 @@ void Eeprom_CamAFCodeDataRead(enum IMGSENSOR_SENSOR_IDX sensor_idx, kal_uint16 s
     if ((pCamDeviceObj->i4MWDataIdx == sensor_idx)
          || (pCamDeviceObj->i4MTDataIdx == sensor_idx)
          || (pCamDeviceObj->i4FrontDataIdx == sensor_idx)) {
-        dataCnt = OPLUS_CAMCOMDATA_LENS - 1;
+        dataCnt = CAMELLIA_CAMCOMDATA_LENS - 1;
         pCamDeviceObj->camNormdata[sensor_idx][dataCnt] = (kal_uint8)(sensor_idx);
     }
 }
@@ -448,7 +448,7 @@ enum IMGSENSOR_RETURN Eeprom_DataInit(
     slaveAddr = pCamDeviceObj->pCamModuleInfo[sensor_idx].i4SlaveAddr;
     if (slaveAddr == 0xFF) {
         pr_info("[%s]sensor_idx:%d, sensorID:0x%x is not support Eeprom Hardware", __func__, sensor_idx, sensorID);
-        Oplusimgsensor_Registdeviceinfo(pCamDeviceObj->pCamModuleInfo[sensor_idx].name,
+        Camelliaimgsensor_Registdeviceinfo(pCamDeviceObj->pCamModuleInfo[sensor_idx].name,
                                         pCamDeviceObj->pCamModuleInfo[sensor_idx].version,
                                         module_id);
         return IMGSENSOR_RETURN_ERROR;

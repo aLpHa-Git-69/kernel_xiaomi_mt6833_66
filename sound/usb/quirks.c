@@ -2226,7 +2226,7 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
 		   QUIRK_FLAG_DSD_RAW),
 	VENDOR_FLG(0x21ed, /* Accuphase Laboratory */
 		   QUIRK_FLAG_DSD_RAW),
-	VENDOR_FLG(0x22d9, /* Oppo */
+	VENDOR_FLG(0x22d9, /* Camellia */
 		   QUIRK_FLAG_DSD_RAW),
 	VENDOR_FLG(0x23ba, /* Playback Design */
 		   QUIRK_FLAG_CTL_MSG_DELAY | QUIRK_FLAG_IFACE_DELAY |

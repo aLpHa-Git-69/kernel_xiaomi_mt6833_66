@@ -182,7 +182,7 @@ static int dump_buffer(struct adsp_exception_control *ctrl, int coredump_id)
 
 	if (ctrl->buf_backup) {
 		/* wait last dump done, and release buf_backup */
-//#ifdef  OPLUS_ARCH_EXTENDS
+//#ifdef  CAMELLIA_ARCH_EXTENDS
 		//remove for adsp dump 10s time out wait last dump done, and release buf_backup
 		ret = wait_for_completion_timeout(&ctrl->done, 3 * HZ);
 //#else

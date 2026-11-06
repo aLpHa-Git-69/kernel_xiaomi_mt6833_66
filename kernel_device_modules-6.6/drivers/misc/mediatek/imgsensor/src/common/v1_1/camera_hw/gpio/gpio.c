@@ -6,7 +6,7 @@
 #include <linux/pinctrl/consumer.h>
 #include "gpio.h"
 #include "platform_common.h"
-#include <soc/oplus/system/oplus_project.h>
+#include <soc/camellia/system/camellia_project.h>
 struct GPIO_PINCTRL gpio_pinctrl_list_cam[
 			GPIO_CTRL_STATE_MAX_NUM_CAM] = {
 	/* Main */

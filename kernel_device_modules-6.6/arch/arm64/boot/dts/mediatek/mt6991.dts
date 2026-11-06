@@ -6307,7 +6307,7 @@ sw_info,frame_id,custom,pipeline_stage,RPID,UID";
 			#size-cells = <2>;
 			ranges;
 			dr_mode = "otg";
-			/* #ifdef OPLUS_FEATURE_CHG_BASIC */
+			/* #ifdef CAMELLIA_FEATURE_CHG_BASIC */
 			maximum-speed = "super-speed";
 			maximum-speed-host = <5>;
 			/* #endif */
@@ -6329,7 +6329,7 @@ sw_info,frame_id,custom,pipeline_stage,RPID,UID";
 			mediatek,usb-mbist = <&usbcfg_ao_mbist_clk>;
 			mediatek,usb-ao-cfg = <&usbwkcfg_ao_clk>;
 			cdp-block;
-			/* #ifdef OPLUS_FEATURE_CHG_BASIC */
+			/* #ifdef CAMELLIA_FEATURE_CHG_BASIC */
 			usb3-lpm-disable;
 			/* #endif */
 			port {
@@ -13124,13 +13124,13 @@ sw_info,frame_id,custom,pipeline_stage,RPID,UID";
 					<SMMU_L26_P9_SMIW>;
 		};
 
-//#ifdef CONFIG_OPLUS_OMRG
-		oplus-omrg {
-			compatible = "oplus,oplus-omrg";
-			oplus-omrg0 {
-				oplus,divider-cells = <2>;
-				oplus,omrg-master = <&cpu4 1500000 2000000>;
-				oplus,omrg-slave = <&cpu0 1100000 1500000>;
+//#ifdef CONFIG_CAMELLIA_OMRG
+		camellia-omrg {
+			compatible = "camellia,camellia-omrg";
+			camellia-omrg0 {
+				camellia,divider-cells = <2>;
+				camellia,omrg-master = <&cpu4 1500000 2000000>;
+				camellia,omrg-slave = <&cpu0 1100000 1500000>;
 				up_limit_enable;
 				// down_limit_enable;
 				// thermal_enable;
@@ -15174,11 +15174,11 @@ connsys_emi_config_hyp: connsys-emi-config-hyp {
 			<17 0x8000 0x0>, /* scp chre from */
 			<18 0x8000 0x0>, /* scp chre to */
 			<19 0x200 0x0>,  /* low power debug */
-			/* #ifdef OPLUS_FEATURE_SENSOR_SMEM */
+			/* #ifdef CAMELLIA_FEATURE_SENSOR_SMEM */
 			<26 0x100000  0x0>, /* sensor share memory*/
 			<27 0x11000 0x0>, /* sensor monitor*/
 			<28 0x10000 0x0>; /* pseudo sensor for data/fault inject*/
-			/* #endif OPLUS_FEATURE_SENSOR_SMEM */
+			/* #endif CAMELLIA_FEATURE_SENSOR_SMEM */
 
 		memorydump = <0x360000>, /* l2tcm, sync with ,<reg> tcm, scp-sram-size*/
 			<0x0c4000>, /* l1c */
@@ -15289,7 +15289,7 @@ connsys_emi_config_hyp: connsys-emi-config-hyp {
 			mode-ddr-reserve = <BOOT_DDR_RSVD>;
 			mode-meta = <BOOT_META>;
 			mode-rpmbpk = <BOOT_RPMBPK>;
-			//#ifdef OPLUS_FEATURE_OEM_BOOT_MODE
+			//#ifdef CAMELLIA_FEATURE_OEM_BOOT_MODE
 			mode-kernel = <BOOT_KERNEL>;
 			mode-silence = <BOOT_SILENCE>;
 			mode-sau = <BOOT_SAU>;
@@ -15341,9 +15341,9 @@ connsys_emi_config_hyp: connsys-emi-config-hyp {
 		mediatek,ipm = <1>; /* 0: old version; 1: IPM2.0 */
 	};
 
-	//oplus extend audio
+	//camellia extend audio
 	audio_extend: audio_extend {
-		compatible = "oplus,asoc-audio";
+		compatible = "camellia,asoc-audio";
 	};
 	//sipa
 	si_pa_L: si_pa_L{
@@ -17619,15 +17619,15 @@ connsys_emi_config_hyp: connsys-emi-config-hyp {
 		compatible = "mediatek,goodix-fp";
 	};
 
-	//#ifdef OPLUS_FEATURE_SECURITY_COMMON
-	oplus_secure_common:oplus_secure_common {
-		compatible = "oplus,secure_common";
-		oplus,sec_reg_num = <0>;
-		oplus,sec_en_anti_reg = <0>;
-		oplus,sec_override1_reg = <0>;
-		oplus,override1_en_value = <0>;
+	//#ifdef CAMELLIA_FEATURE_SECURITY_COMMON
+	camellia_secure_common:camellia_secure_common {
+		compatible = "camellia,secure_common";
+		camellia,sec_reg_num = <0>;
+		camellia,sec_en_anti_reg = <0>;
+		camellia,sec_override1_reg = <0>;
+		camellia,override1_en_value = <0>;
 	};
-	//#endif  /* OPLUS_FEATURE_SECURITY_COMMON */
+	//#endif  /* CAMELLIA_FEATURE_SECURITY_COMMON */
 
 	lk_charger: lk-charger {
 		compatible = "mediatek,lk_charger";
@@ -20489,7 +20489,7 @@ connsys_emi_config_hyp: connsys-emi-config-hyp {
 				     <MT6379_EVT_FL_VBUS_OV>, <MT6379_EVT_FL_CHG_TOUT>,
 				     <MT6379_EVT_FL_AICC_DONE>, <MT6379_EVT_FL_PE_DONE>,
 				     <MT6379_EVT_FL_WDT>, <MT6379_EVT_FL_BATPRO_DONE>,
-				     /* #ifdef OPLUS_FEATURE_CHG_BASIC */
+				     /* #ifdef CAMELLIA_FEATURE_CHG_BASIC */
 				     <MT6379_INT_CHRDET_EXT>,
 				     /* endif */
 				     <MT6379_EVT_FL_BC12_DN>, <MT6379_EVT_ADC_VBAT_MON_OV>,
@@ -20501,7 +20501,7 @@ connsys_emi_config_hyp: connsys-emi-config-hyp {
 					  "fl_vbus_ov", "fl_chg_tout",
 					  "fl_aicc_done", "fl_pe_done",
 					  "fl_wdt", "fl_batpro_done",
-					  /* #ifdef OPLUS_FEATURE_CHG_BASIC */
+					  /* #ifdef CAMELLIA_FEATURE_CHG_BASIC */
 					  "int_chrdet_ext",
 					  /* endif */
 					  "fl_bc12_dn", "adc_vbat_mon_ov",
@@ -20549,7 +20549,7 @@ connsys_emi_config_hyp: connsys-emi-config-hyp {
 			mt6379_otg_vbus: usb-otg-vbus-regulator {
 				regulator-name = "mt6379-usb-otg-vbus";
 				regulator-min-microvolt = <4850000>;
-				//#ifdef OPLUS_FEATURE_CHG_BASIC
+				//#ifdef CAMELLIA_FEATURE_CHG_BASIC
 				regulator-max-microvolt = <7500000>;
 				//#else
 				//regulator-max-microvolt = <5500000>;
@@ -20643,12 +20643,12 @@ connsys_emi_config_hyp: connsys-emi-config-hyp {
 			interrupt-names = "pd_evt";
 			/* tcpc_device's name */
 			tcpc,name = "type_c_port0";
-			/* #ifdef OPLUS_FEATURE_CHG_BASIC */
+			/* #ifdef CAMELLIA_FEATURE_CHG_BASIC */
 			/* 0: Unknown, 1: SNK, 2: SRC, 3: DRP, 4: Try.SRC, 5: Try.SNK */
 			tcpc,role-def = <1>;
 			/* #endif */
 			/* 0: Default, 1: 1.5, 2: 3.0 */
-			/* #ifndef OPLUS_FEATURE_CHG_BASIC */
+			/* #ifndef CAMELLIA_FEATURE_CHG_BASIC */
 			/* tcpc,rp-level = <1>; */
 			/* #else */
 			tcpc,rp-level = <0>;
@@ -20658,14 +20658,14 @@ connsys_emi_config_hyp: connsys-emi-config-hyp {
 			io-channels = <&mt6379_adc MT6379_ADC_SBU1>,
 				      <&mt6379_adc MT6379_ADC_SBU2>;
 			charger = <&mt6379_chg>;
-			/* #ifdef OPLUS_FEATURE_CHG_BASIC */
-			/* oplus charge add for wd0 */
+			/* #ifdef CAMELLIA_FEATURE_CHG_BASIC */
+			/* camellia charge add for wd0 */
 			/* tcpc,en-wd; */
 			/* #endif */
 			// tcpc,en-wd-dual-port;
 			tcpc,en-ctd;
-			/* #ifdef OPLUS_FEATURE_CHG_BASIC */
-			/* oplus charge add for fod */
+			/* #ifdef CAMELLIA_FEATURE_CHG_BASIC */
+			/* camellia charge add for fod */
 			/* tcpc,en-fod; */
 			/* #endif */
 			tcpc,en-typec-otp;
@@ -20681,8 +20681,8 @@ connsys_emi_config_hyp: connsys-emi-config-hyp {
 			wd,sbu-ph-ubound2-c2c = <3800>;	/* mV */
 			wd,sbu-aud-ubound = <1600>;	/* mV */
 			/* 0:16x, 1:128x, 2:512x, 3:1024x */
-			/* #ifdef OPLUS_FEATURE_CHG_BASIC */
-			/* oplus charge add for wd0 */
+			/* #ifdef CAMELLIA_FEATURE_CHG_BASIC */
+			/* camellia charge add for wd0 */
 			wd,wd0-tsleep = <0>;
 			/* #endif */
 			/* 0:400us, 1:1ms, 2:2ms, 3:4ms, 4:10ms, 5:40ms, 6:100ms, 7:400ms */
@@ -20714,7 +20714,7 @@ connsys_emi_config_hyp: connsys-emi-config-hyp {
 				pd,charging-policy = <0x31>;
 
 				pd,source-pdo-size = <1>;
-				/* #ifdef OPLUS_FEATURE_CHG_BASIC */
+				/* #ifdef CAMELLIA_FEATURE_CHG_BASIC */
 				/* pd,source-pdo-data = <0x00019096>; */ /* 5V, 1500 mA */
 				pd,source-pdo-data = <0x00019064>; /* 5V, 1000 mA */
 				/* #endif */
@@ -20758,7 +20758,7 @@ connsys_emi_config_hyp: connsys-emi-config-hyp {
 				attempt-enter-dp-mode;
 
 				attempt-discover-cable;
-				/*#ifdef OPLUS_FEATURE_CHG_BASIC*/
+				/*#ifdef CAMELLIA_FEATURE_CHG_BASIC*/
 				/* add for tcpc */
 				attempt-discover-id;
 				attempt-discover-svid;
@@ -21914,7 +21914,7 @@ connsys_emi_config_hyp: connsys-emi-config-hyp {
 	};
 };
 
-//#ifdef OPLUS_FEATURE_SECURITY_COMMON
+//#ifdef CAMELLIA_FEATURE_SECURITY_COMMON
 &mtkheap_page_svp {
 	status = "ok";
 };
@@ -21939,7 +21939,7 @@ connsys_emi_config_hyp: connsys-emi-config-hyp {
 		compatible = "mediatek,mtk_sec_video_path_support";
 	};
 };
-//#endif /* OPLUS_FEATURE_SECURITY_COMMON */
+//#endif /* CAMELLIA_FEATURE_SECURITY_COMMON */
 
 &mmlsys1_config {
 	dl-enable;

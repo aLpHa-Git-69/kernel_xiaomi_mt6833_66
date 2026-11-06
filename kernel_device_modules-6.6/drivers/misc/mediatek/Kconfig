@@ -332,7 +332,7 @@ source "$(KCONFIG_EXT_PREFIX)drivers/misc/mediatek/pgboost/Kconfig"
 source "$(KCONFIG_EXT_PREFIX)drivers/misc/mediatek/ktchbst/Kconfig"
 endmenu # Performance
 
-#ifdef OPLUS_FEATURE_OEM_OCDT
+#ifdef CAMELLIA_FEATURE_OEM_OCDT
 source "$(KCONFIG_EXT_PREFIX)drivers/misc/mediatek/boot_common/Kconfig"
 #endif
 

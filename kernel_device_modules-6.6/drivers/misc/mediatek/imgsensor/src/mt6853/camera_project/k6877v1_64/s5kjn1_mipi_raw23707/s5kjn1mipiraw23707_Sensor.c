@@ -74,7 +74,7 @@ static kal_uint16 lastcamstate;
 static DEFINE_SPINLOCK(imgsensor_drv_lock);
 static bool bIsLongExposure = KAL_FALSE;
 
-//#ifdef OPLUS_FEATURE_CAMERA_COMMON
+//#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
   extern void register_imgsensor_deviceinfo(char *name, char *version, u8 module_id);
   static kal_uint8 deviceInfo_register_value = 0x00;
   extern enum IMGSENSOR_RETURN Eeprom_DataInit(
@@ -6151,7 +6151,7 @@ static void custom5_setting(void)
         sizeof(addr_data_pair_custom5_jn1) / sizeof(kal_uint16));
 }
 
-// //#ifdef OPLUS_FEATURE_CAMERA_COMMON
+// //#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 static BYTE s5kjn1_23707_common_data[CAMERA_EEPPROM_COMDATA_LENGTH] = { 0 };
 
 static kal_uint16 read_s5kjn1_23707_eeprom_module(kal_uint32 addr)
@@ -6217,7 +6217,7 @@ static void read_s5kjn1_23707_module_data(UINT32 sensor_id)
                s5kjn1_23707_common_data[idx + 3]);
 }
 
-//#endif  /* OPLUS_FEATURE_CAMERA_COMMON */
+//#endif  /* CAMELLIA_FEATURE_CAMERA_COMMON */
 
 #define FOUR_CELL_XTALK_CAL_SIZE 2612
 #define FOUR_CELL_XTALK_CAL_ADDR 0x1AA0
@@ -6299,14 +6299,14 @@ static kal_uint32 get_imgsensor_id(UINT32 *sensor_id)
             if (*sensor_id == imgsensor_info.sensor_id) {
                 LOG_INF("find sensor: 0x%x, sensor id: 0x%x\n",
                     imgsensor.i2c_write_id, *sensor_id);
-// //#ifdef OPLUS_FEATURE_CAMERA_COMMON
+// //#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
                 module_id = read_s5kjn1_23707_eeprom_module(MODULE_ID_OFFSET);
                 if (deviceInfo_register_value == 0x00) {
                     Eeprom_DataInit(0, S5KJN1_SENSOR_ID23707);
                     deviceInfo_register_value = 0x01;
                 }
                 read_s5kjn1_23707_module_data(*sensor_id);
-// //#endif  /* OPLUS_FEATURE_CAMERA_COMMON */
+// //#endif  /* CAMELLIA_FEATURE_CAMERA_COMMON */
                 return ERROR_NONE;
             }
             LOG_INF("Read sensor id fail, i2c write id: 0x%x, read sensor id: 0x%x\n",
@@ -8309,7 +8309,7 @@ UINT8 *feature_para, UINT32 *feature_para_len)
             break;
         }
         break;
-//#ifdef OPLUS_FEATURE_CAMERA_COMMON
+//#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
     case SENSOR_FEATURE_GET_MODULE_INFO:
         break;
     case SENSOR_FEATURE_GET_MODULE_SN:
@@ -8327,7 +8327,7 @@ UINT8 *feature_para, UINT32 *feature_para_len)
         break;
     case SENSOR_FEATURE_GET_DISTORTIONPARAMS:
         break;
-//#endif /* OPLUS_FEATURE_CAMERA_COMMON */
+//#endif /* CAMELLIA_FEATURE_CAMERA_COMMON */
     default:
         break;
     }

@@ -8,8 +8,8 @@
 #ifndef _LENS_LIST_H
 
 #define _LENS_LIST_H
-#ifndef OPLUS_FEATURE_CAMERA_COMMON
-#define OPLUS_FEATURE_CAMERA_COMMON
+#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
+#define CAMELLIA_FEATURE_CAMERA_COMMON
 #endif
 
 extern void MAIN2AF_PowerDown(void);
@@ -78,7 +78,7 @@ extern int AK7371AF_Release(struct inode *a_pstInode, struct file *a_pstFile);
 extern int AK7371AF_PowerDown(struct i2c_client *pstAF_I2Cclient,
 				int *pAF_Opened);
 extern int AK7371AF_GetFileName(unsigned char *pFileName);
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 extern int AK7314AF_SetI2Cclient(struct i2c_client *pstAF_I2Cclient,
 				 spinlock_t *pAF_SpinLock, int *pAF_Opened);
 extern long AK7314AF_Ioctl(struct file *a_pstFile, unsigned int a_u4Command,
@@ -126,7 +126,7 @@ extern long BU6424AF_Ioctl(struct file *a_pstFile, unsigned int a_u4Command,
 extern int BU6424AF_Release(struct inode *a_pstInode, struct file *a_pstFile);
 extern int BU6424AF_GetFileName(unsigned char *pFileName);
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 #define BU64253AF_SetI2Cclient BU64253AF_SetI2Cclient_Main
 #define BBU64253AF_Ioctl BU64253AF_Ioctl_Main
 #define BBU64253AF_Release BU64253AF_Release_Main

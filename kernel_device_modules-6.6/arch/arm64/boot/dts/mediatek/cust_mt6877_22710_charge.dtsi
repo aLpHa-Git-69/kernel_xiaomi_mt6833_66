@@ -92,7 +92,7 @@
 
 	bq27541-battery@55 {
 		status = "okay";
-		compatible = "oplus,bq27541-battery";
+		compatible = "camellia,bq27541-battery";
 		reg = <0x55 0>;
 		qcom,modify-soc-smooth;
 		qcom,modify-soc-calibration;
@@ -698,7 +698,7 @@
 	qcom,default_little_cool_vfloat_over_sw_limit = <4475>;
 	//qcom,usbtemp_dischg_by_pmic;
 	qcom,support_usbtemp_protect_v2;
-	oplus,pdqc_9v_voltage_adaptive;
+	camellia,pdqc_9v_voltage_adaptive;
 	//for PD9V or QC9V
 	qcom,vbatt_pdqc_to_5v_thr = <4500>;
 	qcom,vbatt_pdqc_to_9v_thr = <4500>;
@@ -722,18 +722,18 @@
 	qcom,chargerid_support;
 	qcom,vooc_show_ui_soc_decimal;
 	qcom,ui_soc_decimal_speedmin = <20>;//2A
-	oplus,smooth_switch_v2;
-	oplus,reserve_chg_soc = <3>;
-	oplus,reserve_dis_soc = <3>;
+	camellia,smooth_switch_v2;
+	camellia,reserve_chg_soc = <3>;
+	camellia,reserve_dis_soc = <3>;
 
 	qcom,chg_ctrl_by_vooc;
 	qcom,support_abnormal_adapter;
 	qcom,charger_current_vooc_ma_normal = <3000>;
 
 	qcom,smart_chg_bcc_support;
-	oplus,quick_mode_gain_support;
+	camellia,quick_mode_gain_support;
 	qcom,smart_chg_soh_support;
-	oplus,aging_ffc_version = <1>;
+	camellia,aging_ffc_version = <1>;
 
 	//GPIO config
 	qcom,chargerid_switch-gpio = <&pio 25 0x00>;
@@ -884,8 +884,8 @@
 };
 
 &odm {
-	oplus,track-charge {
-		compatible = "oplus,track-charge";
+	camellia,track-charge {
+		compatible = "camellia,track-charge";
 		track,fast_chg_break_t_thd = <1000>;
 		track,general_chg_break_t_thd = <200>;
 		track,voocphy_type = <2>;
@@ -893,10 +893,10 @@
 		track,wired_fast_chg_scheme = <1>;
 	};
 	feedback_fb: feedback_fb {
-		compatible = "oplus,haptic-feedback";
+		compatible = "camellia,haptic-feedback";
 	};
-	oplus_battery_log: oplus,battery_log {
-		compatible = "oplus,battery_log";
-		oplus,battery_log_support;
+	camellia_battery_log: camellia,battery_log {
+		compatible = "camellia,battery_log";
+		camellia,battery_log_support;
 	};
 };

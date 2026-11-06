@@ -19,8 +19,8 @@
 #include "mtk_cam-qof.h"
 #include "mtk_cam-tuning.h"
 
-#ifndef OPLUS_FEATURE_CAMERA_COMMON
-#define OPLUS_FEATURE_CAMERA_COMMON
+#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
+#define CAMELLIA_FEATURE_CAMERA_COMMON
 #endif
 
 #define JOB_NUM_PER_STREAM 8

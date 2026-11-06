@@ -672,7 +672,7 @@
 };
 
 /*
- * camellia backlight: the 6.6 base mtk_leds node has no compatible (Oppo sets
+ * camellia backlight: the 6.6 base mtk_leds node has no compatible (Camellia sets
  * it per board), so leds-mtk-disp would never bind. camellia 4.14 used
  * mediatek,disp-leds with an 11-bit backlight (BSP.LCM 2020.12.16: 2047).
  * leds-mtk-disp also drives the KTD3136/LM3697 IC LK reports in ":bklic=".
@@ -680,7 +680,7 @@
 /*
  * Microtrust TEE (Beanpod keymaster, teei_daemon). The 6.6 isee driver only
  * starts uTos when the board marks it real ("MICROTRUST device is NOT enable"
- * otherwise; Oppo boards set the trustonic equivalent per project).
+ * otherwise; Camellia boards set the trustonic equivalent per project).
  */
 &utos {
 	microtrust,real-drv = <1>;

@@ -49,8 +49,8 @@
 #include "imgsensor_common.h"
 
 
-#ifndef OPLUS_FEATURE_CAMERA_COMMON
-#define OPLUS_FEATURE_CAMERA_COMMON
+#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
+#define CAMELLIA_FEATURE_CAMERA_COMMON
 #endif
 
 
@@ -63,9 +63,9 @@
 
 #define USE_BURST_MODE 1
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 #define DEVICE_VERSION_S5KJN103	 "s5kjn103_mipi_raw_lijing"
-void Oplusimgsensor_Registdeviceinfo(char *name, char *version, kal_uint8 module_id);
+void Camelliaimgsensor_Registdeviceinfo(char *name, char *version, kal_uint8 module_id);
 extern enum IMGSENSOR_RETURN Eeprom_DataInit(
             enum IMGSENSOR_SENSOR_IDX sensor_idx,
             kal_uint32 sensorID);
@@ -330,7 +330,7 @@ static struct SET_PD_BLOCK_INFO_T imgsensor_pd_info_2040_1536_preview =
 };
 */
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 static kal_uint16 read_module_id(void)
 {
 	kal_uint16 get_byte=0;

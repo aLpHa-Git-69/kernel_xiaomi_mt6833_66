@@ -30,10 +30,10 @@
 //#include <linux/hardware_info.h>
 #undef IMGSENSOR_I2C_1000K
 //#include "imgsensor_i2c.h"
-#include <soc/oplus/system/oplus_project.h>
+#include <soc/camellia/system/camellia_project.h>
 
-#ifndef OPLUS_FEATURE_CAMERA_COMMON
-#define OPLUS_FEATURE_CAMERA_COMMON
+#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
+#define CAMELLIA_FEATURE_CAMERA_COMMON
 #endif
 
 

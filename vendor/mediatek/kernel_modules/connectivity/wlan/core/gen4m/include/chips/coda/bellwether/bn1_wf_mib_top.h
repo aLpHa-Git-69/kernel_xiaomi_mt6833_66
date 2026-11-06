@@ -371,8 +371,8 @@ extern "C" {
     RESERVED17[18..17]           - (RO) Reserved bits
     MOZART_ED_TRIG_COUNT_EN[19]  - (RW) Enable Energy detection trigger counter
     TX_TIME_COUNT_EN[20]         - (RW) Enable transmission time counter
-    OPPO_PS_RX_DIS_COUNT_EN[21]  - (RW) Enable OPPO power save counter
-    OPPO_PS_RX_DIS_TIME_COUNT_EN[22] - (RW) Enable OPPO power save time counter
+    OPPO_PS_RX_DIS_COUNT_EN[21]  - (RW) Enable CAMELLIA power save counter
+    OPPO_PS_RX_DIS_TIME_COUNT_EN[22] - (RW) Enable CAMELLIA power save time counter
     OPPO_SX_OFF_COUNT_EN[23]     - (RW) Enable SX power off counter
     RESERVED24[26..24]           - (RO) Reserved bits
     EIFS_OFDM_COUNT_EN[27]       - (RW) Enable EIFS OFDM Counters

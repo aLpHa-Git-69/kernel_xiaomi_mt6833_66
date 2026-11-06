@@ -1014,7 +1014,7 @@ static void read_module_data(void)
     gImgEepromInfo.camNormdata[2][48] = 0xFF;
     gImgEepromInfo.camNormdata[2][49] = 0xFF;
     imgsensor_info.module_id = Eeprom_1ByteDataRead(0x00, 0xA2);
-    Oplusimgsensor_Registdeviceinfo(gImgEepromInfo.pCamModuleInfo[2].name,
+    Camelliaimgsensor_Registdeviceinfo(gImgEepromInfo.pCamModuleInfo[2].name,
                                     gImgEepromInfo.pCamModuleInfo[2].version,
                                     imgsensor_info.module_id);
     for(i = 2; i < 8; i++) {
@@ -1022,7 +1022,7 @@ static void read_module_data(void)
         gImgEepromInfo.camNormdata[2][i+48] = 0xFF;
     }
 
-    for (i = 0; i < OPLUS_CAMERASN_LENS; i ++) {
+    for (i = 0; i < CAMELLIA_CAMERASN_LENS; i ++) {
         gImgEepromInfo.camNormdata[2][8+i] = Eeprom_1ByteDataRead(0xB0+i, 0xA2);
     }
     vcmID = (Eeprom_1ByteDataRead(0xb, 0xA2) << 8) | Eeprom_1ByteDataRead(0xa, 0xA2);

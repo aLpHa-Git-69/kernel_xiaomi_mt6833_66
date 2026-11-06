@@ -294,7 +294,7 @@ static void brcmf_btcoex_handler(struct work_struct *work)
 
 	switch (btci->bt_state) {
 	case BRCMF_BT_DHCP_START:
-		/* DHCP started provide OPPORTUNITY window
+		/* DHCP started provide CAMELLIARTUNITY window
 		   to get DHCP address
 		*/
 		brcmf_dbg(INFO, "DHCP started\n");

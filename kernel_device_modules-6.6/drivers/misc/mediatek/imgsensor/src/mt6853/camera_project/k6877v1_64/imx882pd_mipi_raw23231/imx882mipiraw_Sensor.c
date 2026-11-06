@@ -4275,7 +4275,7 @@ static kal_uint32 open(void)
     }
     /* initail sequence write in  */
     sensor_init();
-    if(oplus_is_system_camera(OPLUS_CHECK_IS_SYSTEM_CAM)){
+    if(camellia_is_system_camera(CAMELLIA_CHECK_IS_SYSTEM_CAM)){
         write_sensor_QSC();
     }
 

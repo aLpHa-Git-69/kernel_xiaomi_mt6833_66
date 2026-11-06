@@ -632,7 +632,7 @@ int adc_battemp(struct mtk_battery *gm, int res)
 			}
 		}
 
-		/* camellia: degrees like the clamps above (Oppo's tenths left over) */
+		/* camellia: degrees like the clamps above (Camellia's tenths left over) */
 		tbatt_value = (((res - res2) * tmp1) +
 			((res1 - res) * tmp2)) / (res1 - res2);
 	}

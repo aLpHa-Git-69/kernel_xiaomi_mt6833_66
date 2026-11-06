@@ -30,8 +30,8 @@
 #include "mtk_imgsys-engine-isp8.h"
 #include "mtk_imgsys-v4l2-debug.h"
 
-#ifndef OPLUS_FEATURE_CAMERA_COMMON
-#define OPLUS_FEATURE_CAMERA_COMMON
+#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
+#define CAMELLIA_FEATURE_CAMERA_COMMON
 #endif
 
 #if MTK_CM4_SUPPORT

@@ -45,7 +45,7 @@
 #include "ov64bmipiraw22277_Sensor.h"
 #include "ov64b_Sensor22277_setting.h"
 #include "imgsensor_hwcfg_custom.h"
-#include <soc/oplus/system/oplus_project.h>
+#include <soc/camellia/system/camellia_project.h>
 
 #define _I2C_BUF_SIZE 4096
 static kal_uint16 _i2c_data [_I2C_BUF_SIZE];
@@ -489,13 +489,13 @@ static void read_EepromQSC(void)
     gImgEepromInfo.camNormdata[0][0] = Eeprom_1ByteDataRead(0x00, 0xA0);
     gImgEepromInfo.camNormdata[0][1] = Eeprom_1ByteDataRead(0x01, 0xA0);
     imgsensor_info.module_id = Eeprom_1ByteDataRead(0x00, 0xA0);
-    Oplusimgsensor_Registdeviceinfo(gImgEepromInfo.pCamModuleInfo[0].name,
+    Camelliaimgsensor_Registdeviceinfo(gImgEepromInfo.pCamModuleInfo[0].name,
                                     gImgEepromInfo.pCamModuleInfo[0].version,
                                     imgsensor_info.module_id);
     for(i = 2; i < 8; i++) {
        gImgEepromInfo.camNormdata[0][i] = Eeprom_1ByteDataRead(0x04+i, 0xA0);
     }
-    for (i = 0; i < OPLUS_CAMERASN_LENS_23; i ++) {
+    for (i = 0; i < CAMELLIA_CAMERASN_LENS_23; i ++) {
        gImgEepromInfo.camNormdata[0][8+i] = Eeprom_1ByteDataRead(0xB0+i, 0xA0);
     }
     Dac_mac = (Eeprom_1ByteDataRead(0x93, 0xA0) << 8) | Eeprom_1ByteDataRead(0x92, 0xA0);

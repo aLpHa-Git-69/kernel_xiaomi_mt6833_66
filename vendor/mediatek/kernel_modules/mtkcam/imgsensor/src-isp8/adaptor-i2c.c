@@ -7,13 +7,13 @@
 
 #include "adaptor-i2c.h"
 
-#ifndef OPLUS_FEATURE_CAMERA_COMMON
+#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
 #define MAX_BUF_SIZE 255
-#else /*OPLUS_FEATURE_CAMERA_COMMON*/
+#else /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 #define MAX_BUF_SIZE 765
 #define MAX_BUF_SIZE_MAX 621
 #define MAX_MSG_NUM_U8_MAX (MAX_BUF_SIZE_MAX / 3)
-#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
+#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 #define MAX_MSG_NUM_U8 (MAX_BUF_SIZE / 3)
 #define MAX_MSG_NUM_U16 (MAX_BUF_SIZE / 4)
 #define MAX_VAL_NUM_U8 (MAX_BUF_SIZE - 2)
@@ -34,12 +34,12 @@ struct cache_wr_regs_u8_ixc {
 	struct i3c_i2c_xfer msg[MAX_MSG_NUM_U8];
 };
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 struct cache_wr_regs_u8_ixc_max {
 	u8 buf[MAX_BUF_SIZE_MAX];
 	struct i3c_i2c_xfer msg[MAX_MSG_NUM_U8_MAX];
 };
-#endif /* OPLUS_FEATURE_CAMERA_COMMON */
+#endif /* CAMELLIA_FEATURE_CAMERA_COMMON */
 
 struct cache_wr_regs_u16_ixc {
 	u8 buf[MAX_BUF_SIZE];
@@ -984,7 +984,7 @@ int adaptor_ixc_wr_regs_u8(struct i3c_i2c_device *client,
 	return 0;
 }
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 int adaptor_ixc_wr_regs_u8_max(struct i3c_i2c_device *client,
 		u16 addr, u16 *list, u32 len)
 {
@@ -1048,7 +1048,7 @@ int adaptor_ixc_wr_regs_u8_max(struct i3c_i2c_device *client,
 
 	return 0;
 }
-#endif /* OPLUS_FEATURE_CAMERA_COMMON */
+#endif /* CAMELLIA_FEATURE_CAMERA_COMMON */
 
 int adaptor_ixc_wr_regs_u16(struct i3c_i2c_device *client,
 		u16 addr, u16 *list, u32 len)

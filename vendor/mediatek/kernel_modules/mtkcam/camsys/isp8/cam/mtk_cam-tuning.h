@@ -50,7 +50,7 @@ void mtk_cam_tuning_update(struct mtk_cam_tuning *param);
 
 
 /*
- * oplus's part: start
+ * camellia's part: start
  */
 struct hf_manager_task {
 	struct hf_client *client;
@@ -62,16 +62,16 @@ struct out_ois_param {
  int ois_vector_size;
 };
 
-void oplus_cam_enable_ois(void);
+void camellia_cam_enable_ois(void);
 
-void oplus_cam_disable_ois(void);
+void camellia_cam_disable_ois(void);
 
-void oplus_cam_get_ois_data(void);
+void camellia_cam_get_ois_data(void);
 
-void oplus_cam_calc_ois_data(struct mtk_cam_tuning *param, struct out_ois_param *ois);
+void camellia_cam_calc_ois_data(struct mtk_cam_tuning *param, struct out_ois_param *ois);
 
-void oplus_poll_timer_callback(struct timer_list *timer);
+void camellia_poll_timer_callback(struct timer_list *timer);
 /*
- * oplus's part: end
+ * camellia's part: end
  */
 #endif /*__MTK_CAM_TUNING_H*/

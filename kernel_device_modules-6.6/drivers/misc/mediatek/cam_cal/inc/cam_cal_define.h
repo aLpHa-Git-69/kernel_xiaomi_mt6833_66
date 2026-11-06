@@ -16,7 +16,7 @@ struct CAM_CAL_SENSOR_INFO {
 	u32 sensor_id;
 };
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 /* cengshang@vanyol.com add for otp porting in 206AC */
 struct stCAM_CAL_DATAINFO_STRUCT {
 	u32 sensorID;

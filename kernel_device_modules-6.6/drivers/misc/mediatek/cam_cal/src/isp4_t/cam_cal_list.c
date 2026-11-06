@@ -9,7 +9,7 @@
 #include "eeprom_i2c_custom_driver.h"
 #include "kd_imgsensor.h"
 
-//#ifdef OPLUS_FEATURE_CAMERA_COMMON
+//#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
   #define MAX_EEPROM_SIZE_16K 0x4000
   #define MAX_EEPROM_SIZE_8K 0x2000
 //#endif

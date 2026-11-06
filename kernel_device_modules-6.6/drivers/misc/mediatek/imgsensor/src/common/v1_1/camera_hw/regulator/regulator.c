@@ -5,7 +5,7 @@
 
 #include "regulator.h"
 #include "imgsensor.h"
-#include <soc/oplus/system/oplus_project.h>
+#include <soc/camellia/system/camellia_project.h>
 static bool regulator_status[IMGSENSOR_SENSOR_IDX_MAX_NUM][REGULATOR_TYPE_MAX_NUM] = {{false}};
 static void check_for_regulator_get(struct REGULATOR *preg,
 struct device *pdevice, unsigned int sensor_index, unsigned int regulator_index);

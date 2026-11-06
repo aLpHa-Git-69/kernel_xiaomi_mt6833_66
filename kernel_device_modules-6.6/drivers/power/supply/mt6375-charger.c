@@ -114,7 +114,7 @@ enum mt6375_chg_reg_field {
 	/* MT6375_REG_CHG_BATPRO */
 	F_BATINT, F_BATPROTECT_EN,
 	/* MT6375_REG_CHG_TOP1 */
-	//#ifdef OPLUS_BUG_STABILITY
+	//#ifdef CAMELLIA_BUG_STABILITY
 	F_CHG_EN, F_BUCK_EN, F_HZ, F_QON_RST_EN, F_BATFET_DISDLY, F_BATFET_DIS, F_PP_PG_FLAG,
 	//#endif
 	/* MT6375_REG_CHG_TOP2 */
@@ -412,7 +412,7 @@ static const struct mt6375_chg_field mt6375_chg_fields[F_MAX] = {
 	MT6375_CHG_FIELD(F_CHG_EN, MT6375_REG_CHG_TOP1, 0, 0),
 	MT6375_CHG_FIELD(F_BUCK_EN, MT6375_REG_CHG_TOP1, 1, 1),
 	MT6375_CHG_FIELD(F_HZ, MT6375_REG_CHG_TOP1, 3, 3),
-	//#ifdef OPLUS_BUG_STABILITY
+	//#ifdef CAMELLIA_BUG_STABILITY
 	MT6375_CHG_FIELD(F_QON_RST_EN, MT6375_REG_CHG_TOP1, 4, 4),
 	//#endif
 	MT6375_CHG_FIELD(F_BATFET_DISDLY, MT6375_REG_CHG_TOP1, 5, 5),
@@ -1178,17 +1178,17 @@ static void mt6375_chg_bc12_work_func(struct work_struct *work)
 		ddata->psy_desc.type = POWER_SUPPLY_TYPE_USB_DCP;
 		ddata->psy_type[active_idx] = POWER_SUPPLY_TYPE_USB_DCP;
 		ddata->psy_usb_type[active_idx] = POWER_SUPPLY_USB_TYPE_DCP;
-/* oplus add for dp after bc12 done*/
+/* camellia add for dp after bc12 done*/
 		bc12_en = true;
 		break;
 	case PORT_STAT_SDP:
-/* oplus add for pd become usb port */
+/* camellia add for pd become usb port */
 		ddata->psy_desc.type = POWER_SUPPLY_TYPE_USB;
 		ddata->psy_type[active_idx] = POWER_SUPPLY_TYPE_USB;
 		ddata->psy_usb_type[active_idx] = POWER_SUPPLY_USB_TYPE_SDP;
 		break;
 	case PORT_STAT_CDP:
-/* oplus add for pd become usb port */
+/* camellia add for pd become usb port */
 		ddata->psy_desc.type = POWER_SUPPLY_TYPE_USB_CDP;
 		ddata->psy_type[active_idx] = POWER_SUPPLY_TYPE_USB_CDP;
 		ddata->psy_usb_type[active_idx] = POWER_SUPPLY_USB_TYPE_CDP;
@@ -2791,7 +2791,7 @@ static int mt6375_chg_init_setting(struct mt6375_chg_data *ddata)
 		return ret;
 	}
 
-	//#ifdef OPLUS_BUG_STABILITY
+	//#ifdef CAMELLIA_BUG_STABILITY
 	ret = mt6375_chg_field_set(ddata, F_QON_RST_EN, 0);
 	if (ret < 0) {
 		dev_err(ddata->dev, "failed to disable qon_rst\n");

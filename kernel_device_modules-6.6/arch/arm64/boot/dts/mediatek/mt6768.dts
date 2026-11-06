@@ -2650,15 +2650,15 @@ aliases {
 		compatible = "mediatek,goodix-fp";
 	};
 
-//#ifdef OPLUS_FEATURE_BOOT_SECURITY
-    	oplus_secure_common:oplus_secure_common {
-        	compatible = "oplus,secure_common";
-        	oplus,sec_reg_num = <0>;
-        	oplus,sec_en_anti_reg = <0>;
-        	oplus,sec_override1_reg = <0>;
-        	oplus,override1_en_value = <0>;
+//#ifdef CAMELLIA_FEATURE_BOOT_SECURITY
+    	camellia_secure_common:camellia_secure_common {
+        	compatible = "camellia,secure_common";
+        	camellia,sec_reg_num = <0>;
+        	camellia,sec_en_anti_reg = <0>;
+        	camellia,sec_override1_reg = <0>;
+        	camellia,override1_en_value = <0>;
     	};
-//#endif /* OPLUS_FEATURE_BOOT_SECURITY */
+//#endif /* CAMELLIA_FEATURE_BOOT_SECURITY */
 
 	regulator_vibrator: regulator-vibrator {
 		compatible = "regulator-vibrator";
@@ -3662,10 +3662,10 @@ aliases {
 		compatible = "mediatek,mt6768-mt6358-sound";
 		mediatek,platform = <&afe>;
 	};
-//#ifdef OPLUS_ARCH_EXTENDS
-//oplus extend audio
+//#ifdef CAMELLIA_ARCH_EXTENDS
+//camellia extend audio
 audio_extend: audio_extend {
-		compatible = "oplus,asoc-audio";
+		compatible = "camellia,asoc-audio";
 	};
 //#endif
 	snd_scp_spk: snd_scp_spk {
@@ -5217,8 +5217,8 @@ audio_extend: audio_extend {
 		tcpc = "type_c_port0";
 		mediatek,bypss-typec-sink = <1>;
 		mediatek,u2;
-//#ifdef OPLUS_FEATURE_CHG_BASIC
-		oplus,vbus_set = <1>;
+//#ifdef CAMELLIA_FEATURE_CHG_BASIC
+		camellia,vbus_set = <1>;
 //#endif
 		port {
 			usb_role: endpoint@0 {
@@ -5717,7 +5717,7 @@ audio_extend: audio_extend {
 #include "mediatek/trusty.dtsi"
 #include "mediatek/cust_mt6769_thermal.dtsi"
 
-//#ifdef OPLUS_FEATURE_SECURITY_COMMON
+//#ifdef CAMELLIA_FEATURE_SECURITY_COMMON
 &mtkheap_page_svp {
 	status = "ok";
 };
@@ -5742,7 +5742,7 @@ audio_extend: audio_extend {
 		compatible = "mediatek,mtk_sec_video_path_support";
 	};
 };
-//#endif /* OPLUS_FEATURE_SECURITY_COMMON */
+//#endif /* CAMELLIA_FEATURE_SECURITY_COMMON */
 
 &hypervisor {
 	status = "okay";

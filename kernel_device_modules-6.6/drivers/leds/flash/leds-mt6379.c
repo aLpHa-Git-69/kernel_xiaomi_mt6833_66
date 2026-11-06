@@ -510,7 +510,7 @@ static int mt6379_ioctl(unsigned int cmd, unsigned long arg)
 	case FLASH_IOC_SET_THERMAL_CUR_STATE:
 		mt6379_cooling_set_cur_state(channel, fl_arg->arg);
 		break;
-	case OPLUS_FLASH_IOC_SELECT_LED_NUM:
+	case CAMELLIA_FLASH_IOC_SELECT_LED_NUM:
 		mt6379_select_led(lcdev, (int)fl_arg->arg);
 		break;
 

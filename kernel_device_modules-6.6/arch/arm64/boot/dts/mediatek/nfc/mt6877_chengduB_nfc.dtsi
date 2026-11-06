@@ -1,6 +1,6 @@
 &odm {
 	nfc_chipset:nfc_chipset {
-		compatible = "oplus-nfc-chipset";
+		compatible = "camellia-nfc-chipset";
 		chipset-22713 = "PN557";
 	};
 };

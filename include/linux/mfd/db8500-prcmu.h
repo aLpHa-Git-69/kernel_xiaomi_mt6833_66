@@ -255,8 +255,8 @@ enum ap_pwrsttr_status {
 /**
  * enum dvfs_stat - DVFS status messages definition
  * @DVFS_GO: A state transition DVFS is on going
- * @DVFS_ARM100OPPOK: The state transition DVFS has been completed for 100OPP
- * @DVFS_ARM50OPPOK: The state transition DVFS has been completed for 50OPP
+ * @DVFS_ARM100CAMELLIAK: The state transition DVFS has been completed for 100OPP
+ * @DVFS_ARM50CAMELLIAK: The state transition DVFS has been completed for 50OPP
  * @DVFS_ARMEXTCLKOK: The state transition DVFS has been completed for EXTCLK
  * @DVFS_NOCHGTCLKOK: The state transition DVFS has been completed for
  *                   NOCHGCLK
@@ -264,8 +264,8 @@ enum ap_pwrsttr_status {
  */
 enum dvfs_stat {
 	DVFS_GO = 0xFF,
-	DVFS_ARM100OPPOK = 0xFE,
-	DVFS_ARM50OPPOK = 0xFD,
+	DVFS_ARM100CAMELLIAK = 0xFE,
+	DVFS_ARM50CAMELLIAK = 0xFD,
 	DVFS_ARMEXTCLKOK = 0xFC,
 	DVFS_NOCHGTCLKOK = 0xFB,
 	DVFS_INITSTATUS = 0x00

@@ -11,8 +11,8 @@
 #include <SCP_sensorHub.h>
 #include "SCP_power_monitor.h"
 #include <linux/pm_wakeup.h>
-#if(1) //OPLUS_FEATURE_SENSOR
-#include "../../oplus_sensor_devinfo/sensor_devinfo_v2.h"
+#if(1) //CAMELLIA_FEATURE_SENSOR
+#include "../../camellia_sensor_devinfo/sensor_devinfo_v2.h"
 #endif
 #define REAR_ALSHUB_DEV_NAME     "rear_als_hub_pl"
 
@@ -154,29 +154,29 @@ static ssize_t alsval_show(struct device_driver *ddri, char *buf)
 	return res;
 }
 
-#if(1) //OPLUS_FEATURE_SENSOR
+#if(1) //CAMELLIA_FEATURE_SENSOR
 static ssize_t gain_als_show(struct device_driver *ddri, char *buf)
 {
 	struct cali_data c_data;
 	get_sensor_parameter(&c_data);
 	return scnprintf(buf, PAGE_SIZE, "%d\n",c_data.als_factor);
 }
-#endif /* OPLUS_FEATURE_SENSOR */
+#endif /* CAMELLIA_FEATURE_SENSOR */
 static DRIVER_ATTR_RO(rear_als);
 static DRIVER_ATTR_RO(alslv);
 static DRIVER_ATTR_RO(alsval);
 static DRIVER_ATTR_RW(trace);
-#if(1) //OPLUS_FEATURE_SENSOR
+#if(1) //CAMELLIA_FEATURE_SENSOR
 static DRIVER_ATTR_RO(gain_als);
-#endif /* OPLUS_FEATURE_SENSOR */
+#endif /* CAMELLIA_FEATURE_SENSOR */
 static struct driver_attribute *rear_alshub_attr_list[] = {
 	&driver_attr_rear_als,
 	&driver_attr_trace,	/*trace log */
 	&driver_attr_alslv,
 	&driver_attr_alsval,
-#if(1) //OPLUS_FEATURE_SENSOR
+#if(1) //CAMELLIA_FEATURE_SENSOR
 	&driver_attr_gain_als,
-#endif /* OPLUS_FEATURE_SENSOR */
+#endif /* CAMELLIA_FEATURE_SENSOR */
 };
 
 static int rear_alshub_create_attr(struct device_driver *driver)
@@ -217,12 +217,12 @@ static void rear_alshub_init_done_work(struct work_struct *work)
 	struct rear_alshub_ipi_data *obj = obj_ipi_data;
 	int err = 0;
 #ifndef MTK_OLD_FACTORY_CALIBRATION
-#if(1) //OPLUS_FEATURE_SENSOR
+#if(1) //CAMELLIA_FEATURE_SENSOR
 	struct cali_data c_data;
 	int32_t cfg_data[6] = {0};
 #else
 	int32_t cfg_data[2] = {0};
-#endif /*OPLUS_FEATURE_SENSOR*/
+#endif /*CAMELLIA_FEATURE_SENSOR*/
 #endif
 	pr_debug("%s\n", __func__);
 
@@ -232,7 +232,7 @@ static void rear_alshub_init_done_work(struct work_struct *work)
 	}
 	if (atomic_xchg(&obj->first_ready_after_boot, 1) == 0)
 		return;
-#if(1) //OPLUS_FEATURE_SENSOR
+#if(1) //CAMELLIA_FEATURE_SENSOR
 	update_sensor_parameter();
 	get_sensor_parameter(&c_data);
 	if (c_data.als_factor > 0) {

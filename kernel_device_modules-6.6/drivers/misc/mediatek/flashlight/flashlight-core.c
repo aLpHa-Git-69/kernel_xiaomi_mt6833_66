@@ -64,7 +64,7 @@ static int pt_strict; /* always be zero in C standard */
 #endif
 
 static int pt_is_low(int pt_low_vol, int pt_low_bat, int pt_over_cur);
-#include <soc/oplus/system/oplus_project.h>
+#include <soc/camellia/system/camellia_project.h>
 extern const struct flashlight_device_id flashlight_id_dual[];
 extern const struct flashlight_device_id flashlight_id_single[];
 extern const struct flashlight_device_id flashlight_id_aladdin[];
@@ -300,7 +300,7 @@ static int select_lednum(struct flashlight_dev *fdev, int lednum)
 	fl_dev_arg.channel = fdev->dev_id.channel;
 	fl_dev_arg.arg = lednum;
 
-	if (fdev->ops->flashlight_ioctl(OPLUS_FLASH_IOC_SELECT_LED_NUM,
+	if (fdev->ops->flashlight_ioctl(CAMELLIA_FLASH_IOC_SELECT_LED_NUM,
 				(unsigned long)&fl_dev_arg)) {
 		pr_info("Failed to select led nums \n");
 		return -EFAULT;
@@ -1000,8 +1000,8 @@ static long _flashlight_ioctl(
 		}
 		break;
 
-	case OPLUS_FLASH_IOC_SELECT_LED_NUM:
-		pr_info("OPLUS_FLASH_IOC_SELECT_LED_NUM(%d,%d,%d): %d\n",
+	case CAMELLIA_FLASH_IOC_SELECT_LED_NUM:
+		pr_info("CAMELLIA_FLASH_IOC_SELECT_LED_NUM(%d,%d,%d): %d\n",
 				type, ct, part, fl_arg.arg);
 		mutex_lock(&fl_mutex);
 		ret = select_lednum(fdev, fl_arg.arg);

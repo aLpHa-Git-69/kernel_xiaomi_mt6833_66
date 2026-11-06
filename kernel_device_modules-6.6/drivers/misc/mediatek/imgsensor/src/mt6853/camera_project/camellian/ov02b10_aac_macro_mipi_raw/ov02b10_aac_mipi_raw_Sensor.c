@@ -714,7 +714,7 @@ static void custom1_setting(void)
 //     gImgEepromInfo.camNormdata[3][0] = Eeprom_1ByteDataRead(0x00, 0xA4);
 //     gImgEepromInfo.camNormdata[3][1] = Eeprom_1ByteDataRead(0x01, 0xA4);
 //     imgsensor_info.module_id = Eeprom_1ByteDataRead(0x00, 0xA4);
-//     Oplusimgsensor_Registdeviceinfo(gImgEepromInfo.pCamModuleInfo[3].name,
+//     Camelliaimgsensor_Registdeviceinfo(gImgEepromInfo.pCamModuleInfo[3].name,
 //                                     gImgEepromInfo.pCamModuleInfo[3].version,
 //                                     imgsensor_info.module_id);
 //     for(i = 2; i < 8; i++) {
@@ -722,7 +722,7 @@ static void custom1_setting(void)
 //     }
 
 //     //for SN info
-//     for (i = 0; i < OPPO_CAMERASN_LENS; i ++) {
+//     for (i = 0; i < CAMELLIA_CAMERASN_LENS; i ++) {
 //        gImgEepromInfo.camNormdata[3][8+i] = Eeprom_1ByteDataRead(0xe0+i, 0xA4);
 //     }
 //     gImgEepromInfo.i4CurSensorIdx = 3;

@@ -65,7 +65,7 @@
 	moisture_detect_mode = <5>;
 	/* select 0: 2.8V; 1: 2.4V; 2: 2V; 3: VTH=MVTH(VTH2) */
 	moisture_comp_vth = <2>;
-//#ifdef OPLUS_BUG_COMPATIBILITY
+//#ifdef CAMELLIA_BUG_COMPATIBILITY
 	moisture_comp_vref2 = <2>;
 //#else
 	/* vref2 voltage for different water impedance */
@@ -122,7 +122,7 @@
 };
 
 &sound {
-	/* this dtsi config for product's special config, AudioHal read ctl 'OPLUS_AUDIO_EXTEN_CONFIG' get the values*
+	/* this dtsi config for product's special config, AudioHal read ctl 'CAMELLIA_AUDIO_EXTEN_CONFIG' get the values*
 	 * 1st value --> PA type: 0:NXP Pa, 1:Awinic Pa 2:sia81xx Pa*/
 	audio_extern_config = <2>;
 	si,sia81xx-max-num = <2>;
@@ -163,18 +163,18 @@
 
 };
 
-//#ifdef OPLUS_FEATURE_AUDIODRIVER
+//#ifdef CAMELLIA_FEATURE_AUDIODRIVER
 //add for type-c headset and si smartpa
-//oplus extend audio
+//camellia extend audio
 /*
 &audio_extend {
 	//for sipa speaker
-	oplus,speaker-vendor = "sipa";
-	oplus,speaker-i2s-id = <3>;
-	oplus,speaker-i2s-id-in = <0>;
-	oplus,speaker-codec-name = "sipa_i2c.6-006c","sipa_i2c.6-006d";
-	oplus,speaker-codec-dai-name = "sia91xx-aif-6-6c","sia91xx-aif-6-6d";
-	oplus,spk-i2s-index = <3 9>;
+	camellia,speaker-vendor = "sipa";
+	camellia,speaker-i2s-id = <3>;
+	camellia,speaker-i2s-id-in = <0>;
+	camellia,speaker-codec-name = "sipa_i2c.6-006c","sipa_i2c.6-006d";
+	camellia,speaker-codec-dai-name = "sia91xx-aif-6-6c","sia91xx-aif-6-6d";
+	camellia,spk-i2s-index = <3 9>;
 };
 */
-//#endif /* OPLUS_FEATURE_AUDIODRIVER */
+//#endif /* CAMELLIA_FEATURE_AUDIODRIVER */

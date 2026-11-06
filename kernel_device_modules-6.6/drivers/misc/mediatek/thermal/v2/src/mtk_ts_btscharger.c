@@ -23,7 +23,7 @@
 #if IS_ENABLED(CONFIG_DEVICE_MODULES_MEDIATEK_MT6577_AUXADC)
 #include <linux/iio/consumer.h>
 #endif
-#include <soc/oplus/boot/oplus_project.h>
+#include <soc/camellia/boot/camellia_project.h>
 
 int __attribute__ ((weak))
 IMM_IsAdcInitReady(void)

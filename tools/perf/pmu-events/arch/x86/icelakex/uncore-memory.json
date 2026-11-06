@@ -132,7 +132,7 @@
     {
         "BriefDescription": "Number of DRAM Refreshes Issued",
         "EventCode": "0x45",
-        "EventName": "UNC_M_DRAM_REFRESH.OPPORTUNISTIC",
+        "EventName": "UNC_M_DRAM_REFRESH.CAMELLIARTUNISTIC",
         "PerPkg": "1",
         "PublicDescription": "Number of DRAM Refreshes Issued : Counts the number of refreshes issued.",
         "UMask": "0x1",

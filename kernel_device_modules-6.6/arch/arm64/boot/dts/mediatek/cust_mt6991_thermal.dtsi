@@ -184,23 +184,23 @@
 			<124000 64>,
 			<125000 63>;
 	};
-	//#ifdef OPLUS_FEATURE_POWER_THERMAL
+	//#ifdef CAMELLIA_FEATURE_POWER_THERMAL
 	shell_front {
-		compatible = "oplus,shell-temp";
+		compatible = "camellia,shell-temp";
 	};
 
 	shell_frame {
-		compatible = "oplus,shell-temp";
+		compatible = "camellia,shell-temp";
 	};
 
 	shell_back {
-		compatible = "oplus,shell-temp";
+		compatible = "camellia,shell-temp";
 	};
-	//#endif /* OPLUS_FEATURE_POWER_THERMAL */
-	//#ifdef CONFIG_OPLUS_IPA
-	oplus_ipa: ipa {
-		compatible = "oplus,oplus-thermal";
-		thermal_name = "oplus_thermal_ipa";
+	//#endif /* CAMELLIA_FEATURE_POWER_THERMAL */
+	//#ifdef CONFIG_CAMELLIA_IPA
+	camellia_ipa: ipa {
+		compatible = "camellia,camellia-thermal";
+		thermal_name = "camellia_thermal_ipa";
 		id = <0>;
 		thermal_type = <0>;
 		#thermal-sensor-cells = <0>;
@@ -220,7 +220,7 @@
 		use-thermalcontrol-limit = <1>;
 		clt_state_limit = <0 0 0 0 0 0>;
 	};
-	//#endif /* CONFIG_OPLUS_IPA */
+	//#endif /* CONFIG_CAMELLIA_IPA */
 };
 
 &thermal_zones {
@@ -236,11 +236,11 @@
 			};
 		};
 	};
-	oplus_thermal_ipa {
+	camellia_thermal_ipa {
 		thermal-governor = "user_space";
 		polling-delay-passive = <0>;
 		polling-delay = <0>;
-		thermal-sensors = <&oplus_ipa>;
+		thermal-sensors = <&camellia_ipa>;
 		trips {
 			ipa_switch_on: ipa-switch-on {
 				temperature = <30000>;

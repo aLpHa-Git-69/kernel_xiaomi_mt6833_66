@@ -152,7 +152,7 @@ static bool transceiver_wakeup_check(uint8_t action, uint8_t sensor_type)
 			sensor_type == SENSOR_TYPE_IN_POCKET ||
 			sensor_type == SENSOR_TYPE_ANSWER_CALL ||
 			sensor_type == SENSOR_TYPE_FLAT ||
-//#ifdef OPLUS_SENSOR_FEATURE add for oplus virtual sensor
+//#ifdef CAMELLIA_SENSOR_FEATURE add for camellia virtual sensor
 			sensor_type == SENSOR_TYPE_SENSOR_MONITOR ||
 			sensor_type == SENSOR_TYPE_LUX_AOD ||
 			sensor_type == SENSOR_TYPE_PICKUP_DETECT ||
@@ -168,9 +168,9 @@ static bool transceiver_wakeup_check(uint8_t action, uint8_t sensor_type)
 			sensor_type == SENSOR_TYPE_ULTRASOUND_PROX ||
 			sensor_type == SENSOR_TYPE_FREE_FALL ||
 			sensor_type == SENSOR_TYPE_SHAKING_DETECT ||
-			sensor_type == SENSOR_TYPE_OPLUS_SLEEP ||
+			sensor_type == SENSOR_TYPE_CAMELLIA_SLEEP ||
 			sensor_type == SENSOR_TYPE_FLIGHT_DETECT ||
-			sensor_type == SENSOR_TYPE_OPLUS_USND_PROX ||
+			sensor_type == SENSOR_TYPE_CAMELLIA_USND_PROX ||
 			sensor_type == SENSOR_TYPE_CHOP_DETECT))
 //#endif
 		return true;
@@ -225,7 +225,7 @@ static void transceiver_update_config(struct transceiver_device *dev,
 	case SENSOR_TYPE_GYROSCOPE:
 		transceiver_copy_config(dst, src, 12, 12, 24);
 		break;
-/* #ifdef OPLUS_FEATURE_SENSOR */
+/* #ifdef CAMELLIA_FEATURE_SENSOR */
 	case SENSOR_TYPE_SUB_ACCELEROMETER:
 		transceiver_copy_config(dst, src, 12, 12, 0);
 		break;

@@ -43,16 +43,16 @@ enum IMGSENSOR_RETURN imgsensor_hw_init(struct IMGSENSOR_HW *phw)
 			(phw->pdev[i]->init)(phw->pdev[i]->pinstance);
 	}
 
-	#ifndef OPLUS_FEATURE_CAMERA_COMMON
+	#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
 	pcust_pwr_cfg = imgsensor_custom_config;
-	#else /* OPLUS_FEATURE_CAMERA_COMMON */
+	#else /* CAMELLIA_FEATURE_CAMERA_COMMON */
 	#ifdef IMGSENSOR_TB8786P2
 			pcust_pwr_cfg = imgsensor_mt8786_config;
 	#else
-	pcust_pwr_cfg = Oplusimgsensor_Custom_Config();
-	pr_info(" Yogesh oplus_imgsensor_custom_config Selected\n");
+	pcust_pwr_cfg = Camelliaimgsensor_Custom_Config();
+	pr_info(" Yogesh camellia_imgsensor_custom_config Selected\n");
 	#endif
-	#endif /* OPLUS_FEATURE_CAMERA_COMMON */
+	#endif /* CAMELLIA_FEATURE_CAMERA_COMMON */
 
 	for (i = 0; i < IMGSENSOR_SENSOR_IDX_MAX_NUM; i++) {
 		psensor_pwr = &phw->sensor_pwr[i];
@@ -179,8 +179,8 @@ static enum IMGSENSOR_RETURN imgsensor_hw_power_sequence(
 					    ppwr_info->pin,
 					    ppwr_info->pin_state_off);
 			}
-			#ifdef OPLUS_FEATURE_CAMERA_COMMON
-			oplus_imgsensor_delay_set(ppwr_info,ppwr_seq);
+			#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
+			camellia_imgsensor_delay_set(ppwr_info,ppwr_seq);
 			#endif
 		}
 	}
@@ -200,7 +200,7 @@ enum IMGSENSOR_RETURN imgsensor_hw_power(
 	enum IMGSENSOR_SENSOR_IDX sensor_idx = psensor->inst.sensor_idx;
 	char str_index[LENGTH_FOR_SNPRINTF];
 	int ret = 0;
-	#ifdef OPLUS_FEATURE_CAMERA_COMMON
+	#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 	struct IMGSENSOR_HW_POWER_SEQ *ppwr_seq = NULL;
 	#endif
 
@@ -224,8 +224,8 @@ enum IMGSENSOR_RETURN imgsensor_hw_power(
 		ret = IMGSENSOR_RETURN_ERROR;
 		return ret;
 	}
-	#ifdef OPLUS_FEATURE_CAMERA_COMMON
-	ppwr_seq = Oplusimgsensor_matchhwcfg_power(IMGSENSOR_POWER_MATCHMIPI_HWCFG_INDEX);
+	#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
+	ppwr_seq = Camelliaimgsensor_matchhwcfg_power(IMGSENSOR_POWER_MATCHMIPI_HWCFG_INDEX);
 	if (ppwr_seq != NULL) {
 		imgsensor_hw_power_sequence(
 			phw,
@@ -235,7 +235,7 @@ enum IMGSENSOR_RETURN imgsensor_hw_power(
 			str_index);
 	}
 
-	ppwr_seq = Oplusimgsensor_matchhwcfg_power(IMGSENSOR_POWER_MATCHSENSOR_HWCFG_INDEX);
+	ppwr_seq = Camelliaimgsensor_matchhwcfg_power(IMGSENSOR_POWER_MATCHSENSOR_HWCFG_INDEX);
 	if (ppwr_seq != NULL) {
 		imgsensor_hw_power_sequence(
 			phw,
@@ -244,7 +244,7 @@ enum IMGSENSOR_RETURN imgsensor_hw_power(
 			ppwr_seq,
 			curr_sensor_name);
 	}
-	#else  //OPLUS_FEATURE_CAMERA_COMMON
+	#else  //CAMELLIA_FEATURE_CAMERA_COMMON
 	imgsensor_hw_power_sequence(
 	    phw,
 	    sensor_idx,
@@ -258,7 +258,7 @@ enum IMGSENSOR_RETURN imgsensor_hw_power(
 	    pwr_status,
 	    sensor_power_sequence,
 	    curr_sensor_name);
-	#endif  //OPLUS_FEATURE_CAMERA_COMMON
+	#endif  //CAMELLIA_FEATURE_CAMERA_COMMON
 	return IMGSENSOR_RETURN_SUCCESS;
 }
 

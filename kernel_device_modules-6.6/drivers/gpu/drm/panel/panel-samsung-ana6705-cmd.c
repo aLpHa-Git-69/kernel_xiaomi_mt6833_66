@@ -307,7 +307,7 @@ static void lcm_panel_wqhd120_init(struct lcm *ctx)
 	lcm_dcs_write_seq_static(ctx, 0x53, 0x28);
 	lcm_dcs_write_seq_static(ctx, 0xF7, 0x0F);
 
-	/* OPLUS ADFR On */
+	/* CAMELLIA ADFR On */
 	lcm_dcs_write_seq_static(ctx, 0xF0, 0x5A, 0x5A);
 	lcm_dcs_write_seq_static(ctx, 0xFC, 0x5A, 0x5A);
 	lcm_dcs_write_seq_static(ctx, 0xB9, 0x02);
@@ -337,7 +337,7 @@ static void lcm_panel_wqhd120_init(struct lcm *ctx)
 	lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x13, 0x60);
 	lcm_dcs_write_seq_static(ctx, 0x60, 0xFF, 0x00, 0x00, 0x00);
 	lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x18, 0x60);
-	/* oplus adfr -> max:min */
+	/* camellia adfr -> max:min */
 	lcm_dcs_write_seq_static(ctx, 0x60, 0x00, 0x00);
 	lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x04, 0x60);
 	lcm_dcs_write_seq_static(ctx, 0x60, 0x00, 0x00);
@@ -471,7 +471,7 @@ static void lcm_panel_wqhd90_init(struct lcm *ctx)
 	lcm_dcs_write_seq_static(ctx, 0x53, 0x28);
 	lcm_dcs_write_seq_static(ctx, 0xF7, 0x0F);
 
-	/* OPLUS ADFR On */
+	/* CAMELLIA ADFR On */
 	lcm_dcs_write_seq_static(ctx, 0xF0, 0x5A, 0x5A);
 	lcm_dcs_write_seq_static(ctx, 0xFC, 0x5A, 0x5A);
 	lcm_dcs_write_seq_static(ctx, 0xB9, 0x02);
@@ -501,7 +501,7 @@ static void lcm_panel_wqhd90_init(struct lcm *ctx)
 	lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x13, 0x60);
 	lcm_dcs_write_seq_static(ctx, 0x60, 0xFF, 0x00, 0x00, 0x00);
 	lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x18, 0x60);
-	/* oplus adfr -> max:min */
+	/* camellia adfr -> max:min */
 	lcm_dcs_write_seq_static(ctx, 0x60, 0x04, 0x01);
 	lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x04, 0x60);
 	lcm_dcs_write_seq_static(ctx, 0x60, 0x00, 0x00);
@@ -636,7 +636,7 @@ static void lcm_panel_wqhd72_init(struct lcm *ctx)
 	lcm_dcs_write_seq_static(ctx, 0x53, 0x28);
 	lcm_dcs_write_seq_static(ctx, 0xF7, 0x0F);
 
-	/* OPLUS ADFR On */
+	/* CAMELLIA ADFR On */
 	lcm_dcs_write_seq_static(ctx, 0xF0, 0x5A, 0x5A);
 	lcm_dcs_write_seq_static(ctx, 0xFC, 0x5A, 0x5A);
 	lcm_dcs_write_seq_static(ctx, 0xB9, 0x02);
@@ -666,7 +666,7 @@ static void lcm_panel_wqhd72_init(struct lcm *ctx)
 	lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x13, 0x60);
 	lcm_dcs_write_seq_static(ctx, 0x60, 0xFF, 0x00, 0x00, 0x00);
 	lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x18, 0x60);
-	/* oplus adfr -> max:min */
+	/* camellia adfr -> max:min */
 	lcm_dcs_write_seq_static(ctx, 0x60, 0x08, 0x02);
 	lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x04, 0x60);
 	lcm_dcs_write_seq_static(ctx, 0x60, 0x00, 0x00);
@@ -800,7 +800,7 @@ static void lcm_panel_wqhd60_init(struct lcm *ctx)
 	lcm_dcs_write_seq_static(ctx, 0x53, 0x28);
 	lcm_dcs_write_seq_static(ctx, 0xF7, 0x0F);
 
-	/* OPLUS ADFR On */
+	/* CAMELLIA ADFR On */
 	lcm_dcs_write_seq_static(ctx, 0xF0, 0x5A, 0x5A);
 	lcm_dcs_write_seq_static(ctx, 0xFC, 0x5A, 0x5A);
 	lcm_dcs_write_seq_static(ctx, 0xB9, 0x02);
@@ -830,7 +830,7 @@ static void lcm_panel_wqhd60_init(struct lcm *ctx)
 	lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x13, 0x60);
 	lcm_dcs_write_seq_static(ctx, 0x60, 0xFF, 0x00, 0x00, 0x00);
 	lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x18, 0x60);
-	/* oplus adfr -> max:min */
+	/* camellia adfr -> max:min */
 	lcm_dcs_write_seq_static(ctx, 0x60, 0x0C, 0x03);
 	lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x04, 0x60);
 	lcm_dcs_write_seq_static(ctx, 0x60, 0x00, 0x00);
@@ -981,7 +981,7 @@ static void lcm_panel_fhd120_init(struct lcm *ctx)
 	lcm_dcs_write_seq_static(ctx, 0x53, 0x28);
 	lcm_dcs_write_seq_static(ctx, 0xF7, 0x0F);
 
-	/* OPLUS ADFR On */
+	/* CAMELLIA ADFR On */
 	lcm_dcs_write_seq_static(ctx, 0xF0, 0x5A, 0x5A);
 	lcm_dcs_write_seq_static(ctx, 0xFC, 0x5A, 0x5A);
 	lcm_dcs_write_seq_static(ctx, 0xB9, 0x02);
@@ -1011,7 +1011,7 @@ static void lcm_panel_fhd120_init(struct lcm *ctx)
 	lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x13, 0x60);
 	lcm_dcs_write_seq_static(ctx, 0x60, 0xFF, 0x00, 0x00, 0x00);
 	lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x18, 0x60);
-	/* oplus adfr -> max:min */
+	/* camellia adfr -> max:min */
 	lcm_dcs_write_seq_static(ctx, 0x60, 0x00, 0x00);
 	lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x04, 0x60);
 	lcm_dcs_write_seq_static(ctx, 0x60, 0x00, 0x00);
@@ -1162,7 +1162,7 @@ static void lcm_panel_fhd60_init(struct lcm *ctx)
 	lcm_dcs_write_seq_static(ctx, 0x53, 0x28);
 	lcm_dcs_write_seq_static(ctx, 0xF7, 0x0F);
 
-	/* OPLUS ADFR On */
+	/* CAMELLIA ADFR On */
 	lcm_dcs_write_seq_static(ctx, 0xF0, 0x5A, 0x5A);
 	lcm_dcs_write_seq_static(ctx, 0xFC, 0x5A, 0x5A);
 	lcm_dcs_write_seq_static(ctx, 0xB9, 0x02);
@@ -1192,7 +1192,7 @@ static void lcm_panel_fhd60_init(struct lcm *ctx)
 	lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x13, 0x60);
 	lcm_dcs_write_seq_static(ctx, 0x60, 0xFF, 0x00, 0x00, 0x00);
 	lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x18, 0x60);
-	/* oplus adfr -> max:min */
+	/* camellia adfr -> max:min */
 	lcm_dcs_write_seq_static(ctx, 0x60, 0x0C, 0x03);
 	lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x04, 0x60);
 	lcm_dcs_write_seq_static(ctx, 0x60, 0x00, 0x00);
@@ -1992,7 +1992,7 @@ static void mode_switch_to_wqhd_60(struct drm_panel *panel,
 		lcm_dcs_write_seq_static(ctx, 0xF7, 0x0F);
 		lcm_dcs_write_seq_static(ctx, 0xF0, 0xA5, 0xA5);
 
-		/* OPLUS ADFR On */
+		/* CAMELLIA ADFR On */
 		lcm_dcs_write_seq_static(ctx, 0xF0, 0x5A, 0x5A);
 		lcm_dcs_write_seq_static(ctx, 0xFC, 0x5A, 0x5A);
 		lcm_dcs_write_seq_static(ctx, 0xB9, 0x02);
@@ -2022,7 +2022,7 @@ static void mode_switch_to_wqhd_60(struct drm_panel *panel,
 		lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x13, 0x60);
 		lcm_dcs_write_seq_static(ctx, 0x60, 0xFF, 0x00, 0x00, 0x00);
 		lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x18, 0x60);
-		/* oplus adfr -> max:min */
+		/* camellia adfr -> max:min */
 		lcm_dcs_write_seq_static(ctx, 0x60, 0x0C, 0x03);
 		lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x04, 0x60);
 		lcm_dcs_write_seq_static(ctx, 0x60, 0x00, 0x00);
@@ -2089,7 +2089,7 @@ static void mode_switch_to_wqhd_72(struct drm_panel *panel,
 		lcm_dcs_write_seq_static(ctx, 0xF7, 0x0F);
 		lcm_dcs_write_seq_static(ctx, 0xF0, 0xA5, 0xA5);
 
-		/* OPLUS ADFR On */
+		/* CAMELLIA ADFR On */
 		lcm_dcs_write_seq_static(ctx, 0xF0, 0x5A, 0x5A);
 		lcm_dcs_write_seq_static(ctx, 0xFC, 0x5A, 0x5A);
 		lcm_dcs_write_seq_static(ctx, 0xB9, 0x02);
@@ -2119,7 +2119,7 @@ static void mode_switch_to_wqhd_72(struct drm_panel *panel,
 		lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x13, 0x60);
 		lcm_dcs_write_seq_static(ctx, 0x60, 0xFF, 0x00, 0x00, 0x00);
 		lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x18, 0x60);
-		/* oplus adfr -> max:min */
+		/* camellia adfr -> max:min */
 		lcm_dcs_write_seq_static(ctx, 0x60, 0x08, 0x02);
 		lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x04, 0x60);
 		lcm_dcs_write_seq_static(ctx, 0x60, 0x00, 0x00);
@@ -2187,7 +2187,7 @@ static void mode_switch_to_wqhd_90(struct drm_panel *panel,
 		lcm_dcs_write_seq_static(ctx, 0xF7, 0x0F);
 		lcm_dcs_write_seq_static(ctx, 0xF0, 0xA5, 0xA5);
 
-		/* OPLUS ADFR On */
+		/* CAMELLIA ADFR On */
 		lcm_dcs_write_seq_static(ctx, 0xF0, 0x5A, 0x5A);
 		lcm_dcs_write_seq_static(ctx, 0xFC, 0x5A, 0x5A);
 		lcm_dcs_write_seq_static(ctx, 0xB9, 0x02);
@@ -2217,7 +2217,7 @@ static void mode_switch_to_wqhd_90(struct drm_panel *panel,
 		lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x13, 0x60);
 		lcm_dcs_write_seq_static(ctx, 0x60, 0xFF, 0x00, 0x00, 0x00);
 		lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x18, 0x60);
-		/* oplus adfr -> max:min */
+		/* camellia adfr -> max:min */
 		lcm_dcs_write_seq_static(ctx, 0x60, 0x04, 0x01);
 		lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x04, 0x60);
 		lcm_dcs_write_seq_static(ctx, 0x60, 0x00, 0x00);
@@ -2284,7 +2284,7 @@ static void mode_switch_to_wqhd_120(struct drm_panel *panel,
 		lcm_dcs_write_seq_static(ctx, 0xF7, 0x0F);
 		lcm_dcs_write_seq_static(ctx, 0xF0, 0xA5, 0xA5);
 
-		/* OPLUS ADFR On */
+		/* CAMELLIA ADFR On */
 		lcm_dcs_write_seq_static(ctx, 0xF0, 0x5A, 0x5A);
 		lcm_dcs_write_seq_static(ctx, 0xFC, 0x5A, 0x5A);
 		lcm_dcs_write_seq_static(ctx, 0xB9, 0x02);
@@ -2314,7 +2314,7 @@ static void mode_switch_to_wqhd_120(struct drm_panel *panel,
 		lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x13, 0x60);
 		lcm_dcs_write_seq_static(ctx, 0x60, 0xFF, 0x00, 0x00, 0x00);
 		lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x18, 0x60);
-		/* oplus adfr -> max:min */
+		/* camellia adfr -> max:min */
 		lcm_dcs_write_seq_static(ctx, 0x60, 0x00, 0x00);
 		lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x04, 0x60);
 		lcm_dcs_write_seq_static(ctx, 0x60, 0x00, 0x00);
@@ -2398,7 +2398,7 @@ static void mode_switch_to_fhd120(struct drm_panel *panel,
 		lcm_dcs_write_seq_static(ctx, 0xF7, 0x0F);
 		lcm_dcs_write_seq_static(ctx, 0xF0, 0xA5, 0xA5);
 
-		/* OPLUS ADFR On */
+		/* CAMELLIA ADFR On */
 		lcm_dcs_write_seq_static(ctx, 0xF0, 0x5A, 0x5A);
 		lcm_dcs_write_seq_static(ctx, 0xFC, 0x5A, 0x5A);
 		lcm_dcs_write_seq_static(ctx, 0xB9, 0x02);
@@ -2428,7 +2428,7 @@ static void mode_switch_to_fhd120(struct drm_panel *panel,
 		lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x13, 0x60);
 		lcm_dcs_write_seq_static(ctx, 0x60, 0xFF, 0x00, 0x00, 0x00);
 		lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x18, 0x60);
-		/* oplus adfr -> max:min */
+		/* camellia adfr -> max:min */
 		lcm_dcs_write_seq_static(ctx, 0x60, 0x00, 0x00);
 		lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x04, 0x60);
 		lcm_dcs_write_seq_static(ctx, 0x60, 0x00, 0x00);
@@ -2513,7 +2513,7 @@ static void mode_switch_to_fhd60(struct drm_panel *panel,
 		lcm_dcs_write_seq_static(ctx, 0xF7, 0x0F);
 		lcm_dcs_write_seq_static(ctx, 0xF0, 0xA5, 0xA5);
 
-		/* OPLUS ADFR On */
+		/* CAMELLIA ADFR On */
 		lcm_dcs_write_seq_static(ctx, 0xF0, 0x5A, 0x5A);
 		lcm_dcs_write_seq_static(ctx, 0xFC, 0x5A, 0x5A);
 		lcm_dcs_write_seq_static(ctx, 0xB9, 0x02);
@@ -2543,7 +2543,7 @@ static void mode_switch_to_fhd60(struct drm_panel *panel,
 		lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x13, 0x60);
 		lcm_dcs_write_seq_static(ctx, 0x60, 0xFF, 0x00, 0x00, 0x00);
 		lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x18, 0x60);
-		/* oplus adfr -> max:min */
+		/* camellia adfr -> max:min */
 		lcm_dcs_write_seq_static(ctx, 0x60, 0x0C, 0x03);
 		lcm_dcs_write_seq_static(ctx, 0xB0, 0x00, 0x04, 0x60);
 		lcm_dcs_write_seq_static(ctx, 0x60, 0x00, 0x00);
@@ -2637,7 +2637,7 @@ struct mtk_panel_para_table msync_level_60[] = {
 		{2, {0xF7, 0x0F}},
 		{3, {0xF0, 0xA5, 0xA5}},
 
-		/* OPLUS ADFR On */
+		/* CAMELLIA ADFR On */
 		{3, {0xF0, 0x5A, 0x5A}},
 		{3, {0xFC, 0x5A, 0x5A}},
 		{2, {0xB9, 0x02}},
@@ -2667,7 +2667,7 @@ struct mtk_panel_para_table msync_level_60[] = {
 		{4, {0xB0, 0x00, 0x13, 0x60}},
 		{5, {0x60, 0xFF, 0x00, 0x00, 0x00}},
 		{4, {0xB0, 0x00, 0x18, 0x60}},
-		/* oplus adfr -> max:min */
+		/* camellia adfr -> max:min */
 		{3, {0x60, 0x0C, 0x03}},
 		{4, {0xB0, 0x00, 0x04, 0x60}},
 		{3, {0x60, 0x00, 0x00}},
@@ -2725,7 +2725,7 @@ struct mtk_panel_para_table msync_level_72[] = {
 		{2, {0xF7, 0x0F}},
 		{3, {0xF0, 0xA5, 0xA5}},
 
-		/* OPLUS ADFR On */
+		/* CAMELLIA ADFR On */
 		{3, {0xF0, 0x5A, 0x5A}},
 		{3, {0xFC, 0x5A, 0x5A}},
 		{2, {0xB9, 0x02}},
@@ -2755,7 +2755,7 @@ struct mtk_panel_para_table msync_level_72[] = {
 		{4, {0xB0, 0x00, 0x13, 0x60}},
 		{5, {0x60, 0xFF, 0x00, 0x00, 0x00}},
 		{4, {0xB0, 0x00, 0x18, 0x60}},
-		/* oplus adfr -> max:min */
+		/* camellia adfr -> max:min */
 		{3, {0x60, 0x08, 0x02}},
 		{4, {0xB0, 0x00, 0x04, 0x60}},
 		{3, {0x60, 0x00, 0x00}},
@@ -2812,7 +2812,7 @@ struct mtk_panel_para_table msync_level_90[] = {
 		{2, {0xF7, 0x0F}},
 		{3, {0xF0, 0xA5, 0xA5}},
 
-		/* OPLUS ADFR On */
+		/* CAMELLIA ADFR On */
 		{3, {0xF0, 0x5A, 0x5A}},
 		{3, {0xFC, 0x5A, 0x5A}},
 		{2, {0xB9, 0x02}},
@@ -2842,7 +2842,7 @@ struct mtk_panel_para_table msync_level_90[] = {
 		{4, {0xB0, 0x00, 0x13, 0x60}},
 		{5, {0x60, 0xFF, 0x00, 0x00, 0x00}},
 		{4, {0xB0, 0x00, 0x18, 0x60}},
-		/* oplus adfr -> max:min */
+		/* camellia adfr -> max:min */
 		{3, {0x60, 0x04, 0x01}},
 		{4, {0xB0, 0x00, 0x04, 0x60}},
 		{3, {0x60, 0x00, 0x00}},
@@ -2899,7 +2899,7 @@ struct mtk_panel_para_table msync_level_120[] = {
 		{2, {0xF7, 0x0F}},
 		{3, {0xF0, 0xA5, 0xA5}},
 
-		/* OPLUS ADFR On */
+		/* CAMELLIA ADFR On */
 		{3, {0xF0, 0x5A, 0x5A}},
 		{3, {0xFC, 0x5A, 0x5A}},
 		{2, {0xB9, 0x02}},
@@ -2929,7 +2929,7 @@ struct mtk_panel_para_table msync_level_120[] = {
 		{4, {0xB0, 0x00, 0x13, 0x60}},
 		{5, {0x60, 0xFF, 0x00, 0x00, 0x00}},
 		{4, {0xB0, 0x00, 0x18, 0x60}},
-		/* oplus adfr -> max:min */
+		/* camellia adfr -> max:min */
 		{3, {0x60, 0x00, 0x00}},
 		{4, {0xB0, 0x00, 0x04, 0x60}},
 		{3, {0x60, 0x00, 0x00}},
@@ -2986,7 +2986,7 @@ struct mtk_panel_para_table msync_default[] = {
 		{2, {0xF7, 0x0F}},
 		{3, {0xF0, 0xA5, 0xA5}},
 
-		/* OPLUS ADFR On */
+		/* CAMELLIA ADFR On */
 		{3, {0xF0, 0x5A, 0x5A}},
 		{3, {0xFC, 0x5A, 0x5A}},
 		{2, {0xB9, 0x02}},
@@ -3016,7 +3016,7 @@ struct mtk_panel_para_table msync_default[] = {
 		{4, {0xB0, 0x00, 0x13, 0x60}},
 		{5, {0x60, 0xFF, 0x00, 0x00, 0x00}},
 		{4, {0xB0, 0x00, 0x18, 0x60}},
-		/* oplus adfr -> max:min */
+		/* camellia adfr -> max:min */
 		{3, {0x60, 0x00, 0x00}},
 		{4, {0xB0, 0x00, 0x04, 0x60}},
 		{3, {0x60, 0x00, 0x00}},

@@ -56,7 +56,7 @@
 #define LOG_INF(format, args...) pr_debug(PFX "[%s] " format, __func__, ##args)
 #define LOG_ERR(format, args...) pr_err(PFX "[%s] " format, __func__, ##args)
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 #define DEVICE_VERSION_S5KJN1	 "s5kjn1"
 extern void register_imgsensor_deviceinfo(char *name, char *version, u8 module_id);
 //static kal_uint8 deviceInfo_register_value = 0x00;
@@ -314,7 +314,7 @@ static struct SET_PD_BLOCK_INFO_T imgsensor_pd_info_3264_2448_custom2 =
 
 
 #if 0
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 static kal_uint16 read_module_id(void)
 {
 	kal_uint16 get_byte=0;

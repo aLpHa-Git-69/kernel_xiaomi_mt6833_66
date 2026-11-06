@@ -1792,7 +1792,7 @@
 					[MTK_LCM_CMD_TYPE_HEX_WRITE_BUFFER 02],
 							[F7 0F],
 
-	/* OPLUS ADFR On */
+	/* CAMELLIA ADFR On */
 					[MTK_LCM_PHASE_TYPE_HEX_START 01 MTK_LCM_PHASE_HEX_KERNEL],
 					[MTK_LCM_CMD_TYPE_HEX_WRITE_BUFFER 03],
 						[F0 5A 5A],
@@ -1844,7 +1844,7 @@
 						[60 FF 00 00 00],
 					[MTK_LCM_CMD_TYPE_HEX_WRITE_BUFFER 04],
 						[B0 00 18 60],
-	/* oplus adfr -> max:min */
+	/* camellia adfr -> max:min */
 					/* wqhd 120 init*/
 					[MTK_LCM_CMD_TYPE_HEX_WRITE_BUFFER_CONDITION 05],
 						[MTK_LCM_INPUT_TYPE_HEX_CURRENT_MODE 00 06 00 00],
@@ -2119,7 +2119,7 @@
 					[MTK_LCM_CMD_TYPE_HEX_WRITE_BUFFER 03],
 						[F0 A5 A5],
 
-		/* OPLUS ADFR On */
+		/* CAMELLIA ADFR On */
 					[MTK_LCM_CMD_TYPE_HEX_WRITE_BUFFER 03],
 						[F0 5A 5A],
 					[MTK_LCM_CMD_TYPE_HEX_WRITE_BUFFER 03],
@@ -2178,7 +2178,7 @@
 						[60 FF 00 00 00],
 					[MTK_LCM_CMD_TYPE_HEX_WRITE_BUFFER 04],
 						[B0 00 18 60],
-		/* oplus adfr -> max:min */
+		/* camellia adfr -> max:min */
 					[MTK_LCM_CMD_TYPE_HEX_WRITE_BUFFER 03],
 						[60 00 00],
 					[MTK_LCM_CMD_TYPE_HEX_WRITE_BUFFER 04],
@@ -2293,7 +2293,7 @@
 						[MTK_LCM_CMD_TYPE_HEX_WRITE_BUFFER 03],
 							[F0 A5 A5],
 
-		/* OPLUS ADFR On */
+		/* CAMELLIA ADFR On */
 						[MTK_LCM_CMD_TYPE_HEX_WRITE_BUFFER 03],
 							[F0 5A 5A],
 						[MTK_LCM_CMD_TYPE_HEX_WRITE_BUFFER 03],
@@ -2352,7 +2352,7 @@
 							[60 FF 00 00 00],
 						[MTK_LCM_CMD_TYPE_HEX_WRITE_BUFFER 04],
 							[B0 00 18 60],
-		/* oplus adfr -> max:min */
+		/* camellia adfr -> max:min */
 						/*wqhd 120 msync switch mte*/
 						[MTK_LCM_CMD_TYPE_HEX_WRITE_BUFFER_CONDITION 05],
 						[MTK_LCM_INPUT_TYPE_HEX_CURRENT_MODE 00],
@@ -2724,7 +2724,7 @@
 						[MTK_LCM_CMD_TYPE_HEX_WRITE_BUFFER 03],
 							[F0 A5 A5],
 
-		/* OPLUS ADFR On */
+		/* CAMELLIA ADFR On */
 						[MTK_LCM_CMD_TYPE_HEX_WRITE_BUFFER 03],
 							[F0 5A 5A],
 						[MTK_LCM_CMD_TYPE_HEX_WRITE_BUFFER 03],
@@ -2783,7 +2783,7 @@
 							[60 FF 00 00 00],
 						[MTK_LCM_CMD_TYPE_HEX_WRITE_BUFFER 04],
 							[B0 00 18 60],
-		/* oplus adfr -> max:min */
+		/* camellia adfr -> max:min */
 					/*wqhd 120 mode switch*/
 						[MTK_LCM_CMD_TYPE_HEX_WRITE_BUFFER_CONDITION 05],
 						[MTK_LCM_INPUT_TYPE_HEX_CURRENT_MODE 00],

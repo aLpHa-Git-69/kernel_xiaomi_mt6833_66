@@ -489,7 +489,7 @@
 	#size-cells = <0>;
 
 	camera_af_main@0c {
-		compatible = "oplus,ak7316m";
+		compatible = "camellia,ak7316m";
 		reg = <0x0c>;
 		vin-supply = <&mt6373_vcn33_3>;
 		port {
@@ -500,7 +500,7 @@
 	};
 
 	camera_af_main@0d {
-		compatible = "oplus,ak7377m";
+		compatible = "camellia,ak7377m";
 		reg = <0x0d>;
 		vin-supply = <&mt6373_vcn33_3>;
 		port {
@@ -511,7 +511,7 @@
 	};
 
 	camera_ois_power@33 {
-		compatible = "oplus,ois_power";
+		compatible = "camellia,ois_power";
 		reg = <0x33>;
 		ois1-supply = <&mt6373_vcn33_3>;
 		ois2-supply = <&mt6373_vcn33_2>;
@@ -585,7 +585,7 @@
 	#size-cells = <0>;
 
 	camera_af_wide@10 {
-		compatible = "oplus,jd5516w";
+		compatible = "camellia,jd5516w";
 		reg = <0x10>;
 		vin-supply = <&wl28681c_konka_ldo6a>;
 		port {
@@ -655,7 +655,7 @@
 	#size-cells = <0>;
 
 	camera_af_tele@0c {
-		compatible = "oplus,ak7316t";
+		compatible = "camellia,ak7316t";
 		reg = <0x0c>;
 		vin-supply = <&mt6373_vcn33_2>;
 		port {
@@ -726,7 +726,7 @@
 	#size-cells = <0>;
 
 	camera_af_utele@19 {
-		compatible = "oplus,dw9786";
+		compatible = "camellia,dw9786";
 		reg = <0x19>;
 		iovdd-supply = <&mt6373_vrf18_aif>;
 		afvdd-supply = <&mt6373_vcn33_1>;
@@ -739,7 +739,7 @@
 	};
 
 	camera_ois_utele@32 {
-		compatible = "oplus,ois_dw9786";
+		compatible = "camellia,ois_dw9786";
 		reg = <0x32>;
 		iovdd-supply = <&mt6373_vrf18_aif>;
 		afvdd-supply = <&mt6373_vcn33_1>;
@@ -809,7 +809,7 @@
 	#address-cells = <1>;
 	#size-cells = <0>;
 	camera_tof_main:tof8801@41 {
-		compatible = "oplus,tof8801";
+		compatible = "camellia,tof8801";
 		pinctrl-names = "default";
 		pinctrl-0 = <&camera_pins_tof_i2c_mode>;
 		#address-cells = <1>;
@@ -888,9 +888,9 @@
 };
 
 &soc {
-	//#ifdef OPLUS_FEATURE_CAMERA_COMMON
-	oplus_cam_event:oplus_cam_event {
-		compatible = "oplus,cam-event";
+	//#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
+	camellia_cam_event:camellia_cam_event {
+		compatible = "camellia,cam-event";
 	};
-	//#endif /* OPLUS_FEATURE_CAMERA_COMMON */
+	//#endif /* CAMELLIA_FEATURE_CAMERA_COMMON */
 };

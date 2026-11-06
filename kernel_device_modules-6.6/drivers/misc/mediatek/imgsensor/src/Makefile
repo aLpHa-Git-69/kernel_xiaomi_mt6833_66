@@ -26,8 +26,8 @@ subdir-ccflags-y += -I$(MTK_DRIVER_PATH)/camera/$(MTK_PLATFORM) \
              -I$(MTK_DRIVER_PATH)/include/mt-plat/ \
              -I$(MTK_DRIVER_PATH)/imgsensor/src/$(MTK_PLATFORM)
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
-subdir-ccflags-y += -I$(DEVICE_MODULES_PATH)/drivers/misc/mediatek/imgsensor/src/OplusImgsensor
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
+subdir-ccflags-y += -I$(DEVICE_MODULES_PATH)/drivers/misc/mediatek/imgsensor/src/CamelliaImgsensor
 #endif
 
 obj-$(CONFIG_MTK_IMGSENSOR_ISP3_Z) += isp3_z/

@@ -7,7 +7,7 @@
 #define __MTK_CHARGER_H
 
 #include <linux/alarmtimer.h>
-/* camellia: needed unconditionally (KERNEL_VERSION is used outside the Oppo ifdef) */
+/* camellia: needed unconditionally (KERNEL_VERSION is used outside the Camellia ifdef) */
 #include <linux/version.h>
 #include "charger_class.h"
 #include "adapter_class.h"

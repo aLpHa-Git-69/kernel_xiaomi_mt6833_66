@@ -12,7 +12,7 @@
 #include <linux/pm.h>
 #include <linux/regulator/consumer.h>
 #include <linux/mutex.h>
-#include <soc/oplus/system/oplus_project.h>
+#include <soc/camellia/system/camellia_project.h>
 #include "aw37004.h"
 
 #define AW37004_ID  0x64

@@ -11,12 +11,6 @@ config MTK_SENSOR_ARCHITECTURE
 	  with mediatek sensor architecture.
 	  If unsure, set dummy.
 
-config OPLUS_FEATURE_SENSOR
-	bool "oplus feature sensor config"
-	default n
-        help
-          oplus feature sensor flag added for support kernel sensor
-
 endmenu # Sensors
 
 source "$(KCONFIG_EXT_PREFIX)drivers/misc/mediatek/sensor/1.0/accelerometer/Kconfig"

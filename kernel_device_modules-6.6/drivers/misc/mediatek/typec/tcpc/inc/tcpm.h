@@ -149,7 +149,7 @@ enum {
 	TCP_NOTIFY_FOD_STATUS,
 	TCP_NOTIFY_CABLE_TYPE,
 	TCP_NOTIFY_TYPEC_OTP,
-/* oplus add for uvlo */
+/* camellia add for uvlo */
 	TCP_NOTIFY_WD0_STATE,
 	TCP_NOTIFY_VBUS_SHORT_CC,
 	TCP_NOTIFY_PS_CHANGE,

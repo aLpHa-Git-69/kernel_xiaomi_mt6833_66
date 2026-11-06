@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
-* Copyright (C) 2020-2023 Oplus. All rights reserved.
+* Copyright (C) 2020-2023 Camellia. All rights reserved.
 */
 
-//#ifdef OPLUS_FEATURE_CHG_BASIC
+//#ifdef CAMELLIA_FEATURE_CHG_BASIC
 /*
  *
  * CPU:				--> MT6877
@@ -398,10 +398,10 @@
 	qcom,default_little_cool_vfloat_over_sw_limit = <4475>;
 
 	/*If use subboard NTC as battery temp, config it as 20, otherwise 0 */
-        oplus,tbatt_power_off_cali_temp = <20>;
+        camellia,tbatt_power_off_cali_temp = <20>;
 	//qcom,usbtemp_dischg_by_pmic;
 	qcom,support_usbtemp_protect_v2;
-	oplus,pdqc_9v_voltage_adaptive;
+	camellia,pdqc_9v_voltage_adaptive;
 	//for PD9V or QC9V
 	qcom,vbatt_pdqc_to_5v_thr = <4500>;
 	qcom,vbatt_pdqc_to_9v_thr = <4500>;
@@ -433,10 +433,10 @@
 	qcom,vooc-max-input-volt-support = <11000>;     //11V
 	qcom,vooc-max-input-current-support = <6000>;   //6A
 
-	oplus,switch2-ctrl-gpio = <&pio 23 0x00>;
-	oplus,uart_tx-gpio = <&pio 178 0x00>;
-	oplus,uart_rx-gpio = <&pio 179 0x00>;
-	oplus,otg_current_limit = <1100000>;
+	camellia,switch2-ctrl-gpio = <&pio 23 0x00>;
+	camellia,uart_tx-gpio = <&pio 178 0x00>;
+	camellia,uart_rx-gpio = <&pio 179 0x00>;
+	camellia,otg_current_limit = <1100000>;
 };
 
 &pio {
@@ -573,7 +573,7 @@
 		ovp_reg = <0x36>; /* vbat ovp 4.85v */
 
 		qcom,copycat_vooc_support;
-		oplus,copycat_identify_algorithm = <2>;
+		camellia,copycat_identify_algorithm = <2>;
 		qcom,voocphy_dual_cp_support;
 		qcom,slave_cp_enable_thr = <1900>;		//2000-100mA
 		qcom,slave_cp_disable_thr_high = <1600>;	//1500+100mA
@@ -884,7 +884,7 @@
 
 &odm {
 	optiga {
-		compatible = "oplus-optiga";
+		compatible = "camellia-optiga";
 		status = "ok";
 		pinctrl-names = "optiga_active";
 		pinctrl-0 = <&optiga_active>;
@@ -893,17 +893,17 @@
 		key-id = <1>;
 		vusb-supply = <&mt6359p_vusb_reg>;
 	};
-	oplus,track-charge {
-		compatible = "oplus,track-charge";
+	camellia,track-charge {
+		compatible = "camellia,track-charge";
 		track,fast_chg_break_t_thd = <1000>;
 		track,general_chg_break_t_thd = <200>;
 		track,voocphy_type = <3>;
 		track,wired_max_power = <67000>;
 		track,wired_fast_chg_scheme = <2>;
 	};
-	oplus_battery_log: oplus,battery_log {
-		compatible = "oplus,battery_log";
-		oplus,battery_log_support;
+	camellia_battery_log: camellia,battery_log {
+		compatible = "camellia,battery_log";
+		camellia,battery_log_support;
 	};
 };
 
@@ -920,4 +920,4 @@
 &extcon_usb {
 	vbus-current = <1100000>;
 };
-//#endif /*OPLUS_FEATURE_CHG_BASIC*/
+//#endif /*CAMELLIA_FEATURE_CHG_BASIC*/

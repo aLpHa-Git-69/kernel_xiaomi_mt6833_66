@@ -20,18 +20,18 @@
 #include <sound/soc.h>
 #include <sound/core.h>
 
-#ifndef OPLUS_ARCH_EXTENDS
-#define OPLUS_ARCH_EXTENDS
+#ifndef CAMELLIA_ARCH_EXTENDS
+#define CAMELLIA_ARCH_EXTENDS
 #endif
 #include "mt6358.h"
 #if IS_ENABLED(CONFIG_SND_SOC_MT6366_ACCDET) || IS_ENABLED(CONFIG_SND_SOC_MT6358_ACCDET)
 #include "mt6358-accdet.h"
 #endif
 
-#if IS_ENABLED(CONFIG_SND_SOC_OPLUS_PA_MANAGER)
-#include "audio/mtk/oplus_speaker_manager/oplus_speaker_manager_platform.h"
-#include "audio/mtk/oplus_speaker_manager/oplus_speaker_manager_codec.h"
-#endif /* CONFIG_SND_SOC_OPLUS_PA_MANAGER */
+#if IS_ENABLED(CONFIG_SND_SOC_CAMELLIA_PA_MANAGER)
+#include "audio/mtk/camellia_speaker_manager/camellia_speaker_manager_platform.h"
+#include "audio/mtk/camellia_speaker_manager/camellia_speaker_manager_codec.h"
+#endif /* CONFIG_SND_SOC_CAMELLIA_PA_MANAGER */
 #define MAX_DEBUG_WRITE_INPUT 256
 #define CODEC_SYS_DEBUG_SIZE (1024 * 32)
 
@@ -2745,7 +2745,7 @@ static int mt6358_amic_enable(struct mt6358_priv *priv)
 					   0xff00, 0x0000);
 			break;
 		}
-#ifndef OPLUS_ARCH_EXTENDS
+#ifndef CAMELLIA_ARCH_EXTENDS
 		/* Enable MICBIAS0, MISBIAS0 = 1P9V */
 		regmap_update_bits(priv->regmap, MT6358_AUDENC_ANA_CON9,
 				   0xff, 0x21);
@@ -2753,12 +2753,12 @@ static int mt6358_amic_enable(struct mt6358_priv *priv)
 		/* Enable MICBIAS0, MISBIAS0 = 2P7V */
 		regmap_update_bits(priv->regmap, MT6358_AUDENC_ANA_CON9,
 				   0xff, 0x71);
-#endif /* OPLUS_ARCH_EXTENDS */
+#endif /* CAMELLIA_ARCH_EXTENDS */
 	}
 
 	/* mic bias 1 */
 	if (mux_pga_l == PGA_MUX_AIN1 || mux_pga_r == PGA_MUX_AIN1) {
-#ifndef OPLUS_ARCH_EXTENDS
+#ifndef CAMELLIA_ARCH_EXTENDS
 		/* Enable MICBIAS1, MISBIAS1 = 2P6V */
 		if (mic_type == MIC_TYPE_MUX_DCC_ECM_SINGLE)
 			regmap_write(priv->regmap,
@@ -2774,7 +2774,7 @@ static int mt6358_amic_enable(struct mt6358_priv *priv)
 		else
 			regmap_write(priv->regmap,
 				     MT6358_AUDENC_ANA_CON10, 0x0071);
-#endif /* OPLUS_ARCH_EXTENDS */
+#endif /* CAMELLIA_ARCH_EXTENDS */
 	}
 
 	/* set mic pga gain */
@@ -6723,14 +6723,14 @@ static int mt6358_codec_probe(struct snd_soc_component *cmpnt)
 				       mt6358_snd_vow_controls,
 				       ARRAY_SIZE(mt6358_snd_vow_controls));
 	mt6358_codec_init_reg(priv);
-#if IS_ENABLED(CONFIG_SND_SOC_OPLUS_PA_MANAGER)
-	ret = oplus_add_pa_manager_snd_controls(cmpnt);
+#if IS_ENABLED(CONFIG_SND_SOC_CAMELLIA_PA_MANAGER)
+	ret = camellia_add_pa_manager_snd_controls(cmpnt);
 	if (ret < 0) {
-		pr_err("%s(), add oplus pa manager snd controls failed:\n",
+		pr_err("%s(), add camellia pa manager snd controls failed:\n",
 			__func__);
 		return -EINVAL;
 	}
-#endif /*CONFIG_SND_SOC_OPLUS_PA_MANAGER*/
+#endif /*CONFIG_SND_SOC_CAMELLIA_PA_MANAGER*/
 
 #if !defined(SKIP_SB) && !defined(CONFIG_FPGA_EARLY_PORTING)
 	priv->hp_current_calibrate_val = get_hp_current_calibrate_val(priv);

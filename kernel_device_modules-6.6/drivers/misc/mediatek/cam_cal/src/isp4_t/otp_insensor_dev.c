@@ -1,5 +1,5 @@
 /***********************************************************
- * ** Copyright (C), 2008-2016, OPPO Mobile Comm Corp., Ltd.
+ * ** Copyright (C), 2008-2016, CAMELLIA Mobile Comm Corp., Ltd.
  * ** ODM_HQ_EDIT
  * ** File: - otp_insensor_dev.c
  * ** Description: Source file for CBufferList.
@@ -35,7 +35,7 @@
 
 #ifdef ODM_HQ_EDIT
 /*Houbing.Peng@ODM_HQ Cam.Drv 20200915 add for otp*/
-#include <soc/oplus/system/oplus_project.h>
+#include <soc/camellia/system/camellia_project.h>
 #endif
 
 #define LOG_TAG "OTP_InSensor"

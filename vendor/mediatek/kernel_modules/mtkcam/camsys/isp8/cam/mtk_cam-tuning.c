@@ -995,7 +995,7 @@ void mtk_set_ois_table(const bool *is_valid,
  */
 
 /*
- * oplus's part: start
+ * camellia's part: start
  */
 #define LOG_TAG "mtk_cam_tuning"
 
@@ -1016,7 +1016,7 @@ static struct hf_manager_event Once_event_data[MAX_EVENT_NUM];
 static unsigned int writeBufIndex = 0;
 static struct out_ois_param last_ois_res;
 
-void oplus_cam_enable_ois(void) {
+void camellia_cam_enable_ois(void) {
 	int ret = 0;
 	int sensor_type = SENSOR_TYPE_OIS2_POWER;
 	int val1 = HF_MANAGER_SENSOR_ENABLE;
@@ -1071,7 +1071,7 @@ void oplus_cam_enable_ois(void) {
 	return;
 }
 
-void oplus_cam_disable_ois(void) {
+void camellia_cam_disable_ois(void) {
 	int ret = 0;
 	int sensor_type = SENSOR_TYPE_OIS1;
 	int val1 = HF_MANAGER_SENSOR_DISABLE;
@@ -1138,7 +1138,7 @@ static int fetch_next(struct hf_client_fifo *hf_fifo,
 	return have_event;
 }
 
-int oplus_hf_client_poll_sensor(struct hf_client *client,
+int camellia_hf_client_poll_sensor(struct hf_client *client,
 		struct hf_manager_event *data, int count)
 {
 	int read = 0;
@@ -1158,17 +1158,17 @@ int oplus_hf_client_poll_sensor(struct hf_client *client,
 	return read;
 }
 
-void oplus_poll_timer_callback(struct timer_list *timer) {
-	oplus_cam_get_ois_data();
+void camellia_poll_timer_callback(struct timer_list *timer) {
+	camellia_cam_get_ois_data();
 	mod_timer(timer, jiffies + msecs_to_jiffies(POLL_INTERVAL_MS));
 }
 
-void oplus_cam_get_ois_data(void) {
+void camellia_cam_get_ois_data(void) {
 	struct hf_client *client = hf_task.client;
 	int size = 0;
 	if (NULL == client)
 		return;
-	size = oplus_hf_client_poll_sensor(client, Once_event_data, MAX_EVENT_NUM);
+	size = camellia_hf_client_poll_sensor(client, Once_event_data, MAX_EVENT_NUM);
 	if (size <= 0)
 		return;
 	for (int i = 0; i < size; ++i) {
@@ -1224,7 +1224,7 @@ int find_matching_event_index(s64 time_stamp, int startIndex) {
 	return -1;
 }
 
-void oplus_cam_calc_ois_data(struct mtk_cam_tuning *param, struct out_ois_param *ois) {
+void camellia_cam_calc_ois_data(struct mtk_cam_tuning *param, struct out_ois_param *ois) {
 	s64 time_diff = -1 * NS_IN_MS;
 	s64 start_time, end_time;
 	s64 search_start_timestamp, last_timestamp;
@@ -1288,7 +1288,7 @@ MEAN_CALCULATE:
 }
 
 /*
- * oplus's part: end
+ * camellia's part: end
  */
 
 void mtk_cam_tuning_probe(void)
@@ -1309,7 +1309,7 @@ void mtk_cam_tuning_init(struct mtk_cam_tuning *param)
 		mtk_set_ois_table(&is_otp_valid, (void *)ois_otp, OTP_SIZE);
 	}
 
-	oplus_cam_enable_ois();
+	camellia_cam_enable_ois();
 
 	return;
 }
@@ -1319,8 +1319,8 @@ void mtk_cam_tuning_update(struct mtk_cam_tuning *param)
 	struct out_ois_param ois;
 	pr_info("%s: \n", __func__);
 	memset(&ois, 0, sizeof(struct out_ois_param));
-	oplus_cam_get_ois_data();
-	oplus_cam_calc_ois_data(param, &ois);
+	camellia_cam_get_ois_data();
+	camellia_cam_calc_ois_data(param, &ois);
 	/* note: get ois info. before entering mtk_ois_comp_core() */
 	LOG_INF("input ois.ois_x %d ois.ois_y %d  ois.ois_vector_size %d", ois.ois_x, ois.ois_y,ois.ois_vector_size);
 	mtk_ois_comp_core(param, &ois.ois_x, &ois.ois_y, &ois.ois_vector_size);

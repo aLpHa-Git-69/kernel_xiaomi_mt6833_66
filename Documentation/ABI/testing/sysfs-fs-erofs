@@ -1,6 +1,6 @@
 What:		/sys/fs/erofs/features/
 Date:		November 2021
-Contact:	"Huang Jianan" <huangjianan@oppo.com>
+Contact:	"Huang Jianan" <huangjianan@camellia.com>
 Description:	Shows all enabled kernel features.
 		Supported features:
 		zero_padding, compr_cfgs, big_pcluster, chunked_file,
@@ -9,7 +9,7 @@ Description:	Shows all enabled kernel features.
 
 What:		/sys/fs/erofs/<disk>/sync_decompress
 Date:		November 2021
-Contact:	"Huang Jianan" <huangjianan@oppo.com>
+Contact:	"Huang Jianan" <huangjianan@camellia.com>
 Description:	Control strategy of sync decompression:
 
 		- 0 (default, auto): enable for readpage, and enable for

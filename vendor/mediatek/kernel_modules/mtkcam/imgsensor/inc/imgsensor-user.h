@@ -9,9 +9,9 @@
 #include "kd_imgsensor_define_v4l2.h"
 #include "mtk_camera-v4l2-controls-common.h"
 #include "mtk_camera-videodev2.h"
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
-#include "../src-isp8/oplus/inc/oplus_imgsensor-user.h"
-#endif /* OPLUS_FEATURE_CAMERA_COMMON */
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
+#include "../src-isp8/camellia/inc/camellia_imgsensor-user.h"
+#endif /* CAMELLIA_FEATURE_CAMERA_COMMON */
 
 #define DEFAULT_WIDTH 1600
 #define DEFAULT_HEIGHT 1200
@@ -450,7 +450,7 @@ struct mtk_csi_param {
 	__u8 cphy_lrte_support;
 	__u8 clk_lane_no_initial_flow;
 	__u8 initial_skew;
-	// ifdef OPLUS_FEATURE_CAMERA_COMMON
+	// ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 	__u8 need_bw_change;
 };
 

@@ -43,8 +43,8 @@
 #include "mtk_cam-seninf_control-8.h"
 #include "mtk_cam-seninf-sentest-ioctrl.h"
 #include "mtk_cam-seninf-sentest-ctrl.h"
-#ifndef OPLUS_FEATURE_CAMERA_COMMON
-#define OPLUS_FEATURE_CAMERA_COMMON
+#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
+#define CAMELLIA_FEATURE_CAMERA_COMMON
 #endif
 #if KERNEL_VERSION(6, 6, 0) == LINUX_VERSION_CODE
 #define CSI_POWER_STATE
@@ -4510,24 +4510,24 @@ int mtk_cam_seninf_dump(struct v4l2_subdev *sd, u32 seq_id, bool force_check,
 
 int mtk_cam_seninf_get_csi_irq_status(struct v4l2_subdev *sd, struct v4l2_ctrl *ctrl)
 {
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 	int ret = 0;
-#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
+#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 	struct seninf_ctx *ctx = sd_to_ctx(sd);
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 	ret = pm_runtime_get_sync(ctx->dev);
 	if (ret < 0) {
 		dev_info(ctx->dev, "%s pm_runtime_get_sync ret %d\n", __func__, ret);
 		pm_runtime_put_noidle(ctx->dev);
 		return ret;
 	}
-#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
+#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 
 	ctrl->val  = (g_seninf_ops->_get_csi_irq_status(sd_to_ctx(sd)) & 0x7fff)
 							| (ctx->esd_status_flag << 15);
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 	pm_runtime_put_sync(ctx->dev);
-#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
+#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 	ctx->esd_status_flag = 0;
 	dev_info(ctx->dev,"SENINF%d_CSI2_IRQ_STATUS(0x%x)\n", ctx->seninfAsyncIdx, ctrl->val);
 

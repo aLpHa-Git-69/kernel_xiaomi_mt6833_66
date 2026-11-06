@@ -23,13 +23,13 @@
 
 #include <linux/of_gpio.h>
 #include <linux/gpio.h>
-#include <soc/oplus/system/oplus_project.h>
-#include <soc/oplus/device_info.h>
+#include <soc/camellia/system/camellia_project.h>
+#include <soc/camellia/device_info.h>
 
 
-//#include <soc/oppo/device_info.h>
-//#include <soc/oppo/oppo_project.h>
-//#include <soc/oppo/boot_mode.h>
+//#include <soc/camellia/device_info.h>
+//#include <soc/camellia/camellia_project.h>
+//#include <soc/camellia/boot_mode.h>
 #include <linux/regmap.h>
 #define FAN53870_PRODUCT_ID_REG  0x00
 #define FAN53870_LDO_ENABLE_REG  0x03

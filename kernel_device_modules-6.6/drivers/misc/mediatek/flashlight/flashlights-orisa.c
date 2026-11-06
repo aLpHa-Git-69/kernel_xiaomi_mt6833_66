@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-2.0
-// Copyright (c) 2021 Oplus
+// Copyright (c) 2021 Camellia
 
 #include <linux/delay.h>
 #include <linux/module.h>
@@ -112,7 +112,7 @@ static struct work_struct oris_work_ch2;
 #define sc6607_24700_LEVEL_NUM   28
 #define sc6607_24700_LEVEL_TORCH 6
 
-extern void oplus_chg_set_camera_on(bool val);
+extern void camellia_chg_set_camera_on(bool val);
 
 static const int *oris_current;
 static const unsigned char *oris_torch_level;
@@ -965,10 +965,10 @@ static int oris_enable_ch1(void)
 			oris_flash_mode++;
 		}
     	    if (oris_charge_enable == 0){
-    		oplus_chg_set_camera_on(1);
+    		camellia_chg_set_camera_on(1);
 	    	oris_charge_enable = 1;
 	    	oris_flash_mode++;
-	    	pr_info("oplus_chg_set_camera_on set amg_charge_enable 1");
+	    	pr_info("camellia_chg_set_camera_on set amg_charge_enable 1");
 	    }
 
 		oris_reg_enable = SC6607_ENABLE_LED1_FLASH;
@@ -989,7 +989,7 @@ static int oris_enable_ch2(void)
 	} else {
 		/* flash mode */
 		if (oris_charge_enable == 0){
-			oplus_chg_set_camera_on(1);
+			camellia_chg_set_camera_on(1);
 			oris_charge_enable = 1;
 		}
 		oris_reg_enable |= SC6607_ENABLE_LED2_FLASH;
@@ -1027,12 +1027,12 @@ static int oris_disable(int channel)
 	}
 
 	if (oris_flash_mode == 0 && oris_charge_enable == 1) {
-		oplus_chg_set_camera_on(0);
+		camellia_chg_set_camera_on(0);
 		oris_charge_enable = 0;
 		oris_flash_mode = -1;
 		oris_charge_mode = 0;
 	} else if (oris_flash_mode == 3 && oris_charge_mode == 1 && oris_charge_enable == 0) {
-		oplus_chg_set_camera_on(1);
+		camellia_chg_set_camera_on(1);
 		oris_charge_enable = 1;
 		oris_charge_mode = 0;
 	}
@@ -1095,7 +1095,7 @@ static int sc6607_24700_ioctl(unsigned int cmd, unsigned long arg)
 	    oris_is_flash_cts();
 	    break;
 
-	case OPLUS_FLASH_IOC_SELECT_LED_NUM:
+	case CAMELLIA_FLASH_IOC_SELECT_LED_NUM:
 		if (fl_arg->arg == sc6607_CONTROL_LED0 || fl_arg->arg == sc6607_CONTROL_LED1) {
 			sc6607_24700_flash_data->led_mode = V4L2_FLASH_LED_MODE_FLASH;
 			 ret = sc6607_24700_select_led(sc6607_24700_flash_data, fl_arg->arg);
@@ -1167,7 +1167,7 @@ static int sc6607_24700_set_driver(int set)
 		if (use_count < 0)
 			use_count = 0;
 		if (oris_charge_enable == 1) {
-			oplus_chg_set_camera_on(0);
+			camellia_chg_set_camera_on(0);
 			oris_charge_enable = 0;
 		}
 		oris_flash_cts_enable = 0;

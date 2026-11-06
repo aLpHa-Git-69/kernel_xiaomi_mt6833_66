@@ -25,10 +25,10 @@
 #if IS_ENABLED(CONFIG_SND_SOC_SIA91XX_V3_1_0)
 #include "../../codecs/audio/codecs/sia91xx_v3.1.0/sipa_aux_dev_if.h"
 #endif
-#if IS_ENABLED(CONFIG_SND_SOC_OPLUS_PA_MANAGER)
-#include "../../codecs/audio/mtk/oplus_speaker_manager/oplus_speaker_manager_platform.h"
-#include "../../codecs/audio/mtk/oplus_speaker_manager/oplus_speaker_manager_codec.h"
-#endif /*CONFIG_SND_SOC_OPLUS_PA_MANAGER*/
+#if IS_ENABLED(CONFIG_SND_SOC_CAMELLIA_PA_MANAGER)
+#include "../../codecs/audio/mtk/camellia_speaker_manager/camellia_speaker_manager_platform.h"
+#include "../../codecs/audio/mtk/camellia_speaker_manager/camellia_speaker_manager_codec.h"
+#endif /*CONFIG_SND_SOC_CAMELLIA_PA_MANAGER*/
 
 /*
  * if need additional control for the ext spk amp that is connected
@@ -36,7 +36,7 @@
  * mt6768_mt6358_spk_amp_event()
  */
 #define EXT_SPK_AMP_W_NAME "Ext_Speaker_Amp"
-#if IS_ENABLED(CONFIG_SND_SOC_OPLUS_PA_MANAGER)
+#if IS_ENABLED(CONFIG_SND_SOC_CAMELLIA_PA_MANAGER)
 #define EXT_RCV_AMP_W_NAME "Ext_Reciver_Amp"
 #endif
 
@@ -88,7 +88,7 @@ static int mt6768_spk_i2s_in_type_get(struct snd_kcontrol *kcontrol,
 	return 0;
 }
 
-#if IS_ENABLED(CONFIG_SND_SOC_OPLUS_PA_MANAGER)
+#if IS_ENABLED(CONFIG_SND_SOC_CAMELLIA_PA_MANAGER)
 static int rcv_amp_mode;
 static const char *rcv_amp_type_str[] = {"SPEAKER_MODE", "RECIEVER_MODE"};
 static const struct soc_enum rcv_amp_type_enum =
@@ -129,18 +129,18 @@ static int mt6768_mt6358_rcv_amp_event(struct snd_soc_dapm_widget *w,
 		/* rcv amp on control */
 		if(rcv_amp_mode == 1)
 		{
-			oplus_ext_amp_recv_l_enable(true);
+			camellia_ext_amp_recv_l_enable(true);
 		} else {
-			oplus_ext_amp_l_enable(true);
+			camellia_ext_amp_l_enable(true);
 		}
 		break;
 	case SND_SOC_DAPM_PRE_PMD:
 		/* rcv amp off control */
 		if(rcv_amp_mode == 1)
 		{
-			oplus_ext_amp_recv_l_enable(false);
+			camellia_ext_amp_recv_l_enable(false);
 		} else {
-			oplus_ext_amp_l_enable(false);
+			camellia_ext_amp_l_enable(false);
 		}
 		break;
 	default:
@@ -149,7 +149,7 @@ static int mt6768_mt6358_rcv_amp_event(struct snd_soc_dapm_widget *w,
 
 	return 0;
 };
-#endif  /*CONFIG_SND_SOC_OPLUS_PA_MANAGER*/
+#endif  /*CONFIG_SND_SOC_CAMELLIA_PA_MANAGER*/
 static int mt6768_mt6358_spk_amp_event(struct snd_soc_dapm_widget *w,
 				       struct snd_kcontrol *kcontrol,
 				       int event)
@@ -162,15 +162,15 @@ static int mt6768_mt6358_spk_amp_event(struct snd_soc_dapm_widget *w,
 	switch (event) {
 	case SND_SOC_DAPM_POST_PMU:
 		/* spk amp on control */
-#if IS_ENABLED(CONFIG_SND_SOC_OPLUS_PA_MANAGER)
-		oplus_ext_amp_r_enable(true);
-#endif  /*CONFIG_SND_SOC_OPLUS_PA_MANAGER*/
+#if IS_ENABLED(CONFIG_SND_SOC_CAMELLIA_PA_MANAGER)
+		camellia_ext_amp_r_enable(true);
+#endif  /*CONFIG_SND_SOC_CAMELLIA_PA_MANAGER*/
 		break;
 	case SND_SOC_DAPM_PRE_PMD:
 		/* spk amp off control */
-#if IS_ENABLED(CONFIG_SND_SOC_OPLUS_PA_MANAGER)
-		oplus_ext_amp_r_enable(false);
-#endif  /*CONFIG_SND_SOC_OPLUS_PA_MANAGER*/
+#if IS_ENABLED(CONFIG_SND_SOC_CAMELLIA_PA_MANAGER)
+		camellia_ext_amp_r_enable(false);
+#endif  /*CONFIG_SND_SOC_CAMELLIA_PA_MANAGER*/
 		break;
 	default:
 		break;
@@ -181,14 +181,14 @@ static int mt6768_mt6358_spk_amp_event(struct snd_soc_dapm_widget *w,
 
 static const struct snd_soc_dapm_widget mt6768_mt6358_widgets[] = {
 	SND_SOC_DAPM_SPK(EXT_SPK_AMP_W_NAME, mt6768_mt6358_spk_amp_event),
-#if IS_ENABLED(CONFIG_SND_SOC_OPLUS_PA_MANAGER)
+#if IS_ENABLED(CONFIG_SND_SOC_CAMELLIA_PA_MANAGER)
 	SND_SOC_DAPM_SPK(EXT_RCV_AMP_W_NAME, mt6768_mt6358_rcv_amp_event),
 #endif
 };
 
 static const struct snd_soc_dapm_route mt6768_mt6358_routes[] = {
 	{EXT_SPK_AMP_W_NAME, NULL, "LINEOUT L"},
-#if IS_ENABLED(CONFIG_SND_SOC_OPLUS_PA_MANAGER)
+#if IS_ENABLED(CONFIG_SND_SOC_CAMELLIA_PA_MANAGER)
 	{EXT_RCV_AMP_W_NAME, NULL, "Receiver"},
 	{EXT_RCV_AMP_W_NAME, NULL, "Headphone L Ext Spk Amp"},
 #endif
@@ -199,7 +199,7 @@ static const struct snd_soc_dapm_route mt6768_mt6358_routes[] = {
 
 static const struct snd_kcontrol_new mt6768_mt6358_controls[] = {
 	SOC_DAPM_PIN_SWITCH(EXT_SPK_AMP_W_NAME),
-#if IS_ENABLED(CONFIG_SND_SOC_OPLUS_PA_MANAGER)
+#if IS_ENABLED(CONFIG_SND_SOC_CAMELLIA_PA_MANAGER)
 	SOC_DAPM_PIN_SWITCH(EXT_RCV_AMP_W_NAME),
 	SOC_ENUM_EXT("RCV_AMP_MODE", rcv_amp_type_enum,
 			 mt6768_rcv_amp_mode_get, mt6768_rcv_amp_mode_set),
@@ -381,7 +381,7 @@ static int mt6768_mt6358_init(struct snd_soc_pcm_runtime *rtd)
 
 	/* disable ext amp connection */
 	snd_soc_dapm_disable_pin(dapm, EXT_SPK_AMP_W_NAME);
-#if IS_ENABLED(CONFIG_SND_SOC_OPLUS_PA_MANAGER)
+#if IS_ENABLED(CONFIG_SND_SOC_CAMELLIA_PA_MANAGER)
 	snd_soc_dapm_disable_pin(dapm, EXT_RCV_AMP_W_NAME);
 #endif
 #if IS_ENABLED(CONFIG_SND_SOC_MT6358_ACCDET)

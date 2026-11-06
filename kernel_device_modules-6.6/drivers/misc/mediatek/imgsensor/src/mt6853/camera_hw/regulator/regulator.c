@@ -13,11 +13,11 @@
 
 #include "regulator.h"
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
-#include <soc/oplus/system/oplus_project.h>
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
+#include <soc/camellia/system/camellia_project.h>
 #include "imgsensor.h"
 #endif
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 static bool regulator_status[IMGSENSOR_SENSOR_IDX_MAX_NUM][REGULATOR_TYPE_MAX_NUM] = {{false}};
 static void check_for_regulator_get(struct REGULATOR *preg,
 struct device *pdevice, unsigned int sensor_index, unsigned int regulator_index);
@@ -25,7 +25,7 @@ static void check_for_regulator_put(struct REGULATOR *preg, unsigned int sensor_
 static struct device_node *of_node_record;
 static struct IMGSENSOR_HW_DEVICE_COMMON *ghw_device_common;
 static DEFINE_MUTEX(g_regulator_state_mutex);
-#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
+#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 static struct regulator *regVCAMAF = NULL;
 static const int regulator_voltage[] = {
 	REGULATOR_VOLTAGE_0,
@@ -51,7 +51,7 @@ struct REGULATOR_CTRL regulator_control[REGULATOR_TYPE_MAX_NUM] = {
 
 static struct REGULATOR reg_instance;
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 extern struct IMGSENSOR gimgsensor;
 struct regulator *regulator_get_regVCAMAF(void)
 {
@@ -69,7 +69,7 @@ struct regulator *regulator_get_regVCAMAF_19040(int sensor_idx)
 EXPORT_SYMBOL(regulator_get_regVCAMAF_19040);
 #endif
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 extern struct IMGSENSOR gimgsensor;
 struct regulator *regulator_get_regVCAMAF_20609(void)
 {
@@ -137,7 +137,7 @@ static enum IMGSENSOR_RETURN regulator_release(void *pinstance)
 	return IMGSENSOR_RETURN_SUCCESS;
 }
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 extern struct IMGSENSOR gimgsensor;
 static struct regulator *regulator_reinit(void *pinstance, int sensor_idx, int type)
 {
@@ -176,7 +176,7 @@ static enum IMGSENSOR_RETURN regulator_set(
 	int reg_type_offset;
 	atomic_t             *enable_cnt;
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 	if (is_project(20609) || is_project(0x2060A) || is_project(0x2060B) || is_project(0x206F0)
 		|| is_project(0x206FF) || is_project(20795) || is_project(20796) || is_project(0x2070C)
 		|| is_project(0x2070B) || is_project(0x2070E) || is_project(21041) || is_project(21042) 
@@ -227,15 +227,15 @@ static enum IMGSENSOR_RETURN regulator_set(
 
 	reg_type_offset = REGULATOR_TYPE_VCAMA;
 
-	#ifdef OPLUS_FEATURE_CAMERA_COMMON
+	#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 	if (ghw_device_common)
 		check_for_regulator_get(preg, &ghw_device_common->pplatform_device->dev, sensor_idx,(reg_type_offset + pin - IMGSENSOR_HW_PIN_AVDD));
-	#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
+	#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 
 	pregulator =
 		preg->pregulator[sensor_idx][
 			reg_type_offset + pin - IMGSENSOR_HW_PIN_AVDD];
-    #ifdef OPLUS_FEATURE_CAMERA_COMMON
+    #ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 	if(IS_ERR(pregulator)){
         pregulator = regulator_reinit(preg, sensor_idx, reg_type_offset + pin - IMGSENSOR_HW_PIN_AVDD);
 		if (IS_ERR(pregulator)) {
@@ -267,9 +267,9 @@ static enum IMGSENSOR_RETURN regulator_set(
 				pin,
 				regulator_voltage[
 				  pin_state - IMGSENSOR_HW_PIN_STATE_LEVEL_0]);
-				#ifdef OPLUS_FEATURE_CAMERA_COMMON
+				#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 				check_for_regulator_put(preg, sensor_idx, (reg_type_offset + pin - IMGSENSOR_HW_PIN_AVDD));
-				#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
+				#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 				return IMGSENSOR_RETURN_ERROR;
 			}
 			atomic_inc(enable_cnt);
@@ -281,14 +281,14 @@ static enum IMGSENSOR_RETURN regulator_set(
 				pr_debug(
 					"[regulator]fail to regulator_disable, powertype: %d\n",
 					pin);
-				#ifdef OPLUS_FEATURE_CAMERA_COMMON
+				#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 				check_for_regulator_put(preg, sensor_idx,(reg_type_offset + pin - IMGSENSOR_HW_PIN_AVDD));
-				#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
+				#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 				return IMGSENSOR_RETURN_ERROR;
 			}
-			#ifdef OPLUS_FEATURE_CAMERA_COMMON
+			#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 			check_for_regulator_put(preg, sensor_idx,(reg_type_offset + pin - IMGSENSOR_HW_PIN_AVDD));
-			#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
+			#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 			atomic_dec(enable_cnt);
 		}
 	} else {
@@ -301,7 +301,7 @@ static enum IMGSENSOR_RETURN regulator_set(
 	return IMGSENSOR_RETURN_SUCCESS;
 }
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 static void check_for_regulator_get(struct REGULATOR *preg,
 	struct device *pdevice, unsigned int sensor_index,
 	unsigned int regulator_index)
@@ -370,7 +370,7 @@ static void check_for_regulator_put(struct REGULATOR *preg,
 	mutex_unlock(&g_regulator_state_mutex);
 	return;
 }
-#endif /*OPLUS_FEATURE_CAMERA_COMMON*/
+#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 
 static enum IMGSENSOR_RETURN regulator_dump(void *pinstance)
 {
@@ -384,7 +384,7 @@ static enum IMGSENSOR_RETURN regulator_dump(void *pinstance)
 		for (i = REGULATOR_TYPE_VCAMA;
 		i < REGULATOR_TYPE_MAX_NUM;
 		i++) {
-             #ifdef OPLUS_FEATURE_CAMERA_COMMON
+             #ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 			if (IS_ERR_OR_NULL(preg->pregulator[j][i])) {
 				PK_DBG("regulator idx(%d, %d) alread release ", j, i);
 				return IMGSENSOR_RETURN_SUCCESS;

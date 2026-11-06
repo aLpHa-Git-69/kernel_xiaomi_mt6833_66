@@ -234,7 +234,7 @@ static void read_EepromSn(void)
 	LOG_INF("gImgEepromInfo.camNormdata[2][0]]:0x%x\n", gImgEepromInfo.camNormdata[2][0]);
 	LOG_INF("gImgEepromInfo.camNormdata[2][1]:0x%x\n", gImgEepromInfo.camNormdata[2][1]);
 	imgsensor_info.module_id = Eeprom_1ByteDataRead(0x00, 0xA2);
-	Oplusimgsensor_Registdeviceinfo(gImgEepromInfo.pCamModuleInfo[0].name,
+	Camelliaimgsensor_Registdeviceinfo(gImgEepromInfo.pCamModuleInfo[0].name,
 	                                gImgEepromInfo.pCamModuleInfo[0].version,
 	                                imgsensor_info.module_id);
 	/*lens id*/

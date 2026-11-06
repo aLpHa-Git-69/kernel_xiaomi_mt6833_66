@@ -40,7 +40,7 @@ struct WL2864_LDOMAP{
 	CAMERA_LDO_SELECT wl2864ldo;
 };
 
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 /*Pengfei.Zhang@ODM Cam.Drv 20210705 avoid wl2864 power up confict*/
 struct wl2864 {
 	struct mutex         *pwl2864_mutex;

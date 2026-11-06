@@ -88,7 +88,7 @@ static long rear_als_factory_unlocked_ioctl(struct file *file, unsigned int cmd,
 			return -EINVAL;
 		}
 		return 0;
-#if(1) //OPLUS_FEATURE_SENSOR
+#if(1) //CAMELLIA_FEATURE_SENSOR
 	case REAR_ALS_IOCTL_ALS_GET_CALI:
 		if (rear_als_factory.fops != NULL && rear_als_factory.fops->rear_als_get_cali != NULL) {
 			err = rear_als_factory.fops->rear_als_get_cali(data_buf);
@@ -122,7 +122,7 @@ static long rear_als_factory_unlocked_ioctl(struct file *file, unsigned int cmd,
 			return -EINVAL;
 		}
 		return 0;
-#endif /* OPLUS_FEATURE_SENSOR */
+#endif /* CAMELLIA_FEATURE_SENSOR */
 	case REAR_ALS_ENABLE_CALI:
 		if (rear_als_factory.fops != NULL &&
 		    rear_als_factory.fops->rear_als_enable_calibration != NULL) {

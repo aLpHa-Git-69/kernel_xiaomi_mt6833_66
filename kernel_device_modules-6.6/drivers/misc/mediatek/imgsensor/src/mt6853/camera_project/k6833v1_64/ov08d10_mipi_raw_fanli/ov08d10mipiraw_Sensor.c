@@ -31,7 +31,7 @@
 	pr_debug(PFX "[%s] " format, __func__, ##args)
 #define MULTI_WRITE 0
 /* Camera Hardwareinfo */
-#ifdef OPLUS_FEATURE_CAMERA_COMMON
+#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 #define DEVICE_VERSION_OV08D10     "ov08d10"
 // #define MODULE_ID_OFFSET 0X0000
 static kal_uint8 deviceInfo_register_value = 0x00;

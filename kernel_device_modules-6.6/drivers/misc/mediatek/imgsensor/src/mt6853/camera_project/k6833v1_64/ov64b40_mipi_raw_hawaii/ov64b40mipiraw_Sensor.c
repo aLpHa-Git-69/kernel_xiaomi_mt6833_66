@@ -416,13 +416,13 @@ static void read_EepromQSC(void)
     gImgEepromInfo_21625.CamNormdata[0][0] = Eeprom_1ByteDataRead(0x00, 0xA0);
     gImgEepromInfo_21625.CamNormdata[0][1] = Eeprom_1ByteDataRead(0x01, 0xA0);
     imgsensor_info.module_id = Eeprom_1ByteDataRead(0x00, 0xA0);
-    Oplusimgsensor_Registdeviceinfo(gImgEepromInfo_21625.pCamModuleInfo[0].name,
+    Camelliaimgsensor_Registdeviceinfo(gImgEepromInfo_21625.pCamModuleInfo[0].name,
                                     gImgEepromInfo_21625.pCamModuleInfo[0].version,
                                     imgsensor_info.module_id);
     for(i = 2; i < 8; i++) {
        gImgEepromInfo_21625.CamNormdata[0][i] = Eeprom_1ByteDataRead(0x04+i, 0xA0);
     }
-    for (i = 0; i < OPPO_CAMERASN_LENS; i ++) {
+    for (i = 0; i < CAMELLIA_CAMERASN_LENS; i ++) {
        gImgEepromInfo_21625.CamNormdata[0][8+i] = Eeprom_1ByteDataRead(0xB0+i, 0xA0);
     }
     Dac_mac = (Eeprom_1ByteDataRead(0x93, 0xA0) << 8) | Eeprom_1ByteDataRead(0x92, 0xA0);

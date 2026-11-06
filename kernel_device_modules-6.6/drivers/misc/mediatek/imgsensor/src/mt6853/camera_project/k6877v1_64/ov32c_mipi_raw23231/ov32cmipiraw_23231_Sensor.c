@@ -49,7 +49,7 @@ static kal_uint32 streaming_control(kal_bool enable);
 #define READ_EEPROM_1K (1024)
 static kal_uint8 otp_data[LEFT_SIZE] = {0};
 static void read_fusion_xtalk_from_eeprom(void);
-void Oplusimgsensor_Registdeviceinfo(char *name, char *version, kal_uint8 module_id);
+void Camelliaimgsensor_Registdeviceinfo(char *name, char *version, kal_uint8 module_id);
 /*extern enum IMGSENSOR_RETURN Eeprom_DataInit(
             enum IMGSENSOR_SENSOR_IDX sensor_idx,
             kal_uint32 sensorID);*/

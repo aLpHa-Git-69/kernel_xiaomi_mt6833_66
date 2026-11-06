@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
- * Copyright (C) 2018-2020 Oplus. All rights reserved.
+ * Copyright (C) 2018-2020 Camellia. All rights reserved.
  */
 #include <linux/mutex.h>
 #include <linux/module.h>
@@ -20,10 +20,10 @@
 #include <linux/printk.h>
 #include "../include/mt-plat/upmu_hw.h"
 #include "../include/mt-plat/upmu_common.h"
-/*#include "../../../../../../vendor/oplus/kernel/system/include/oppo_project.h"*/
-#include <soc/oplus/system/oplus_project.h>
-#include <soc/oplus/device_info.h>
-/*#include "../../../../../../vendor/oplus/kernel/device_info/device_info/device_info.h"*/
+/*#include "../../../../../../vendor/camellia/kernel/system/include/camellia_project.h"*/
+#include <soc/camellia/system/camellia_project.h>
+#include <soc/camellia/device_info.h>
+/*#include "../../../../../../vendor/camellia/kernel/device_info/device_info/device_info.h"*/
 #endif
 
 #define WL2868C_IO_REG_LIMIT 20

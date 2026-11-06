@@ -2236,7 +2236,7 @@ static int mtk_nanohub_report_to_manager(struct data_unit_t *data)
 			event.action = data->flush_action;
 			event.word[0] = data->smd_t.state;
 			break;
-		/* camellia: Oppo palm/back-tap/rotation detect IDs dropped (not in hf_sensor_type.h) */
+		/* camellia: Camellia palm/back-tap/rotation detect IDs dropped (not in hf_sensor_type.h) */
 		case ID_TILT_DETECTOR:
 			event.timestamp = data->time_stamp;
 			event.sensor_type = id_to_type(data->sensor_type);

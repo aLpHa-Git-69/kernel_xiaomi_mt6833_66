@@ -19,7 +19,7 @@
  ****************************************************************************/
 #ifndef _SC202CS_OFILM_MIPIMONO_H
 #define _SC202CS_OFILM_MIPIMONO_H
-//#include <soc/oplus/system/oppo_project.h>
+//#include <soc/camellia/system/camellia_project.h>
 #include "kd_camera_typedef.h"
 #include "kd_imgsensor.h"
 #include "kd_imgsensor_define.h"
