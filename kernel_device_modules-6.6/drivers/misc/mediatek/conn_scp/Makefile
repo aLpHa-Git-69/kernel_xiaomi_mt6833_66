@@ -25,7 +25,6 @@ ifneq ($(KERNELRELEASE),)
     subdir-ccflags-y += -Werror -I$(DEVICE_MODULES_PATH)/drivers/misc/mediatek/conn_scp/conap_scp
     subdir-ccflags-y += -Werror -I$(DEVICE_MODULES_PATH)/drivers/misc/mediatek/conn_scp/aolserv
     subdir-ccflags-y += -Werror -I$(DEVICE_MODULES_PATH)/drivers/misc/mediatek/conn_scp/bleoffload
-    subdir-ccflags-y += -Werror -I$(DEVICE_MODULES_PATH)/drivers/misc/mediatek/conn_scp/aolextra
 
 	# Aoltest
     ifeq ($(CONFIG_MTK_AOL_DEBUG),y)
@@ -65,9 +64,6 @@ ifneq ($(KERNELRELEASE),)
     $(MODULE_NAME)-objs += bleoffload/bleoffload_core.o
     $(MODULE_NAME)-objs += bleoffload/bleoffload_netlink.o
 
-    $(MODULE_NAME)-objs += aolextra/aolextra_core.o
-    $(MODULE_NAME)-objs += aolextra/aolextra_netlink.o
-    $(MODULE_NAME)-objs += aolextra/aolextra_ring_buffer.o
 # Otherwise we were called directly from the command line;
 # invoke the kernel build system.
 else

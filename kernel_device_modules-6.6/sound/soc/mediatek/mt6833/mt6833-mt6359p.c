@@ -39,8 +39,6 @@
 void fsm_speaker_onn(void);
 void fsm_speaker_off(void);
 
-#include "../../codecs/audio/codecs/sia81xx/sipa_aux_dev_if.h"
-
 #define SKIP_SWRDG
 
 static const char *const mt6833_spk_type_str[] = {MTK_SPK_NOT_SMARTPA_STR,

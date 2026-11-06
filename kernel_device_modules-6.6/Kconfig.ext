@@ -116,7 +116,6 @@ source "$(KCONFIG_EXT_PREFIX)fs/f2fs/Kconfig"
 
 source "$(KCONFIG_EXT_PREFIX)arch/arm/Kconfig"
 
-source "$(KCONFIG_EXT_PREFIX)drivers/base/touchpanel_notify/Kconfig"
 
 source "$(KCONFIG_EXT_PREFIX)drivers/input/fingerprint/Kconfig"
 

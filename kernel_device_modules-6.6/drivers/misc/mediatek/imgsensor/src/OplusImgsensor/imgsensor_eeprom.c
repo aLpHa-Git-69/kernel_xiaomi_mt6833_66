@@ -12,7 +12,7 @@
  */
 
 #include "imgsensor_eeprom.h"
-#include <soc/oplus/device_info.h>
+int register_device_proc(char *name, char *version, char *vendor);	/* camellia_stubs */
 #include <soc/oplus/system/oplus_project.h>
 #define DUMP_EEPROM 0
 #include <linux/delay.h>

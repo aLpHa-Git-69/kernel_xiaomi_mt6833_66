@@ -22,7 +22,7 @@
 #include "regulator/regulator.h"
 #include "gpio/gpio.h"
 #include <soc/oplus/system/oplus_project.h>
-#include <soc/oplus/device_info.h>
+int register_device_proc(char *name, char *version, char *vendor);	/* camellia_stubs */
 //#include <linux/of_gpio.h>
 #include <linux/gpio.h>
 
