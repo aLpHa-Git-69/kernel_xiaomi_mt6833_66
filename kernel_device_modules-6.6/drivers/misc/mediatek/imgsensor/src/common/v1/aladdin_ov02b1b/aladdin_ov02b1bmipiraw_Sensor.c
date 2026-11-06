@@ -32,9 +32,6 @@
 //#include "imgsensor_i2c.h"
 #include <soc/camellia/system/camellia_project.h>
 
-#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
-#define CAMELLIA_FEATURE_CAMERA_COMMON
-#endif
 
 
 #define PFX "aladdin_ov02b1b_camera_sensor"

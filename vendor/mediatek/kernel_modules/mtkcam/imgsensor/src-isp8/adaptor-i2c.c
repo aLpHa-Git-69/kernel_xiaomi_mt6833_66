@@ -7,13 +7,7 @@
 
 #include "adaptor-i2c.h"
 
-#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
 #define MAX_BUF_SIZE 255
-#else /*CAMELLIA_FEATURE_CAMERA_COMMON*/
-#define MAX_BUF_SIZE 765
-#define MAX_BUF_SIZE_MAX 621
-#define MAX_MSG_NUM_U8_MAX (MAX_BUF_SIZE_MAX / 3)
-#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 #define MAX_MSG_NUM_U8 (MAX_BUF_SIZE / 3)
 #define MAX_MSG_NUM_U16 (MAX_BUF_SIZE / 4)
 #define MAX_VAL_NUM_U8 (MAX_BUF_SIZE - 2)
@@ -34,12 +28,6 @@ struct cache_wr_regs_u8_ixc {
 	struct i3c_i2c_xfer msg[MAX_MSG_NUM_U8];
 };
 
-#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
-struct cache_wr_regs_u8_ixc_max {
-	u8 buf[MAX_BUF_SIZE_MAX];
-	struct i3c_i2c_xfer msg[MAX_MSG_NUM_U8_MAX];
-};
-#endif /* CAMELLIA_FEATURE_CAMERA_COMMON */
 
 struct cache_wr_regs_u16_ixc {
 	u8 buf[MAX_BUF_SIZE];
@@ -984,71 +972,6 @@ int adaptor_ixc_wr_regs_u8(struct i3c_i2c_device *client,
 	return 0;
 }
 
-#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
-int adaptor_ixc_wr_regs_u8_max(struct i3c_i2c_device *client,
-		u16 addr, u16 *list, u32 len)
-{
-	struct cache_wr_regs_u8_ixc_max *pmem;
-	struct i3c_i2c_xfer *pmsg;
-	struct device *dev = adaptor_ixc_get_dev(client);
-	u8 *pbuf;
-	u16 *plist;
-	int i, ret, sent, total, cnt;
-
-	if (client == NULL)
-		return -ENODEV;
-
-	pmem = kmalloc(sizeof(*pmem), GFP_KERNEL);
-	if (!pmem)
-		return -ENOMEM;
-
-	/* each msg contains 3 bytes: addr(u16) + val(u8) */
-	sent = 0;
-	total = len >> 1;
-	plist = list;
-
-	while (sent < total) {
-
-		cnt = total - sent;
-		if (cnt > ARRAY_SIZE(pmem->msg))
-			cnt = ARRAY_SIZE(pmem->msg);
-
-		pbuf = pmem->buf;
-		pmsg = pmem->msg;
-
-		for (i = 0; i < cnt; i++) {
-
-			pbuf[0] = plist[0] >> 8;
-			pbuf[1] = plist[0] & 0xff;
-			pbuf[2] = plist[1] & 0xff;
-
-			if (client->protocol == I2C_PROTOCOL)
-				pmsg->addr = addr;
-
-			pmsg->flags = 0;
-			pmsg->len = 3;
-			pmsg->buf = pbuf;
-
-			plist += 2;
-			pbuf += 3;
-			pmsg++;
-		}
-
-		ret = i3c_i2c_transfer(client, pmem->msg, cnt);
-		if (ret < 0){
-			dev_info(dev, "[%s]ixc transfer failed (%d)\n", __func__,ret);
-			kfree(pmem);
-			return -EIO;
-		}
-
-		sent += cnt;
-	}
-
-	kfree(pmem);
-
-	return 0;
-}
-#endif /* CAMELLIA_FEATURE_CAMERA_COMMON */
 
 int adaptor_ixc_wr_regs_u16(struct i3c_i2c_device *client,
 		u16 addr, u16 *list, u32 len)

@@ -35,11 +35,6 @@
 #include <linux/compat.h>
 #endif
 
-#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
-#include <soc/camellia/system/camellia_project.h>
-#include "imgsensor_hwcfg_custom_v1.h"
-#include "imgsensor_eeprom.h"
-#endif //CAMELLIA_FEATURE_CAMERA_COMMON
 // #if IS_ENABLED(CONFIG_MTK_CCU)
 // #include "ccu_inc.h"
 // #endif
@@ -513,19 +508,9 @@ int imgsensor_set_driver(struct IMGSENSOR_SENSOR *psensor)
 
 	imgsensor_mutex_init(psensor_inst);
 
-	#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
 	imgsensor_i2c_init(&psensor_inst->i2c_cfg,
 	imgsensor_custom_config[
 	(unsigned int)psensor_inst->sensor_idx].i2c_dev);
-	#else //CAMELLIA_FEATURE_CAMERA_COMMON
-	Camelliaimgsensor_i2c_init(psensor_inst);
-	pr_info("Yogesh imgsensor_set_driver aladin Selected\n");
-	pSensorList = Camelliaimgsensor_Sensorlist();
-	if (pSensorList == NULL) {
-	    pSensorList = kdSensorList;
-	}
-
-	#endif //CAMELLIA_FEATURE_CAMERA_COMMON
 	imgsensor_i2c_filter_msg(&psensor_inst->i2c_cfg, true);
 
 	if (get_search_list) {
@@ -3162,9 +3147,6 @@ static int imgsensor_probe(struct platform_device *pdev)
 	// pgimgsensor->clk.pplatform_device = pdev;
 	// imgsensor_clk_init(&pgimgsensor->clk);
 #endif
-	#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
-	camellia_imgsensor_hwcfg();
-	#endif //CAMELLIA_FEATURE_CAMERA_COMMON
 
 #ifndef CONFIG_FPGA_EARLY_PORTING
 	imgsensor_clk_init(&pgimgsensor->clk);

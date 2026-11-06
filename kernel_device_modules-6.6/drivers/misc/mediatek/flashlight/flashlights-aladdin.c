@@ -32,9 +32,6 @@
 #include "flashlight-core.h"
 #include "flashlight-dt.h"
 #include "flashlight.h"
-#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
-#include <soc/camellia/system/camellia_project.h>
-#endif
 
 /* device tree should be defined in flashlight-dt.h */
 #ifndef ALADDIN_DTNAME

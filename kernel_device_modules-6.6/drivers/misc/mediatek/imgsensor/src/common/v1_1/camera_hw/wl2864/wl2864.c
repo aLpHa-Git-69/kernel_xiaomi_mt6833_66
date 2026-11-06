@@ -13,10 +13,6 @@
 
 #include "wl2864.h"
 
-#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
-/*Pengfei.Zhang@ODM Cam.Drv 20210705 avoid wl2864 power up confict*/
-static struct wl2864 wl2864_instance;
-#endif
 
 struct WL2864_LDOMAP  ldolist[] = {
 	{IMGSENSOR_SENSOR_IDX_MAIN,   AVDD,    CAMERA_LDO_AVDD1},//for rear main(AVDD)
@@ -53,11 +49,6 @@ static const int extldo_regulator_voltage[] = {
 
 static enum IMGSENSOR_RETURN wl2864_init(void *pinstance, struct IMGSENSOR_HW_DEVICE_COMMON *pcommon)
 {
-	#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
-	/*Pengfei.Zhang@ODM Cam.Drv 20210705 avoid wl2864 power up confict*/
-	struct wl2864 *pinst = (struct wl2864 *)pinstance;
-	pinst->pwl2864_mutex = &pcommon->pinctrl_mutex;
-	#endif
 
 	return IMGSENSOR_RETURN_SUCCESS;
 }
@@ -74,10 +65,6 @@ static enum IMGSENSOR_RETURN wl2864_set(
 	enum IMGSENSOR_HW_PIN_STATE pin_state)
 {
 int i,ret;
-#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
-/*Pengfei.Zhang@ODM Cam.Drv 20210705 avoid wl2864 power up confict*/
-struct wl2864 *pinst = (struct wl2864 *)pinstance;
-#endif
 pr_debug("%s stoneadd hwpin=%d idx=%d pinstate=%d\n", __func__, pin,sensor_idx, pin_state);
 
 
@@ -94,16 +81,8 @@ for(i=0;i<(sizeof(ldolist)/sizeof(ldolist[0]));i++)
 					ldolist[i].wl2864ldo,
 					extldo_regulator_voltage[pin_state-EXTLDO_REGULATOR_VOLTAGE_0]);
 
-			#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
-			/*Pengfei.Zhang@ODM Cam.Drv 20210705 avoid wl2864 power up confict*/
-			mutex_lock(pinst->pwl2864_mutex);
 			camera_ldo_set_ldo_value(ldolist[i].wl2864ldo,extldo_regulator_voltage[pin_state-EXTLDO_REGULATOR_VOLTAGE_0]);
 			camera_ldo_set_en_ldo(ldolist[i].wl2864ldo,1);
-			mutex_unlock(pinst->pwl2864_mutex);
-			#else
-			camera_ldo_set_ldo_value(ldolist[i].wl2864ldo,extldo_regulator_voltage[pin_state-EXTLDO_REGULATOR_VOLTAGE_0]);
-			camera_ldo_set_en_ldo(ldolist[i].wl2864ldo,1);
-			#endif
 		}
 		else
 		{
@@ -123,10 +102,6 @@ static struct IMGSENSOR_HW_DEVICE device = {
 	.set       = wl2864_set,
 	.release   = wl2864_release,
 	.id        = IMGSENSOR_HW_ID_WL2864,
-	#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
-	/*Pengfei.Zhang@ODM Cam.Drv 20210705 avoid wl2864 power up confict*/
-	.pinstance = (void *)&wl2864_instance,
-	#endif
 };
 
 enum IMGSENSOR_RETURN imgsensor_hw_wl2864_open(
