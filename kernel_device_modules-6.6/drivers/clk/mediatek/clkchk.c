@@ -37,11 +37,9 @@
 
 bool check_bypass_status;
 
-#if 0 /* camellia: unused: clkchk_set_cfg */
 void __attribute__((weak)) clkchk_set_cfg(void)
 {
 }
-#endif /* clkchk_set_cfg */
 
 static const struct clkchk_ops *clkchk_ops;
 static struct provider_clk clkchk_pvd_clks[MAX_CLK_NUM], clkdbg_pvd_clks[MAX_CLK_NUM];

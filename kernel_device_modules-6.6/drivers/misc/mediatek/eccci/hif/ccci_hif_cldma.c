@@ -1892,11 +1892,9 @@ static void cldma_rx_worker_start(struct md_cd_ctrl *md_ctrl, int qno)
 
 }
 
-#if 0 /* camellia: unused: md_cd_check_md_DCM */
 void __weak md_cd_check_md_DCM(struct md_cd_ctrl *md_ctrl)
 {
 }
-#endif /* md_cd_check_md_DCM */
 
 static void cldma_irq_work_cb(struct md_cd_ctrl *md_ctrl)
 {

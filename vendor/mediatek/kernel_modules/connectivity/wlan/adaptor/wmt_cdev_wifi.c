@@ -213,13 +213,11 @@ void set_wifi_standalone_log_mode(const int mode)
 	wifi_standalone_log_mode = mode;
 }
 
-#if 0 /* camellia: unused: get_wifi_standalone_log_mode */
 uint32_t get_wifi_standalone_log_mode(void)
 {
 	return wifi_standalone_log_mode;
 }
 EXPORT_SYMBOL(get_wifi_standalone_log_mode);
-#endif /* get_wifi_standalone_log_mode */
 
 #if !IS_ENABLED(CFG_SUPPORT_CONNAC1X)
 void update_driver_reset_status(uint8_t fgIsResetting)

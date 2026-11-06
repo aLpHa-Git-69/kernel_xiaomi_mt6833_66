@@ -255,12 +255,10 @@ int __weak sync_dcm_set_mp1_freq(unsigned int mhz)
 	return 0;
 }
 
-#if 0 /* camellia: unused: sync_dcm_set_mp2_freq */
 int __weak sync_dcm_set_mp2_freq(unsigned int mhz)
 {
 	return 0;
 }
-#endif /* sync_dcm_set_mp2_freq */
 
 int __weak sync_dcm_set_cci_freq(unsigned int mhz)
 {

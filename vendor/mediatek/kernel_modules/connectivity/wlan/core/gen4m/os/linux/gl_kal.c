@@ -12454,11 +12454,9 @@ u_int8_t kalIsTputMode(struct ADAPTER *prAdapter,
 #endif /* kalIsTputMode */
 #endif /* CFG_SUPPORT_DISABLE_DATA_DDONE_INTR */
 
-#if 0 /* camellia: unused: kalSetRunOnNonXCore */
 void __weak kalSetRunOnNonXCore(struct task_struct *task)
 {
 }
-#endif /* kalSetRunOnNonXCore */
 
 void __weak kalSetCpuBoost(struct ADAPTER *prAdapter,
 		struct BOOST_INFO *prBoostInfo)
@@ -12501,29 +12499,23 @@ uint32_t __weak kalGetLittleCpuBoostThreshold(void)
 }
 #endif /* CFG_SUPPORT_LITTLE_CPU_BOOST */
 
-#if 0 /* camellia: unused: kalGetChipID */
 uint32_t __weak kalGetChipID(void)
 {
 	/* SOC7_0_CHIP_ID = 0x70707070 */
 	return 0x70707070;
 }
-#endif /* kalGetChipID */
 
-#if 0 /* camellia: unused: kalGetConnsysVersion */
 uint32_t __weak kalGetConnsysVersion(void)
 {
 	/* SOC7_CONNSYS_VERSION_ID = 0x02050100 */
 	return 0x02050100;
 }
-#endif /* kalGetConnsysVersion */
 
-#if 0 /* camellia: unused: kalGetWfIpVersion */
 uint32_t __weak kalGetWfIpVersion(void)
 {
 	/* SOC7_WFSYS_VERSION_ID = 0x02020100 */
 	return 0x02040100;
 }
-#endif /* kalGetWfIpVersion */
 
 uint32_t __weak kalGetFwVerOffset(void)
 {
@@ -12531,35 +12523,28 @@ uint32_t __weak kalGetFwVerOffset(void)
 	return 0;
 }
 
-#if 0 /* camellia: unused: kalGetEmiMetOffset */
 uint32_t __weak kalGetEmiMetOffset(void)
 {
 	DBGLOG(SW4, WARN, "enter kalGetEmiMetOffset\n");
 	return 0;
 }
-#endif /* kalGetEmiMetOffset */
 
-#if 0 /* camellia: unused: kalGetProjectId */
 uint32_t __weak kalGetProjectId(void)
 {
 	DBGLOG(SW4, WARN, "enter kalGetProjectId\n");
 	return 0;
 }
-#endif /* kalGetProjectId */
 
-#if 0 /* camellia: unused: kalDumpPlatGPIOStat */
 void __weak kalDumpPlatGPIOStat(void)
 {
 	DBGLOG(SW4, WARN, "enter kalDumpPlatGPIOStat\n");
 }
-#endif /* kalDumpPlatGPIOStat */
 
 void __weak kalSetEmiMetOffset(uint32_t newEmiMetOffset)
 {
 	DBGLOG(SW4, WARN, "enter kalSetEmiMetOffset\n");
 }
 
-#if 0 /* camellia: unused: kalSetCpuNumFreq */
 int32_t __weak kalSetCpuNumFreq(uint32_t u4CoreNum,
 				uint32_t u4Freq)
 {
@@ -12568,7 +12553,6 @@ int32_t __weak kalSetCpuNumFreq(uint32_t u4CoreNum,
 	       u4CoreNum, u4Freq);
 	return 0;
 }
-#endif /* kalSetCpuNumFreq */
 
 int32_t __weak kalGetFwFlavorByPlat(uint8_t *flavor)
 {
@@ -12601,13 +12585,11 @@ int32_t kalGetFwFlavor(uint8_t *flavor)
 	return kalGetFwFlavorByPlat(flavor);
 }
 
-#if 0 /* camellia: unused: kalGetConnsysVerId */
 int32_t __weak kalGetConnsysVerId(void)
 {
 	DBGLOG(SW4, WARN, "NO CONNSYS version ID.\n");
 	return 0;
 }
-#endif /* kalGetConnsysVerId */
 
 void __weak kalSetEmiMpuProtection(phys_addr_t emiPhyBase, bool enable)
 {
@@ -12630,25 +12612,21 @@ int32_t __weak kalCheckTputLoad(struct ADAPTER *prAdapter,
 	return FALSE;
 }
 
-#if 0 /* camellia: unused: kalCheckVcoreBoost */
 int32_t __weak kalCheckVcoreBoost(struct ADAPTER *prAdapter,
 				  uint8_t uBssIndex)
 {
 	return FALSE;
 }
-#endif /* kalCheckVcoreBoost */
 
 int32_t __weak kalPlatOpsInit(void)
 {
 	return 0;
 }
 
-#if 0 /* camellia: unused: kalGetScpDumpInfo */
 int32_t __weak kalGetScpDumpInfo(u64 *addr, unsigned int *size)
 {
 	return 0;
 }
-#endif /* kalGetScpDumpInfo */
 
 #if CFG_MTK_WIFI_PCIE_SR
 u_int8_t __weak kalIsSupportPcieL2(void)
@@ -12688,12 +12666,10 @@ uint32_t __weak kalGetConnInfraId(void)
 }
 #endif /* CFG_SUPPORT_HOST_OFFLOAD */
 
-#if 0 /* camellia: unused: kalGetTxBigCpuMask */
 uint32_t __weak kalGetTxBigCpuMask(void)
 {
 	return 0xFF;
 }
-#endif /* kalGetTxBigCpuMask */
 
 /* mimic store_rps_map as net-sysfs.c does */
 int wlan_set_rps_map(struct netdev_rx_queue *queue, unsigned long rps_value)
@@ -19294,9 +19270,7 @@ inline void kalHifRegWorkSchedule(struct GLUE_INFO *pr)
 }
 #endif /* CFG_SUPPORT_HIF_REG_WORK */
 
-#if 0 /* camellia: unused: kalPmicCtrl */
 void __weak kalPmicCtrl(u_int8_t fgIsEnabled)
 {
 	DBGLOG(SW4, WARN, "PMIC control is not defined\n");
 }
-#endif /* kalPmicCtrl */

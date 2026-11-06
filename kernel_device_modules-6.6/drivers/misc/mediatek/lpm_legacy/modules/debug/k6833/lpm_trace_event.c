@@ -123,13 +123,11 @@ static const struct mtk_lp_sysfs_op spm_resource_req_timer_enable_fops = {
 	.fs_write = set_spm_resource_req_timer_enable,
 };
 
-#if 0 /* camellia: unused: spm_is_md1_sleep */
 bool spm_is_md1_sleep(void)
 {
 	return !(plat_mmio_read(SRC_REQ_STA_0) & 0x3F);
 }
 EXPORT_SYMBOL(spm_is_md1_sleep);
-#endif /* spm_is_md1_sleep */
 
 int __init lpm_trace_init(void)
 {

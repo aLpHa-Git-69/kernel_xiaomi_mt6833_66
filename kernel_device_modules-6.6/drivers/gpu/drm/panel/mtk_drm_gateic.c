@@ -251,7 +251,6 @@ int mtk_drm_gateic_set_backlight(unsigned int level,
 }
 EXPORT_SYMBOL(mtk_drm_gateic_set_backlight);
 
-#if 0 /* camellia: unused: mtk_drm_gateic_enable_backlight */
 int mtk_drm_gateic_enable_backlight(char func)
 {
 #ifndef CONFIG_FPGA_EARLY_PORTING
@@ -266,7 +265,6 @@ int mtk_drm_gateic_enable_backlight(char func)
 #endif
 }
 EXPORT_SYMBOL(mtk_drm_gateic_enable_backlight);
-#endif /* mtk_drm_gateic_enable_backlight */
 
 #if 0 /* camellia: unused: mtk_drm_gateic_write_bytes */
 int mtk_drm_gateic_write_bytes(unsigned char addr, unsigned char value, char func)
