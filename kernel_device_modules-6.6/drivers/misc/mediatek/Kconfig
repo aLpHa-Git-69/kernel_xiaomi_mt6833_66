@@ -332,9 +332,6 @@ source "$(KCONFIG_EXT_PREFIX)drivers/misc/mediatek/pgboost/Kconfig"
 source "$(KCONFIG_EXT_PREFIX)drivers/misc/mediatek/ktchbst/Kconfig"
 endmenu # Performance
 
-#ifdef CAMELLIA_FEATURE_OEM_OCDT
-source "$(KCONFIG_EXT_PREFIX)drivers/misc/mediatek/boot_common/Kconfig"
-#endif
 
 menu "Secure Boot"
 source "$(KCONFIG_EXT_PREFIX)drivers/misc/mediatek/rootfs_check/Kconfig"

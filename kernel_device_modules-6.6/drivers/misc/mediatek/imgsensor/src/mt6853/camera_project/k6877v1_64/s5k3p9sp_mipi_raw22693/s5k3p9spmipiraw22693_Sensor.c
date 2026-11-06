@@ -50,13 +50,11 @@ extern enum IMGSENSOR_RETURN Eeprom_DataInit(
             kal_uint32 sensorID);
 
 extern struct CAMERA_DEVICE_INFO gImgEepromInfo;
-#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 #define DEVICE_VERSION_S5k3P9SP     "s5k3p9sp"
 //extern void register_imgsensor_deviceinfo(char *name, char *version, u8 module_id);
 static kal_uint8 deviceInfo_register_value = 0x00;
 static kal_uint32 streaming_control(kal_bool enable);
 #define MODULE_ID_OFFSET 0x0000
-#endif
 
 #define PFX "S5K3P9SP_camera_sensor"
 #define LOG_INF(format,  args...)	pr_debug(PFX "[%s] " format,  __FUNCTION__,  ##args)
@@ -68,9 +66,7 @@ static DEFINE_SPINLOCK(imgsensor_drv_lock);
 
 static struct imgsensor_info_struct imgsensor_info = {
 		.sensor_id = S5K3P9SP_SENSOR_ID22693,
-		#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 		.module_id = 0x04,	//0x01 Sunny,0x05 QTEK
-		#endif
 		.checksum_value = 0xffb1ec31,
 
 		.pre = {
@@ -247,7 +243,6 @@ MUINT32  sn_inf_sub_S5K3P9SP[13];
 /*0 flag   1-12 data*/
 /****hope add end****/
 
-#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 static kal_uint16 read_module_id(void)
 {
 	kal_uint16 get_byte=0;
@@ -450,7 +445,6 @@ static void read_4cell_from_eeprom_s5k3p9sp(void)
 	s5k3p9sp_data_xtalk[0]= 0;
 	s5k3p9sp_data_xtalk[1]= 8;
 }
-#endif
 
 static kal_uint16 read_cmos_sensor_16_16(kal_uint32 addr)
 {
@@ -4555,7 +4549,6 @@ static kal_uint32 get_imgsensor_id(UINT32 *sensor_id)
 			if (*sensor_id == S5K3P9SP_SENSOR_ID) {
 				*sensor_id = imgsensor_info.sensor_id;
 				LOG_INF("i2c write id: 0x%x, sensor id: 0x%x\n", imgsensor.i2c_write_id, *sensor_id);
-				#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 				imgsensor_info.module_id = read_module_id();
 				read_eeprom_SN();
 				read_eeprom_CamInfo();
@@ -4571,7 +4564,6 @@ static kal_uint32 get_imgsensor_id(UINT32 *sensor_id)
 					Eeprom_DataInit(1, S5K3P9SP_SENSOR_ID22693);
 					deviceInfo_register_value = 0x01;
 				}
-				#endif
 				/*vivo hope  add for CameraEM otp errorcode*/
 				/*
 				LOG_INF("cfx_add:start read eeprom ---vivo_otp_read_when_power_on = %d\n", vivo_otp_read_when_power_on);
@@ -5487,7 +5479,6 @@ static kal_uint32 feature_control(MSDK_SENSOR_FEATURE_ENUM feature_id,
 			}
 			break;
 
-	#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 	case SENSOR_FEATURE_GET_MODULE_INFO:
 		LOG_INF("S5K3P9SP GET_MODULE_CamInfo:%d %d\n", *feature_para_len, *feature_data_32);
 		*(feature_data_32 + 1) = (gS5k3p9sp_CamInfo[1] << 24)
@@ -5521,7 +5512,6 @@ static kal_uint32 feature_control(MSDK_SENSOR_FEATURE_ENUM feature_id,
 	case SENSOR_FEATURE_GET_OFFSET_TO_START_OF_EXPOSURE:
 		*(MUINT32 *)(uintptr_t)(*(feature_data + 1)) = -869000;
 		break;
-	#endif
     case SENSOR_FEATURE_GET_PERIOD_BY_SCENARIO:
         switch (*feature_data) {
         case MSDK_SCENARIO_ID_CAMERA_CAPTURE_JPEG:
@@ -5607,12 +5597,10 @@ static kal_uint32 feature_control(MSDK_SENSOR_FEATURE_ENUM feature_id,
 	case SENSOR_FEATURE_CHECK_SENSOR_ID:
 		get_imgsensor_id(feature_return_para_32);
 		break;
-	#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 	/*Caohua.Lin@CAmera, modify for different module 20180723*/
 	case SENSOR_FEATURE_CHECK_MODULE_ID:
 		*feature_return_para_32 = imgsensor_info.module_id;
 		break;
-	#endif
 	case SENSOR_FEATURE_SET_AUTO_FLICKER_MODE:
 		set_auto_flicker_mode((BOOL)*feature_data_16,*(feature_data_16+1));
 		break;
@@ -5794,7 +5782,6 @@ static kal_uint32 feature_control(MSDK_SENSOR_FEATURE_ENUM feature_id,
 			(UINT32)*feature_return_para_32);
 			*feature_para_len = 4;
 		break;
-	#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 	case SENSOR_FEATURE_GET_4CELL_DATA:
 		{
 			int type = (kal_uint16)(*feature_data);
@@ -5819,7 +5806,6 @@ static kal_uint32 feature_control(MSDK_SENSOR_FEATURE_ENUM feature_id,
 		*(feature_data + 1) = 1; /* margin info by scenario */
 		*(feature_data + 2) = imgsensor_info.margin;
 		break;
-	#endif
 
 	default:
 		break;

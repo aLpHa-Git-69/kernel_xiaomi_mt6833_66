@@ -28,9 +28,7 @@
 #include <linux/i2c.h>
 #include <linux/slab.h>
 #include <linux/pinctrl/consumer.h>
-#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 #include <soc/camellia/system/camellia_project.h>
-#endif
 
 #include "flashlight-core.h"
 #include "flashlight-dt.h"

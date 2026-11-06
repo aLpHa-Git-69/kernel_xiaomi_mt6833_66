@@ -13,9 +13,6 @@
 #define SCQ_DEFAULT_CLK_RATE 208 // default 208MHz
 #define USINGSCQ 1
 
-#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
-#define CAMELLIA_FEATURE_CAMERA_COMMON
-#endif
 
 enum raw_module_id {
 	RAW_A = 0,

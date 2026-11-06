@@ -22,9 +22,6 @@
 #include <aee.h>
 #endif
 
-#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
-#define CAMELLIA_FEATURE_CAMERA_COMMON
-#endif /* CAMELLIA_FEATURE_CAMERA_COMMON */
 
 // --------- DMA-BUF ----------
 #include <linux/dma-heap.h>

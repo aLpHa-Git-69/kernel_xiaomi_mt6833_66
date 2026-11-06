@@ -56,14 +56,12 @@
 #define LOG_INF(format, args...) pr_debug(PFX "[%s] " format, __func__, ##args)
 #define LOG_ERR(format, args...) pr_err(PFX "[%s] " format, __func__, ##args)
 
-#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 #define DEVICE_VERSION_S5KJN1	 "s5kjn1"
 extern void register_imgsensor_deviceinfo(char *name, char *version, u8 module_id);
 //static kal_uint8 deviceInfo_register_value = 0x00;
 static kal_uint32 streaming_control(kal_bool enable);
 #define MODULE_ID_OFFSET 0x0000
 #define I2C_BUFFER_LEN 225	/* trans# max is 255, each 3 bytes */
-#endif
 
 static kal_uint16 table_write_cmos_sensor(kal_uint16 *para, kal_uint32 len);
 static bool bNeedSetNormalMode = KAL_FALSE;
@@ -314,7 +312,6 @@ static struct SET_PD_BLOCK_INFO_T imgsensor_pd_info_3264_2448_custom2 =
 
 
 #if 0
-#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 static kal_uint16 read_module_id(void)
 {
 	kal_uint16 get_byte=0;
@@ -326,7 +323,6 @@ static kal_uint16 read_module_id(void)
 	return get_byte;
 
 }
-#endif
 #endif
 static kal_uint16 read_cmos_sensor(kal_uint32 addr)
 {

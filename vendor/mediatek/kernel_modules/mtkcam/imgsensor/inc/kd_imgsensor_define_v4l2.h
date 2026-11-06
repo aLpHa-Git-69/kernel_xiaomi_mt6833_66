@@ -33,9 +33,7 @@
 #define MINT16 signed short
 #define MINT32 signed int
 #endif
-#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 #include "../src-isp8/camellia/inc/camellia_kd_imgsensor_define_v4l2.h"
-#endif /* CAMELLIA_FEATURE_CAMERA_COMMON */
 /************************************************************************
  *
  ************************************************************************/
@@ -411,9 +409,7 @@ enum ACDK_SENSOR_FEATURE_ENUM {
 	SENSOR_FEATURE_GET_MULTI_EXP_SHUTTER_RANGE_BY_SCENARIO,
 	SENSOR_FEATURE_SET_DESKEW_CTRL,
 	SENSOR_FEATURE_GET_FRAME_CNT,
-#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 	CAMELLIA_EXTERN_ACDK_SENSOR_FEATURE_ENUM,
-#endif /* CAMELLIA_FEATURE_CAMERA_COMMON */
 	SENSOR_FEATURE_SET_CPHY_LRTE_MODE,
 	SENSOR_FEATURE_GET_EXP_LINE_BY_SCENARIO,
 	SENSOR_FEATURE_UPDATE_HW_INIT_TIME,

@@ -22,12 +22,10 @@ $(info IMGSENSOR_srctree: $(srctree))
 
 $(info IMGSENSOR_src: $(src))
 
-#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 subdir-ccflags-y += -D CAMELLIA_FEATURE_CAMERA_COMMON \
 	-D CONFIG_CAMELLIA_CAMERA_NOTIFY \
 	-I$(MTK_ISP_DRIVER_PATH)/imgsensor/src-isp8/camellia/inc \
 	-I$(MTK_ISP_DRIVER_PATH)/imgsensor/src-isp8/camellia
-#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 
 subdir-ccflags-y += \
 	-I$(DEVICE_MODULES_PATH)/include \
@@ -63,10 +61,8 @@ imgsensor_isp8-objs += \
 	adaptor-trace.o \
 	adaptor-util.o \
 
-#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 imgsensor_isp8-objs += camellia/camellia-adaptor-subdrv-ctrl.o
 imgsensor_isp8-objs += camellia/dfx/camellia_cam_olc_exception.o
-#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 
 #ifdef CONFIG_CAMELLIA_CAMERA_NOTIFY
 imgsensor_isp8-objs += camellia/camellia_cam_notify.o
@@ -94,12 +90,10 @@ alpha_drv_k6985 += $(1)
 total_subdrvs += $(1)
 unknown_drv :=
 endif
-#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 ifneq ($(wildcard $(IMGSENSOR_DRIVER_PATH)/camellia/common/$(1)),)
 camellia_drv += $(1)
 total_subdrvs += $(1)
 endif
-#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 endef
 
 $(foreach drv,$(subst $\",,$(CONFIG_CUSTOM_KERNEL_IMGSENSOR)),$(eval $(call FILTER_DRV,$(drv))))
@@ -132,12 +126,10 @@ $(info common_drv : $(common_drv))
 $(foreach drv,$(common_drv),$(eval $(call add_subdrv,common/$(drv))))
 endif
 
-#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 ifneq ($(camellia_drv),)
 $(info camellia_drv : $(camellia_drv))
 $(foreach drv,$(camellia_drv),$(eval $(call add_subdrv,camellia/common/$(drv))))
 endif
-#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 
 ifneq ($(project_drv),)
 $(info project_drv : $(project_drv))

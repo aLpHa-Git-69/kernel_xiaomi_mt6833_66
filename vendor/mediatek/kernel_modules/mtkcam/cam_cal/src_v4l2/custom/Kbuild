@@ -11,12 +11,10 @@ CAM_CAL_CUSTOM_SRC_PATH := $(CAM_CAL_SRC_PATH)/custom
 CAM_CAL_CUSTOM_SRC_LAYOUT_PATH := $(CAM_CAL_CUSTOM_SRC_PATH)/layout
 COMMON_VERSION := v2
 
-#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 CAMELLIA_CAM_CAL_CUSTOM_SRC_LAYOUT_PATH := $(CAM_CAL_CUSTOM_SRC_PATH)/camellia/layout
 subdir-ccflags-y += -D CAMELLIA_FEATURE_CAMERA_COMMON \
                     -I$(CAM_CAL_CUSTOM_SRC_PATH)/camellia/common \
                     -I$(CAM_CAL_CUSTOM_SRC_PATH)/camellia/../imgsensor/inc
-#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 
 subdir-ccflags-y += -I$(MTK_CUSTOM_PATH)/imgsensor/inc \
                     -I$(CAM_CAL_SRC_PATH)/../inc \
@@ -41,11 +39,9 @@ KERNEL_CAM_CAL_SRC := $(notdir $(wildcard $(CAM_CAL_CUSTOM_SRC_LAYOUT_PATH)/*.c)
 KERNEL_CAM_CAL_OBJ := $(addprefix layout/,$(patsubst %.c, %.o, $(KERNEL_CAM_CAL_SRC)))
 KERNEL_CAM_CAL := $(basename $(KERNEL_CAM_CAL_SRC))
 
-#ifdef CAMELLIA_FEATURE_CAMERA_COMMON
 CAMELLIA_KERNEL_CAM_CAL_SRC += $(notdir $(wildcard $(CAMELLIA_CAM_CAL_CUSTOM_SRC_LAYOUT_PATH)/*.c))
 KERNEL_CAM_CAL_OBJ += $(addprefix camellia/layout/,$(patsubst %.c, %.o, $(CAMELLIA_KERNEL_CAM_CAL_SRC)))
 KERNEL_CAM_CAL += $(basename $(CAMELLIA_KERNEL_CAM_CAL_SRC))
-#endif /*CAMELLIA_FEATURE_CAMERA_COMMON*/
 
 CAM_CAL_CONFIG_LIST := $(subst $(space),$(comma),$(foreach e,$(subst ",,$(KERNEL_CAM_CAL)),E($(e))))
 subdir-ccflags-y += -D'CAM_CAL_CONFIG_LIST=$(CAM_CAL_CONFIG_LIST)'

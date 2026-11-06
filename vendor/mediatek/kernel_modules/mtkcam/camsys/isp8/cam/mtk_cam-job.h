@@ -19,9 +19,6 @@
 #include "mtk_cam-qof.h"
 #include "mtk_cam-tuning.h"
 
-#ifndef CAMELLIA_FEATURE_CAMERA_COMMON
-#define CAMELLIA_FEATURE_CAMERA_COMMON
-#endif
 
 #define JOB_NUM_PER_STREAM 8
 #define JOB_NUM_PER_STREAM_DISPLAY_IC 16
