@@ -125,11 +125,13 @@ EXPORT_SYMBOL_GPL(release_sspm_semaphore);
  * schedule a work on sspm's work queue
  * @param sspm_ws: work_struct to schedule
  */
+#if 0 /* camellia: unused: sspm_schedule_work */
 void sspm_schedule_work(struct sspm_work_struct *sspm_ws)
 {
 	queue_work(sspm_workqueue, &sspm_ws->work);
 }
 EXPORT_SYMBOL_GPL(sspm_schedule_work);
+#endif /* sspm_schedule_work */
 
 /*
  * @return: 1 if sspm is ready for running tasks

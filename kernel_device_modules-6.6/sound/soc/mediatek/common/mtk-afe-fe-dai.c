@@ -59,19 +59,23 @@
 
 static unsigned int g_channel;
 
+#if 0 /* camellia: unused: mtk_get_channel_value */
 int mtk_get_channel_value(void)
 {
 	return g_channel;
 }
 EXPORT_SYMBOL(mtk_get_channel_value);
+#endif /* mtk_get_channel_value */
 
 static bool (*afe_is_vow_memif)(int);
 
+#if 0 /* camellia: unused: register_is_vow_bargein_memif_callback */
 void register_is_vow_bargein_memif_callback(bool (*callback)(int id))
 {
 	afe_is_vow_memif = callback;
 }
 EXPORT_SYMBOL(register_is_vow_bargein_memif_callback);
+#endif /* register_is_vow_bargein_memif_callback */
 
 static bool is_semaphore_control_need(bool is_scp_sema_support)
 {
@@ -860,6 +864,7 @@ int mtk_dynamic_irq_release(struct mtk_base_afe *afe, int irq_id)
 }
 EXPORT_SYMBOL_GPL(mtk_dynamic_irq_release);
 
+#if 0 /* camellia: unused: mtk_afe_suspend */
 int mtk_afe_suspend(struct snd_soc_component *component)
 {
 	struct mtk_base_afe *afe = snd_soc_component_get_drvdata(component);
@@ -884,6 +889,7 @@ int mtk_afe_suspend(struct snd_soc_component *component)
 	return 0;
 }
 EXPORT_SYMBOL_GPL(mtk_afe_suspend);
+#endif /* mtk_afe_suspend */
 
 int mtk_afe_resume(struct snd_soc_component *component)
 {
@@ -1387,6 +1393,7 @@ int mtk_memif_set_pbuf_size(struct mtk_base_afe *afe,
 }
 EXPORT_SYMBOL_GPL(mtk_memif_set_pbuf_size);
 
+#if 0 /* camellia: unused: mtk_memif_set_min_max_len */
 int mtk_memif_set_min_max_len(struct mtk_base_afe *afe, int id, int min_l, int max_l)
 {
 	const struct mtk_base_memif_data *memif_data = afe->memif[id].data;
@@ -1403,6 +1410,7 @@ int mtk_memif_set_min_max_len(struct mtk_base_afe *afe, int id, int min_l, int m
 	return 0;
 }
 EXPORT_SYMBOL_GPL(mtk_memif_set_min_max_len);
+#endif /* mtk_memif_set_min_max_len */
 
 MODULE_DESCRIPTION("Mediatek simple fe dai operator");
 MODULE_AUTHOR("Garlic Tseng <garlic.tseng@mediatek.com>");

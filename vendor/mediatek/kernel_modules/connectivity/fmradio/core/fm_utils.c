@@ -877,23 +877,30 @@ signed int fm_fifo_release(struct fm_fifo *fifo)
 	return 0;
 }
 
+#if 0 /* camellia: unused: fm_get_u16_from_auc */
 unsigned short fm_get_u16_from_auc(unsigned char *buf)
 {
 	return (unsigned short)((unsigned short)buf[0] + ((unsigned short) buf[1] << 8));
 }
+#endif /* fm_get_u16_from_auc */
 
+#if 0 /* camellia: unused: fm_set_u16_to_auc */
 void fm_set_u16_to_auc(unsigned char *buf, unsigned short val)
 {
 	buf[0] = (unsigned char)(val & 0xFF);
 	buf[1] = (unsigned char)(val >> 8);
 }
+#endif /* fm_set_u16_to_auc */
 
+#if 0 /* camellia: unused: fm_get_u32_from_auc */
 unsigned int fm_get_u32_from_auc(unsigned char *buf)
 {
 	return ((unsigned int)(*buf) + ((unsigned int)(*(buf + 1)) << 8) +
 		((unsigned int)(*(buf + 2)) << 16) + ((unsigned int)(*(buf + 3)) << 24));
 }
+#endif /* fm_get_u32_from_auc */
 
+#if 0 /* camellia: unused: fm_set_u32_to_auc */
 void fm_set_u32_to_auc(unsigned char *buf, unsigned int val)
 {
 	buf[0] = (unsigned char)val;
@@ -901,7 +908,9 @@ void fm_set_u32_to_auc(unsigned char *buf, unsigned int val)
 	buf[2] = (unsigned char)(val >> 16);
 	buf[3] = (unsigned char)(val >> 24);
 }
+#endif /* fm_set_u32_to_auc */
 
+#if 0 /* camellia: unused: fm_smc_call */
 signed int fm_smc_call(unsigned int opid)
 {
 	struct arm_smccc_res res;
@@ -911,4 +920,5 @@ signed int fm_smc_call(unsigned int opid)
 			0, 0, 0, 0, 0, 0, &res);
 	return (res.a0 == FM_STATUS_OK) ? 0 : -1;
 }
+#endif /* fm_smc_call */
 

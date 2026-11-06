@@ -116,6 +116,7 @@ static bool jd_run_atom(struct kbase_jd_atom *katom)
 	return kbasep_js_add_job(kctx, katom);
 }
 
+#if 0 /* camellia: unused: kbase_jd_dep_clear_locked */
 void kbase_jd_dep_clear_locked(struct kbase_jd_atom *katom)
 {
 	struct kbase_device *kbdev;
@@ -149,6 +150,7 @@ void kbase_jd_dep_clear_locked(struct kbase_jd_atom *katom)
 			kbase_js_sched_all(kbdev);
 	}
 }
+#endif /* kbase_jd_dep_clear_locked */
 
 void kbase_jd_free_external_resources(struct kbase_jd_atom *katom)
 {

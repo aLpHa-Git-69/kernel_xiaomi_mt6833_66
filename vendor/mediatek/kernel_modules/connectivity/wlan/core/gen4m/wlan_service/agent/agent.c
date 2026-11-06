@@ -7065,6 +7065,7 @@ done:
 
 static struct hqa_frame hqa_cmd_frame;
 
+#if 0 /* camellia: unused: cli_act_cmds */
 static struct agent_cli_act_handler cli_act_cmds[] = {
 	{"ATESTART", mt_serv_start},
 	{"APSTOP", mt_serv_start},
@@ -7078,7 +7079,9 @@ static struct agent_cli_act_handler cli_act_cmds[] = {
 	{"RXSTOP", mt_serv_stop_rx},
 	{"", NULL}	/* the last entry */
 };
+#endif /* cli_act_cmds */
 
+#if 0 /* camellia: unused: mt_agent_cli_act */
 s_int32 mt_agent_cli_act(u_char *name, struct service *serv)
 {
 	s_int32 ret = SERV_STATUS_SUCCESS;
@@ -7096,11 +7099,15 @@ s_int32 mt_agent_cli_act(u_char *name, struct service *serv)
 
 	return ret;
 }
+#endif /* mt_agent_cli_act */
 
+#if 0 /* camellia: unused: cli_set_w_cmds */
 static struct agent_cli_set_w_handler cli_set_w_cmds[] = {
 	{"", NULL}	/* the last entry */
 };
+#endif /* cli_set_w_cmds */
 
+#if 0 /* camellia: unused: mt_agent_cli_set_w */
 s_int32 mt_agent_cli_set_w(u_char *name, struct service *serv, u_char *param)
 {
 	s_int32 ret = SERV_STATUS_SUCCESS;
@@ -7127,7 +7134,9 @@ s_int32 mt_agent_cli_set_w(u_char *name, struct service *serv, u_char *param)
 
 	return ret;
 }
+#endif /* mt_agent_cli_set_w */
 
+#if 0 /* camellia: unused: cli_set_dw_cmds */
 static struct agent_cli_set_dw_handler cli_set_dw_cmds[] = {
 	{"ATETXMCS", hqa_set_rate},
 	{"ATETXNSS", hqa_set_nss},
@@ -7137,7 +7146,9 @@ static struct agent_cli_set_dw_handler cli_set_dw_cmds[] = {
 	{"ATETXGI", hqa_set_short_gi},
 	{"", NULL}	/* the last entry */
 };
+#endif /* cli_set_dw_cmds */
 
+#if 0 /* camellia: unused: mt_agent_cli_set_dw */
 s_int32 mt_agent_cli_set_dw(u_char *name, struct service *serv, u_char *param)
 {
 	s_int32 ret = SERV_STATUS_SUCCESS;
@@ -7163,6 +7174,7 @@ s_int32 mt_agent_cli_set_dw(u_char *name, struct service *serv, u_char *param)
 
 	return ret;
 }
+#endif /* mt_agent_cli_set_dw */
 
 s_int32 mt_agent_set_bw(struct service_test *serv_test, u_char *arg)
 {
@@ -7473,6 +7485,7 @@ s_int32 mt_agent_set_rxant(struct service_test *serv_test, u_char *arg)
 	return ret;
 }
 
+#if 0 /* camellia: unused: cli_set_ext_cmds */
 static struct agent_cli_set_ext_handler cli_set_ext_cmds[] = {
 	{"ATECTRLBANDIDX", mt_agent_set_ctrl_band},
 	{"ATETXPOW0", mt_agent_set_pwr},
@@ -7483,7 +7496,9 @@ static struct agent_cli_set_ext_handler cli_set_ext_cmds[] = {
 	{"ATERXANT", mt_agent_set_rxant},
 	{"", NULL}	/* the last entry */
 };
+#endif /* cli_set_ext_cmds */
 
+#if 0 /* camellia: unused: mt_agent_cli_set_ext */
 s_int32 mt_agent_cli_set_ext(u_char *name, struct service *serv, u_char *arg)
 {
 	s_int32 ret = SERV_STATUS_SUCCESS;
@@ -7500,6 +7515,7 @@ s_int32 mt_agent_cli_set_ext(u_char *name, struct service *serv, u_char *arg)
 
 	return ret;
 }
+#endif /* mt_agent_cli_set_ext */
 
 /*****************************************************************************
  *	Service init/exit handler

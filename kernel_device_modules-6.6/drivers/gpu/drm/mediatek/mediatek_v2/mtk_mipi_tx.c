@@ -5832,6 +5832,7 @@ void mtk_mipi_tx_pll_rate_khz_set_adpt(struct phy *phy, unsigned long rate_khz)
 	mipi_tx->data_rate_khz_adpt = rate_khz;
 }
 
+#if 0 /* camellia: unused: mtk_mipi_tx_pll_rate_khz_switch_gce */
 void mtk_mipi_tx_pll_rate_khz_switch_gce(struct phy *phy,
 		void *handle, unsigned long rate)
 {
@@ -5841,7 +5842,9 @@ void mtk_mipi_tx_pll_rate_khz_switch_gce(struct phy *phy,
 		mipi_tx->driver_data->pll_rate_khz_switch_gce(phy, handle, rate);
 	}
 }
+#endif /* mtk_mipi_tx_pll_rate_khz_switch_gce */
 
+#if 0 /* camellia: unused: mtk_mipi_tx_pre_oe_config_gce */
 void mtk_mipi_tx_pre_oe_config_gce(struct phy *phy, void *handle, bool en)
 {
 #ifndef CONFIG_FPGA_EARLY_PORTING
@@ -5940,7 +5943,9 @@ void mtk_mipi_tx_pre_oe_config_gce(struct phy *phy, void *handle, bool en)
 	}
 #endif
 }
+#endif /* mtk_mipi_tx_pre_oe_config_gce */
 
+#if 0 /* camellia: unused: mtk_mipi_tx_oe_config_gce */
 void mtk_mipi_tx_oe_config_gce(struct phy *phy, void *handle, bool en)
 {
 #ifndef CONFIG_FPGA_EARLY_PORTING
@@ -6039,7 +6044,9 @@ void mtk_mipi_tx_oe_config_gce(struct phy *phy, void *handle, bool en)
 	}
 #endif
 }
+#endif /* mtk_mipi_tx_oe_config_gce */
 
+#if 0 /* camellia: unused: mtk_mipi_tx_dpn_config_gce */
 void mtk_mipi_tx_dpn_config_gce(struct phy *phy, void *handle, bool en)
 {
 #ifndef CONFIG_FPGA_EARLY_PORTING
@@ -6144,6 +6151,7 @@ void mtk_mipi_tx_dpn_config_gce(struct phy *phy, void *handle, bool en)
 	}
 #endif
 }
+#endif /* mtk_mipi_tx_dpn_config_gce */
 
 void mtk_mipi_tx_sw_control_en_gce(struct phy *phy, void *handle, bool en)
 {

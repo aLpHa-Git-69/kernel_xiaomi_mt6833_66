@@ -14,6 +14,7 @@ struct GED_THREAD_DATA {
 	void *pvData;
 };
 
+#if 0 /* camellia: unused: ged_thread_run */
 static int ged_thread_run(void *pvData)
 {
 	struct GED_THREAD_DATA *psThreadData = (struct GED_THREAD_DATA *)pvData;
@@ -28,7 +29,9 @@ static int ged_thread_run(void *pvData)
 
 	return 0;
 }
+#endif /* ged_thread_run */
 
+#if 0 /* camellia: unused: ged_thread_create */
 GED_ERROR ged_thread_create(GED_THREAD_HANDLE *phThread,
 	const char *szThreadName, void (*pFunc)(void *), void *pvData)
 {
@@ -56,6 +59,7 @@ GED_ERROR ged_thread_create(GED_THREAD_HANDLE *phThread,
 
 	return GED_OK;
 }
+#endif /* ged_thread_create */
 
 GED_ERROR ged_thread_destroy(GED_THREAD_HANDLE hThread)
 {

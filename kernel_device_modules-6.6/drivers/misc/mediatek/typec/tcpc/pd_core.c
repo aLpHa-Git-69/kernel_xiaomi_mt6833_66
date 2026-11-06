@@ -1306,6 +1306,7 @@ int pd_send_custom_vdm(struct pd_port *pd_port, uint8_t sop_type)
 		pd_port->cvdm_cnt, pd_port->cvdm_data);
 }
 
+#if 0 /* camellia: unused: pd_reply_custom_vdm */
 int pd_reply_custom_vdm(struct pd_port *pd_port, uint8_t sop_type,
 	uint8_t cnt, uint32_t *payload)
 {
@@ -1314,6 +1315,7 @@ int pd_reply_custom_vdm(struct pd_port *pd_port, uint8_t sop_type,
 	return pd_send_data_msg(pd_port,
 		sop_type, PD_DATA_VENDOR_DEF, cnt, payload);
 }
+#endif /* pd_reply_custom_vdm */
 
 void pd_reset_pe_timer(struct pd_port *pd_port)
 {

@@ -111,6 +111,7 @@ void halSwWfdmaInit(struct GLUE_INFO *prGlueInfo)
 #endif /* CFG_MTK_ANDROID_EMI */
 }
 
+#if 0 /* camellia: unused: halSwWfdmaUninit */
 void halSwWfdmaUninit(struct GLUE_INFO *prGlueInfo)
 {
 	struct mt66xx_chip_info *prChipInfo;
@@ -124,7 +125,9 @@ void halSwWfdmaUninit(struct GLUE_INFO *prGlueInfo)
 	prSwWfdmaInfo->pucIoremapAddr = NULL;
 	prSwWfdmaInfo->prDmad = NULL;
 }
+#endif /* halSwWfdmaUninit */
 
+#if 0 /* camellia: unused: halSwWfdmaEn */
 void halSwWfdmaEn(struct GLUE_INFO *prGlueInfo, bool fgEn)
 {
 	struct mt66xx_chip_info *prChipInfo;
@@ -144,6 +147,7 @@ void halSwWfdmaEn(struct GLUE_INFO *prGlueInfo, bool fgEn)
 	else
 		halSwWfdmaUninit(prGlueInfo);
 }
+#endif /* halSwWfdmaEn */
 
 void halSwWfdmaReset(struct SW_WFDMA_INFO *prSwWfdmaInfo)
 {
@@ -158,6 +162,7 @@ void halSwWfdmaReset(struct SW_WFDMA_INFO *prSwWfdmaInfo)
 		   SW_WFDMA_CMD_NUM * SW_WFDMA_CMD_PKT_SIZE);
 }
 
+#if 0 /* camellia: unused: halSwWfdmaBackup */
 void halSwWfdmaBackup(struct GLUE_INFO *prGlueInfo)
 {
 	struct mt66xx_chip_info *prChipInfo;
@@ -179,6 +184,7 @@ void halSwWfdmaBackup(struct GLUE_INFO *prGlueInfo)
 	kalMemCopyFromIo(&prSwWfdmaInfo->rBackup, prSwWfDmad,
 		      sizeof(struct SW_WFDMAD));
 }
+#endif /* halSwWfdmaBackup */
 
 void halSwWfdmaRestore(struct GLUE_INFO *prGlueInfo)
 {
@@ -225,6 +231,7 @@ void halSwWfdmaRestore(struct GLUE_INFO *prGlueInfo)
 	}
 }
 
+#if 0 /* camellia: unused: halSwWfdmaGetCidx */
 void halSwWfdmaGetCidx(struct GLUE_INFO *prGlueInfo, uint32_t *pu4Cidx)
 {
 	struct mt66xx_chip_info *prChipInfo;
@@ -237,6 +244,7 @@ void halSwWfdmaGetCidx(struct GLUE_INFO *prGlueInfo, uint32_t *pu4Cidx)
 
 	*pu4Cidx = prSwWfdmaInfo->u4CpuIdx;
 }
+#endif /* halSwWfdmaGetCidx */
 
 void halSwWfdmaSetCidx(struct GLUE_INFO *prGlueInfo, uint32_t u4Cidx)
 {
@@ -257,6 +265,7 @@ void halSwWfdmaSetCidx(struct GLUE_INFO *prGlueInfo, uint32_t u4Cidx)
 	halSwWfdmaWriteCmd(prGlueInfo);
 }
 
+#if 0 /* camellia: unused: halSwWfdmaGetDidx */
 void halSwWfdmaGetDidx(struct GLUE_INFO *prGlueInfo, uint32_t *pu4Didx)
 {
 	struct mt66xx_chip_info *prChipInfo;
@@ -269,6 +278,7 @@ void halSwWfdmaGetDidx(struct GLUE_INFO *prGlueInfo, uint32_t *pu4Didx)
 
 	*pu4Didx = prSwWfdmaInfo->u4DmaIdx;
 }
+#endif /* halSwWfdmaGetDidx */
 
 bool halSwWfdmaIsFull(struct GLUE_INFO *prGlueInfo)
 {
@@ -365,6 +375,7 @@ bool halSwWfdmaWriteCmd(struct GLUE_INFO *prGlueInfo)
 	return true;
 }
 
+#if 0 /* camellia: unused: halSwWfdmaProcessDmaDone */
 bool halSwWfdmaProcessDmaDone(struct GLUE_INFO *prGlueInfo)
 {
 	struct mt66xx_chip_info *prChipInfo;
@@ -381,6 +392,7 @@ bool halSwWfdmaProcessDmaDone(struct GLUE_INFO *prGlueInfo)
 	halWpdmaProcessCmdDmaDone(prGlueInfo, TX_RING_CMD);
 	return halSwWfdmaWriteCmd(prGlueInfo);
 }
+#endif /* halSwWfdmaProcessDmaDone */
 
 void halSwWfdmaDumpDebugLog(struct GLUE_INFO *prGlueInfo)
 {

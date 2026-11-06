@@ -634,6 +634,7 @@ end:
 	return mmu;
 }
 
+#if 0 /* camellia: unused: tee_mmu_wrap */
 struct tee_mmu *tee_mmu_wrap(struct tee_deleter *deleter, struct page **pages,
 			     unsigned long nr_pages,
 			     const struct mcp_buffer_map *b_map)
@@ -700,11 +701,14 @@ err:
 #endif
 	return ERR_PTR(ret);
 }
+#endif /* tee_mmu_wrap */
 
+#if 0 /* camellia: unused: tee_mmu_set_deleter */
 void tee_mmu_set_deleter(struct tee_mmu *mmu, struct tee_deleter *deleter)
 {
 	mmu->deleter = deleter;
 }
+#endif /* tee_mmu_set_deleter */
 
 static void tee_mmu_release(struct kref *kref)
 {

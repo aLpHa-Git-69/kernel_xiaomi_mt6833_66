@@ -593,6 +593,7 @@ struct dma_controller *dma_controller_create
 	musb_readl(mbase,	\
 		   MUSB_HSDMA_CHANNEL_OFFSET(bchannel, MUSB_HSDMA_REAL_COUNT))
 
+#if 0 /* camellia: unused: USB_DMA_status */
 u8 USB_DMA_status(u8 *pbDMAen, u8 *pbDMAdir)
 {
 	u8 bchannel;
@@ -628,8 +629,10 @@ u8 USB_DMA_status(u8 *pbDMAen, u8 *pbDMAdir)
 		return 0;
 }
 EXPORT_SYMBOL(USB_DMA_status);
+#endif /* USB_DMA_status */
 
 
+#if 0 /* camellia: unused: USB_DMA_address */
 u32 USB_DMA_address(u32 *len, u8 bchannel)
 {
 #if IS_ENABLED(CONFIG_OF)
@@ -655,3 +658,4 @@ u32 USB_DMA_address(u32 *len, u8 bchannel)
 #endif
 }
 EXPORT_SYMBOL(USB_DMA_address);
+#endif /* USB_DMA_address */

@@ -7384,6 +7384,7 @@ wlanoidSetSwCtrlWrite(struct ADAPTER *prAdapter,
 	return rWlanStatus;
 }				/* wlanoidSetSwCtrlWrite */
 
+#if 0 /* camellia: unused: wlanoidSetFixRate */
 uint32_t
 wlanoidSetFixRate(struct ADAPTER *prAdapter,
 		      void *pvSetBuffer,
@@ -7439,7 +7440,9 @@ wlanoidSetFixRate(struct ADAPTER *prAdapter,
 	return WLAN_STATUS_NOT_SUPPORTED;
 #endif
 }
+#endif /* wlanoidSetFixRate */
 
+#if 0 /* camellia: unused: wlanoidSetAutoRate */
 uint32_t
 wlanoidSetAutoRate(struct ADAPTER *prAdapter,
 		      void *pvSetBuffer,
@@ -7496,6 +7499,7 @@ wlanoidSetAutoRate(struct ADAPTER *prAdapter,
 	return WLAN_STATUS_NOT_SUPPORTED;
 #endif
 }
+#endif /* wlanoidSetAutoRate */
 
 #ifdef CFG_SUPPORT_UNIFIED_COMMAND
 #if (CFG_SUPPORT_802_11BE_MLO == 1)
@@ -7616,6 +7620,7 @@ wlanoidGetMldRec(struct ADAPTER *prAdapter,
 #endif
 #endif
 
+#if 0 /* camellia: unused: wlanoidSetPpCap */
 uint32_t
 wlanoidSetPpCap(struct ADAPTER *prAdapter,
 		      void *pvSetBuffer,
@@ -7681,7 +7686,9 @@ wlanoidSetPpCap(struct ADAPTER *prAdapter,
 	return WLAN_STATUS_NOT_SUPPORTED;
 #endif
 }
+#endif /* wlanoidSetPpCap */
 
+#if 0 /* camellia: unused: wlanoidSetPpAlgCtrl */
 uint32_t
 wlanoidSetPpAlgCtrl(struct ADAPTER *prAdapter,
 		      void *pvSetBuffer,
@@ -7812,7 +7819,9 @@ wlanoidSetPpAlgCtrl(struct ADAPTER *prAdapter,
 	return WLAN_STATUS_NOT_SUPPORTED;
 #endif
 }
+#endif /* wlanoidSetPpAlgCtrl */
 
+#if 0 /* camellia: unused: wlanoidSetHmAlg */
 uint32_t
 wlanoidSetHmAlg(struct ADAPTER *prAdapter,
 		      void *pvSetBuffer,
@@ -7881,6 +7890,7 @@ wlanoidSetHmAlg(struct ADAPTER *prAdapter,
 	return WLAN_STATUS_NOT_SUPPORTED;
 #endif
 }
+#endif /* wlanoidSetHmAlg */
 
 
 #if ((CFG_SUPPORT_ICS == 1) || (CFG_SUPPORT_PHY_ICS == 1))
@@ -8378,6 +8388,7 @@ wlanoidQueryOidInterfaceVersion(struct ADAPTER *
  * \retval WLAN_STATUS_BUFFER_TOO_SHORT
  */
 /*----------------------------------------------------------------------------*/
+#if 0 /* camellia: unused: wlanoidQueryMulticastList */
 uint32_t
 wlanoidQueryMulticastList(struct ADAPTER *prAdapter,
 			  void *pvQueryBuffer, uint32_t u4QueryBufferLen,
@@ -8401,6 +8412,7 @@ wlanoidQueryMulticastList(struct ADAPTER *prAdapter,
 	return WLAN_STATUS_SUCCESS;
 #endif
 } /* end of wlanoidQueryMulticastList() */
+#endif /* wlanoidQueryMulticastList */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -9007,6 +9019,7 @@ wlanoidQueryFragThreshold(struct ADAPTER *prAdapter,
  * \retval WLAN_STATUS_INVALID_LENGTH
  */
 /*----------------------------------------------------------------------------*/
+#if 0 /* camellia: unused: wlanoidSetFragThreshold */
 uint32_t
 wlanoidSetFragThreshold(struct ADAPTER *prAdapter,
 			void *pvSetBuffer, uint32_t u4SetBufferLen,
@@ -9018,6 +9031,7 @@ wlanoidSetFragThreshold(struct ADAPTER *prAdapter,
 #endif /* CFG_TX_FRAGMENT */
 
 } /* end of wlanoidSetFragThreshold() */
+#endif /* wlanoidSetFragThreshold */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -9445,12 +9459,14 @@ wlanoidSet802dot11PowerSaveProfile(struct ADAPTER *
  * \retval WLAN_STATUS_BUFFER_TOO_SHORT
  */
 /*----------------------------------------------------------------------------*/
+#if 0 /* camellia: unused: wlanoidQueryAdHocMode */
 uint32_t
 wlanoidQueryAdHocMode(struct ADAPTER *prAdapter,
 		      void *pvQueryBuffer, uint32_t u4QueryBufferLen,
 		      uint32_t *pu4QueryInfoLen) {
 	return WLAN_STATUS_SUCCESS;
 }				/* end of wlanoidQueryAdHocMode() */
+#endif /* wlanoidQueryAdHocMode */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -9470,12 +9486,14 @@ wlanoidQueryAdHocMode(struct ADAPTER *prAdapter,
  * \retval WLAN_STATUS_INVALID_DATA
  */
 /*----------------------------------------------------------------------------*/
+#if 0 /* camellia: unused: wlanoidSetAdHocMode */
 uint32_t
 wlanoidSetAdHocMode(struct ADAPTER *prAdapter,
 		    void *pvSetBuffer, uint32_t u4SetBufferLen,
 		    uint32_t *pu4SetInfoLen) {
 	return WLAN_STATUS_SUCCESS;
 } /* end of wlanoidSetAdHocMode() */
+#endif /* wlanoidSetAdHocMode */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -14301,6 +14319,7 @@ wlanoidSetFwLog2Host(
 				   pvSetBuffer, u4SetBufferLen);
 }
 
+#if 0 /* camellia: unused: wlanoidSetPhyCtrl */
 uint32_t
 wlanoidSetPhyCtrl(
 	struct ADAPTER *prAdapter,
@@ -14353,6 +14372,7 @@ wlanoidSetPhyCtrl(
 	return WLAN_STATUS_NOT_SUPPORTED;
 #endif
 }
+#endif /* wlanoidSetPhyCtrl */
 
 uint32_t
 wlanoidNotifyFwSuspend(
@@ -15127,6 +15147,7 @@ wlanoidGetTxPwrTbl(struct ADAPTER *prAdapter,
  * \retval WLAN_STATUS_ADAPTER_NOT_READY
  */
 /*----------------------------------------------------------------------------*/
+#if 0 /* camellia: unused: wlanoidAisPreSuspend */
 uint32_t
 wlanoidAisPreSuspend(struct ADAPTER *prAdapter,
 		void *pvSetBuffer, uint32_t u4SetBufferLen,
@@ -15166,6 +15187,7 @@ wlanoidAisPreSuspend(struct ADAPTER *prAdapter,
 
 	return WLAN_STATUS_SUCCESS;
 } /* wlanoidPreSuspend */
+#endif /* wlanoidAisPreSuspend */
 
 #if CFG_SUPPORT_CSI
 uint32_t

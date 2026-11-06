@@ -879,6 +879,7 @@ static void mtk_disp_esd_chk_init(struct drm_crtc *crtc)
 	wake_up_process(esd_ctx->disp_esd_chk_task);
 }
 
+#if 0 /* camellia: unused: mtk_disp_chk_recover_deinit */
 void mtk_disp_chk_recover_deinit(struct drm_crtc *crtc)
 {
 	struct mtk_drm_private *priv = crtc->dev->dev_private;
@@ -892,6 +893,7 @@ void mtk_disp_chk_recover_deinit(struct drm_crtc *crtc)
 			output_comp && mtk_ddp_comp_get_type(output_comp->id) == MTK_DSI)
 		mtk_disp_esd_chk_deinit(crtc);
 }
+#endif /* mtk_disp_chk_recover_deinit */
 
 void mtk_disp_chk_recover_init(struct drm_crtc *crtc)
 {

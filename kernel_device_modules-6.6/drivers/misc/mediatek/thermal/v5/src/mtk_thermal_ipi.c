@@ -14,8 +14,12 @@
 #include "mt-plat/mtk_thermal_monitor.h"
 //#define EARLY_PORTING
 #if THERMAL_ENABLE_TINYSYS_SSPM || THERMAL_ENABLE_ONLY_TZ_SSPM
+#if 0 /* camellia: unused: uid */
 static kuid_t uid = KUIDT_INIT(0);
+#endif /* uid */
+#if 0 /* camellia: unused: gid */
 static kgid_t gid = KGIDT_INIT(1000);
+#endif /* gid */
 /* ipi_send() return code
  * IPI_DONE 0
  * IPI_RETURN 1
@@ -371,6 +375,7 @@ static const struct proc_ops set_sspm_big_limit_threshold_fops = {
 	.proc_write = set_sspm_big_limit_threshold_write,
 	.proc_release = single_release,
 };
+#if 0 /* camellia: unused: thermal_ipi_legacy_probe */
 static int thermal_ipi_legacy_probe(struct platform_device *pdev)
 {
 	struct proc_dir_entry *entry = NULL;
@@ -395,11 +400,13 @@ static int thermal_ipi_legacy_probe(struct platform_device *pdev)
 
 	return 0;
 }
+#endif /* thermal_ipi_legacy_probe */
 static const struct of_device_id thermal_ipi_legacy_of_match[] = {
 		{.compatible = "mediatek,thermal-ipi",},
 		{},
 };
 MODULE_DEVICE_TABLE(of, thermal_ipi_legacy_of_match);
+#if 0 /* camellia: unused: thermal_ipi_legacy_driver */
 static struct platform_driver thermal_ipi_legacy_driver = {
 		.probe = thermal_ipi_legacy_probe,
 		.driver = {
@@ -407,15 +414,20 @@ static struct platform_driver thermal_ipi_legacy_driver = {
 			.of_match_table = thermal_ipi_legacy_of_match,
 		},
 };
+#endif /* thermal_ipi_legacy_driver */
+#if 0 /* camellia: unused: mtk_thermal_ipi_init */
 int mtk_thermal_ipi_init(void)
 {
 	platform_driver_register(&thermal_ipi_legacy_driver);
 	return 0;
 }
+#endif /* mtk_thermal_ipi_init */
+#if 0 /* camellia: unused: mtk_thermal_ipi_exit */
 void mtk_thermal_ipi_exit(void)
 {
 	platform_driver_unregister(&thermal_ipi_legacy_driver);
 }
+#endif /* mtk_thermal_ipi_exit */
 //module_init(thermal_ipi_init);
 //module_exit(thermal_ipi_exit);
 #endif

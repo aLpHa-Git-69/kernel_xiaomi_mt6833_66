@@ -1145,11 +1145,13 @@ uint8_t nicTxGetCmdResourceType(struct CMD_INFO
 	return ucTC;
 }
 
+#if 0 /* camellia: unused: nicTxGetTxQByTc */
 uint8_t nicTxGetTxQByTc(struct ADAPTER *prAdapter,
 			uint8_t ucTc)
 {
 	return arTcResourceControl[ucTc].ucHifTxQIndex;
 }
+#endif /* nicTxGetTxQByTc */
 
 uint8_t nicTxGetTxDestPortIdxByTc(uint8_t ucTc)
 {
@@ -1846,6 +1848,7 @@ nicTxComposeDesc(
  * Therefore, this function were intended to be called at the beginning
  * of before calling those two compose functions right after memzero the buffer.
  */
+#if 0 /* camellia: unused: nicTxForceAmsduForCert */
 void nicTxForceAmsduForCert(struct ADAPTER *prAdapter, u_int8_t *prTxDescBuffer)
 {
 #if (CFG_SUPPORT_802_11BE == 1) && (CFG_SUPPORT_CONNAC3X == 1)
@@ -1869,6 +1872,7 @@ void nicTxForceAmsduForCert(struct ADAPTER *prAdapter, u_int8_t *prTxDescBuffer)
 	}
 #endif
 }
+#endif /* nicTxForceAmsduForCert */
 
 #if CFG_TX_CUSTOMIZE_LTO
 u_int8_t nicTxEnableLTO(struct ADAPTER *prAdapter,
@@ -2193,6 +2197,7 @@ nicTxFillDataDesc(struct ADAPTER *prAdapter,
 	}
 }
 
+#if 0 /* camellia: unused: nicTxCopyDesc */
 void
 nicTxCopyDesc(struct ADAPTER *prAdapter,
 	      uint8_t *pucTarTxDesc, uint8_t *pucSrcTxDesc,
@@ -2212,6 +2217,7 @@ nicTxCopyDesc(struct ADAPTER *prAdapter,
 	if (pucTxDescLength)
 		*pucTxDescLength = ucTxDescLength;
 }
+#endif /* nicTxCopyDesc */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -4642,12 +4648,14 @@ void nicTxSetForceRts(struct MSDU_INFO *prMsduInfo,
 		prMsduInfo->u4Option &= ~MSDU_OPT_FORCE_RTS;
 }
 
+#if 0 /* camellia: unused: nicTxSetPktPowerOffset */
 void nicTxSetPktPowerOffset(struct MSDU_INFO *prMsduInfo,
 			    int8_t cPowerOffset)
 {
 	prMsduInfo->cPowerOffset = cPowerOffset;
 	prMsduInfo->u4Option |= MSDU_OPT_MANUAL_POWER_OFFSET;
 }
+#endif /* nicTxSetPktPowerOffset */
 
 void nicTxSetPktSequenceNumber(struct MSDU_INFO *prMsduInfo,
 			       uint16_t u2SN)
@@ -4656,6 +4664,7 @@ void nicTxSetPktSequenceNumber(struct MSDU_INFO *prMsduInfo,
 	prMsduInfo->u4Option |= MSDU_OPT_MANUAL_SN;
 }
 
+#if 0 /* camellia: unused: nicTxSetPktMacTxQue */
 void nicTxSetPktMacTxQue(struct MSDU_INFO *prMsduInfo,
 			 uint8_t ucMacTxQue)
 {
@@ -4672,6 +4681,7 @@ void nicTxSetPktMacTxQue(struct MSDU_INFO *prMsduInfo,
 		prMsduInfo->u4Option |= MSDU_OPT_MANUAL_TX_QUE;
 	}
 }
+#endif /* nicTxSetPktMacTxQue */
 
 void nicTxSetPktFixedRateOptionFull(
 	struct ADAPTER *prAdapter,
@@ -4786,6 +4796,7 @@ void nicTxSetPktLowestFixedRate(struct ADAPTER *prAdapter,
 			   FIX_BW_NO_FIXED, FALSE, FALSE);
 }
 
+#if 0 /* camellia: unused: nicTxSetPktMoreData */
 void nicTxSetPktMoreData(struct MSDU_INFO
 			 *prCurrentMsduInfo, u_int8_t fgSetMoreDataBit)
 {
@@ -4809,6 +4820,7 @@ void nicTxSetPktMoreData(struct MSDU_INFO
 			prWlanMacHeader->u2FrameCtrl &= ~MASK_FC_MORE_DATA;
 	}
 }
+#endif /* nicTxSetPktMoreData */
 
 uint8_t nicTxAssignPID(struct ADAPTER *prAdapter,
 		       uint8_t ucWlanIndex, enum ENUM_TX_PACKET_TYPE type)
@@ -4837,6 +4849,7 @@ uint8_t nicTxAssignPID(struct ADAPTER *prAdapter,
 	return ucRetval;
 }
 
+#if 0 /* camellia: unused: nicTxSetPktEOSP */
 void nicTxSetPktEOSP(struct MSDU_INFO *prCurrentMsduInfo,
 		     u_int8_t fgSetEOSPBit)
 {
@@ -4862,6 +4875,7 @@ void nicTxSetPktEOSP(struct MSDU_INFO *prCurrentMsduInfo,
 			prWlanMacHeader->u2QosCtrl &= ~MASK_QC_EOSP;
 	}
 }
+#endif /* nicTxSetPktEOSP */
 
 uint32_t
 nicTxDummyTxDone(struct ADAPTER *prAdapter,
@@ -5268,6 +5282,7 @@ exit:
 	TX_DIRECT_UNLOCK(prAdapter->prGlueInfo);
 }
 
+#if 0 /* camellia: unused: nicTxDirectClearAllStaPsQ */
 void nicTxDirectClearAllStaPsQ(struct ADAPTER *prAdapter)
 {
 	uint8_t ucStaRecIndex;
@@ -5290,7 +5305,9 @@ void nicTxDirectClearAllStaPsQ(struct ADAPTER *prAdapter)
 			break;
 	}
 }
+#endif /* nicTxDirectClearAllStaPsQ */
 
+#if 0 /* camellia: unused: nicTxDirectClearAllStaPendQ */
 void nicTxDirectClearAllStaPendQ(struct ADAPTER *prAdapter)
 {
 	uint8_t ucIdx; /* StaRec Index */
@@ -5303,6 +5320,7 @@ void nicTxDirectClearAllStaPendQ(struct ADAPTER *prAdapter)
 			nicTxDirectClearStaPendQ(prAdapter, ucIdx);
 	}
 }
+#endif /* nicTxDirectClearAllStaPendQ */
 
 /*----------------------------------------------------------------------------*/
 /*
@@ -5802,6 +5820,7 @@ static void nicTxDirectCheckStaAcmQ(struct ADAPTER *prAdapter,
 	}
 }
 
+#if 0 /* camellia: unused: nicTxDirectClearStaAcmQ */
 void nicTxDirectClearStaAcmQ(struct ADAPTER *prAdapter,
 	uint8_t ucStaRecIdx)
 {
@@ -5828,6 +5847,7 @@ void nicTxDirectClearStaAcmQ(struct ADAPTER *prAdapter,
 
 	prAdapter->u4StaAcmBitmap &= ~BIT(ucStaRecIdx);
 }
+#endif /* nicTxDirectClearStaAcmQ */
 
 void nicTxDirectMoveStaAcmQ(struct ADAPTER *prAdapter,
 	uint8_t ucDstStaRecIdx, uint8_t ucSrcStaRecIdx)
@@ -5866,6 +5886,7 @@ void nicTxDirectMoveStaAcmQ(struct ADAPTER *prAdapter,
 	TX_DIRECT_UNLOCK(prAdapter->prGlueInfo);
 }
 
+#if 0 /* camellia: unused: nicTxDirectClearAllStaAcmQ */
 void nicTxDirectClearAllStaAcmQ(struct ADAPTER *prAdapter)
 {
 	uint8_t ucIdx; /* StaRec Index */
@@ -5878,6 +5899,7 @@ void nicTxDirectClearAllStaAcmQ(struct ADAPTER *prAdapter)
 			nicTxDirectClearStaAcmQ(prAdapter, ucIdx);
 	}
 }
+#endif /* nicTxDirectClearAllStaAcmQ */
 
 #endif /* CFG_SUPPORT_SOFT_ACM */
 
@@ -6794,6 +6816,7 @@ void nicTxChangeDataPortByAc(
 ** In multi-thread solution, we also need to check if pending tx packets in
 ** hif_thread tx queue.
 */
+#if 0 /* camellia: unused: nicTxHandleRoamingDone */
 void nicTxHandleRoamingDone(struct ADAPTER *prAdapter,
 			    struct STA_RECORD *prOldStaRec,
 			    struct STA_RECORD *prNewStaRec)
@@ -6856,6 +6879,7 @@ void nicTxHandleRoamingDone(struct ADAPTER *prAdapter,
 #endif
 #endif
 }
+#endif /* nicTxHandleRoamingDone */
 
 int32_t nicTxGetVectorInfo(char *pcCommand, int i4TotalLen,
 				   struct TX_VECTOR_BBP_LATCH *prTxV)
@@ -7032,6 +7056,7 @@ uint8_t nicTxWmmTc2ResTc(struct ADAPTER *prAdapter,
 	return ucTC;
 }
 
+#if 0 /* camellia: unused: nicTxResTc2WmmTc */
 uint8_t nicTxResTc2WmmTc(uint8_t ucResTC)
 {
 	uint8_t ucSetIdx;
@@ -7049,4 +7074,5 @@ uint8_t nicTxResTc2WmmTc(uint8_t ucResTC)
 
 	return ucTcIdx;
 }
+#endif /* nicTxResTc2WmmTc */
 

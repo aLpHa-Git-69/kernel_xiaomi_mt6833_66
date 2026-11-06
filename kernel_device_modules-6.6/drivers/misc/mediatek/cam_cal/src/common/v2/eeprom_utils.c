@@ -15,10 +15,12 @@ static unsigned int cam_eeprom_debug;
 module_param(cam_eeprom_debug, uint, 0644);
 MODULE_PARM_DESC(cam_eeprom_debug, "camera_eeprom_debug");
 
+#if 0 /* camellia: unused: debug_flag */
 unsigned int debug_flag(void)
 {
 	return cam_eeprom_debug;
 }
+#endif /* debug_flag */
 
 #define EEPROM_PROF 1
 

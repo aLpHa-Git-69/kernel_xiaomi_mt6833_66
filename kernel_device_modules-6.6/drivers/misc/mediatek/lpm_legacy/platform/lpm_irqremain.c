@@ -60,6 +60,7 @@ static inline unsigned int virq_to_hwirq(unsigned int virq)
 }
 #endif
 
+#if 0 /* camellia: unused: lpm_irqremain_list_release */
 void lpm_irqremain_list_release(void)
 {
 	unsigned long flag;
@@ -88,7 +89,9 @@ void lpm_irqremain_list_release(void)
 	lpm_system_unlock(flag);
 }
 EXPORT_SYMBOL(lpm_irqremain_list_release);
+#endif /* lpm_irqremain_list_release */
 
+#if 0 /* camellia: unused: lpm_irqremain_get */
 int lpm_irqremain_get(struct lpm_irqremain **irq)
 {
 	unsigned long flag;
@@ -158,7 +161,9 @@ lpm_irqremain_release:
 	return -ENOMEM;
 }
 EXPORT_SYMBOL(lpm_irqremain_get);
+#endif /* lpm_irqremain_get */
 
+#if 0 /* camellia: unused: lpm_irqremain_put */
 void lpm_irqremain_put(struct lpm_irqremain *irqs)
 {
 	if (irqs) {
@@ -168,6 +173,7 @@ void lpm_irqremain_put(struct lpm_irqremain *irqs)
 	}
 }
 EXPORT_SYMBOL(lpm_irqremain_put);
+#endif /* lpm_irqremain_put */
 
 int __init lpm_irqremain_parsing(struct device_node *parent)
 {

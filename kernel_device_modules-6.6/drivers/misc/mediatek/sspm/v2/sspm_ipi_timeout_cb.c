@@ -8,11 +8,21 @@
 #include "sspm_ipi_id.h"
 
 /* debug API */
+#if 0 /* camellia: unused: dump_emi_outstanding */
 __weak void dump_emi_outstanding(void) {}
+#endif /* dump_emi_outstanding */
+#if 0 /* camellia: unused: mtk_spm_dump_debug_info */
 __weak void mtk_spm_dump_debug_info(void) {}
+#endif /* mtk_spm_dump_debug_info */
+#if 0 /* camellia: unused: usb_dump_debug_register */
 __weak void usb_dump_debug_register(void) {}
+#endif /* usb_dump_debug_register */
+#if 0 /* camellia: unused: dpmaif_dump_reg */
 __weak void dpmaif_dump_reg(void) {}
+#endif /* dpmaif_dump_reg */
+#if 0 /* camellia: unused: ccci_md_debug_dump */
 __weak void ccci_md_debug_dump(char *user_info) {}
+#endif /* ccci_md_debug_dump */
 
 static char *pin_name[SSPM_IPI_COUNT] = {
 	"PPM",

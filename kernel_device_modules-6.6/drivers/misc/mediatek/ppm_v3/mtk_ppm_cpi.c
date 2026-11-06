@@ -517,13 +517,16 @@ static unsigned int ppm_get_core_cpi_locked(unsigned int cpu)
 	return (val[1] * 100) / val[0];
 }
 
+#if 0 /* camellia: unused: stall_val_dbg_enable */
 void stall_val_dbg_enable(int enable)
 {
 	ppm_lock(&cpi_lock);
 	stall_val_dbg = enable;
 	ppm_unlock(&cpi_lock);
 }
+#endif /* stall_val_dbg_enable */
 
+#if 0 /* camellia: unused: stall_pmu_enable */
 void stall_pmu_enable(int enable)
 {
 	int cpu;
@@ -611,6 +614,7 @@ void stall_pmu_enable(int enable)
 end:
 	ppm_unlock(&cpi_lock);
 }
+#endif /* stall_pmu_enable */
 
 /* API */
 unsigned int ppm_get_cluster_cpi(unsigned int cluster)

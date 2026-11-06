@@ -867,6 +867,7 @@ void saaFsmRunEventRxRespTimeOut(struct ADAPTER *prAdapter,
 			    (struct SW_RFB *) NULL);
 }				/* end of saaFsmRunEventRxRespTimeOut() */
 
+#if 0 /* camellia: unused: saaFsmFindStaRec */
 struct STA_RECORD *saaFsmFindStaRec(struct ADAPTER *prAdapter,
 		struct WLAN_MAC_MGMT_HEADER *mgmt)
 {
@@ -897,6 +898,7 @@ struct STA_RECORD *saaFsmFindStaRec(struct ADAPTER *prAdapter,
 	return cnmGetStaRecByAddress(prAdapter,
 		prBssInfo->ucBssIndex, mgmt->aucBSSID);
 }				/* p2pFuncBSSIDFindBssInfo */
+#endif /* saaFsmFindStaRec */
 
 
 /*----------------------------------------------------------------------------*/

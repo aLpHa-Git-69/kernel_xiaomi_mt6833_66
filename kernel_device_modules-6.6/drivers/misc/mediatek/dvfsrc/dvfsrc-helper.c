@@ -56,6 +56,7 @@ int mtk_dvfsrc_query_opp_info(u32 id)
 }
 EXPORT_SYMBOL(mtk_dvfsrc_query_opp_info);
 
+#if 0 /* camellia: unused: mtk_dvfsrc_vcore_uv_table */
 int mtk_dvfsrc_vcore_uv_table(u32 opp)
 {
 	u32 opp_idx;
@@ -71,6 +72,7 @@ int mtk_dvfsrc_vcore_uv_table(u32 opp)
 	return dvfsrc_drv->vopp_uv_tlb[opp_idx];
 }
 EXPORT_SYMBOL(mtk_dvfsrc_vcore_uv_table);
+#endif /* mtk_dvfsrc_vcore_uv_table */
 
 static void dvfsrc_setup_opp_table(struct mtk_dvfsrc *dvfsrc)
 {
@@ -136,11 +138,13 @@ static int dvfsrc_query_sw_req_vcore_opp(struct mtk_dvfsrc *dvfsrc, int vcore_op
 
 }
 
+#if 0 /* camellia: unused: get_sw_req_vcore_opp */
 int get_sw_req_vcore_opp(void)
 {
 	return mtk_dvfsrc_query_opp_info(MTK_DVFSRC_SW_REQ_VCORE_OPP);
 }
 EXPORT_SYMBOL(get_sw_req_vcore_opp);
+#endif /* get_sw_req_vcore_opp */
 
 static int dvfsrc_query_info(u32 id)
 {

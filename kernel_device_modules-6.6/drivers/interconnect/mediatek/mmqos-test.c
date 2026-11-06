@@ -8,6 +8,7 @@
 #include "mmqos-mtk.h"
 #include "mmqos-test.h"
 
+#if 0 /* camellia: unused: create_fake_icc_node */
 struct icc_node *create_fake_icc_node(int id)
 {
 	struct icc_node *node;
@@ -15,7 +16,9 @@ struct icc_node *create_fake_icc_node(int id)
 	node = mtk_icc_node_create(id);
 	return node;
 }
+#endif /* create_fake_icc_node */
 
+#if 0 /* camellia: unused: set_fake_v2_bw */
 void set_fake_v2_bw(struct icc_node *node, int srt_r, int srt_w, int hrt_r, int hrt_w)
 {
 	node->v2_avg_r_bw = srt_r;
@@ -23,7 +26,9 @@ void set_fake_v2_bw(struct icc_node *node, int srt_r, int srt_w, int hrt_r, int 
 	node->v2_peak_r_bw = hrt_r;
 	node->v2_peak_w_bw = hrt_w;
 }
+#endif /* set_fake_v2_bw */
 
+#if 0 /* camellia: unused: test_update_channel_bw */
 static void test_update_channel_bw(bool is_disp_by_larb)
 {
 	struct icc_node *node1, *node2, *node3;
@@ -153,7 +158,9 @@ static void test_update_channel_bw(bool is_disp_by_larb)
 	mmqos_state = orig_mmqos_state;
 	MMQOS_DBG("restore mmqos_state:%#x", mmqos_state);
 }
+#endif /* test_update_channel_bw */
 
+#if 0 /* camellia: unused: mmqos_kernel_test */
 void mmqos_kernel_test(u32 test_id)
 {
 	switch (test_id) {
@@ -168,5 +175,6 @@ void mmqos_kernel_test(u32 test_id)
 	}
 }
 EXPORT_SYMBOL_GPL(mmqos_kernel_test);
+#endif /* mmqos_kernel_test */
 
 MODULE_LICENSE("GPL");

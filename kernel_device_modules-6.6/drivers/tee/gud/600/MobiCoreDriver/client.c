@@ -458,6 +458,7 @@ void client_close(struct tee_client *client)
 /*
  * Clean all structures shared with the SWd (note: incomplete but unused)
  */
+#if 0 /* camellia: unused: client_cleanup */
 void client_cleanup(void)
 {
 	struct tee_client *client;
@@ -477,6 +478,7 @@ void client_cleanup(void)
 	}
 	mutex_unlock(&client_ctx.clients_lock);
 }
+#endif /* client_cleanup */
 
 /*
  * Get the vm id of the client passed in argument
@@ -682,6 +684,7 @@ int client_waitnotif_session(struct tee_client *client, u32 session_id,
 	return ret;
 }
 
+#if 0 /* camellia: unused: client_get_session_state */
 int client_get_session_state(struct tee_client *client, u32 session_id)
 {
 	struct tee_session *session;
@@ -699,7 +702,9 @@ int client_get_session_state(struct tee_client *client, u32 session_id)
 	mc_dev_devel("session %x, exit with %d", session_id, ret);
 	return ret;
 }
+#endif /* client_get_session_state */
 
+#if 0 /* camellia: unused: client_is_wait_cancelled */
 int client_is_wait_cancelled(struct tee_client *client, u32 session_id,
 			     int *cancelled_status)
 {
@@ -717,6 +722,7 @@ int client_is_wait_cancelled(struct tee_client *client, u32 session_id,
 		     *cancelled_status, session_id);
 	return 0;
 }
+#endif /* client_is_wait_cancelled */
 
 int client_set_wait_cancelled(struct tee_client *client, u32 session_id)
 {
@@ -739,6 +745,7 @@ int client_set_wait_cancelled(struct tee_client *client, u32 session_id)
 	return 0;
 }
 
+#if 0 /* camellia: unused: client_unset_wait_cancelled */
 int client_unset_wait_cancelled(struct tee_client *client, u32 session_id)
 {
 	struct tee_session *session;
@@ -755,6 +762,7 @@ int client_unset_wait_cancelled(struct tee_client *client, u32 session_id)
 	session_put(session);
 	return 0;
 }
+#endif /* client_unset_wait_cancelled */
 
 /*
  * Read session exit/termination code
@@ -920,6 +928,7 @@ end:
 	return ret;
 }
 
+#if 0 /* camellia: unused: client_gp_open_session_domu */
 int client_gp_open_session_domu(struct tee_client *client,
 				const struct mc_uuid_t *uuid,
 				struct tee_mmu *ta_mmu,
@@ -955,6 +964,7 @@ end:
 		     session->iwp_session.sid, ret);
 	return ret;
 }
+#endif /* client_gp_open_session_domu */
 
 int client_gp_close_session(struct tee_client *client, u32 session_id)
 {
@@ -1006,6 +1016,7 @@ int client_gp_invoke_command(struct tee_client *client, u32 session_id,
 	return ret;
 }
 
+#if 0 /* camellia: unused: client_gp_invoke_command_domu */
 int client_gp_invoke_command_domu(struct tee_client *client, u32 session_id,
 				  u64 started, struct interworld_session *iws,
 				  struct tee_mmu **mmus,
@@ -1025,6 +1036,7 @@ int client_gp_invoke_command_domu(struct tee_client *client, u32 session_id,
 	session_put(session);
 	return ret;
 }
+#endif /* client_gp_invoke_command_domu */
 
 void client_gp_request_cancellation(struct tee_client *client, u64 started)
 {

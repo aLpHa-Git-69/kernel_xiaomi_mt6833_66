@@ -37,9 +37,11 @@
 
 bool check_bypass_status;
 
+#if 0 /* camellia: unused: clkchk_set_cfg */
 void __attribute__((weak)) clkchk_set_cfg(void)
 {
 }
+#endif /* clkchk_set_cfg */
 
 static const struct clkchk_ops *clkchk_ops;
 static struct provider_clk clkchk_pvd_clks[MAX_CLK_NUM], clkdbg_pvd_clks[MAX_CLK_NUM];
@@ -75,6 +77,7 @@ const struct regname *get_all_regnames(void)
 }
 EXPORT_SYMBOL(get_all_regnames);
 
+#if 0 /* camellia: unused: clkchk_devapc_dump */
 void clkchk_devapc_dump(void)
 {
 	if (clkchk_ops == NULL || clkchk_ops->devapc_dump == NULL)
@@ -83,6 +86,7 @@ void clkchk_devapc_dump(void)
 	clkchk_ops->devapc_dump();
 }
 EXPORT_SYMBOL(clkchk_devapc_dump);
+#endif /* clkchk_devapc_dump */
 
 void clkchk_external_dump(void)
 {
@@ -724,6 +728,7 @@ static void clkchk_cg_timeout_handle(struct regmap *regmap, u32 id, u32 shift)
 	clkchk_ops->cg_timeout_handle(regmap, id, shift);
 }
 
+#if 0 /* camellia: unused: clkchk_chk_pm_state */
 int clkchk_chk_pm_state(void)
 {
 	if (clkchk_ops == NULL || clkchk_ops->chk_pm_state == NULL)
@@ -732,6 +737,7 @@ int clkchk_chk_pm_state(void)
 	return clkchk_ops->chk_pm_state();
 }
 EXPORT_SYMBOL_GPL(clkchk_chk_pm_state);
+#endif /* clkchk_chk_pm_state */
 
 static void clkchk_verify_debug_flow(void)
 {

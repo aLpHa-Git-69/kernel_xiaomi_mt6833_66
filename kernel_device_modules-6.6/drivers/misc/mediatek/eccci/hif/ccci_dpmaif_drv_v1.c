@@ -137,6 +137,7 @@ void ccci_drv1_dl_set_ao_frag_check_thres(void)
 	DPMA_WRITE_AO_DL(DPMAIF_AO_DL_RDY_CHK_FRG_THRES, value);
 }
 
+#if 0 /* camellia: unused: ccci_drv3_ul_arb_en */
 void ccci_drv3_ul_arb_en(unsigned char q_num, bool enable)
 {
 	unsigned int ul_arb_en;
@@ -150,6 +151,7 @@ void ccci_drv3_ul_arb_en(unsigned char q_num, bool enable)
 
 	DPMA_WRITE_AO_UL(NRL2_DPMAIF_AO_UL_CHNL_ARB0, ul_arb_en);
 }
+#endif /* ccci_drv3_ul_arb_en */
 
 static void drv1_ul_arb_en(unsigned char q_num, bool enable)
 {

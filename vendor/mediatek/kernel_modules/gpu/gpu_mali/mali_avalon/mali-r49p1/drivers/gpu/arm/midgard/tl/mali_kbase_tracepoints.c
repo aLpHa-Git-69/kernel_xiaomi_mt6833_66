@@ -1523,6 +1523,7 @@ void __kbase_tlstream_tl_event_atom_softjob_end(
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_arbiter_granted */
 void __kbase_tlstream_tl_arbiter_granted(
 	struct kbase_tlstream *stream,
 	const void *gpu
@@ -1545,7 +1546,9 @@ void __kbase_tlstream_tl_arbiter_granted(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_arbiter_granted */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_arbiter_started */
 void __kbase_tlstream_tl_arbiter_started(
 	struct kbase_tlstream *stream,
 	const void *gpu
@@ -1568,7 +1571,9 @@ void __kbase_tlstream_tl_arbiter_started(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_arbiter_started */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_arbiter_stop_requested */
 void __kbase_tlstream_tl_arbiter_stop_requested(
 	struct kbase_tlstream *stream,
 	const void *gpu
@@ -1591,7 +1596,9 @@ void __kbase_tlstream_tl_arbiter_stop_requested(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_arbiter_stop_requested */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_arbiter_stopped */
 void __kbase_tlstream_tl_arbiter_stopped(
 	struct kbase_tlstream *stream,
 	const void *gpu
@@ -1614,7 +1621,9 @@ void __kbase_tlstream_tl_arbiter_stopped(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_arbiter_stopped */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_arbiter_requested */
 void __kbase_tlstream_tl_arbiter_requested(
 	struct kbase_tlstream *stream,
 	const void *gpu
@@ -1637,6 +1646,7 @@ void __kbase_tlstream_tl_arbiter_requested(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_arbiter_requested */
 
 void __kbase_tlstream_jd_gpu_soft_reset(
 	struct kbase_tlstream *stream,
@@ -1661,6 +1671,7 @@ void __kbase_tlstream_jd_gpu_soft_reset(
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
 
+#if 0 /* camellia: unused: __kbase_tlstream_jd_tiler_heap_chunk_alloc */
 void __kbase_tlstream_jd_tiler_heap_chunk_alloc(
 	struct kbase_tlstream *stream,
 	u32 ctx_nr,
@@ -1691,6 +1702,7 @@ void __kbase_tlstream_jd_tiler_heap_chunk_alloc(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_jd_tiler_heap_chunk_alloc */
 
 void __kbase_tlstream_tl_js_sched_start(
 	struct kbase_tlstream *stream,
@@ -2085,6 +2097,7 @@ void __kbase_tlstream_tl_attrib_atom_jit(
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_new_device */
 void __kbase_tlstream_tl_kbase_new_device(
 	struct kbase_tlstream *stream,
 	u32 kbase_device_id,
@@ -2135,7 +2148,9 @@ void __kbase_tlstream_tl_kbase_new_device(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_new_device */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_gpucmdqueue_kick */
 void __kbase_tlstream_tl_kbase_gpucmdqueue_kick(
 	struct kbase_tlstream *stream,
 	u32 kernel_ctx_id,
@@ -2162,7 +2177,9 @@ void __kbase_tlstream_tl_kbase_gpucmdqueue_kick(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_gpucmdqueue_kick */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_device_program_csg */
 void __kbase_tlstream_tl_kbase_device_program_csg(
 	struct kbase_tlstream *stream,
 	u32 kbase_device_id,
@@ -2201,7 +2218,9 @@ void __kbase_tlstream_tl_kbase_device_program_csg(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_device_program_csg */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_device_deprogram_csg */
 void __kbase_tlstream_tl_kbase_device_deprogram_csg(
 	struct kbase_tlstream *stream,
 	u32 kbase_device_id,
@@ -2228,7 +2247,9 @@ void __kbase_tlstream_tl_kbase_device_deprogram_csg(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_device_deprogram_csg */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_device_halting_csg */
 void __kbase_tlstream_tl_kbase_device_halting_csg(
 	struct kbase_tlstream *stream,
 	u32 kbase_device_id,
@@ -2259,7 +2280,9 @@ void __kbase_tlstream_tl_kbase_device_halting_csg(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_device_halting_csg */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_device_suspend_csg */
 void __kbase_tlstream_tl_kbase_device_suspend_csg(
 	struct kbase_tlstream *stream,
 	u32 kbase_device_id,
@@ -2286,7 +2309,9 @@ void __kbase_tlstream_tl_kbase_device_suspend_csg(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_device_suspend_csg */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_device_csg_idle */
 void __kbase_tlstream_tl_kbase_device_csg_idle(
 	struct kbase_tlstream *stream,
 	u32 kbase_device_id,
@@ -2313,7 +2338,9 @@ void __kbase_tlstream_tl_kbase_device_csg_idle(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_device_csg_idle */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_new_ctx */
 void __kbase_tlstream_tl_kbase_new_ctx(
 	struct kbase_tlstream *stream,
 	u32 kernel_ctx_id,
@@ -2340,7 +2367,9 @@ void __kbase_tlstream_tl_kbase_new_ctx(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_new_ctx */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_del_ctx */
 void __kbase_tlstream_tl_kbase_del_ctx(
 	struct kbase_tlstream *stream,
 	u32 kernel_ctx_id
@@ -2363,7 +2392,9 @@ void __kbase_tlstream_tl_kbase_del_ctx(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_del_ctx */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_ctx_assign_as */
 void __kbase_tlstream_tl_kbase_ctx_assign_as(
 	struct kbase_tlstream *stream,
 	u32 kernel_ctx_id,
@@ -2390,7 +2421,9 @@ void __kbase_tlstream_tl_kbase_ctx_assign_as(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_ctx_assign_as */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_ctx_unassign_as */
 void __kbase_tlstream_tl_kbase_ctx_unassign_as(
 	struct kbase_tlstream *stream,
 	u32 kernel_ctx_id
@@ -2413,7 +2446,9 @@ void __kbase_tlstream_tl_kbase_ctx_unassign_as(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_ctx_unassign_as */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_new_kcpuqueue */
 void __kbase_tlstream_tl_kbase_new_kcpuqueue(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue,
@@ -2448,7 +2483,9 @@ void __kbase_tlstream_tl_kbase_new_kcpuqueue(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_new_kcpuqueue */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_del_kcpuqueue */
 void __kbase_tlstream_tl_kbase_del_kcpuqueue(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue
@@ -2471,7 +2508,9 @@ void __kbase_tlstream_tl_kbase_del_kcpuqueue(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_del_kcpuqueue */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_fence_signal */
 void __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_fence_signal(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue,
@@ -2498,7 +2537,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_fence_signal(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_fence_signal */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_fence_wait */
 void __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_fence_wait(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue,
@@ -2525,7 +2566,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_fence_wait(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_fence_wait */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_cqs_wait */
 void __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_cqs_wait(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue,
@@ -2560,7 +2603,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_cqs_wait(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_cqs_wait */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_cqs_set */
 void __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_cqs_set(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue,
@@ -2587,7 +2632,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_cqs_set(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_cqs_set */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_cqs_wait_operation */
 void __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_cqs_wait_operation(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue,
@@ -2630,7 +2677,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_cqs_wait_operation(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_cqs_wait_operation */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_cqs_set_operation */
 void __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_cqs_set_operation(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue,
@@ -2669,7 +2718,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_cqs_set_operation(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_cqs_set_operation */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_map_import */
 void __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_map_import(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue,
@@ -2696,7 +2747,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_map_import(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_map_import */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_unmap_import */
 void __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_unmap_import(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue,
@@ -2723,7 +2776,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_unmap_import(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_unmap_import */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_unmap_import_force */
 void __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_unmap_import_force(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue,
@@ -2750,7 +2805,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_unmap_import_force(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_unmap_import_force */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_array_begin_kcpuqueue_enqueue_jit_alloc */
 void __kbase_tlstream_tl_kbase_array_begin_kcpuqueue_enqueue_jit_alloc(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue
@@ -2773,6 +2830,7 @@ void __kbase_tlstream_tl_kbase_array_begin_kcpuqueue_enqueue_jit_alloc(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_array_begin_kcpuqueue_enqueue_jit_alloc */
 
 void __kbase_tlstream_tl_kbase_array_item_kcpuqueue_enqueue_jit_alloc(
 	struct kbase_tlstream *stream,
@@ -2833,6 +2891,7 @@ void __kbase_tlstream_tl_kbase_array_item_kcpuqueue_enqueue_jit_alloc(
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_array_end_kcpuqueue_enqueue_jit_alloc */
 void __kbase_tlstream_tl_kbase_array_end_kcpuqueue_enqueue_jit_alloc(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue
@@ -2855,7 +2914,9 @@ void __kbase_tlstream_tl_kbase_array_end_kcpuqueue_enqueue_jit_alloc(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_array_end_kcpuqueue_enqueue_jit_alloc */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_array_begin_kcpuqueue_enqueue_jit_free */
 void __kbase_tlstream_tl_kbase_array_begin_kcpuqueue_enqueue_jit_free(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue
@@ -2878,7 +2939,9 @@ void __kbase_tlstream_tl_kbase_array_begin_kcpuqueue_enqueue_jit_free(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_array_begin_kcpuqueue_enqueue_jit_free */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_array_item_kcpuqueue_enqueue_jit_free */
 void __kbase_tlstream_tl_kbase_array_item_kcpuqueue_enqueue_jit_free(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue,
@@ -2905,7 +2968,9 @@ void __kbase_tlstream_tl_kbase_array_item_kcpuqueue_enqueue_jit_free(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_array_item_kcpuqueue_enqueue_jit_free */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_array_end_kcpuqueue_enqueue_jit_free */
 void __kbase_tlstream_tl_kbase_array_end_kcpuqueue_enqueue_jit_free(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue
@@ -2928,7 +2993,9 @@ void __kbase_tlstream_tl_kbase_array_end_kcpuqueue_enqueue_jit_free(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_array_end_kcpuqueue_enqueue_jit_free */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_error_barrier */
 void __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_error_barrier(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue
@@ -2951,7 +3018,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_error_barrier(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_error_barrier */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_group_suspend */
 void __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_group_suspend(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue,
@@ -2982,7 +3051,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_group_suspend(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_enqueue_group_suspend */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_execute_fence_signal_start */
 void __kbase_tlstream_tl_kbase_kcpuqueue_execute_fence_signal_start(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue
@@ -3005,7 +3076,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_execute_fence_signal_start(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_execute_fence_signal_start */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_execute_fence_signal_end */
 void __kbase_tlstream_tl_kbase_kcpuqueue_execute_fence_signal_end(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue,
@@ -3032,7 +3105,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_execute_fence_signal_end(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_execute_fence_signal_end */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_execute_fence_wait_start */
 void __kbase_tlstream_tl_kbase_kcpuqueue_execute_fence_wait_start(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue
@@ -3055,7 +3130,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_execute_fence_wait_start(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_execute_fence_wait_start */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_execute_fence_wait_end */
 void __kbase_tlstream_tl_kbase_kcpuqueue_execute_fence_wait_end(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue,
@@ -3082,7 +3159,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_execute_fence_wait_end(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_execute_fence_wait_end */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_execute_cqs_wait_start */
 void __kbase_tlstream_tl_kbase_kcpuqueue_execute_cqs_wait_start(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue
@@ -3105,7 +3184,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_execute_cqs_wait_start(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_execute_cqs_wait_start */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_execute_cqs_wait_end */
 void __kbase_tlstream_tl_kbase_kcpuqueue_execute_cqs_wait_end(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue,
@@ -3132,7 +3213,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_execute_cqs_wait_end(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_execute_cqs_wait_end */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_execute_cqs_set */
 void __kbase_tlstream_tl_kbase_kcpuqueue_execute_cqs_set(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue,
@@ -3159,7 +3242,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_execute_cqs_set(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_execute_cqs_set */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_execute_cqs_wait_operation_start */
 void __kbase_tlstream_tl_kbase_kcpuqueue_execute_cqs_wait_operation_start(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue
@@ -3182,7 +3267,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_execute_cqs_wait_operation_start(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_execute_cqs_wait_operation_start */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_execute_cqs_wait_operation_end */
 void __kbase_tlstream_tl_kbase_kcpuqueue_execute_cqs_wait_operation_end(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue,
@@ -3209,7 +3296,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_execute_cqs_wait_operation_end(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_execute_cqs_wait_operation_end */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_execute_cqs_set_operation */
 void __kbase_tlstream_tl_kbase_kcpuqueue_execute_cqs_set_operation(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue,
@@ -3236,7 +3325,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_execute_cqs_set_operation(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_execute_cqs_set_operation */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_execute_map_import_start */
 void __kbase_tlstream_tl_kbase_kcpuqueue_execute_map_import_start(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue
@@ -3259,7 +3350,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_execute_map_import_start(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_execute_map_import_start */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_execute_map_import_end */
 void __kbase_tlstream_tl_kbase_kcpuqueue_execute_map_import_end(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue,
@@ -3286,7 +3379,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_execute_map_import_end(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_execute_map_import_end */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_execute_unmap_import_start */
 void __kbase_tlstream_tl_kbase_kcpuqueue_execute_unmap_import_start(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue
@@ -3309,7 +3404,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_execute_unmap_import_start(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_execute_unmap_import_start */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_execute_unmap_import_end */
 void __kbase_tlstream_tl_kbase_kcpuqueue_execute_unmap_import_end(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue,
@@ -3336,7 +3433,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_execute_unmap_import_end(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_execute_unmap_import_end */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_execute_unmap_import_force_start */
 void __kbase_tlstream_tl_kbase_kcpuqueue_execute_unmap_import_force_start(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue
@@ -3359,7 +3458,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_execute_unmap_import_force_start(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_execute_unmap_import_force_start */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_execute_unmap_import_force_end */
 void __kbase_tlstream_tl_kbase_kcpuqueue_execute_unmap_import_force_end(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue,
@@ -3386,7 +3487,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_execute_unmap_import_force_end(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_execute_unmap_import_force_end */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_execute_jit_alloc_start */
 void __kbase_tlstream_tl_kbase_kcpuqueue_execute_jit_alloc_start(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue
@@ -3409,7 +3512,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_execute_jit_alloc_start(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_execute_jit_alloc_start */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_array_begin_kcpuqueue_execute_jit_alloc_end */
 void __kbase_tlstream_tl_kbase_array_begin_kcpuqueue_execute_jit_alloc_end(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue
@@ -3432,7 +3537,9 @@ void __kbase_tlstream_tl_kbase_array_begin_kcpuqueue_execute_jit_alloc_end(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_array_begin_kcpuqueue_execute_jit_alloc_end */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_array_item_kcpuqueue_execute_jit_alloc_end */
 void __kbase_tlstream_tl_kbase_array_item_kcpuqueue_execute_jit_alloc_end(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue,
@@ -3467,7 +3574,9 @@ void __kbase_tlstream_tl_kbase_array_item_kcpuqueue_execute_jit_alloc_end(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_array_item_kcpuqueue_execute_jit_alloc_end */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_array_end_kcpuqueue_execute_jit_alloc_end */
 void __kbase_tlstream_tl_kbase_array_end_kcpuqueue_execute_jit_alloc_end(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue
@@ -3490,7 +3599,9 @@ void __kbase_tlstream_tl_kbase_array_end_kcpuqueue_execute_jit_alloc_end(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_array_end_kcpuqueue_execute_jit_alloc_end */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_execute_jit_free_start */
 void __kbase_tlstream_tl_kbase_kcpuqueue_execute_jit_free_start(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue
@@ -3513,7 +3624,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_execute_jit_free_start(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_execute_jit_free_start */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_array_begin_kcpuqueue_execute_jit_free_end */
 void __kbase_tlstream_tl_kbase_array_begin_kcpuqueue_execute_jit_free_end(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue
@@ -3536,7 +3649,9 @@ void __kbase_tlstream_tl_kbase_array_begin_kcpuqueue_execute_jit_free_end(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_array_begin_kcpuqueue_execute_jit_free_end */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_array_item_kcpuqueue_execute_jit_free_end */
 void __kbase_tlstream_tl_kbase_array_item_kcpuqueue_execute_jit_free_end(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue,
@@ -3567,7 +3682,9 @@ void __kbase_tlstream_tl_kbase_array_item_kcpuqueue_execute_jit_free_end(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_array_item_kcpuqueue_execute_jit_free_end */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_array_end_kcpuqueue_execute_jit_free_end */
 void __kbase_tlstream_tl_kbase_array_end_kcpuqueue_execute_jit_free_end(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue
@@ -3590,7 +3707,9 @@ void __kbase_tlstream_tl_kbase_array_end_kcpuqueue_execute_jit_free_end(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_array_end_kcpuqueue_execute_jit_free_end */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_execute_error_barrier */
 void __kbase_tlstream_tl_kbase_kcpuqueue_execute_error_barrier(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue
@@ -3613,7 +3732,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_execute_error_barrier(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_execute_error_barrier */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_execute_group_suspend_start */
 void __kbase_tlstream_tl_kbase_kcpuqueue_execute_group_suspend_start(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue
@@ -3636,7 +3757,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_execute_group_suspend_start(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_execute_group_suspend_start */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_kcpuqueue_execute_group_suspend_end */
 void __kbase_tlstream_tl_kbase_kcpuqueue_execute_group_suspend_end(
 	struct kbase_tlstream *stream,
 	const void *kcpu_queue,
@@ -3663,7 +3786,9 @@ void __kbase_tlstream_tl_kbase_kcpuqueue_execute_group_suspend_end(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_kcpuqueue_execute_group_suspend_end */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_csffw_fw_reloading */
 void __kbase_tlstream_tl_kbase_csffw_fw_reloading(
 	struct kbase_tlstream *stream,
 	u64 csffw_cycle
@@ -3686,7 +3811,9 @@ void __kbase_tlstream_tl_kbase_csffw_fw_reloading(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_csffw_fw_reloading */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_csffw_fw_enabling */
 void __kbase_tlstream_tl_kbase_csffw_fw_enabling(
 	struct kbase_tlstream *stream,
 	u64 csffw_cycle
@@ -3709,7 +3836,9 @@ void __kbase_tlstream_tl_kbase_csffw_fw_enabling(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_csffw_fw_enabling */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_csffw_fw_request_sleep */
 void __kbase_tlstream_tl_kbase_csffw_fw_request_sleep(
 	struct kbase_tlstream *stream,
 	u64 csffw_cycle
@@ -3732,7 +3861,9 @@ void __kbase_tlstream_tl_kbase_csffw_fw_request_sleep(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_csffw_fw_request_sleep */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_csffw_fw_request_wakeup */
 void __kbase_tlstream_tl_kbase_csffw_fw_request_wakeup(
 	struct kbase_tlstream *stream,
 	u64 csffw_cycle
@@ -3755,7 +3886,9 @@ void __kbase_tlstream_tl_kbase_csffw_fw_request_wakeup(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_csffw_fw_request_wakeup */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_csffw_fw_request_halt */
 void __kbase_tlstream_tl_kbase_csffw_fw_request_halt(
 	struct kbase_tlstream *stream,
 	u64 csffw_cycle
@@ -3778,7 +3911,9 @@ void __kbase_tlstream_tl_kbase_csffw_fw_request_halt(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_csffw_fw_request_halt */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_csffw_fw_disabling */
 void __kbase_tlstream_tl_kbase_csffw_fw_disabling(
 	struct kbase_tlstream *stream,
 	u64 csffw_cycle
@@ -3801,7 +3936,9 @@ void __kbase_tlstream_tl_kbase_csffw_fw_disabling(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_csffw_fw_disabling */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_csffw_fw_off */
 void __kbase_tlstream_tl_kbase_csffw_fw_off(
 	struct kbase_tlstream *stream,
 	u64 csffw_cycle
@@ -3824,7 +3961,9 @@ void __kbase_tlstream_tl_kbase_csffw_fw_off(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_csffw_fw_off */
 
+#if 0 /* camellia: unused: __kbase_tlstream_tl_kbase_csffw_tlstream_overflow */
 void __kbase_tlstream_tl_kbase_csffw_tlstream_overflow(
 	struct kbase_tlstream *stream,
 	u64 csffw_timestamp,
@@ -3851,6 +3990,7 @@ void __kbase_tlstream_tl_kbase_csffw_tlstream_overflow(
 
 	kbase_tlstream_msgbuf_release(stream, acq_flags);
 }
+#endif /* __kbase_tlstream_tl_kbase_csffw_tlstream_overflow */
 
 void __kbase_tlstream_aux_pm_state(
 	struct kbase_tlstream *stream,

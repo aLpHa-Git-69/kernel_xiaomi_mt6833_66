@@ -2648,6 +2648,7 @@ void p2pFuncSetForceTrxConfig(struct ADAPTER *prAdapter,
 }
 #endif
 
+#if 0 /* camellia: unused: p2pFuncGetForceTrxConfig */
 uint8_t
 p2pFuncGetForceTrxConfig(struct ADAPTER *prAdapter)
 {
@@ -2657,6 +2658,7 @@ p2pFuncGetForceTrxConfig(struct ADAPTER *prAdapter)
 	return 0;
 #endif
 }
+#endif /* p2pFuncGetForceTrxConfig */
 
 #if (CFG_SUPPORT_DFS_MASTER == 1)
 void p2pFuncSetDfsChannelAvailable(struct ADAPTER *prAdapter,
@@ -2811,6 +2813,7 @@ void p2pFuncStopRdd(struct ADAPTER *prAdapter, uint8_t ucBssIdx)
 
 }				/* p2pFuncStopRdd */
 
+#if 0 /* camellia: unused: p2pFuncCsaUpdateGcStaRec */
 void p2pFuncCsaUpdateGcStaRec(struct BSS_INFO *prBssInfo)
 {
 	struct STA_RECORD *prStaRec = prBssInfo->prStaRecOfAP;
@@ -2840,6 +2843,7 @@ void p2pFuncCsaUpdateGcStaRec(struct BSS_INFO *prBssInfo)
 		prStaRec->ucDesiredPhyTypeSet &= ~(PHY_TYPE_BIT_VHT);
 	}
 }
+#endif /* p2pFuncCsaUpdateGcStaRec */
 
 void p2pFuncDfsSwitchCh(struct ADAPTER *prAdapter,
 		struct BSS_INFO *prBssInfo,
@@ -3167,10 +3171,12 @@ void p2pFuncRadarInfoInit(void)
 	kalMemZero(&g_rP2pRadarInfo, sizeof(g_rP2pRadarInfo));
 }
 
+#if 0 /* camellia: unused: p2pFuncGetRadarInfo */
 void p2pFuncGetRadarInfo(struct P2P_RADAR_INFO *prP2pRadarInfo)
 {
 	kalMemCopy(prP2pRadarInfo, &g_rP2pRadarInfo, sizeof(*prP2pRadarInfo));
 }
+#endif /* p2pFuncGetRadarInfo */
 
 void p2pFuncSetRadarDetectMode(uint8_t ucRadarDetectMode)
 {
@@ -5062,6 +5068,7 @@ u_int8_t p2pFuncIsDualAPMode(struct ADAPTER *prAdapter)
 	return TRUE;
 }
 
+#if 0 /* camellia: unused: p2pFuncIsDualAPActive */
 u_int8_t p2pFuncIsDualAPActive(struct ADAPTER *prAdapter)
 {
 	uint8_t ucActiveSapNum = 0;
@@ -5087,6 +5094,7 @@ u_int8_t p2pFuncIsDualAPActive(struct ADAPTER *prAdapter)
 
 	return ucActiveSapNum > 1 ? TRUE : FALSE;
 }
+#endif /* p2pFuncIsDualAPActive */
 
 u_int8_t p2pFuncIsAPMode(struct P2P_CONNECTION_SETTINGS *prP2pConnSettings)
 {
@@ -5803,6 +5811,7 @@ p2pFuncKeepOnConnection(struct ADAPTER *prAdapter,
 }				/* p2pFuncKeepOnConnection */
 
 /* Currently Only for ASSOC Response Frame. */
+#if 0 /* camellia: unused: p2pFuncStoreAssocRspIEBuffer */
 void p2pFuncStoreAssocRspIEBuffer(struct ADAPTER *prAdapter,
 		struct P2P_JOIN_INFO *prP2pJoinInfo,
 		struct SW_RFB *prSwRfb)
@@ -5837,6 +5846,7 @@ void p2pFuncStoreAssocRspIEBuffer(struct ADAPTER *prAdapter,
 
 	} while (FALSE);
 }				/* p2pFuncStoreAssocRspIEBuffer */
+#endif /* p2pFuncStoreAssocRspIEBuffer */
 
 /*---------------------------------------------------------------------------*/
 /*!
@@ -8936,6 +8946,7 @@ void p2pAAChCandModify(struct ADAPTER *prAdapter,
 }
 #endif /* CFG_SUPPORT_CCM */
 
+#if 0 /* camellia: unused: p2pForbiddenChRemove */
 void p2pForbiddenChRemove(struct ADAPTER *prAdapter,
 		uint8_t *ucChSwitchCandNum,
 		struct P2P_CH_SWITCH_CANDIDATE *prSapSwitchCand,
@@ -8991,6 +9002,7 @@ void p2pForbiddenChRemove(struct ADAPTER *prAdapter,
 #endif
 	}
 }
+#endif /* p2pForbiddenChRemove */
 
 void p2pHwBandMccRemove(struct ADAPTER *prAdapter,
 		uint8_t *ucChSwitchCandNum,

@@ -191,20 +191,24 @@ static int ipi_sync(const unsigned char *txbuf, unsigned int n_tx,
 	return __ipi_xfer(&m);
 }
 
+#if 0 /* camellia: unused: ipi_async */
 static int ipi_async(struct ipi_message *m)
 {
 	return __ipi_transfer(m);
 }
+#endif /* ipi_async */
 
 int mtk_nanohub_ipi_sync(unsigned char *buffer, unsigned int len)
 {
 	return ipi_sync(buffer, len, buffer, len);
 }
 
+#if 0 /* camellia: unused: mtk_nanohub_ipi_async */
 int mtk_nanohub_ipi_async(struct ipi_message *m)
 {
 	return ipi_async(m);
 }
+#endif /* mtk_nanohub_ipi_async */
 
 void mtk_nanohub_ipi_complete(unsigned char *buffer, unsigned int len)
 {

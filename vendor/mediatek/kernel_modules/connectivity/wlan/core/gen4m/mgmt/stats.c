@@ -89,6 +89,7 @@ uint64_t StatsEnvTimeGet(void)
 	return (uint64_t) u8Clk;	/* sched_clock *//* jiffies size = 4B */
 }
 
+#if 0 /* camellia: unused: StatsEnvGetPktDelay */
 void StatsEnvGetPktDelay(uint8_t *pucTxRxFlag,
 	uint8_t *pucTxIpProto, uint16_t *pu2TxUdpPort,
 	uint32_t *pu4TxDelayThreshold, uint8_t *pucRxIpProto,
@@ -102,7 +103,9 @@ void StatsEnvGetPktDelay(uint8_t *pucTxRxFlag,
 	*pu2RxUdpPort = g_u2RxUdpPort;
 	*pu4RxDelayThreshold = g_u4RxDelayThreshold;
 }
+#endif /* StatsEnvGetPktDelay */
 
+#if 0 /* camellia: unused: StatsEnvSetPktDelay */
 void StatsEnvSetPktDelay(uint8_t ucTxOrRx, uint8_t ucIpProto,
 	uint16_t u2UdpPort, uint32_t u4DelayThreshold)
 {
@@ -130,6 +133,7 @@ void StatsEnvSetPktDelay(uint8_t ucTxOrRx, uint8_t ucIpProto,
 		g_u4RxDelayThreshold = 0;
 	}
 }
+#endif /* StatsEnvSetPktDelay */
 
 void StatsEnvRxTime2Host(struct ADAPTER *prAdapter, void *pvPacket)
 {
@@ -1099,11 +1103,13 @@ void StatsTxPktInfoDisplay(void *pvPacket)
 #endif
 }
 
+#if 0 /* camellia: unused: statsGetTlvU4Len */
 uint32_t
 statsGetTlvU4Len(struct GLUE_INFO *prGlueInfo)
 {
 	return sizeof(uint32_t);
 }
+#endif /* statsGetTlvU4Len */
 
 uint32_t
 statsGetTlvU8Len(struct GLUE_INFO *prGlueInfo)

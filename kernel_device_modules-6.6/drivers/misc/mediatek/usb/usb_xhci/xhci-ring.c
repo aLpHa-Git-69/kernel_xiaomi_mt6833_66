@@ -3216,11 +3216,13 @@ out:
 	return ret;
 }
 
+#if 0 /* camellia: unused: xhci_msi_irq_ */
 irqreturn_t xhci_msi_irq_(int irq, void *hcd)
 {
 	return xhci_irq(hcd);
 }
 EXPORT_SYMBOL_GPL(xhci_msi_irq_);
+#endif /* xhci_msi_irq_ */
 
 /****		Endpoint Ring Operations	****/
 
@@ -4479,6 +4481,7 @@ int xhci_queue_stop_endpoint_(struct xhci_hcd *xhci, struct xhci_command *cmd,
 }
 EXPORT_SYMBOL_GPL(xhci_queue_stop_endpoint_);
 
+#if 0 /* camellia: unused: xhci_vendor_queue_command_ */
 int xhci_vendor_queue_command_(struct xhci_hcd *xhci, struct xhci_command *cmd,
 			 u32 field1, u32 field2,
 			 u32 field3, u32 field4, bool command_must_succeed)
@@ -4486,6 +4489,7 @@ int xhci_vendor_queue_command_(struct xhci_hcd *xhci, struct xhci_command *cmd,
 	return queue_command(xhci, cmd, field1, field2, field3, field4, command_must_succeed);
 }
 EXPORT_SYMBOL_GPL(xhci_vendor_queue_command_);
+#endif /* xhci_vendor_queue_command_ */
 
 int xhci_queue_reset_ep(struct xhci_hcd *xhci, struct xhci_command *cmd,
 			int slot_id, unsigned int ep_index,

@@ -52,11 +52,13 @@
 struct ccci_modem *modem_sys;
 
 static bool (*s_spm_md_sleep_callback)(void);
+#if 0 /* camellia: unused: ccci_set_spm_md_sleep_cb */
 void ccci_set_spm_md_sleep_cb(bool (*spm_md_sleep_cb)(void))
 {
 	s_spm_md_sleep_callback = spm_md_sleep_cb;
 }
 EXPORT_SYMBOL(ccci_set_spm_md_sleep_cb);
+#endif /* ccci_set_spm_md_sleep_cb */
 
 bool spm_is_md1_sleep_ccci(void)
 {

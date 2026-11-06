@@ -110,6 +110,7 @@ int mtk_get_format_bpp(uint32_t format)
 	}
 }
 
+#if 0 /* camellia: unused: mtk_get_format_name */
 char *mtk_get_format_name(uint32_t format)
 {
 	switch (format) {
@@ -156,6 +157,7 @@ char *mtk_get_format_name(uint32_t format)
 	}
 	return "fmt_unknown";
 }
+#endif /* mtk_get_format_name */
 
 static struct mtk_drm_property mtk_plane_property[PLANE_PROP_MAX] = {
 	{DRM_MODE_PROP_ATOMIC, "NEXT_BUFF_IDX", 0, UINT_MAX, 0},	/* 0 */

@@ -163,6 +163,7 @@ static void pkvm_smmu_region_mapping(u64 region_start, u32 region_size,
 #endif
 }
 
+#if 0 /* camellia: unused: flush_region_mem */
 void flush_region_mem(u64 pa, u32 size)
 {
 	struct sg_table table;
@@ -184,6 +185,7 @@ void flush_region_mem(u64 pa, u32 size)
 	dma_unmap_sgtable(dev, &table, DMA_BIDIRECTIONAL, 0);
 	sg_free_table(&table);
 }
+#endif /* flush_region_mem */
 
 /*
  * This combination is pKVM & FF-A and GZ is disable.

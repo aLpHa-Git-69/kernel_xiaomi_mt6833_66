@@ -3280,6 +3280,7 @@ s_int32 mt_op_get_tx_tone_pwr(
 	return SERV_STATUS_SUCCESS;
 }
 
+#if 0 /* camellia: unused: mt_op_reset_recal_cnt */
 s_int32 mt_op_reset_recal_cnt(
 	struct test_wlan_info *winfos
 )
@@ -3299,6 +3300,7 @@ s_int32 mt_op_reset_recal_cnt(
 
 	return ret;
 }
+#endif /* mt_op_reset_recal_cnt */
 
 s_int32 mt_op_get_recal_cnt(
 	struct test_wlan_info *winfos,

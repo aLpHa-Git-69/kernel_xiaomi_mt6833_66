@@ -489,6 +489,7 @@ EXPORT_SYMBOL_GPL(of_mtk_icc_get);
  * This function allows consumers to append a tag to the requests associated
  * with a path, so that a different aggregation could be done based on this tag.
  */
+#if 0 /* camellia: unused: mtk_icc_set_tag */
 void mtk_icc_set_tag(struct icc_path *path, u32 tag)
 {
 	int i;
@@ -504,6 +505,7 @@ void mtk_icc_set_tag(struct icc_path *path, u32 tag)
 	mutex_unlock(&icc_lock);
 }
 EXPORT_SYMBOL_GPL(mtk_icc_set_tag);
+#endif /* mtk_icc_set_tag */
 
 
 int mtk_icc_set_bw_not_update(struct icc_path *path, u32 avg_bw, u32 peak_bw)
@@ -840,6 +842,7 @@ EXPORT_SYMBOL_GPL(mtk_icc_link_create);
  *
  * Return: 0 on success, or an error code otherwise
  */
+#if 0 /* camellia: unused: mtk_icc_link_destroy */
 int mtk_icc_link_destroy(struct icc_node *src, struct icc_node *dst)
 {
 	struct icc_node **new;
@@ -876,6 +879,7 @@ out:
 	return ret;
 }
 EXPORT_SYMBOL_GPL(mtk_icc_link_destroy);
+#endif /* mtk_icc_link_destroy */
 
 /**
  * icc_node_add() - add interconnect node to interconnect provider

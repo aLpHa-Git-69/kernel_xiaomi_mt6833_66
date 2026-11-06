@@ -504,6 +504,7 @@ int mtk_build_eint(struct mtk_pinctrl *hw, struct platform_device *pdev)
 EXPORT_SYMBOL_GPL(mtk_build_eint);
 
 /* Revision 0 */
+#if 0 /* camellia: unused: mtk_pinconf_bias_disable_set */
 int mtk_pinconf_bias_disable_set(struct mtk_pinctrl *hw,
 				 const struct mtk_pin_desc *desc)
 {
@@ -522,7 +523,9 @@ int mtk_pinconf_bias_disable_set(struct mtk_pinctrl *hw,
 	return 0;
 }
 EXPORT_SYMBOL_GPL(mtk_pinconf_bias_disable_set);
+#endif /* mtk_pinconf_bias_disable_set */
 
+#if 0 /* camellia: unused: mtk_pinconf_bias_disable_get */
 int mtk_pinconf_bias_disable_get(struct mtk_pinctrl *hw,
 				 const struct mtk_pin_desc *desc, int *res)
 {
@@ -545,7 +548,9 @@ int mtk_pinconf_bias_disable_get(struct mtk_pinctrl *hw,
 	return 0;
 }
 EXPORT_SYMBOL_GPL(mtk_pinconf_bias_disable_get);
+#endif /* mtk_pinconf_bias_disable_get */
 
+#if 0 /* camellia: unused: mtk_pinconf_bias_set */
 int mtk_pinconf_bias_set(struct mtk_pinctrl *hw,
 			 const struct mtk_pin_desc *desc, bool pullup)
 {
@@ -565,7 +570,9 @@ int mtk_pinconf_bias_set(struct mtk_pinctrl *hw,
 	return 0;
 }
 EXPORT_SYMBOL_GPL(mtk_pinconf_bias_set);
+#endif /* mtk_pinconf_bias_set */
 
+#if 0 /* camellia: unused: mtk_pinconf_bias_get */
 int mtk_pinconf_bias_get(struct mtk_pinctrl *hw,
 			 const struct mtk_pin_desc *desc, bool pullup, int *res)
 {
@@ -585,8 +592,10 @@ int mtk_pinconf_bias_get(struct mtk_pinctrl *hw,
 	return 0;
 }
 EXPORT_SYMBOL_GPL(mtk_pinconf_bias_get);
+#endif /* mtk_pinconf_bias_get */
 
 /* Revision 1 */
+#if 0 /* camellia: unused: mtk_pinconf_bias_disable_set_rev1 */
 int mtk_pinconf_bias_disable_set_rev1(struct mtk_pinctrl *hw,
 				      const struct mtk_pin_desc *desc)
 {
@@ -594,7 +603,9 @@ int mtk_pinconf_bias_disable_set_rev1(struct mtk_pinctrl *hw,
 				MTK_DISABLE);
 }
 EXPORT_SYMBOL_GPL(mtk_pinconf_bias_disable_set_rev1);
+#endif /* mtk_pinconf_bias_disable_set_rev1 */
 
+#if 0 /* camellia: unused: mtk_pinconf_bias_disable_get_rev1 */
 int mtk_pinconf_bias_disable_get_rev1(struct mtk_pinctrl *hw,
 				      const struct mtk_pin_desc *desc, int *res)
 {
@@ -612,7 +623,9 @@ int mtk_pinconf_bias_disable_get_rev1(struct mtk_pinctrl *hw,
 	return 0;
 }
 EXPORT_SYMBOL_GPL(mtk_pinconf_bias_disable_get_rev1);
+#endif /* mtk_pinconf_bias_disable_get_rev1 */
 
+#if 0 /* camellia: unused: mtk_pinconf_bias_set_rev1 */
 int mtk_pinconf_bias_set_rev1(struct mtk_pinctrl *hw,
 			      const struct mtk_pin_desc *desc, bool pullup)
 {
@@ -632,7 +645,9 @@ int mtk_pinconf_bias_set_rev1(struct mtk_pinctrl *hw,
 	return 0;
 }
 EXPORT_SYMBOL_GPL(mtk_pinconf_bias_set_rev1);
+#endif /* mtk_pinconf_bias_set_rev1 */
 
+#if 0 /* camellia: unused: mtk_pinconf_bias_get_rev1 */
 int mtk_pinconf_bias_get_rev1(struct mtk_pinctrl *hw,
 			      const struct mtk_pin_desc *desc, bool pullup,
 			      int *res)
@@ -658,6 +673,7 @@ int mtk_pinconf_bias_get_rev1(struct mtk_pinctrl *hw,
 	return 0;
 }
 EXPORT_SYMBOL_GPL(mtk_pinconf_bias_get_rev1);
+#endif /* mtk_pinconf_bias_get_rev1 */
 
 /* Combo for the following pull register type:
  * 1. PU + PD
@@ -1061,6 +1077,7 @@ int mtk_pinconf_bias_get_combo(struct mtk_pinctrl *hw,
 EXPORT_SYMBOL_GPL(mtk_pinconf_bias_get_combo);
 
 /* Revision 0 */
+#if 0 /* camellia: unused: mtk_pinconf_drive_set */
 int mtk_pinconf_drive_set(struct mtk_pinctrl *hw,
 			  const struct mtk_pin_desc *desc, u32 arg)
 {
@@ -1089,7 +1106,9 @@ int mtk_pinconf_drive_set(struct mtk_pinctrl *hw,
 	return err;
 }
 EXPORT_SYMBOL_GPL(mtk_pinconf_drive_set);
+#endif /* mtk_pinconf_drive_set */
 
+#if 0 /* camellia: unused: mtk_pinconf_drive_get */
 int mtk_pinconf_drive_get(struct mtk_pinctrl *hw,
 			  const struct mtk_pin_desc *desc, int *val)
 {
@@ -1114,8 +1133,10 @@ int mtk_pinconf_drive_get(struct mtk_pinctrl *hw,
 	return 0;
 }
 EXPORT_SYMBOL_GPL(mtk_pinconf_drive_get);
+#endif /* mtk_pinconf_drive_get */
 
 /* Revision 1 */
+#if 0 /* camellia: unused: mtk_pinconf_drive_set_rev1 */
 int mtk_pinconf_drive_set_rev1(struct mtk_pinctrl *hw,
 			       const struct mtk_pin_desc *desc, u32 arg)
 {
@@ -1136,7 +1157,9 @@ int mtk_pinconf_drive_set_rev1(struct mtk_pinctrl *hw,
 	return err;
 }
 EXPORT_SYMBOL_GPL(mtk_pinconf_drive_set_rev1);
+#endif /* mtk_pinconf_drive_set_rev1 */
 
+#if 0 /* camellia: unused: mtk_pinconf_drive_get_rev1 */
 int mtk_pinconf_drive_get_rev1(struct mtk_pinctrl *hw,
 			       const struct mtk_pin_desc *desc, int *val)
 {
@@ -1154,21 +1177,27 @@ int mtk_pinconf_drive_get_rev1(struct mtk_pinctrl *hw,
 	return 0;
 }
 EXPORT_SYMBOL_GPL(mtk_pinconf_drive_get_rev1);
+#endif /* mtk_pinconf_drive_get_rev1 */
 
+#if 0 /* camellia: unused: mtk_pinconf_drive_set_raw */
 int mtk_pinconf_drive_set_raw(struct mtk_pinctrl *hw,
 			       const struct mtk_pin_desc *desc, u32 arg)
 {
 	return mtk_hw_set_value(hw, desc, PINCTRL_PIN_REG_DRV, arg);
 }
 EXPORT_SYMBOL_GPL(mtk_pinconf_drive_set_raw);
+#endif /* mtk_pinconf_drive_set_raw */
 
+#if 0 /* camellia: unused: mtk_pinconf_drive_get_raw */
 int mtk_pinconf_drive_get_raw(struct mtk_pinctrl *hw,
 			       const struct mtk_pin_desc *desc, int *val)
 {
 	return mtk_hw_get_value(hw, desc, PINCTRL_PIN_REG_DRV, val);
 }
 EXPORT_SYMBOL_GPL(mtk_pinconf_drive_get_raw);
+#endif /* mtk_pinconf_drive_get_raw */
 
+#if 0 /* camellia: unused: mtk_pinconf_adv_pull_set */
 int mtk_pinconf_adv_pull_set(struct mtk_pinctrl *hw,
 			     const struct mtk_pin_desc *desc, bool pullup,
 			     u32 arg)
@@ -1215,7 +1244,9 @@ int mtk_pinconf_adv_pull_set(struct mtk_pinctrl *hw,
 	return err;
 }
 EXPORT_SYMBOL_GPL(mtk_pinconf_adv_pull_set);
+#endif /* mtk_pinconf_adv_pull_set */
 
+#if 0 /* camellia: unused: mtk_pinconf_adv_pull_get */
 int mtk_pinconf_adv_pull_get(struct mtk_pinctrl *hw,
 			     const struct mtk_pin_desc *desc, bool pullup,
 			     u32 *val)
@@ -1258,6 +1289,7 @@ int mtk_pinconf_adv_pull_get(struct mtk_pinctrl *hw,
 	return 0;
 }
 EXPORT_SYMBOL_GPL(mtk_pinconf_adv_pull_get);
+#endif /* mtk_pinconf_adv_pull_get */
 
 int mtk_pinconf_adv_drive_set(struct mtk_pinctrl *hw,
 			      const struct mtk_pin_desc *desc, u32 arg)
@@ -1326,19 +1358,23 @@ int mtk_pinconf_adv_drive_get(struct mtk_pinctrl *hw,
 }
 EXPORT_SYMBOL_GPL(mtk_pinconf_adv_drive_get);
 
+#if 0 /* camellia: unused: mtk_pinconf_adv_drive_set_raw */
 int mtk_pinconf_adv_drive_set_raw(struct mtk_pinctrl *hw,
 				  const struct mtk_pin_desc *desc, u32 arg)
 {
 	return mtk_hw_set_value(hw, desc, PINCTRL_PIN_REG_DRV_ADV, arg);
 }
 EXPORT_SYMBOL_GPL(mtk_pinconf_adv_drive_set_raw);
+#endif /* mtk_pinconf_adv_drive_set_raw */
 
+#if 0 /* camellia: unused: mtk_pinconf_adv_drive_get_raw */
 int mtk_pinconf_adv_drive_get_raw(struct mtk_pinctrl *hw,
 				  const struct mtk_pin_desc *desc, u32 *val)
 {
 	return mtk_hw_get_value(hw, desc, PINCTRL_PIN_REG_DRV_ADV, val);
 }
 EXPORT_SYMBOL_GPL(mtk_pinconf_adv_drive_get_raw);
+#endif /* mtk_pinconf_adv_drive_get_raw */
 
 MODULE_LICENSE("GPL v2");
 MODULE_AUTHOR("Sean Wang <sean.wang@mediatek.com>");

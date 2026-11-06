@@ -193,11 +193,13 @@ out:
 }
 EXPORT_SYMBOL(tcpm_inquire_cc_high);
 
+#if 0 /* camellia: unused: tcpm_inquire_cc_polarity */
 bool tcpm_inquire_cc_polarity(struct tcpc_device *tcpc)
 {
 	return tcpc->typec_polarity;
 }
 EXPORT_SYMBOL(tcpm_inquire_cc_polarity);
+#endif /* tcpm_inquire_cc_polarity */
 
 uint8_t tcpm_inquire_typec_attach_state(struct tcpc_device *tcpc)
 {
@@ -205,11 +207,13 @@ uint8_t tcpm_inquire_typec_attach_state(struct tcpc_device *tcpc)
 }
 EXPORT_SYMBOL(tcpm_inquire_typec_attach_state);
 
+#if 0 /* camellia: unused: tcpm_inquire_typec_role */
 uint8_t tcpm_inquire_typec_role(struct tcpc_device *tcpc)
 {
 	return tcpc->typec_role;
 }
 EXPORT_SYMBOL(tcpm_inquire_typec_role);
+#endif /* tcpm_inquire_typec_role */
 
 uint8_t tcpm_inquire_typec_role_def(struct tcpc_device *tcpc)
 {
@@ -217,18 +221,23 @@ uint8_t tcpm_inquire_typec_role_def(struct tcpc_device *tcpc)
 }
 EXPORT_SYMBOL(tcpm_inquire_typec_role_def);
 
+#if 0 /* camellia: unused: tcpm_inquire_floating_ground */
 bool tcpm_inquire_floating_ground(struct tcpc_device *tcpc)
 {
 	return !!(tcpc->tcpc_flags & TCPC_FLAGS_FLOATING_GROUND);
 }
 EXPORT_SYMBOL(tcpm_inquire_floating_ground);
+#endif /* tcpm_inquire_floating_ground */
 
+#if 0 /* camellia: unused: tcpm_inquire_typec_local_rp */
 uint8_t tcpm_inquire_typec_local_rp(struct tcpc_device *tcpc)
 {
 	return tcpc->typec_local_rp_level;
 }
 EXPORT_SYMBOL(tcpm_inquire_typec_local_rp);
+#endif /* tcpm_inquire_typec_local_rp */
 
+#if 0 /* camellia: unused: tcpm_inquire_sink_vbus */
 void tcpm_inquire_sink_vbus(struct tcpc_device *tcpc,
 			    int *mv, int *ma, uint8_t *type)
 {
@@ -237,7 +246,9 @@ void tcpm_inquire_sink_vbus(struct tcpc_device *tcpc,
 	*type = tcpc->sink_vbus_type;
 }
 EXPORT_SYMBOL(tcpm_inquire_sink_vbus);
+#endif /* tcpm_inquire_sink_vbus */
 
+#if 0 /* camellia: unused: tcpm_typec_set_usb_sink_curr */
 int tcpm_typec_set_usb_sink_curr(struct tcpc_device *tcpc, int curr)
 {
 	bool force_sink_vbus = true;
@@ -264,7 +275,9 @@ int tcpm_typec_set_usb_sink_curr(struct tcpc_device *tcpc, int curr)
 	return 0;
 }
 EXPORT_SYMBOL(tcpm_typec_set_usb_sink_curr);
+#endif /* tcpm_typec_set_usb_sink_curr */
 
+#if 0 /* camellia: unused: tcpm_typec_set_rp_level */
 int tcpm_typec_set_rp_level(struct tcpc_device *tcpc, uint8_t level)
 {
 	int ret = 0;
@@ -276,6 +289,7 @@ int tcpm_typec_set_rp_level(struct tcpc_device *tcpc, uint8_t level)
 	return ret;
 }
 EXPORT_SYMBOL(tcpm_typec_set_rp_level);
+#endif /* tcpm_typec_set_rp_level */
 
 int tcpm_typec_role_swap(struct tcpc_device *tcpc)
 {
@@ -323,6 +337,7 @@ int tcpm_typec_change_role_postpone(
 }
 EXPORT_SYMBOL(tcpm_typec_change_role_postpone);
 
+#if 0 /* camellia: unused: tcpm_typec_error_recovery */
 int tcpm_typec_error_recovery(struct tcpc_device *tcpc)
 {
 	int ret = 0;
@@ -334,7 +349,9 @@ int tcpm_typec_error_recovery(struct tcpc_device *tcpc)
 	return ret;
 }
 EXPORT_SYMBOL(tcpm_typec_error_recovery);
+#endif /* tcpm_typec_error_recovery */
 
+#if 0 /* camellia: unused: tcpm_typec_disable_function */
 int tcpm_typec_disable_function(struct tcpc_device *tcpc, bool disable)
 {
 	int ret = 0;
@@ -346,9 +363,11 @@ int tcpm_typec_disable_function(struct tcpc_device *tcpc, bool disable)
 	return ret;
 }
 EXPORT_SYMBOL(tcpm_typec_disable_function);
+#endif /* tcpm_typec_disable_function */
 
 #if IS_ENABLED(CONFIG_USB_POWER_DELIVERY)
 
+#if 0 /* camellia: unused: tcpm_inquire_pd_connected */
 bool tcpm_inquire_pd_connected(struct tcpc_device *tcpc)
 {
 	struct pd_port *pd_port = &tcpc->pd_port;
@@ -356,7 +375,9 @@ bool tcpm_inquire_pd_connected(struct tcpc_device *tcpc)
 	return pd_port->pe_data.pd_connected;
 }
 EXPORT_SYMBOL(tcpm_inquire_pd_connected);
+#endif /* tcpm_inquire_pd_connected */
 
+#if 0 /* camellia: unused: tcpm_inquire_pd_prev_connected */
 bool tcpm_inquire_pd_prev_connected(struct tcpc_device *tcpc)
 {
 	struct pd_port *pd_port = &tcpc->pd_port;
@@ -364,6 +385,7 @@ bool tcpm_inquire_pd_prev_connected(struct tcpc_device *tcpc)
 	return pd_port->pe_data.pd_prev_connected;
 }
 EXPORT_SYMBOL(tcpm_inquire_pd_prev_connected);
+#endif /* tcpm_inquire_pd_prev_connected */
 
 uint8_t tcpm_inquire_pd_data_role(struct tcpc_device *tcpc)
 {
@@ -404,6 +426,7 @@ uint8_t tcpm_inquire_pd_pe_ready(struct tcpc_device *tcpc)
 }
 EXPORT_SYMBOL(tcpm_inquire_pd_pe_ready);
 
+#if 0 /* camellia: unused: tcpm_inquire_cable_current */
 uint32_t tcpm_inquire_cable_current(struct tcpc_device *tcpc)
 {
 	struct pd_port *pd_port = &tcpc->pd_port;
@@ -417,6 +440,7 @@ uint32_t tcpm_inquire_cable_current(struct tcpc_device *tcpc)
 	return ret;
 }
 EXPORT_SYMBOL(tcpm_inquire_cable_current);
+#endif /* tcpm_inquire_cable_current */
 
 uint32_t tcpm_inquire_dpm_flags(struct tcpc_device *tcpc)
 {
@@ -426,6 +450,7 @@ uint32_t tcpm_inquire_dpm_flags(struct tcpc_device *tcpc)
 }
 EXPORT_SYMBOL(tcpm_inquire_dpm_flags);
 
+#if 0 /* camellia: unused: tcpm_inquire_dpm_caps */
 uint32_t tcpm_inquire_dpm_caps(struct tcpc_device *tcpc)
 {
 	struct pd_port *pd_port = &tcpc->pd_port;
@@ -433,7 +458,9 @@ uint32_t tcpm_inquire_dpm_caps(struct tcpc_device *tcpc)
 	return pd_port->dpm_caps;
 }
 EXPORT_SYMBOL(tcpm_inquire_dpm_caps);
+#endif /* tcpm_inquire_dpm_caps */
 
+#if 0 /* camellia: unused: tcpm_set_dpm_caps */
 void tcpm_set_dpm_caps(struct tcpc_device *tcpc, uint32_t caps)
 {
 	struct pd_port *pd_port = &tcpc->pd_port;
@@ -443,9 +470,11 @@ void tcpm_set_dpm_caps(struct tcpc_device *tcpc, uint32_t caps)
 	mutex_unlock(&pd_port->pd_lock);
 }
 EXPORT_SYMBOL(tcpm_set_dpm_caps);
+#endif /* tcpm_set_dpm_caps */
 
 /* Inquire TCPC to get PD Information */
 
+#if 0 /* camellia: unused: tcpm_inquire_pd_contract */
 int tcpm_inquire_pd_contract(struct tcpc_device *tcpc, int *mv, int *ma)
 {
 	int ret;
@@ -470,7 +499,9 @@ int tcpm_inquire_pd_contract(struct tcpc_device *tcpc, int *mv, int *ma)
 
 }
 EXPORT_SYMBOL(tcpm_inquire_pd_contract);
+#endif /* tcpm_inquire_pd_contract */
 
+#if 0 /* camellia: unused: tcpm_inquire_cable_inform */
 int tcpm_inquire_cable_inform(struct tcpc_device *tcpc, uint32_t *vdos)
 {
 	int ret;
@@ -494,6 +525,7 @@ int tcpm_inquire_cable_inform(struct tcpc_device *tcpc, uint32_t *vdos)
 	return ret;
 }
 EXPORT_SYMBOL(tcpm_inquire_cable_inform);
+#endif /* tcpm_inquire_cable_inform */
 
 int tcpm_inquire_pd_partner_inform(struct tcpc_device *tcpc, uint32_t *vdos)
 {
@@ -523,6 +555,7 @@ int tcpm_inquire_pd_partner_inform(struct tcpc_device *tcpc, uint32_t *vdos)
 }
 EXPORT_SYMBOL(tcpm_inquire_pd_partner_inform);
 
+#if 0 /* camellia: unused: tcpm_inquire_pd_partner_svids */
 int tcpm_inquire_pd_partner_svids(
 	struct tcpc_device *tcpc, struct tcpm_svid_list *list)
 {
@@ -553,7 +586,9 @@ int tcpm_inquire_pd_partner_svids(
 #endif	/* CONFIG_USB_PD_KEEP_SVIDS */
 }
 EXPORT_SYMBOL(tcpm_inquire_pd_partner_svids);
+#endif /* tcpm_inquire_pd_partner_svids */
 
+#if 0 /* camellia: unused: tcpm_inquire_pd_partner_modes */
 int tcpm_inquire_pd_partner_modes(
 	struct tcpc_device *tcpc, uint16_t svid, struct tcpm_mode_list *list)
 {
@@ -582,6 +617,7 @@ int tcpm_inquire_pd_partner_modes(
 	return ret;
 }
 EXPORT_SYMBOL(tcpm_inquire_pd_partner_modes);
+#endif /* tcpm_inquire_pd_partner_modes */
 
 int tcpm_inquire_pd_source_cap(
 	struct tcpc_device *tcpc, struct tcpm_power_cap *cap)
@@ -609,6 +645,7 @@ int tcpm_inquire_pd_source_cap(
 }
 EXPORT_SYMBOL(tcpm_inquire_pd_source_cap);
 
+#if 0 /* camellia: unused: tcpm_inquire_pd_sink_cap */
 int tcpm_inquire_pd_sink_cap(
 	struct tcpc_device *tcpc, struct tcpm_power_cap *cap)
 {
@@ -634,6 +671,7 @@ int tcpm_inquire_pd_sink_cap(
 	return ret;
 }
 EXPORT_SYMBOL(tcpm_inquire_pd_sink_cap);
+#endif /* tcpm_inquire_pd_sink_cap */
 
 bool tcpm_extract_power_cap_val(uint32_t pdo, struct tcpm_power_cap_val *cap)
 {
@@ -708,6 +746,7 @@ static inline int __tcpm_inquire_select_source_cap(
 	return TCPM_SUCCESS;
 }
 
+#if 0 /* camellia: unused: tcpm_inquire_select_source_cap */
 int tcpm_inquire_select_source_cap(
 		struct tcpc_device *tcpc, struct tcpm_power_cap_val *cap_val)
 {
@@ -728,7 +767,9 @@ int tcpm_inquire_select_source_cap(
 	return ret;
 }
 EXPORT_SYMBOL(tcpm_inquire_select_source_cap);
+#endif /* tcpm_inquire_select_source_cap */
 
+#if 0 /* camellia: unused: tcpm_inquire_pd_local_source_cap */
 int tcpm_inquire_pd_local_source_cap(
 	struct tcpc_device *tcpc, struct tcpm_power_cap *cap)
 {
@@ -746,7 +787,9 @@ int tcpm_inquire_pd_local_source_cap(
 	return TCPM_SUCCESS;
 }
 EXPORT_SYMBOL(tcpm_inquire_pd_local_source_cap);
+#endif /* tcpm_inquire_pd_local_source_cap */
 
+#if 0 /* camellia: unused: tcpm_set_pd_local_source_cap */
 int tcpm_set_pd_local_source_cap(
 	struct tcpc_device *tcpc, struct tcpm_power_cap *cap)
 {
@@ -771,6 +814,7 @@ int tcpm_set_pd_local_source_cap(
 	return TCPM_SUCCESS;
 }
 EXPORT_SYMBOL(tcpm_set_pd_local_source_cap);
+#endif /* tcpm_set_pd_local_source_cap */
 
 bool tcpm_inquire_usb_comm(struct tcpc_device *tcpc)
 {
@@ -861,6 +905,7 @@ int tcpm_dpm_pd_vconn_swap(struct tcpc_device *tcpc,
 }
 EXPORT_SYMBOL(tcpm_dpm_pd_vconn_swap);
 
+#if 0 /* camellia: unused: tcpm_dpm_pd_goto_min */
 int tcpm_dpm_pd_goto_min(struct tcpc_device *tcpc,
 	const struct tcp_dpm_event_cb_data *cb_data)
 {
@@ -872,6 +917,7 @@ int tcpm_dpm_pd_goto_min(struct tcpc_device *tcpc,
 		tcpc, &tcp_event, cb_data, TCPM_BK_PD_CMD_TOUT);
 }
 EXPORT_SYMBOL(tcpm_dpm_pd_goto_min);
+#endif /* tcpm_dpm_pd_goto_min */
 
 int tcpm_dpm_pd_soft_reset(struct tcpc_device *tcpc,
 	const struct tcp_dpm_event_cb_data *cb_data)
@@ -909,6 +955,7 @@ int tcpm_dpm_pd_get_sink_cap(struct tcpc_device *tcpc,
 }
 EXPORT_SYMBOL(tcpm_dpm_pd_get_sink_cap);
 
+#if 0 /* camellia: unused: tcpm_dpm_pd_source_cap */
 int tcpm_dpm_pd_source_cap(struct tcpc_device *tcpc,
 	const struct tcp_dpm_event_cb_data *cb_data)
 {
@@ -920,6 +967,7 @@ int tcpm_dpm_pd_source_cap(struct tcpc_device *tcpc,
 		tcpc, &tcp_event, cb_data, TCPM_BK_REQUEST_TOUT);
 }
 EXPORT_SYMBOL(tcpm_dpm_pd_source_cap);
+#endif /* tcpm_dpm_pd_source_cap */
 
 int tcpm_dpm_pd_request(struct tcpc_device *tcpc,
 	int mv, int ma, const struct tcp_dpm_event_cb_data *cb_data)
@@ -935,6 +983,7 @@ int tcpm_dpm_pd_request(struct tcpc_device *tcpc,
 }
 EXPORT_SYMBOL(tcpm_dpm_pd_request);
 
+#if 0 /* camellia: unused: tcpm_dpm_pd_request_ex */
 int tcpm_dpm_pd_request_ex(struct tcpc_device *tcpc,
 	uint8_t pos, int vmin, uint32_t max, uint32_t oper,
 	const struct tcp_dpm_event_cb_data *cb_data)
@@ -954,7 +1003,9 @@ int tcpm_dpm_pd_request_ex(struct tcpc_device *tcpc,
 		tcpc, &tcp_event, cb_data, TCPM_BK_REQUEST_TOUT);
 }
 EXPORT_SYMBOL(tcpm_dpm_pd_request_ex);
+#endif /* tcpm_dpm_pd_request_ex */
 
+#if 0 /* camellia: unused: tcpm_dpm_pd_bist_cm2 */
 int tcpm_dpm_pd_bist_cm2(struct tcpc_device *tcpc,
 	const struct tcp_dpm_event_cb_data *cb_data)
 {
@@ -966,6 +1017,7 @@ int tcpm_dpm_pd_bist_cm2(struct tcpc_device *tcpc,
 		tcpc, &tcp_event, cb_data, TCPM_BK_PD_CMD_TOUT);
 }
 EXPORT_SYMBOL(tcpm_dpm_pd_bist_cm2);
+#endif /* tcpm_dpm_pd_bist_cm2 */
 
 #if CONFIG_USB_PD_REV30
 
@@ -998,6 +1050,7 @@ int tcpm_dpm_pd_get_source_cap_ext(struct tcpc_device *tcpc,
 }
 EXPORT_SYMBOL(tcpm_dpm_pd_get_source_cap_ext);
 
+#if 0 /* camellia: unused: tcpm_dpm_pd_get_sink_cap_ext */
 int tcpm_dpm_pd_get_sink_cap_ext(struct tcpc_device *tcpc,
 	const struct tcp_dpm_event_cb_data *cb_data,
 	struct pd_sink_cap_ext *snk_cap_ext)
@@ -1011,13 +1064,16 @@ int tcpm_dpm_pd_get_sink_cap_ext(struct tcpc_device *tcpc,
 		(uint8_t *) snk_cap_ext, PD_SKEDB_SIZE);
 }
 EXPORT_SYMBOL(tcpm_dpm_pd_get_sink_cap_ext);
+#endif /* tcpm_dpm_pd_get_sink_cap_ext */
 
+#if 0 /* camellia: unused: tcpm_dpm_pd_fast_swap */
 int tcpm_dpm_pd_fast_swap(struct tcpc_device *tcpc,
 	uint8_t role, const struct tcp_dpm_event_cb_data *cb_data)
 {
 	return TCPM_ERROR_NO_SUPPORT;
 }
 EXPORT_SYMBOL(tcpm_dpm_pd_fast_swap);
+#endif /* tcpm_dpm_pd_fast_swap */
 
 int tcpm_dpm_pd_get_status(struct tcpc_device *tcpc,
 	const struct tcp_dpm_event_cb_data *cb_data, struct pd_status *status)
@@ -1076,6 +1132,7 @@ int tcpm_dpm_pd_get_pps_status(struct tcpc_device *tcpc,
 }
 EXPORT_SYMBOL(tcpm_dpm_pd_get_pps_status);
 
+#if 0 /* camellia: unused: tcpm_dpm_pd_get_country_code */
 int tcpm_dpm_pd_get_country_code(struct tcpc_device *tcpc,
 	const struct tcp_dpm_event_cb_data *cb_data,
 	struct pd_country_codes *ccdb)
@@ -1089,7 +1146,9 @@ int tcpm_dpm_pd_get_country_code(struct tcpc_device *tcpc,
 		(uint8_t *) ccdb, PD_CCDB_MAX_SIZE);
 }
 EXPORT_SYMBOL(tcpm_dpm_pd_get_country_code);
+#endif /* tcpm_dpm_pd_get_country_code */
 
+#if 0 /* camellia: unused: tcpm_dpm_pd_get_country_info */
 int tcpm_dpm_pd_get_country_info(struct tcpc_device *tcpc, uint32_t ccdo,
 	const struct tcp_dpm_event_cb_data *cb_data,
 	struct pd_country_info *cidb)
@@ -1104,7 +1163,9 @@ int tcpm_dpm_pd_get_country_info(struct tcpc_device *tcpc, uint32_t ccdo,
 		(uint8_t *) cidb, PD_CIDB_MAX_SIZE);
 }
 EXPORT_SYMBOL(tcpm_dpm_pd_get_country_info);
+#endif /* tcpm_dpm_pd_get_country_info */
 
+#if 0 /* camellia: unused: tcpm_dpm_pd_get_bat_cap */
 int tcpm_dpm_pd_get_bat_cap(struct tcpc_device *tcpc,
 	struct pd_get_battery_capabilities *gbcdb,
 	const struct tcp_dpm_event_cb_data *cb_data,
@@ -1120,7 +1181,9 @@ int tcpm_dpm_pd_get_bat_cap(struct tcpc_device *tcpc,
 		(uint8_t *) bcdb, PD_BCDB_SIZE);
 }
 EXPORT_SYMBOL(tcpm_dpm_pd_get_bat_cap);
+#endif /* tcpm_dpm_pd_get_bat_cap */
 
+#if 0 /* camellia: unused: tcpm_dpm_pd_get_bat_status */
 int tcpm_dpm_pd_get_bat_status(struct tcpc_device *tcpc,
 	struct pd_get_battery_status *gbsdb,
 	const struct tcp_dpm_event_cb_data *cb_data,
@@ -1136,7 +1199,9 @@ int tcpm_dpm_pd_get_bat_status(struct tcpc_device *tcpc,
 		(uint8_t *) bsdo, sizeof(uint32_t) * PD_BSDO_SIZE);
 }
 EXPORT_SYMBOL(tcpm_dpm_pd_get_bat_status);
+#endif /* tcpm_dpm_pd_get_bat_status */
 
+#if 0 /* camellia: unused: tcpm_dpm_pd_get_mfrs_info */
 int tcpm_dpm_pd_get_mfrs_info(struct tcpc_device *tcpc,
 	struct pd_get_manufacturer_info *gmidb,
 	const struct tcp_dpm_event_cb_data *cb_data,
@@ -1152,7 +1217,9 @@ int tcpm_dpm_pd_get_mfrs_info(struct tcpc_device *tcpc,
 		(uint8_t *) midb, PD_MIDB_MAX_SIZE);
 }
 EXPORT_SYMBOL(tcpm_dpm_pd_get_mfrs_info);
+#endif /* tcpm_dpm_pd_get_mfrs_info */
 
+#if 0 /* camellia: unused: tcpm_dpm_pd_get_revision */
 int tcpm_dpm_pd_get_revision(struct tcpc_device *tcpc,
 	const struct tcp_dpm_event_cb_data *cb_data,
 	uint32_t *rmdo)
@@ -1166,7 +1233,9 @@ int tcpm_dpm_pd_get_revision(struct tcpc_device *tcpc,
 		(uint8_t *) rmdo, sizeof(uint32_t) * PD_RMDO_SIZE);
 }
 EXPORT_SYMBOL(tcpm_dpm_pd_get_revision);
+#endif /* tcpm_dpm_pd_get_revision */
 
+#if 0 /* camellia: unused: tcpm_dpm_pd_alert */
 int tcpm_dpm_pd_alert(struct tcpc_device *tcpc,
 	uint32_t ado, const struct tcp_dpm_event_cb_data *cb_data)
 {
@@ -1179,6 +1248,7 @@ int tcpm_dpm_pd_alert(struct tcpc_device *tcpc,
 		tcpc, &tcp_event, cb_data, TCPM_BK_PD_CMD_TOUT);
 }
 EXPORT_SYMBOL(tcpm_dpm_pd_alert);
+#endif /* tcpm_dpm_pd_alert */
 
 #endif	/* CONFIG_USB_PD_REV30 */
 
@@ -1195,6 +1265,7 @@ int tcpm_dpm_pd_hard_reset(struct tcpc_device *tcpc,
 }
 EXPORT_SYMBOL(tcpm_dpm_pd_hard_reset);
 
+#if 0 /* camellia: unused: tcpm_dpm_pd_error_recovery */
 int tcpm_dpm_pd_error_recovery(struct tcpc_device *tcpc)
 {
 	struct tcp_dpm_event tcp_event = {
@@ -1207,7 +1278,9 @@ int tcpm_dpm_pd_error_recovery(struct tcpc_device *tcpc)
 	return TCPM_SUCCESS;
 }
 EXPORT_SYMBOL(tcpm_dpm_pd_error_recovery);
+#endif /* tcpm_dpm_pd_error_recovery */
 
+#if 0 /* camellia: unused: tcpm_dpm_pd_cable_soft_reset */
 int tcpm_dpm_pd_cable_soft_reset(struct tcpc_device *tcpc,
 	const struct tcp_dpm_event_cb_data *cb_data)
 {
@@ -1219,6 +1292,7 @@ int tcpm_dpm_pd_cable_soft_reset(struct tcpc_device *tcpc,
 		tcpc, &tcp_event, cb_data, TCPM_BK_PD_CMD_TOUT);
 }
 EXPORT_SYMBOL(tcpm_dpm_pd_cable_soft_reset);
+#endif /* tcpm_dpm_pd_cable_soft_reset */
 
 int tcpm_dpm_vdm_discover_cable_id(struct tcpc_device *tcpc,
 	const struct tcp_dpm_event_cb_data *cb_data)
@@ -1244,6 +1318,7 @@ int tcpm_dpm_vdm_discover_id(struct tcpc_device *tcpc,
 }
 EXPORT_SYMBOL(tcpm_dpm_vdm_discover_id);
 
+#if 0 /* camellia: unused: tcpm_dpm_vdm_discover_svids */
 int tcpm_dpm_vdm_discover_svids(struct tcpc_device *tcpc,
 	const struct tcp_dpm_event_cb_data *cb_data)
 {
@@ -1255,7 +1330,9 @@ int tcpm_dpm_vdm_discover_svids(struct tcpc_device *tcpc,
 		tcpc, &tcp_event, cb_data, TCPM_BK_PD_CMD_TOUT);
 }
 EXPORT_SYMBOL(tcpm_dpm_vdm_discover_svids);
+#endif /* tcpm_dpm_vdm_discover_svids */
 
+#if 0 /* camellia: unused: tcpm_dpm_vdm_discover_modes */
 int tcpm_dpm_vdm_discover_modes(struct tcpc_device *tcpc,
 	uint16_t svid, const struct tcp_dpm_event_cb_data *cb_data)
 {
@@ -1268,7 +1345,9 @@ int tcpm_dpm_vdm_discover_modes(struct tcpc_device *tcpc,
 		tcpc, &tcp_event, cb_data, TCPM_BK_PD_CMD_TOUT);
 }
 EXPORT_SYMBOL(tcpm_dpm_vdm_discover_modes);
+#endif /* tcpm_dpm_vdm_discover_modes */
 
+#if 0 /* camellia: unused: tcpm_dpm_vdm_enter_mode */
 int tcpm_dpm_vdm_enter_mode(struct tcpc_device *tcpc,
 	uint16_t svid, uint8_t ops,
 	const struct tcp_dpm_event_cb_data *cb_data)
@@ -1283,7 +1362,9 @@ int tcpm_dpm_vdm_enter_mode(struct tcpc_device *tcpc,
 		tcpc, &tcp_event, cb_data, TCPM_BK_PD_CMD_TOUT);
 }
 EXPORT_SYMBOL(tcpm_dpm_vdm_enter_mode);
+#endif /* tcpm_dpm_vdm_enter_mode */
 
+#if 0 /* camellia: unused: tcpm_dpm_vdm_exit_mode */
 int tcpm_dpm_vdm_exit_mode(struct tcpc_device *tcpc,
 	uint16_t svid, uint8_t ops,
 	const struct tcp_dpm_event_cb_data *cb_data)
@@ -1298,7 +1379,9 @@ int tcpm_dpm_vdm_exit_mode(struct tcpc_device *tcpc,
 		tcpc, &tcp_event, cb_data, TCPM_BK_PD_CMD_TOUT);
 }
 EXPORT_SYMBOL(tcpm_dpm_vdm_exit_mode);
+#endif /* tcpm_dpm_vdm_exit_mode */
 
+#if 0 /* camellia: unused: tcpm_dpm_vdm_attention */
 int tcpm_dpm_vdm_attention(struct tcpc_device *tcpc,
 	uint16_t svid, uint8_t ops,
 	const struct tcp_dpm_event_cb_data *cb_data)
@@ -1313,7 +1396,9 @@ int tcpm_dpm_vdm_attention(struct tcpc_device *tcpc,
 		tcpc, &tcp_event, cb_data, TCPM_BK_PD_CMD_TOUT);
 }
 EXPORT_SYMBOL(tcpm_dpm_vdm_attention);
+#endif /* tcpm_dpm_vdm_attention */
 
+#if 0 /* camellia: unused: tcpm_inquire_dp_ufp_u_state */
 int tcpm_inquire_dp_ufp_u_state(struct tcpc_device *tcpc, uint8_t *state)
 {
 	int ret;
@@ -1333,7 +1418,9 @@ int tcpm_inquire_dp_ufp_u_state(struct tcpc_device *tcpc, uint8_t *state)
 	return ret;
 }
 EXPORT_SYMBOL(tcpm_inquire_dp_ufp_u_state);
+#endif /* tcpm_inquire_dp_ufp_u_state */
 
+#if 0 /* camellia: unused: tcpm_dpm_dp_attention */
 int tcpm_dpm_dp_attention(struct tcpc_device *tcpc,
 	uint32_t dp_status, uint32_t mask,
 	const struct tcp_dpm_event_cb_data *cb_data)
@@ -1348,7 +1435,9 @@ int tcpm_dpm_dp_attention(struct tcpc_device *tcpc,
 		tcpc, &tcp_event, cb_data, TCPM_BK_PD_CMD_TOUT);
 }
 EXPORT_SYMBOL(tcpm_dpm_dp_attention);
+#endif /* tcpm_dpm_dp_attention */
 
+#if 0 /* camellia: unused: tcpm_inquire_dp_dfp_u_state */
 int tcpm_inquire_dp_dfp_u_state(struct tcpc_device *tcpc, uint8_t *state)
 {
 	int ret;
@@ -1368,7 +1457,9 @@ int tcpm_inquire_dp_dfp_u_state(struct tcpc_device *tcpc, uint8_t *state)
 	return ret;
 }
 EXPORT_SYMBOL(tcpm_inquire_dp_dfp_u_state);
+#endif /* tcpm_inquire_dp_dfp_u_state */
 
+#if 0 /* camellia: unused: tcpm_dpm_dp_status_update */
 int tcpm_dpm_dp_status_update(struct tcpc_device *tcpc,
 	uint32_t dp_status, uint32_t mask,
 	const struct tcp_dpm_event_cb_data *cb_data)
@@ -1383,7 +1474,9 @@ int tcpm_dpm_dp_status_update(struct tcpc_device *tcpc,
 		tcpc, &tcp_event, cb_data, TCPM_BK_PD_CMD_TOUT);
 }
 EXPORT_SYMBOL(tcpm_dpm_dp_status_update);
+#endif /* tcpm_dpm_dp_status_update */
 
+#if 0 /* camellia: unused: tcpm_dpm_dp_config */
 int tcpm_dpm_dp_config(struct tcpc_device *tcpc,
 	uint32_t dp_config, uint32_t mask,
 	const struct tcp_dpm_event_cb_data *cb_data)
@@ -1398,7 +1491,9 @@ int tcpm_dpm_dp_config(struct tcpc_device *tcpc,
 		tcpc, &tcp_event, cb_data, TCPM_BK_PD_CMD_TOUT);
 }
 EXPORT_SYMBOL(tcpm_dpm_dp_config);
+#endif /* tcpm_dpm_dp_config */
 
+#if 0 /* camellia: unused: tcpm_dpm_send_custom_vdm */
 int tcpm_dpm_send_custom_vdm(
 	struct tcpc_device *tcpc,
 	struct tcp_dpm_custom_vdm_data *cvdm_data,
@@ -1433,6 +1528,7 @@ int tcpm_dpm_send_custom_vdm(
 	return ret;
 }
 EXPORT_SYMBOL(tcpm_dpm_send_custom_vdm);
+#endif /* tcpm_dpm_send_custom_vdm */
 
 #if CONFIG_USB_PD_TCPM_CB_2ND
 static void tcpm_replace_curr_tcp_event(
@@ -1490,6 +1586,7 @@ static int tcpm_put_tcp_dpm_event(
 	return TCPM_SUCCESS;
 }
 
+#if 0 /* camellia: unused: tcpm_notify_vbus_stable */
 int tcpm_notify_vbus_stable(struct tcpc_device *tcpc)
 {
 #if CONFIG_USB_PD_VBUS_STABLE_TOUT
@@ -1500,7 +1597,9 @@ int tcpm_notify_vbus_stable(struct tcpc_device *tcpc)
 	return TCPM_SUCCESS;
 }
 EXPORT_SYMBOL(tcpm_notify_vbus_stable);
+#endif /* tcpm_notify_vbus_stable */
 
+#if 0 /* camellia: unused: tcpm_inquire_pd_charging_policy */
 uint8_t tcpm_inquire_pd_charging_policy(struct tcpc_device *tcpc)
 {
 	struct pd_port *pd_port = &tcpc->pd_port;
@@ -1508,7 +1607,9 @@ uint8_t tcpm_inquire_pd_charging_policy(struct tcpc_device *tcpc)
 	return pd_port->dpm_charging_policy;
 }
 EXPORT_SYMBOL(tcpm_inquire_pd_charging_policy);
+#endif /* tcpm_inquire_pd_charging_policy */
 
+#if 0 /* camellia: unused: tcpm_inquire_pd_charging_policy_default */
 uint8_t tcpm_inquire_pd_charging_policy_default(struct tcpc_device *tcpc)
 {
 	struct pd_port *pd_port = &tcpc->pd_port;
@@ -1516,6 +1617,7 @@ uint8_t tcpm_inquire_pd_charging_policy_default(struct tcpc_device *tcpc)
 	return pd_port->dpm_charging_policy_default;
 }
 EXPORT_SYMBOL(tcpm_inquire_pd_charging_policy_default);
+#endif /* tcpm_inquire_pd_charging_policy_default */
 
 int tcpm_reset_pd_charging_policy(struct tcpc_device *tcpc,
 	const struct tcp_dpm_event_cb_data *cb_data)
@@ -1525,6 +1627,7 @@ int tcpm_reset_pd_charging_policy(struct tcpc_device *tcpc,
 }
 EXPORT_SYMBOL(tcpm_reset_pd_charging_policy);
 
+#if 0 /* camellia: unused: tcpm_set_pd_charging_policy_default */
 int tcpm_set_pd_charging_policy_default(
 	struct tcpc_device *tcpc, uint8_t policy)
 {
@@ -1541,6 +1644,7 @@ int tcpm_set_pd_charging_policy_default(
 	return TCPM_SUCCESS;
 }
 EXPORT_SYMBOL(tcpm_set_pd_charging_policy_default);
+#endif /* tcpm_set_pd_charging_policy_default */
 
 int tcpm_set_pd_charging_policy(struct tcpc_device *tcpc,
 	uint8_t policy, const struct tcp_dpm_event_cb_data *cb_data)
@@ -1570,6 +1674,7 @@ int tcpm_set_pd_charging_policy(struct tcpc_device *tcpc,
 EXPORT_SYMBOL(tcpm_set_pd_charging_policy);
 
 #if CONFIG_USB_PD_DIRECT_CHARGE
+#if 0 /* camellia: unused: tcpm_set_direct_charge_en */
 int tcpm_set_direct_charge_en(struct tcpc_device *tcpc, bool en)
 {
 	mutex_lock(&tcpc->access_lock);
@@ -1579,14 +1684,18 @@ int tcpm_set_direct_charge_en(struct tcpc_device *tcpc, bool en)
 	return 0;
 }
 EXPORT_SYMBOL(tcpm_set_direct_charge_en);
+#endif /* tcpm_set_direct_charge_en */
 
+#if 0 /* camellia: unused: tcpm_inquire_during_direct_charge */
 bool tcpm_inquire_during_direct_charge(struct tcpc_device *tcpc)
 {
 	return tcpc->pd_during_direct_charge;
 }
 EXPORT_SYMBOL(tcpm_inquire_during_direct_charge);
+#endif /* tcpm_inquire_during_direct_charge */
 #endif	/* CONFIG_USB_PD_DIRECT_CHARGE */
 
+#if 0 /* camellia: unused: tcpm_set_exit_attached_snk_via_cc */
 int tcpm_set_exit_attached_snk_via_cc(struct tcpc_device *tcpc, bool en)
 {
 	tcpci_lock_typec(tcpc);
@@ -1596,12 +1705,15 @@ int tcpm_set_exit_attached_snk_via_cc(struct tcpc_device *tcpc, bool en)
 	return 0;
 }
 EXPORT_SYMBOL(tcpm_set_exit_attached_snk_via_cc);
+#endif /* tcpm_set_exit_attached_snk_via_cc */
 
+#if 0 /* camellia: unused: tcpm_inquire_exit_attached_snk_via_cc */
 bool tcpm_inquire_exit_attached_snk_via_cc(struct tcpc_device *tcpc)
 {
 	return tcpc->pd_exit_attached_snk_via_cc;
 }
 EXPORT_SYMBOL(tcpm_inquire_exit_attached_snk_via_cc);
+#endif /* tcpm_inquire_exit_attached_snk_via_cc */
 
 static int tcpm_put_tcp_dummy_event(struct tcpc_device *tcpc)
 {
@@ -1612,6 +1724,7 @@ static int tcpm_put_tcp_dummy_event(struct tcpc_device *tcpc)
 	return tcpm_put_tcp_dpm_event(tcpc, &tcp_event);
 }
 
+#if 0 /* camellia: unused: tcpm_dpm_set_vconn_supply_mode */
 int tcpm_dpm_set_vconn_supply_mode(struct tcpc_device *tcpc, uint8_t mode)
 {
 	struct pd_port *pd_port = &tcpc->pd_port;
@@ -1626,6 +1739,7 @@ int tcpm_dpm_set_vconn_supply_mode(struct tcpc_device *tcpc, uint8_t mode)
 	return tcpm_put_tcp_dummy_event(tcpc);
 }
 EXPORT_SYMBOL(tcpm_dpm_set_vconn_supply_mode);
+#endif /* tcpm_dpm_set_vconn_supply_mode */
 
 #if CONFIG_USB_PD_REV30_PPS_SINK
 
@@ -1693,6 +1807,7 @@ int tcpm_inquire_pd_source_apdo(struct tcpc_device *tcpc,
 }
 EXPORT_SYMBOL(tcpm_inquire_pd_source_apdo);
 
+#if 0 /* camellia: unused: tcpm_inquire_during_pps_charge */
 bool tcpm_inquire_during_pps_charge(struct tcpc_device *tcpc)
 {
 	int ret;
@@ -1705,6 +1820,7 @@ bool tcpm_inquire_during_pps_charge(struct tcpc_device *tcpc)
 	return (cap.type == TCPM_POWER_CAP_VAL_TYPE_AUGMENT);
 }
 EXPORT_SYMBOL(tcpm_inquire_during_pps_charge);
+#endif /* tcpm_inquire_during_pps_charge */
 
 #endif	/* CONFIG_USB_PD_REV30_PPS_SINK */
 
@@ -1779,6 +1895,7 @@ static inline int tcpm_update_bat_status_wh_no_mutex(struct tcpc_device *tcpc,
 	return tcpm_update_bsdo(&tcpc->pd_port, ref, 0, wh, status);
 }
 
+#if 0 /* camellia: unused: tcpm_update_bat_status_wh */
 int tcpm_update_bat_status_wh(struct tcpc_device *tcpc,
 	enum pd_battery_reference ref, uint8_t status, uint16_t wh)
 {
@@ -1796,6 +1913,7 @@ int tcpm_update_bat_status_wh(struct tcpc_device *tcpc,
 	return ret;
 }
 EXPORT_SYMBOL(tcpm_update_bat_status_wh);
+#endif /* tcpm_update_bat_status_wh */
 
 static inline int tcpm_update_bat_status_soc_no_mutex(struct tcpc_device *tcpc,
 	enum pd_battery_reference ref, uint8_t status, uint16_t soc)
@@ -1834,6 +1952,7 @@ static inline int tcpm_update_bat_last_full_no_mutex(struct tcpc_device *tcpc,
 	return TCPM_SUCCESS;
 }
 
+#if 0 /* camellia: unused: tcpm_update_bat_last_full */
 int tcpm_update_bat_last_full(struct tcpc_device *tcpc,
 	enum pd_battery_reference ref, uint16_t wh)
 {
@@ -1846,11 +1965,13 @@ int tcpm_update_bat_last_full(struct tcpc_device *tcpc,
 	return ret;
 }
 EXPORT_SYMBOL(tcpm_update_bat_last_full);
+#endif /* tcpm_update_bat_last_full */
 
 #endif	/* CONFIG_USB_PD_REV30_BAT_INFO */
 
 #if CONFIG_USB_PD_REV30_STATUS_LOCAL
 
+#if 0 /* camellia: unused: tcpm_alert_status_changed */
 static void tcpm_alert_status_changed(
 	struct tcpc_device *tcpc, uint8_t ado_type)
 {
@@ -1858,7 +1979,9 @@ static void tcpm_alert_status_changed(
 	tcpc->pd_port.pe_data.local_alert |= ADO(ado_type, 0, 0);
 #endif	/* CONFIG_USB_PD_REV30_ALERT_LOCAL */
 }
+#endif /* tcpm_alert_status_changed */
 
+#if 0 /* camellia: unused: tcpm_update_pd_status_temp */
 int tcpm_update_pd_status_temp(struct tcpc_device *tcpc,
 	enum pd_present_temperature_flag ptf_new, uint8_t temperature)
 {
@@ -1898,7 +2021,9 @@ int tcpm_update_pd_status_temp(struct tcpc_device *tcpc,
 #endif /* CONFIG_USB_PD_REV30_STATUS_LOCAL_TEMP */
 }
 EXPORT_SYMBOL(tcpm_update_pd_status_temp);
+#endif /* tcpm_update_pd_status_temp */
 
+#if 0 /* camellia: unused: tcpm_update_pd_status_input */
 int tcpm_update_pd_status_input(
 	struct tcpc_device *tcpc, uint8_t input_new, uint8_t mask)
 {
@@ -1925,7 +2050,9 @@ int tcpm_update_pd_status_input(
 	return TCPM_SUCCESS;
 }
 EXPORT_SYMBOL(tcpm_update_pd_status_input);
+#endif /* tcpm_update_pd_status_input */
 
+#if 0 /* camellia: unused: tcpm_update_pd_status_bat_input */
 int tcpm_update_pd_status_bat_input(
 	struct tcpc_device *tcpc, uint8_t bat_input, uint8_t bat_mask)
 {
@@ -1957,7 +2084,9 @@ int tcpm_update_pd_status_bat_input(
 	return TCPM_SUCCESS;
 }
 EXPORT_SYMBOL(tcpm_update_pd_status_bat_input);
+#endif /* tcpm_update_pd_status_bat_input */
 
+#if 0 /* camellia: unused: tcpm_update_pd_status_event */
 int tcpm_update_pd_status_event(struct tcpc_device *tcpc, uint8_t evt)
 {
 	uint8_t ado_type = 0;
@@ -1985,6 +2114,7 @@ int tcpm_update_pd_status_event(struct tcpc_device *tcpc, uint8_t evt)
 	return TCPM_SUCCESS;
 }
 EXPORT_SYMBOL(tcpm_update_pd_status_event);
+#endif /* tcpm_update_pd_status_event */
 
 #endif	/* CONFIG_USB_PD_REV30_STATUS_LOCAL */
 

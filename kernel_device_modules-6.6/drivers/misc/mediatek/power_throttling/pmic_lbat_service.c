@@ -929,6 +929,7 @@ out:
 }
 EXPORT_SYMBOL(lbat_user_modify_thd);
 
+#if 0 /* camellia: unused: lbat_user_modify_thd_locked */
 int lbat_user_modify_thd_locked(struct lbat_user *user, unsigned int hv_thd_volt,
 				unsigned int lv1_thd_volt, unsigned int lv2_thd_volt)
 {
@@ -940,6 +941,7 @@ int lbat_user_modify_thd_locked(struct lbat_user *user, unsigned int hv_thd_volt
 	return ret;
 }
 EXPORT_SYMBOL(lbat_user_modify_thd_locked);
+#endif /* lbat_user_modify_thd_locked */
 
 int lbat_user_set_debounce(struct lbat_user *user,
 			   unsigned int hv_deb_prd, unsigned int hv_deb_times,

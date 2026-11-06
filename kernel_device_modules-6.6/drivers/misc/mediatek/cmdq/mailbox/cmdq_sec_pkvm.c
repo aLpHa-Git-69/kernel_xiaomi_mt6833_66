@@ -8,11 +8,13 @@
 
 #include "cmdq_sec_pkvm.h"
 
+#if 0 /* camellia: unused: cmdq_sec_pkvm_allocate_shared_memory */
 s32 cmdq_sec_pkvm_allocate_shared_memory(struct cmdq_sec_pkvm_context *tee,
 	const dma_addr_t MVABase, const u32 size)
 {
 	return 0;
 }
+#endif /* cmdq_sec_pkvm_allocate_shared_memory */
 
 s32 cmdq_sec_pkvm_get_reply(struct cmdq_sec_pkvm_context *tee)
 {
@@ -45,6 +47,7 @@ s32 cmdq_sec_pkvm_allocate_wsm(struct cmdq_sec_pkvm_context *tee,
 	return 0;
 }
 
+#if 0 /* camellia: unused: cmdq_sec_pkvm_free_wsm */
 s32 cmdq_sec_pkvm_free_wsm(struct cmdq_sec_pkvm_context *tee,
 	void **wsm_buffer, void **wsm_buf_ex, void **wsm_buf_ex2)
 {
@@ -62,6 +65,7 @@ s32 cmdq_sec_pkvm_free_wsm(struct cmdq_sec_pkvm_context *tee,
 
 	return 0;
 }
+#endif /* cmdq_sec_pkvm_free_wsm */
 
 s32 cmdq_sec_pkvm_execute_session(struct cmdq_sec_pkvm_context *tee,
 	u32 cmd, s32 timeout_ms, u32 thread_idx,

@@ -107,6 +107,7 @@ unsigned int *vcorefs_get_src_req(void)
 	return NULL;
 }
 EXPORT_SYMBOL(vcorefs_get_src_req);
+#if 0 /* camellia: unused: get_cur_ddr_ratio */
 int get_cur_ddr_ratio(void)
 {
 	struct mtk_dvfsrc_met *dvfsrc = dvfsrc_drv;
@@ -117,6 +118,7 @@ int get_cur_ddr_ratio(void)
 	return 0;
 }
 EXPORT_SYMBOL(get_cur_ddr_ratio);
+#endif /* get_cur_ddr_ratio */
 
 static ssize_t dvfsrc_met_dump_show(struct device *dev,
 		struct device_attribute *attr, char *buf)

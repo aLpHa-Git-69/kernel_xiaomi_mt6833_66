@@ -18,6 +18,7 @@ static void __iomem *cpupm_mcusys_base_addr;
 static void __iomem *cpupm_syssram_base_addr;
 static struct pm_qos_request cpuidle_dbg_qos_req;
 
+#if 0 /* camellia: unused: mtk_cpupm_mcusys_write */
 int mtk_cpupm_mcusys_write(int ofs, unsigned int val)
 {
 	if (!cpupm_mcusys_base_addr)
@@ -31,6 +32,7 @@ int mtk_cpupm_mcusys_write(int ofs, unsigned int val)
 
 	return 0;
 }
+#endif /* mtk_cpupm_mcusys_write */
 
 unsigned int mtk_cpupm_mcusys_read(int ofs)
 {

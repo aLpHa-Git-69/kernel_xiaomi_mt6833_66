@@ -2611,9 +2611,11 @@ uint32_t halTxPollingResource(struct ADAPTER *prAdapter, uint8_t ucTC)
 	return WLAN_STATUS_SUCCESS;
 }
 
+#if 0 /* camellia: unused: halSerHifReset */
 void halSerHifReset(struct ADAPTER *prAdapter)
 {
 }
+#endif /* halSerHifReset */
 
 u_int8_t halRxInsertRecvRfbList(
 	struct ADAPTER *prAdapter,
@@ -3889,6 +3891,7 @@ void halWpdmaProcessDataDmaDone(struct GLUE_INFO *prGlueInfo,
 #endif /* !CFG_TX_DIRECT_VIA_HIF_THREAD */
 }
 
+#if 0 /* camellia: unused: halIsWfdmaRxRingReady */
 u_int8_t halIsWfdmaRxRingReady(struct GLUE_INFO *prGlueInfo, uint8_t ucRingNum)
 {
 	struct GL_HIF_INFO *prHifInfo;
@@ -3908,7 +3911,9 @@ u_int8_t halIsWfdmaRxRingReady(struct GLUE_INFO *prGlueInfo, uint8_t ucRingNum)
 
 	return halIsWfdmaRxReady(prRxRing, u4CpuIdx);
 }
+#endif /* halIsWfdmaRxRingReady */
 
+#if 0 /* camellia: unused: halIsWfdmaRxRingsEmpty */
 u_int8_t halIsWfdmaRxRingsEmpty(struct GLUE_INFO *prGlueInfo)
 {
 	u_int8_t fgIsReady = FALSE;
@@ -3923,6 +3928,7 @@ u_int8_t halIsWfdmaRxRingsEmpty(struct GLUE_INFO *prGlueInfo)
 
 	return !fgIsReady;
 }
+#endif /* halIsWfdmaRxRingsEmpty */
 
 uint32_t halWpdmaGetRxDmaDoneCnt(struct GLUE_INFO *prGlueInfo,
 	uint8_t ucRingNum)
@@ -4717,6 +4723,7 @@ u_int8_t halChipToStaticMapBusAddr(struct mt66xx_chip_info *prChipInfo,
 	return TRUE;
 }
 
+#if 0 /* camellia: unused: halGetDynamicMapReg */
 u_int8_t halGetDynamicMapReg(struct GLUE_INFO *prGlueInfo,
 			     uint32_t u4ChipAddr, uint32_t *pu4Value)
 {
@@ -4736,7 +4743,9 @@ u_int8_t halGetDynamicMapReg(struct GLUE_INFO *prGlueInfo,
 
 	return TRUE;
 }
+#endif /* halGetDynamicMapReg */
 
+#if 0 /* camellia: unused: halSetDynamicMapReg */
 u_int8_t halSetDynamicMapReg(struct GLUE_INFO *prGlueInfo,
 			     uint32_t u4ChipAddr, uint32_t u4Value)
 {
@@ -4755,6 +4764,7 @@ u_int8_t halSetDynamicMapReg(struct GLUE_INFO *prGlueInfo,
 
 	return TRUE;
 }
+#endif /* halSetDynamicMapReg */
 
 u_int8_t halIsPendingRx(struct ADAPTER *prAdapter)
 {
@@ -5533,10 +5543,12 @@ uint32_t halGetHifTxDataPageSize(struct ADAPTER *prAdapter)
 	return halGetHifTxPageSize(prAdapter);
 }
 
+#if 0 /* camellia: unused: halGetHifTxCmdPageSize */
 uint32_t halGetHifTxCmdPageSize(struct ADAPTER *prAdapter)
 {
 	return halGetHifTxPageSize(prAdapter);
 }
+#endif /* halGetHifTxCmdPageSize */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -6270,11 +6282,13 @@ void halUpdateBssTokenCnt(struct ADAPTER *prAdapter,
 #endif
 }
 
+#if 0 /* camellia: unused: halSetHifIntEvent */
 void halSetHifIntEvent(struct GLUE_INFO *pr, unsigned long ulBit)
 {
 	set_bit(ulBit, &pr->rHifInfo.ulIntFlag);
 	kalSetDrvIntEvent(pr);
 }
+#endif /* halSetHifIntEvent */
 
 /**
  * diffTxDelayCounter - Counting diff from two 32-bit uint32_t array

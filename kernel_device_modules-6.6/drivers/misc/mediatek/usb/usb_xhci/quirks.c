@@ -292,6 +292,7 @@ static bool xhci_mtk_is_usb_audio(struct urb *urb)
 	return false;
 }
 
+#if 0 /* camellia: unused: register_xhci_enum_mbrain_cb */
 int register_xhci_enum_mbrain_cb(xhci_enum_mbrain_callback cb)
 {
 	if (!cb)
@@ -301,13 +302,16 @@ int register_xhci_enum_mbrain_cb(xhci_enum_mbrain_callback cb)
 	return 0;
 }
 EXPORT_SYMBOL(register_xhci_enum_mbrain_cb);
+#endif /* register_xhci_enum_mbrain_cb */
 
+#if 0 /* camellia: unused: unregister_xhci_enum_mbrain_cb */
 int unregister_xhci_enum_mbrain_cb(void)
 {
 	xhci_enum_mbrain_cb = NULL ;
 	return 0;
 }
 EXPORT_SYMBOL(unregister_xhci_enum_mbrain_cb);
+#endif /* unregister_xhci_enum_mbrain_cb */
 
 static void xhci_update_mbrain_work(struct work_struct *work)
 {

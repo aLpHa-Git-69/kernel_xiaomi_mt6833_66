@@ -5111,10 +5111,12 @@ u_int8_t cnmSapIsConcurrent(struct ADAPTER *prAdapter)
 	return TRUE;
 }
 
+#if 0 /* camellia: unused: cnmSapIsActive */
 u_int8_t cnmSapIsActive(struct ADAPTER *prAdapter)
 {
 	return (cnmGetSapBssInfo(prAdapter) != NULL);
 }
+#endif /* cnmSapIsActive */
 
 struct BSS_INFO *cnmGetSapBssInfo(struct ADAPTER *prAdapter)
 {
@@ -6689,6 +6691,7 @@ struct BSS_INFO *cnmGetP2pBssInfo(struct ADAPTER *prAdapter)
 }
 #endif
 
+#if 0 /* camellia: unused: cnmGetBandByFreq */
 enum ENUM_BAND cnmGetBandByFreq(uint32_t u4Freq)
 {
 	enum ENUM_BAND eBand = BAND_NULL;
@@ -6704,7 +6707,9 @@ enum ENUM_BAND cnmGetBandByFreq(uint32_t u4Freq)
 
 	return eBand;
 }
+#endif /* cnmGetBandByFreq */
 
+#if 0 /* camellia: unused: cnmFreqToChnl */
 void cnmFreqToChnl(uint32_t u4Freq, u8 *ucChannel, enum ENUM_BAND *eBand)
 {
 	/* Initialize data */
@@ -6743,6 +6748,7 @@ void cnmFreqToChnl(uint32_t u4Freq, u8 *ucChannel, enum ENUM_BAND *eBand)
 #endif
 
 }
+#endif /* cnmFreqToChnl */
 
 
 enum ENUM_BAND_80211 cnmGet80211Band(enum ENUM_BAND eBand)

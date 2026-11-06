@@ -291,6 +291,7 @@ EXPORT_SYMBOL(gpufreq_get_segment_id);
  * Returns            : -
  * Description        : Dump GPU related infra status
  ***********************************************************************************/
+#if 0 /* camellia: unused: gpufreq_dump_infra_status */
 void gpufreq_dump_infra_status(void)
 {
 	mutex_lock(&gpufreq_power_lock);
@@ -300,6 +301,7 @@ void gpufreq_dump_infra_status(void)
 	mutex_unlock(&gpufreq_power_lock);
 }
 EXPORT_SYMBOL(gpufreq_dump_infra_status);
+#endif /* gpufreq_dump_infra_status */
 
 /***********************************************************************************
  * Function Name      : gpufreq_dump_infra_status_logbuffer
@@ -308,6 +310,7 @@ EXPORT_SYMBOL(gpufreq_dump_infra_status);
  * Returns            : -
  * Description        : Dump GPU related infra status and write to log buffer
  ***********************************************************************************/
+#if 0 /* camellia: unused: gpufreq_dump_infra_status_logbuffer */
 void gpufreq_dump_infra_status_logbuffer(char *log_buf, int *log_len, int log_size)
 {
 	mutex_lock(&gpufreq_power_lock);
@@ -317,6 +320,7 @@ void gpufreq_dump_infra_status_logbuffer(char *log_buf, int *log_len, int log_si
 	mutex_unlock(&gpufreq_power_lock);
 }
 EXPORT_SYMBOL(gpufreq_dump_infra_status_logbuffer);
+#endif /* gpufreq_dump_infra_status_logbuffer */
 
 /***********************************************************************************
  * Function Name      : gpufreq_get_cur_freq
@@ -900,6 +904,7 @@ EXPORT_SYMBOL(gpufreq_power_control);
  *                      GPUFREQ_ENOENT - Null implementation
  * Description        : Control runtime active-idle state of GPU
  ***********************************************************************************/
+#if 0 /* camellia: unused: gpufreq_active_sleep_control */
 int gpufreq_active_sleep_control(enum gpufreq_power_state power)
 {
 	int ret = GPUFREQ_SUCCESS;
@@ -907,6 +912,7 @@ int gpufreq_active_sleep_control(enum gpufreq_power_state power)
 	return ret;
 }
 EXPORT_SYMBOL(gpufreq_active_sleep_control);
+#endif /* gpufreq_active_sleep_control */
 
 /***********************************************************************************
  * Function Name      : gpufreq_commit
@@ -1059,6 +1065,7 @@ EXPORT_SYMBOL(gpufreq_set_limit);
  * Description        : Set ceiling and floor limit to GPU DVFS by specified limiter
  *                      It will immediately trigger DVFS if current OPP violates limit
  ***********************************************************************************/
+#if 0 /* camellia: unused: gpufreq_set_limit_by_power */
 int gpufreq_set_limit_by_power(enum gpufreq_target target,
 	enum gpuppm_limiter limiter, int ceiling_info, int floor_info)
 {
@@ -1099,6 +1106,7 @@ int gpufreq_set_limit_by_power(enum gpufreq_target target,
 	return ret;
 }
 EXPORT_SYMBOL(gpufreq_set_limit_by_power);
+#endif /* gpufreq_set_limit_by_power */
 
 /***********************************************************************************
  * Function Name      : gpufreq_get_cur_limit_idx
@@ -1256,11 +1264,13 @@ EXPORT_SYMBOL(gpufreq_get_core_num);
  * Returns            : -
  * Description        : Manually control PDCA setting
  ***********************************************************************************/
+#if 0 /* camellia: unused: gpufreq_pdca_config */
 void gpufreq_pdca_config(enum gpufreq_power_state power)
 {
 
 }
 EXPORT_SYMBOL(gpufreq_pdca_config);
+#endif /* gpufreq_pdca_config */
 
 /***********************************************************************************
  * Function Name      : gpufreq_fake_mtcmos_control
@@ -1269,6 +1279,7 @@ EXPORT_SYMBOL(gpufreq_pdca_config);
  * Returns            : -
  * Description        : Fake PWR_CON value of SPM MFG register
  ***********************************************************************************/
+#if 0 /* camellia: unused: gpufreq_fake_mtcmos_control */
 void gpufreq_fake_mtcmos_control(enum gpufreq_power_state power)
 {
 	if (power == GPU_PWR_ON)
@@ -1277,17 +1288,20 @@ void gpufreq_fake_mtcmos_control(enum gpufreq_power_state power)
 		gpufreq_set_mfgsys_config(CONFIG_FAKE_MTCMOS_CTRL, FEAT_DISABLE);
 }
 EXPORT_SYMBOL(gpufreq_fake_mtcmos_control);
+#endif /* gpufreq_fake_mtcmos_control */
 
 /***********************************************************************************
  * Function Name      : gpufreq_update_debug_opp_info
  * Description        : Only for GPUFREQ internal debug purpose
  ***********************************************************************************/
+#if 0 /* camellia: unused: gpufreq_update_debug_opp_info */
 int gpufreq_update_debug_opp_info(void)
 {
 	int ret = GPUFREQ_SUCCESS;
 
 	return ret;
 }
+#endif /* gpufreq_update_debug_opp_info */
 
 /***********************************************************************************
  * Function Name      : gpufreq_get_working_table
@@ -1541,12 +1555,14 @@ done:
  * Function Name      : gpufreq_fix_dual_target_oppidx
  * Description        : Only for GPUFREQ internal debug purpose
  ***********************************************************************************/
+#if 0 /* camellia: unused: gpufreq_fix_dual_target_oppidx */
 int gpufreq_fix_dual_target_oppidx(int gpu_oppidx, int stack_oppidx)
 {
 	int ret = GPUFREQ_SUCCESS;
 
 	return ret;
 }
+#endif /* gpufreq_fix_dual_target_oppidx */
 
 /***********************************************************************************
  * Function Name      : gpufreq_fix_custom_freq_volt
@@ -1604,6 +1620,7 @@ done:
  * Function Name      : gpufreq_fix_dual_custom_freq_volt
  * Description        : Only for GPUFREQ internal debug purpose
  ***********************************************************************************/
+#if 0 /* camellia: unused: gpufreq_fix_dual_custom_freq_volt */
 int gpufreq_fix_dual_custom_freq_volt(unsigned int fgpu, unsigned int vgpu,
 	unsigned int fstack, unsigned int vstack)
 {
@@ -1611,6 +1628,7 @@ int gpufreq_fix_dual_custom_freq_volt(unsigned int fgpu, unsigned int vgpu,
 
 	return ret;
 }
+#endif /* gpufreq_fix_dual_custom_freq_volt */
 
 /***********************************************************************************
  * Function Name      : gpufreq_set_mfgsys_config
@@ -1628,6 +1646,7 @@ EXPORT_SYMBOL(gpufreq_set_mfgsys_config);
  * Function Name      : gpufreq_mssv_commit
  * Description        : Only for GPUFREQ MSSV test purpose
  ***********************************************************************************/
+#if 0 /* camellia: unused: gpufreq_mssv_commit */
 int gpufreq_mssv_commit(unsigned int target, unsigned int val)
 {
 #if GPUFREQ_MSSV_TEST_MODE
@@ -1664,6 +1683,7 @@ int gpufreq_mssv_commit(unsigned int target, unsigned int val)
 	return GPUFREQ_EINVAL;
 #endif /* GPUFREQ_MSSV_TEST_MODE */
 }
+#endif /* gpufreq_mssv_commit */
 
 /***********************************************************************************
  * Function Name      : gpufreq_ipi_to_gpueb

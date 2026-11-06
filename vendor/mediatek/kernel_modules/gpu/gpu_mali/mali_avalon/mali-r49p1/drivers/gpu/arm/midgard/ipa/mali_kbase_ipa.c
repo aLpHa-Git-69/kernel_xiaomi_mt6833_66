@@ -711,6 +711,7 @@ struct devfreq_cooling_power kbase_ipa_power_model_ops = {
 };
 KBASE_EXPORT_TEST_API(kbase_ipa_power_model_ops);
 
+#if 0 /* camellia: unused: kbase_ipa_reset_data */
 void kbase_ipa_reset_data(struct kbase_device *kbdev)
 {
 	ktime_t now, diff;
@@ -737,3 +738,4 @@ void kbase_ipa_reset_data(struct kbase_device *kbdev)
 
 	mutex_unlock(&kbdev->ipa.lock);
 }
+#endif /* kbase_ipa_reset_data */

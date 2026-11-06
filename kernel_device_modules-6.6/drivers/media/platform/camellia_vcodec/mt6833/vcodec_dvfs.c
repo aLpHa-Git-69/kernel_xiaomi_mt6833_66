@@ -63,6 +63,7 @@ long long get_time_us(void)
  * The newly added codec_history is returned and user is expected to
  * fill required information
  */
+#if 0 /* camellia: unused: new_hist_to_end */
 struct codec_history *new_hist_to_end(struct codec_history **head)
 {
 	struct codec_history *hist;
@@ -86,6 +87,7 @@ struct codec_history *new_hist_to_end(struct codec_history **head)
 
 	return hist;
 }
+#endif /* new_hist_to_end */
 
 /**
  * free_next_hist - free next codec_history and shift next next one forward
@@ -93,6 +95,7 @@ struct codec_history *new_hist_to_end(struct codec_history **head)
  *
  * Returns the new next codec_history element.
  */
+#if 0 /* camellia: unused: free_next_hist */
 struct codec_history *free_next_hist(struct codec_history *cur_hist)
 {
 	struct codec_history *next;
@@ -108,6 +111,7 @@ struct codec_history *free_next_hist(struct codec_history *cur_hist)
 
 	return cur_hist->next;
 }
+#endif /* free_next_hist */
 
 /**
  * free_hist - remove target codec_history from list and free its memory
@@ -152,6 +156,7 @@ int free_hist_(struct codec_history **head, struct codec_history *target)
  * Return 0 for success
  *        -1 if error
  */
+#if 0 /* camellia: unused: free_hist */
 int free_hist(struct codec_history **head, int only_unused)
 {
 	struct codec_history *chk_hist; /* history item to check */
@@ -193,6 +198,7 @@ int free_hist(struct codec_history **head, int only_unused)
 
 	return 0;
 }
+#endif /* free_hist */
 
 
 /**
@@ -216,6 +222,7 @@ struct codec_history *find_hist(void *handle, struct codec_history *head)
  * Returns 0 if history is found and freed
  *         -1 if there is nothing to free
  */
+#if 0 /* camellia: unused: free_hist_by_handle */
 int free_hist_by_handle(void *handle, struct codec_history **head)
 {
 	struct codec_history *target = 0;
@@ -226,6 +233,7 @@ int free_hist_by_handle(void *handle, struct codec_history **head)
 
 	return free_hist_(head, target);
 }
+#endif /* free_hist_by_handle */
 
 
 /**
@@ -569,6 +577,7 @@ int update_hist_item(struct codec_job *job, struct codec_history *hist)
  *        1 for clear old history and update success
  *        -1 for not updated due to error
  */
+#if 0 /* camellia: unused: update_hist */
 int update_hist(struct codec_job *job, struct codec_history **head,
 		long long submit_interval)
 {
@@ -599,6 +608,7 @@ int update_hist(struct codec_job *job, struct codec_history **head,
 
 	return ret;
 }
+#endif /* update_hist */
 
 
 /**
@@ -645,6 +655,7 @@ int add_job_(struct codec_job *job, struct codec_job **head)
  * Return new job just added
  *        0 if failed to add
  */
+#if 0 /* camellia: unused: add_job */
 struct codec_job *add_job(void *handle, struct codec_job **head)
 {
 	struct codec_job *new_job;
@@ -668,6 +679,7 @@ struct codec_job *add_job(void *handle, struct codec_job **head)
 
 	return new_job;
 }
+#endif /* add_job */
 
 /**
  * move_job_to_head - Move the target job to head for faster access next time
@@ -757,6 +769,7 @@ int est_freq(void *handle, struct codec_job **job, struct codec_history *head)
  *
  * Match requested mhz to available mhz
  */
+#if 0 /* camellia: unused: match_freq */
 u64 match_freq(int target_mhz, u64 *freq_list, u32 freq_cnt)
 {
 	u64 res_mhz = DEFAULT_MHZ;
@@ -782,6 +795,7 @@ u64 match_freq(int target_mhz, u64 *freq_list, u32 freq_cnt)
 #endif
 	return res_mhz;
 }
+#endif /* match_freq */
 
 
 

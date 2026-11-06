@@ -311,6 +311,7 @@ void sap_wdt_reset(void)
 	sap_cfg_reg_write(CFG_WDT_CFG_OFFSET, V_INSTANT_WDT);
 }
 
+#if 0 /* camellia: unused: sap_wdt_clear */
 void sap_wdt_clear(void)
 {
 	struct sap_device *dev = &sap_dev;
@@ -320,6 +321,7 @@ void sap_wdt_clear(void)
 
 	sap_cfg_reg_write(CFG_WDT_CFG_OFFSET, B_WDT_IRQ);
 }
+#endif /* sap_wdt_clear */
 
 static void sap_setup_pin_table(struct mtk_mbox_device *mbox_dev, uint8_t mbox)
 {

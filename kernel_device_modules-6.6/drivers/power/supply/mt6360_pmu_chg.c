@@ -240,13 +240,17 @@ static const struct linear_range mt6360_chg_range[MT6360_RANGE_MAX] = {
 #define PHY_MODE_BC11_SET 1
 #define PHY_MODE_BC11_CLR 2
 
+#if 0 /* camellia: unused: Charger_Detect_Init */
 void __attribute__ ((weak)) Charger_Detect_Init(void)
 {
 }
+#endif /* Charger_Detect_Init */
 
+#if 0 /* camellia: unused: Charger_Detect_Release */
 void __attribute__ ((weak)) Charger_Detect_Release(void)
 {
 }
+#endif /* Charger_Detect_Release */
 
 
 struct tag_bootmode {

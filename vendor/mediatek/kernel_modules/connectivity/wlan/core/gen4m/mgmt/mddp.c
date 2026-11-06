@@ -2751,6 +2751,7 @@ void mddpInHifThread(struct ADAPTER *prAdapter)
 #endif /* CFG_PCIE_GEN_SWITCH */
 }
 
+#if 0 /* camellia: unused: mddpTriggerMdFwOwnByFw */
 void mddpTriggerMdFwOwnByFw(struct ADAPTER *prAdapter)
 {
 	if (g_fgIsMdCrash) {
@@ -2758,6 +2759,7 @@ void mddpTriggerMdFwOwnByFw(struct ADAPTER *prAdapter)
 		kalSetMddpEvent(prAdapter->prGlueInfo);
 	}
 }
+#endif /* mddpTriggerMdFwOwnByFw */
 
 void mddpTriggerMdSerRecovery(struct ADAPTER *prAdapter)
 {

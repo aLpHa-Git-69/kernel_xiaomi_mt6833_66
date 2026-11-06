@@ -146,11 +146,13 @@ static void ppm_sysboost_update_final_limit(void)
 }
 
 
+#if 0 /* camellia: unused: mt_ppm_sysboost_core */
 void mt_ppm_sysboost_core(enum ppm_sysboost_user user, unsigned int core_num)
 {
 	/* phase-out */
 }
 EXPORT_SYMBOL(mt_ppm_sysboost_core);
+#endif /* mt_ppm_sysboost_core */
 
 void mt_ppm_sysboost_freq(enum ppm_sysboost_user user, unsigned int freq)
 {
@@ -211,12 +213,14 @@ void mt_ppm_sysboost_freq(enum ppm_sysboost_user user, unsigned int freq)
 }
 EXPORT_SYMBOL(mt_ppm_sysboost_freq);
 
+#if 0 /* camellia: unused: mt_ppm_sysboost_set_core_limit */
 void mt_ppm_sysboost_set_core_limit(enum ppm_sysboost_user user,
 	unsigned int cluster, int min_core, int max_core)
 {
 	/* phase-out */
 }
 EXPORT_SYMBOL(mt_ppm_sysboost_set_core_limit);
+#endif /* mt_ppm_sysboost_set_core_limit */
 
 void mt_ppm_sysboost_set_freq_limit(enum ppm_sysboost_user user,
 	unsigned int cluster, int min_freq, int max_freq)

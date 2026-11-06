@@ -1303,6 +1303,7 @@ wlanoidSetUApsdParam(struct ADAPTER *prAdapter,
 #endif
 }
 
+#if 0 /* camellia: unused: wlanoidQueryP2pVersion */
 uint32_t
 wlanoidQueryP2pVersion(struct ADAPTER *prAdapter,
 		void *pvQueryBuffer,
@@ -1329,6 +1330,7 @@ wlanoidQueryP2pVersion(struct ADAPTER *prAdapter,
 
 	return rResult;
 }				/* wlanoidQueryP2pVersion */
+#endif /* wlanoidQueryP2pVersion */
 
 #if CFG_SUPPORT_HOTSPOT_WPS_MANAGER
 
@@ -1382,6 +1384,7 @@ wlanoidSetP2pWPSmode(struct ADAPTER *prAdapter,
 
 #endif
 
+#if 0 /* camellia: unused: wlanoidSetP2pSupplicantVersion */
 uint32_t
 wlanoidSetP2pSupplicantVersion(struct ADAPTER *prAdapter,
 		void *pvSetBuffer,
@@ -1417,6 +1420,7 @@ wlanoidSetP2pSupplicantVersion(struct ADAPTER *prAdapter,
 
 	return rResult;
 }				/* wlanoidSetP2pSupplicantVersion */
+#endif /* wlanoidSetP2pSupplicantVersion */
 
 uint32_t
 wlanoidRequestP2pScan(struct ADAPTER *prAdapter,

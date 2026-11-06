@@ -48,10 +48,12 @@ void fw_spi_write(unsigned char addr, unsigned short data)
 		WCN_DBG(FM_ERR | CHIP, "write error[%d].\n", ret);
 }
 
+#if 0 /* camellia: unused: fw_bop_udelay */
 void fw_bop_udelay(unsigned int usec)
 {
 	fm_delayus(usec);
 }
+#endif /* fw_bop_udelay */
 
 void fw_bop_rd_until(unsigned char addr, unsigned short mask,
 		     unsigned short value)
@@ -77,6 +79,7 @@ void fw_bop_rd_until(unsigned char addr, unsigned short mask,
 #undef __DUMP_STR__
 }
 
+#if 0 /* camellia: unused: fw_bop_copy_by_mask */
 void fw_bop_copy_by_mask(unsigned char src, unsigned char dst,
 		     unsigned short mask_and)
 {
@@ -90,7 +93,9 @@ void fw_bop_copy_by_mask(unsigned char src, unsigned char dst,
 	data_dst |= data_src;
 	fw_spi_write(dst, data_dst);
 }
+#endif /* fw_bop_copy_by_mask */
 
+#if 0 /* camellia: unused: fw_bop_modify */
 void fw_bop_modify(unsigned char addr, unsigned short mask_and,
 		   unsigned short mask_or)
 {
@@ -101,6 +106,7 @@ void fw_bop_modify(unsigned char addr, unsigned short mask_and,
 	data |= mask_or;
 	fw_spi_write(addr, data);
 }
+#endif /* fw_bop_modify */
 
 void fw_bop_spi_rd_until(unsigned char subsys, unsigned short addr,
 			 unsigned int mask, unsigned int value)
@@ -128,6 +134,7 @@ void fw_bop_spi_rd_until(unsigned char subsys, unsigned short addr,
 #undef __DUMP_STR__
 }
 
+#if 0 /* camellia: unused: fw_bop_spi_modify */
 void fw_bop_spi_modify(unsigned char subsys, unsigned short addr,
 		       unsigned int mask_and, unsigned int mask_or)
 {
@@ -139,3 +146,4 @@ void fw_bop_spi_modify(unsigned char subsys, unsigned short addr,
 	data |= mask_or;
 	si->sys_spi_write(si, subsys, addr, data);
 }
+#endif /* fw_bop_spi_modify */

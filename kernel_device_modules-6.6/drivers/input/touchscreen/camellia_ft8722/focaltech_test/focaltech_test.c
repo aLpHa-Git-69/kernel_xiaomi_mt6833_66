@@ -66,6 +66,7 @@ void sys_delay(int ms)
 	msleep(ms);
 }
 
+#if 0 /* camellia: unused: fts_abs */
 int fts_abs(int value)
 {
 	if (value < 0)
@@ -73,6 +74,7 @@ int fts_abs(int value)
 
 	return value;
 }
+#endif /* fts_abs */
 
 void *fts_malloc(size_t size)
 {
@@ -1174,6 +1176,7 @@ bool compare_mc_sc(bool tx_check, bool rx_check, int *data, int *min, int *max)
 	return result;
 }
 
+#if 0 /* camellia: unused: show_data_mc_sc */
 void show_data_mc_sc(int *data)
 {
 	int i = 0;
@@ -1191,6 +1194,7 @@ void show_data_mc_sc(int *data)
 	}
 	FTS_TEST_SAVE_INFO("\n");
 }
+#endif /* show_data_mc_sc */
 /* mc_sc end*/
 
 #if CSV_SUPPORT || TXT_SUPPORT

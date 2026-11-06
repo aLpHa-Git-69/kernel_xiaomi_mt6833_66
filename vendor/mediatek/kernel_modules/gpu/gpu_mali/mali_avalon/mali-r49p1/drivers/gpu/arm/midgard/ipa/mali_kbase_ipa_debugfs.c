@@ -237,6 +237,7 @@ static int current_power_get(void *data, u64 *val)
 }
 DEFINE_DEBUGFS_ATTRIBUTE(current_power, current_power_get, NULL, "%llu\n");
 
+#if 0 /* camellia: unused: kbase_ipa_model_debugfs_init */
 static void kbase_ipa_model_debugfs_init(struct kbase_ipa_model *model)
 {
 	struct list_head *it;
@@ -274,6 +275,7 @@ static void kbase_ipa_model_debugfs_init(struct kbase_ipa_model *model)
 		}
 	}
 }
+#endif /* kbase_ipa_model_debugfs_init */
 
 void kbase_ipa_model_param_set_s32(struct kbase_ipa_model *model, const char *name, s32 val)
 {
@@ -297,6 +299,7 @@ void kbase_ipa_model_param_set_s32(struct kbase_ipa_model *model, const char *na
 }
 KBASE_EXPORT_TEST_API(kbase_ipa_model_param_set_s32);
 
+#if 0 /* camellia: unused: kbase_ipa_debugfs_init */
 void kbase_ipa_debugfs_init(struct kbase_device *kbdev)
 {
 	mutex_lock(&kbdev->ipa.lock);
@@ -312,3 +315,4 @@ void kbase_ipa_debugfs_init(struct kbase_device *kbdev)
 
 	mutex_unlock(&kbdev->ipa.lock);
 }
+#endif /* kbase_ipa_debugfs_init */

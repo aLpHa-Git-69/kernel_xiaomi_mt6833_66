@@ -1667,6 +1667,7 @@ static void mtk_rdma_layer_config(struct mtk_ddp_comp *comp, unsigned int idx,
 	cfg_info->fmt = fmt;
 }
 
+#if 0 /* camellia: unused: MMPathTraceRDMA */
 int MMPathTraceRDMA(struct mtk_ddp_comp *ddp_comp, char *str,
 	unsigned int strlen, unsigned int n)
 {
@@ -1683,6 +1684,7 @@ int MMPathTraceRDMA(struct mtk_ddp_comp *ddp_comp, char *str,
 
 	return n;
 }
+#endif /* MMPathTraceRDMA */
 
 static const struct mtk_ddp_comp_funcs mtk_disp_rdma_funcs = {
 	.config = mtk_rdma_config,

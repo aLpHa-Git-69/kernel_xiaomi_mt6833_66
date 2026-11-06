@@ -14,6 +14,7 @@
 
 #include "vcodec_bw.h"
 
+#if 0 /* camellia: unused: validate_bw */
 bool validate_bw(struct vcodec_bw *bw, int type)
 {
 	if (bw == 0)
@@ -24,7 +25,9 @@ bool validate_bw(struct vcodec_bw *bw, int type)
 	else
 		return true;
 }
+#endif /* validate_bw */
 
+#if 0 /* camellia: unused: find_bw_by_id */
 struct vcodec_bw *find_bw_by_id(struct vcodec_bw *bw_list, int id)
 {
 	struct vcodec_bw *cur_bw = bw_list;
@@ -40,7 +43,9 @@ struct vcodec_bw *find_bw_by_id(struct vcodec_bw *bw_list, int id)
 
 	return cur_bw;
 }
+#endif /* find_bw_by_id */
 
+#if 0 /* camellia: unused: add_bw_by_id */
 struct vcodec_bw *add_bw_by_id(struct vcodec_bw **bw_list, int id)
 {
 	struct vcodec_bw *bw = 0;
@@ -62,7 +67,9 @@ struct vcodec_bw *add_bw_by_id(struct vcodec_bw **bw_list, int id)
 
 	return bw;
 }
+#endif /* add_bw_by_id */
 
+#if 0 /* camellia: unused: remove_bw_by_id */
 struct vcodec_bw *remove_bw_by_id(struct vcodec_bw **bw_list, int id)
 {
 	struct vcodec_bw *cur_bw = *bw_list;
@@ -88,7 +95,9 @@ struct vcodec_bw *remove_bw_by_id(struct vcodec_bw **bw_list, int id)
 	}
 	return next_bw;
 }
+#endif /* remove_bw_by_id */
 
+#if 0 /* camellia: unused: free_all_bw */
 void free_all_bw(struct vcodec_bw **bw_list)
 {
 	struct vcodec_bw *bw = 0;
@@ -99,3 +108,4 @@ void free_all_bw(struct vcodec_bw **bw_list)
 		kfree(bw);
 	}
 }
+#endif /* free_all_bw */

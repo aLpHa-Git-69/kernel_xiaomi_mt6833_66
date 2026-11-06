@@ -24,6 +24,7 @@ void mt_cpufreq_set_governor_freq_registerCB(cpuFreqsampler_func pCB)
 EXPORT_SYMBOL(mt_cpufreq_set_governor_freq_registerCB);
 #endif /* CONFIG_MTK_CM_MGR */
 
+#if 0 /* camellia: unused: mt_cpufreq_set_by_wfi_load_cluster */
 int mt_cpufreq_set_by_wfi_load_cluster(unsigned int cluster_id,
 	unsigned int freq)
 {
@@ -45,7 +46,9 @@ int mt_cpufreq_set_by_wfi_load_cluster(unsigned int cluster_id,
 	return 0;
 }
 EXPORT_SYMBOL(mt_cpufreq_set_by_wfi_load_cluster);
+#endif /* mt_cpufreq_set_by_wfi_load_cluster */
 
+#if 0 /* camellia: unused: mt_cpufreq_set_by_schedule_load_cluster */
 int mt_cpufreq_set_by_schedule_load_cluster(unsigned int cluster_id,
 	unsigned int freq)
 {
@@ -65,7 +68,9 @@ int mt_cpufreq_set_by_schedule_load_cluster(unsigned int cluster_id,
 	return 0;
 }
 EXPORT_SYMBOL(mt_cpufreq_set_by_schedule_load_cluster);
+#endif /* mt_cpufreq_set_by_schedule_load_cluster */
 
+#if 0 /* camellia: unused: mt_cpufreq_find_close_freq */
 unsigned int mt_cpufreq_find_close_freq(unsigned int cluster_id,
 	unsigned int freq)
 {
@@ -83,6 +88,7 @@ unsigned int mt_cpufreq_find_close_freq(unsigned int cluster_id,
 
 	return mt_cpufreq_get_freq_by_idx(id, idx);
 }
+#endif /* mt_cpufreq_find_close_freq */
 
 #ifndef VBOOT_VOLT
 #define VBOOT_VOLT 80000
@@ -104,6 +110,7 @@ unsigned int mt_cpufreq_find_Vboot_idx(unsigned int cluster_id)
 	return idx;
 }
 EXPORT_SYMBOL(mt_cpufreq_find_Vboot_idx);
+#if 0 /* camellia: unused: mt_cpufreq_ctrl_cci_volt */
 void mt_cpufreq_ctrl_cci_volt(unsigned int volt)
 {
 #ifdef HYBRID_CPU_DVFS
@@ -112,7 +119,9 @@ void mt_cpufreq_ctrl_cci_volt(unsigned int volt)
 #endif
 }
 EXPORT_SYMBOL(mt_cpufreq_ctrl_cci_volt);
+#endif /* mt_cpufreq_ctrl_cci_volt */
 
+#if 0 /* camellia: unused: mt_cpufreq_set_iccs_frequency_by_cluster */
 int mt_cpufreq_set_iccs_frequency_by_cluster(int en, unsigned int cluster_id,
 	unsigned int freq)
 {
@@ -134,7 +143,9 @@ int mt_cpufreq_set_iccs_frequency_by_cluster(int en, unsigned int cluster_id,
 	return 0;
 }
 EXPORT_SYMBOL(mt_cpufreq_set_iccs_frequency_by_cluster);
+#endif /* mt_cpufreq_set_iccs_frequency_by_cluster */
 
+#if 0 /* camellia: unused: is_in_suspend */
 int is_in_suspend(void)
 {
 	struct mt_cpu_dvfs *p = id_to_cpu_dvfs(0);
@@ -142,7 +153,9 @@ int is_in_suspend(void)
 	return p->dvfs_disable_by_suspend;
 }
 EXPORT_SYMBOL(is_in_suspend);
+#endif /* is_in_suspend */
 
+#if 0 /* camellia: unused: mt_cpufreq_update_volt */
 int mt_cpufreq_update_volt(enum mt_cpu_dvfs_id id, unsigned int *volt_tbl,
 	int nr_volt_tbl)
 {
@@ -162,7 +175,9 @@ int mt_cpufreq_update_volt(enum mt_cpu_dvfs_id id, unsigned int *volt_tbl,
 	return 0;
 }
 EXPORT_SYMBOL(mt_cpufreq_update_volt);
+#endif /* mt_cpufreq_update_volt */
 
+#if 0 /* camellia: unused: mt_cpufreq_update_cci_map_tbl */
 void mt_cpufreq_update_cci_map_tbl(unsigned int idx_1, unsigned int idx_2,
 	unsigned char result, unsigned int mode, unsigned int use_id)
 {
@@ -171,7 +186,9 @@ void mt_cpufreq_update_cci_map_tbl(unsigned int idx_1, unsigned int idx_2,
 #endif
 }
 EXPORT_SYMBOL(mt_cpufreq_update_cci_map_tbl);
+#endif /* mt_cpufreq_update_cci_map_tbl */
 
+#if 0 /* camellia: unused: mt_cpufreq_update_cci_mode */
 void mt_cpufreq_update_cci_mode(unsigned int mode, unsigned int use_id)
 {
 #if defined(HYBRID_CPU_DVFS) && defined(CCI_MAP_TBL_SUPPORT)
@@ -179,9 +196,11 @@ void mt_cpufreq_update_cci_mode(unsigned int mode, unsigned int use_id)
 #endif
 }
 EXPORT_SYMBOL(mt_cpufreq_update_cci_mode);
+#endif /* mt_cpufreq_update_cci_mode */
 
 cpuVoltsampler_func g_pCpuVoltSampler_met;
 cpuVoltsampler_func g_pCpuVoltSampler_ocp;
+#if 0 /* camellia: unused: notify_cpu_volt_sampler */
 void notify_cpu_volt_sampler(enum mt_cpu_dvfs_id id, unsigned int volt,
 	int up, int event)
 {
@@ -193,29 +212,38 @@ void notify_cpu_volt_sampler(enum mt_cpu_dvfs_id id, unsigned int volt,
 	if (g_pCpuVoltSampler_ocp)
 		g_pCpuVoltSampler_ocp(id, mv, up, event);
 }
+#endif /* notify_cpu_volt_sampler */
 
 /* cpu voltage sampler */
+#if 0 /* camellia: unused: mt_cpufreq_setvolt_registerCB */
 void mt_cpufreq_setvolt_registerCB(cpuVoltsampler_func pCB)
 {
 	g_pCpuVoltSampler_met = pCB;
 }
 EXPORT_SYMBOL(mt_cpufreq_setvolt_registerCB);
+#endif /* mt_cpufreq_setvolt_registerCB */
 
 /* ocp cpu voltage sampler */
+#if 0 /* camellia: unused: mt_cpufreq_setvolt_ocp_registerCB */
 void mt_cpufreq_setvolt_ocp_registerCB(cpuVoltsampler_func pCB)
 {
 	g_pCpuVoltSampler_ocp = pCB;
 }
 EXPORT_SYMBOL(mt_cpufreq_setvolt_ocp_registerCB);
+#endif /* mt_cpufreq_setvolt_ocp_registerCB */
 
 /* for PTP-OD */
+#if 0 /* camellia: unused: mt_cpufreq_update_private_tbl */
 static mt_cpufreq_set_ptbl_funcPTP mt_cpufreq_update_private_tbl;
+#endif /* mt_cpufreq_update_private_tbl */
 
+#if 0 /* camellia: unused: mt_cpufreq_set_ptbl_registerCB */
 void mt_cpufreq_set_ptbl_registerCB(mt_cpufreq_set_ptbl_funcPTP pCB)
 {
 	mt_cpufreq_update_private_tbl = pCB;
 }
 EXPORT_SYMBOL(mt_cpufreq_set_ptbl_registerCB);
+#endif /* mt_cpufreq_set_ptbl_registerCB */
 
 
 unsigned int mt_cpufreq_get_cur_volt(enum mt_cpu_dvfs_id id)
@@ -288,6 +316,7 @@ unsigned int mt_cpufreq_get_cur_freq(unsigned int id)
 EXPORT_SYMBOL(mt_cpufreq_get_cur_freq);
 
 #ifndef ONE_CLUSTER
+#if 0 /* camellia: unused: mt_cpufreq_get_cur_freq_idx */
 unsigned int mt_cpufreq_get_cur_freq_idx(enum mt_cpu_dvfs_id id)
 {
 #ifdef CPU_DVFS_NOT_READY
@@ -315,7 +344,9 @@ unsigned int mt_cpufreq_get_cur_freq_idx(enum mt_cpu_dvfs_id id)
 #endif
 }
 EXPORT_SYMBOL(mt_cpufreq_get_cur_freq_idx);
+#endif /* mt_cpufreq_get_cur_freq_idx */
 
+#if 0 /* camellia: unused: mt_cpufreq_get_cur_cci_freq_idx */
 unsigned int mt_cpufreq_get_cur_cci_freq_idx(void)
 {
 #ifdef CPU_DVFS_NOT_READY
@@ -333,6 +364,7 @@ unsigned int mt_cpufreq_get_cur_cci_freq_idx(void)
 #endif
 }
 EXPORT_SYMBOL(mt_cpufreq_get_cur_cci_freq_idx);
+#endif /* mt_cpufreq_get_cur_cci_freq_idx */
 #endif
 
 unsigned int mt_cpufreq_get_freq_by_idx(enum mt_cpu_dvfs_id id, int idx)
@@ -364,6 +396,7 @@ unsigned int mt_cpufreq_get_freq_by_idx(enum mt_cpu_dvfs_id id, int idx)
 EXPORT_SYMBOL(mt_cpufreq_get_freq_by_idx);
 
 
+#if 0 /* camellia: unused: mt_cpufreq_get_cpu_freq */
 unsigned int mt_cpufreq_get_cpu_freq(int cpu, int idx)
 {
 #ifndef CONFIG_NONLINEAR_FREQ_CTL
@@ -381,6 +414,7 @@ unsigned int mt_cpufreq_get_cpu_freq(int cpu, int idx)
 #endif
 }
 EXPORT_SYMBOL(mt_cpufreq_get_cpu_freq);
+#endif /* mt_cpufreq_get_cpu_freq */
 
 
 unsigned int mt_cpufreq_get_volt_by_idx(enum mt_cpu_dvfs_id id, int idx)
@@ -431,6 +465,7 @@ unsigned int mt_cpufreq_get_cur_phy_freq_no_lock(enum mt_cpu_dvfs_id id)
 }
 EXPORT_SYMBOL(mt_cpufreq_get_cur_phy_freq_no_lock);
 
+#if 0 /* camellia: unused: mt_cpufreq_get_cur_phy_freq_idx_no_lock */
 unsigned int mt_cpufreq_get_cur_phy_freq_idx_no_lock(enum mt_cpu_dvfs_id id)
 {
 #ifdef CPU_DVFS_NOT_READY
@@ -446,17 +481,23 @@ unsigned int mt_cpufreq_get_cur_phy_freq_idx_no_lock(enum mt_cpu_dvfs_id id)
 #endif
 }
 EXPORT_SYMBOL(mt_cpufreq_get_cur_phy_freq_idx_no_lock);
+#endif /* mt_cpufreq_get_cur_phy_freq_idx_no_lock */
 
+#if 0 /* camellia: unused: mt_cpufreq_get_ppb_state */
 int mt_cpufreq_get_ppb_state(void)
 {
 	return dvfs_power_mode;
 }
+#endif /* mt_cpufreq_get_ppb_state */
 
+#if 0 /* camellia: unused: mt_cpufreq_get_sched_enable */
 int mt_cpufreq_get_sched_enable(void)
 {
 	return sched_dvfs_enable;
 }
+#endif /* mt_cpufreq_get_sched_enable */
 
+#if 0 /* camellia: unused: mt_cpufreq_get_cpu_level */
 unsigned int mt_cpufreq_get_cpu_level(void)
 {
 	unsigned int lv = _mt_cpufreq_get_cpu_level();
@@ -464,6 +505,7 @@ unsigned int mt_cpufreq_get_cpu_level(void)
 	return lv;
 }
 EXPORT_SYMBOL(mt_cpufreq_get_cpu_level);
+#endif /* mt_cpufreq_get_cpu_level */
 #ifdef DFD_WORKAROUND
 void dfd_workaround(void)
 {

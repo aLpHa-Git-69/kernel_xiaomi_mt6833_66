@@ -10,11 +10,13 @@
 
 #include "mtk-mmdebug-vcp.h"
 
+#if 0 /* camellia: unused: mmdebug_is_init_done */
 bool mmdebug_is_init_done(void)
 {
 	return true;
 }
 EXPORT_SYMBOL_GPL(mmdebug_is_init_done);
+#endif /* mmdebug_is_init_done */
 
 int mtk_mmdebug_status_dump_register_notifier(struct notifier_block *nb)
 {

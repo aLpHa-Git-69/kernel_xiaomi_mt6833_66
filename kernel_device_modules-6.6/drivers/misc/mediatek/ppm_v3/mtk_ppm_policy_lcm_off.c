@@ -26,6 +26,7 @@ static struct ppm_policy_data lcmoff_policy = {
 	.status_change_cb	= ppm_lcmoff_status_change_cb,
 };
 
+#if 0 /* camellia: unused: ppm_lcmoff_is_policy_activated */
 bool ppm_lcmoff_is_policy_activated(void)
 {
 	bool is_activate;
@@ -36,6 +37,7 @@ bool ppm_lcmoff_is_policy_activated(void)
 
 	return is_activate;
 }
+#endif /* ppm_lcmoff_is_policy_activated */
 
 static void ppm_lcmoff_update_limit_cb(void)
 {

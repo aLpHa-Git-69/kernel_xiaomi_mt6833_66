@@ -21,11 +21,13 @@ static DEFINE_IDA(rpmb_ida);
  *
  * @rdev: rpmb device
  */
+#if 0 /* camellia: unused: rpmb_dev_get */
 struct rpmb_dev *rpmb_dev_get(struct rpmb_dev *rdev)
 {
 	return get_device(&rdev->dev) ? rdev : NULL;
 }
 EXPORT_SYMBOL_GPL(rpmb_dev_get);
+#endif /* rpmb_dev_get */
 
 /**
  * rpmb_dev_put - decrease rpmb device ref counter
@@ -131,6 +133,7 @@ static int rpmb_request_verify(struct rpmb_dev *rdev, struct rpmb_data *rpmbd)
  * @ncmds: number of commands
  *
  */
+#if 0 /* camellia: unused: rpmb_cmd_fixup */
 static void rpmb_cmd_fixup(struct rpmb_dev *rdev,
 			   struct rpmb_cmd *cmds, u32 ncmds)
 {
@@ -151,6 +154,7 @@ static void rpmb_cmd_fixup(struct rpmb_dev *rdev,
 			cmds->frames->block_count = 0;
 		}
 }
+#endif /* rpmb_cmd_fixup */
 
 /**
  * rpmb_cmd_seq - send RPMB command sequence
@@ -164,6 +168,7 @@ static void rpmb_cmd_fixup(struct rpmb_dev *rdev,
  *         -EOPNOTSUPP if device doesn't support the requested operation
  *         < 0 if the operation fails
  */
+#if 0 /* camellia: unused: rpmb_cmd_seq */
 int rpmb_cmd_seq(struct rpmb_dev *rdev, struct rpmb_cmd *cmds, u32 ncmds,
 	u8 region)
 {
@@ -182,6 +187,7 @@ int rpmb_cmd_seq(struct rpmb_dev *rdev, struct rpmb_cmd *cmds, u32 ncmds,
 	return err;
 }
 EXPORT_SYMBOL_GPL(rpmb_cmd_seq);
+#endif /* rpmb_cmd_seq */
 
 static void rpmb_cmd_set(struct rpmb_cmd *cmd, u32 flags,
 			 struct rpmb_frame *frames, u32 nframes)
@@ -345,6 +351,7 @@ struct rpmb_dev *rpmb_dev_find_device(void *data,
 }
 EXPORT_SYMBOL_GPL(rpmb_dev_find_device);
 
+#if 0 /* camellia: unused: match_by_type */
 static int match_by_type(struct device *dev, const void *data)
 {
 	struct rpmb_dev *rdev = to_rpmb_dev(dev);
@@ -352,6 +359,7 @@ static int match_by_type(struct device *dev, const void *data)
 
 	return (*type == RPMB_TYPE_ANY || rdev->ops->type == *type);
 }
+#endif /* match_by_type */
 
 /**
  * rpmb_dev_get_by_type - return first registered rpmb device
@@ -363,6 +371,7 @@ static int match_by_type(struct device *dev, const void *data)
  *
  * Return: matching rpmb device or NULL/ERR_PTR on failure
  */
+#if 0 /* camellia: unused: rpmb_dev_get_by_type */
 struct rpmb_dev *rpmb_dev_get_by_type(enum rpmb_type type)
 {
 	if (type > RPMB_TYPE_MAX)
@@ -371,6 +380,7 @@ struct rpmb_dev *rpmb_dev_get_by_type(enum rpmb_type type)
 	return rpmb_dev_find_device(&type, match_by_type);
 }
 EXPORT_SYMBOL_GPL(rpmb_dev_get_by_type);
+#endif /* rpmb_dev_get_by_type */
 
 static int match_by_parent(struct device *dev, const void *data)
 {

@@ -498,6 +498,7 @@ static inline spinlock_t *dprec_logger_lock(enum DPREC_LOGGER_PR_TYPE type)
 	return NULL;
 }
 
+#if 0 /* camellia: unused: mtk_dprec_logger_pr */
 int mtk_dprec_logger_pr(unsigned int type, char *fmt, ...)
 {
 	int n = 0;
@@ -548,6 +549,7 @@ int mtk_dprec_logger_pr(unsigned int type, char *fmt, ...)
 	return n;
 }
 EXPORT_SYMBOL(mtk_dprec_logger_pr);
+#endif /* mtk_dprec_logger_pr */
 
 int mtk_dprec_logger_get_buf(enum DPREC_LOGGER_PR_TYPE type, char *stringbuf,
 			     int len)
@@ -854,11 +856,13 @@ void mtkfb_set_partial_roi_highlight(int en)
 }
 EXPORT_SYMBOL(mtkfb_set_partial_roi_highlight);
 
+#if 0 /* camellia: unused: mtkfb_is_partial_roi_highlight */
 bool mtkfb_is_partial_roi_highlight(void)
 {
 	return partial_roi_highlight;
 }
 EXPORT_SYMBOL(mtkfb_is_partial_roi_highlight);
+#endif /* mtkfb_is_partial_roi_highlight */
 
 int mtkfb_set_partial_update(unsigned int y_offset, unsigned int height)
 {
@@ -5622,11 +5626,13 @@ unsigned int mtk_dbg_get_lfr_enable_value(void)
 	unsigned int lfr_enable = (lfr_params & 0x10) >> 4;
 	return lfr_enable;
 }
+#if 0 /* camellia: unused: mtk_dbg_get_lfr_update_value */
 unsigned int mtk_dbg_get_lfr_update_value(void)
 {
 	unsigned int lfr_update = (lfr_params & 0x20) >> 5;
 	return lfr_update;
 }
+#endif /* mtk_dbg_get_lfr_update_value */
 unsigned int mtk_dbg_get_lfr_vse_dis_value(void)
 {
 	unsigned int lfr_vse_dis = (lfr_params & 0x40) >> 6;
@@ -5968,6 +5974,7 @@ void disp_dbg_deinit(void)
 #endif
 }
 
+#if 0 /* camellia: unused: get_disp_dbg_buffer */
 void get_disp_dbg_buffer(unsigned long *addr, unsigned long *size,
 	unsigned long *start)
 {
@@ -5983,6 +5990,7 @@ void get_disp_dbg_buffer(unsigned long *addr, unsigned long *size,
 		*start = 0;
 	}
 }
+#endif /* get_disp_dbg_buffer */
 
 
 void mtk_ovl_set_aod_scp_hrt(void)

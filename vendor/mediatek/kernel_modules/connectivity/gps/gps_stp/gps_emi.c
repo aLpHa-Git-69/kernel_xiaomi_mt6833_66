@@ -219,6 +219,7 @@ void mtk_wcn_consys_gps_memory_reserve(void)
 		GPS_DBG("memblock fail\n");
 }
 
+#if 0 /* camellia: unused: gps_emi_mpu_set_region_protection */
 INT32 gps_emi_mpu_set_region_protection(INT32 region)
 {
 #if EMI_MPU_PROTECTION_IS_READY
@@ -253,6 +254,7 @@ INT32 gps_emi_mpu_set_region_protection(INT32 region)
 #endif
 	return 0;
 }
+#endif /* gps_emi_mpu_set_region_protection */
 
 INT32 gps_emi_patch_get(PUINT8 pPatchName, osal_firmware **ppPatch)
 {

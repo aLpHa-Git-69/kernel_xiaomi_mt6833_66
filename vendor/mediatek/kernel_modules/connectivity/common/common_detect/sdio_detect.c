@@ -148,6 +148,7 @@ int hif_sdio_match_chipid_by_dev_id(const struct sdio_device_id *id)
 	return chipId;
 }
 
+#if 0 /* camellia: unused: sdio_detect_query_chipid */
 int sdio_detect_query_chipid(int waitFlag)
 {
 	unsigned int timeSlotMs = 200;
@@ -168,6 +169,7 @@ int sdio_detect_query_chipid(int waitFlag)
 
 	return gComboChipId;
 }
+#endif /* sdio_detect_query_chipid */
 
 int sdio_detect_do_autok(int chipId)
 {

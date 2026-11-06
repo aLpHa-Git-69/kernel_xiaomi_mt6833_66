@@ -257,11 +257,13 @@ static _osal_inline_ INT32 stp_dbg_core_dump_deinit(P_WCN_CORE_DUMP_T dmp)
 	return 0;
 }
 
+#if 0 /* camellia: unused: stp_dbg_core_dump_deinit_gcoredump */
 INT32 stp_dbg_core_dump_deinit_gcoredump(VOID)
 {
 	stp_dbg_core_dump_deinit(g_core_dump);
 	return 0;
 }
+#endif /* stp_dbg_core_dump_deinit_gcoredump */
 
 static _osal_inline_ INT32 stp_dbg_core_dump_check_end(PUINT8 buf, INT32 len)
 {
@@ -2153,6 +2155,7 @@ INT32 stp_dbg_set_wifiver(UINT32 wifiver)
 	return 0;
 }
 
+#if 0 /* camellia: unused: stp_dbg_get_host_assert_info */
 INT32 stp_dbg_get_host_assert_info(PUINT32 drv_type, PUINT32 reason, PUINT32 en)
 {
 	osal_lock_sleepable_lock(&g_stp_dbg_cpupcr->lock);
@@ -2168,6 +2171,7 @@ INT32 stp_dbg_get_host_assert_info(PUINT32 drv_type, PUINT32 reason, PUINT32 en)
 
 	return 0;
 }
+#endif /* stp_dbg_get_host_assert_info */
 
 INT32 stp_dbg_set_host_assert_info(UINT32 drv_type, UINT32 reason, UINT32 en)
 {

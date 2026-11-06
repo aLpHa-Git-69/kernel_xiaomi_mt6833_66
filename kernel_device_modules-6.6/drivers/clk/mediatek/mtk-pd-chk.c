@@ -56,6 +56,7 @@ static void pd_debug_dump(unsigned int id, unsigned int pwr_sta)
 	pdchk_ops->debug_dump(id, pwr_sta);
 }
 
+#if 0 /* camellia: unused: pdchk_debug_dump */
 void pdchk_debug_dump(void)
 {
 	if (pdchk_ops == NULL || pdchk_ops->external_dump == NULL)
@@ -64,6 +65,7 @@ void pdchk_debug_dump(void)
 	pdchk_ops->external_dump();
 }
 EXPORT_SYMBOL_GPL(pdchk_debug_dump);
+#endif /* pdchk_debug_dump */
 
 static void pd_log_dump(unsigned int id, unsigned int pwr_sta)
 {

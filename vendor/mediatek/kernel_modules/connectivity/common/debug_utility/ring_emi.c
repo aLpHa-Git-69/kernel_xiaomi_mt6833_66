@@ -81,6 +81,7 @@ unsigned int ring_emi_read_prepare(unsigned int sz, struct ring_emi_segment *seg
 /*
  * Function prepares the ring_emi_segment and returns the number of bytes available for write.
  */
+#if 0 /* camellia: unused: ring_emi_write_prepare */
 unsigned int ring_emi_write_prepare(unsigned int sz, struct ring_emi_segment *seg, struct ring_emi *ring_emi)
 {
 	unsigned int wt = EMI_READ32(ring_emi->write);
@@ -104,6 +105,7 @@ unsigned int ring_emi_write_prepare(unsigned int sz, struct ring_emi_segment *se
 	/* ring_emi_dump_segment(__func__, seg); */
 	return seg->remain;
 }
+#endif /* ring_emi_write_prepare */
 
 void _ring_emi_segment_prepare(unsigned int from, struct ring_emi_segment *seg, struct ring_emi *ring_emi)
 {
@@ -135,6 +137,7 @@ void _ring_emi_read_commit(struct ring_emi_segment *seg, struct ring_emi *ring_e
 	/* ring_emi_dump(__func__, ring_emi); */
 	/* ring_emi_dump_segment(__func__, seg); */
 }
+#if 0 /* camellia: unused: _ring_emi_write_commit */
 void _ring_emi_write_commit(struct ring_emi_segment *seg, struct ring_emi *ring_emi)
 {
 #ifdef ROUND_REPEAT
@@ -145,4 +148,5 @@ void _ring_emi_write_commit(struct ring_emi_segment *seg, struct ring_emi *ring_
 	/* ring_emi_dump(__func__, ring_emi); */
 	/* ring_emi_dump_segment(__func__, seg); */
 }
+#endif /* _ring_emi_write_commit */
 

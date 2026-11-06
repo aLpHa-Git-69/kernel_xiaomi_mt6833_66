@@ -167,10 +167,12 @@ int _mtk_enable_charging(struct mtk_charger *info,
 	return false;
 }
 
+#if 0 /* camellia: unused: mtk_charger_notifier */
 int mtk_charger_notifier(struct mtk_charger *info, int event)
 {
 	return srcu_notifier_call_chain(&info->evt_nh, event, NULL);
 }
+#endif /* mtk_charger_notifier */
 
 static void mtk_charger_parse_dt(struct mtk_charger *info,
 				struct device *dev)

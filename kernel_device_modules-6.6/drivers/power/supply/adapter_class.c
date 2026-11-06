@@ -150,6 +150,7 @@ int adapter_dev_send_hardreset(struct adapter_device *adapter_dev)
 }
 EXPORT_SYMBOL(adapter_dev_send_hardreset);
 
+#if 0 /* camellia: unused: adapter_dev_exit_mode */
 int adapter_dev_exit_mode(struct adapter_device *adapter_dev)
 {
 	if (adapter_dev != NULL && adapter_dev->ops != NULL &&
@@ -159,6 +160,7 @@ int adapter_dev_exit_mode(struct adapter_device *adapter_dev)
 	return -EOPNOTSUPP;
 }
 EXPORT_SYMBOL(adapter_dev_exit_mode);
+#endif /* adapter_dev_exit_mode */
 
 static DEVICE_ATTR_RO(name);
 
@@ -189,6 +191,7 @@ int register_adapter_device_notifier(struct adapter_device *adapter_dev,
 }
 EXPORT_SYMBOL(register_adapter_device_notifier);
 
+#if 0 /* camellia: unused: unregister_adapter_device_notifier */
 int unregister_adapter_device_notifier(struct adapter_device *adapter_dev,
 				struct notifier_block *nb)
 {
@@ -198,6 +201,7 @@ int unregister_adapter_device_notifier(struct adapter_device *adapter_dev,
 	return srcu_notifier_chain_unregister(&adapter_dev->evt_nh, nb);
 }
 EXPORT_SYMBOL(unregister_adapter_device_notifier);
+#endif /* unregister_adapter_device_notifier */
 
 /**
  * adapter_device_register - create and register a new object of

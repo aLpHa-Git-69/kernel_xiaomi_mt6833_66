@@ -78,6 +78,7 @@ static u_int8_t fgIsWaitForTxDone = FALSE;
  *******************************************************************************
  */
 
+#if 0 /* camellia: unused: TdlsAllowedChannel */
 uint8_t TdlsAllowedChannel(
 	struct ADAPTER *pAd,
 	struct BSS_INFO *bss)
@@ -97,6 +98,7 @@ uint8_t TdlsAllowedChannel(
 
 	return fgAvailable;
 }
+#endif /* TdlsAllowedChannel */
 
 #if CFG_SUPPORT_TDLS_AUTO
 uint8_t TdlsCheckSetup(
@@ -769,6 +771,7 @@ uint8_t TdlsValid(
 	return fgValid;
 }
 
+#if 0 /* camellia: unused: TdlsAllowed */
 uint8_t TdlsAllowed(
 	struct ADAPTER *pAd,
 	uint8_t ucBssIndex)
@@ -796,6 +799,7 @@ uint8_t TdlsAllowed(
 
 	return fgAvailable;
 }
+#endif /* TdlsAllowed */
 
 uint8_t TdlsNeedAdjustBw(
 	struct ADAPTER *pAd,

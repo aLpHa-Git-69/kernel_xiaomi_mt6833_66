@@ -6121,6 +6121,7 @@ int set_p2p_mode_handler(struct net_device *netdev,
  * \retval VOID
  */
 /*----------------------------------------------------------------------------*/
+#if 0 /* camellia: unused: wlanGetParseConfig */
 void wlanGetParseConfig(struct ADAPTER *prAdapter)
 {
 	uint8_t *pucConfigBuf = NULL;
@@ -6145,6 +6146,7 @@ void wlanGetParseConfig(struct ADAPTER *prAdapter)
 		kalMemFree(pucConfigBuf, VIR_MEM_TYPE, u4ConfigReadLen);
 	}
 }
+#endif /* wlanGetParseConfig */
 #endif
 
 /*----------------------------------------------------------------------------*/
@@ -8392,15 +8394,19 @@ int32_t wlanOnAtReset(void)
 }
 #endif
 
+#if 0 /* camellia: unused: wlanIsProbing */
 u_int8_t wlanIsProbing(void)
 {
 	return GLUE_GET_REF_CNT(g_wlanProbing) ? TRUE : FALSE;
 }
+#endif /* wlanIsProbing */
 
+#if 0 /* camellia: unused: wlanIsRemoving */
 u_int8_t wlanIsRemoving(void)
 {
 	return GLUE_GET_REF_CNT(g_wlanRemoving) ? TRUE : FALSE;
 }
+#endif /* wlanIsRemoving */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -9986,6 +9992,7 @@ struct net_device *wlanGetAisNetDev(struct GLUE_INFO *prGlueInfo,
 }
 
 
+#if 0 /* camellia: unused: wlanGetP2pNetDev */
 struct net_device *wlanGetP2pNetDev(struct GLUE_INFO *prGlueInfo,
 	uint8_t ucP2pIndex)
 {
@@ -9996,6 +10003,7 @@ struct net_device *wlanGetP2pNetDev(struct GLUE_INFO *prGlueInfo,
 #endif
 	return NULL;
 }
+#endif /* wlanGetP2pNetDev */
 
 
 uint8_t wlanGetBssIdx(struct net_device *ndev)

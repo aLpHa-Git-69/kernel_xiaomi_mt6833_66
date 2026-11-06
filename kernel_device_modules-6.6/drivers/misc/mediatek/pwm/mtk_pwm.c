@@ -170,6 +170,7 @@ void mt_pwm_disable(u32 pwm_no, u8 pmic_pad)
 }
 EXPORT_SYMBOL(mt_pwm_disable);
 
+#if 0 /* camellia: unused: mt_set_pwm_enable_seqmode */
 void mt_set_pwm_enable_seqmode(void)
 {
 	unsigned long flags;
@@ -184,7 +185,9 @@ void mt_set_pwm_enable_seqmode(void)
 	mt_set_pwm_enable_seqmode_hal();
 	spin_unlock_irqrestore(&dev->lock, flags);
 }
+#endif /* mt_set_pwm_enable_seqmode */
 
+#if 0 /* camellia: unused: mt_set_pwm_disable_seqmode */
 void mt_set_pwm_disable_seqmode(void)
 {
 	unsigned long flags;
@@ -199,7 +202,9 @@ void mt_set_pwm_disable_seqmode(void)
 	mt_set_pwm_disable_seqmode_hal();
 	spin_unlock_irqrestore(&dev->lock, flags);
 }
+#endif /* mt_set_pwm_disable_seqmode */
 
+#if 0 /* camellia: unused: mt_set_pwm_test_sel */
 s32 mt_set_pwm_test_sel(u32 val)
 {
 	unsigned long flags;
@@ -220,6 +225,7 @@ err:
 	spin_unlock_irqrestore(&dev->lock, flags);
 	return -EPARMNOSUPPORT;
 }
+#endif /* mt_set_pwm_test_sel */
 
 s32 mt_set_pwm_clk(u32 pwm_no, u32 clksrc, u32 div)
 {
@@ -867,6 +873,7 @@ s32 mt_set_intr_ack(u32 pwm_intr_ack_bit)
 	return RSUCCESS;
 }
 
+#if 0 /* camellia: unused: mt_set_pwm_3dlcm_enable */
 void mt_set_pwm_3dlcm_enable(u8 enable)
 {
 	unsigned long flags;
@@ -882,7 +889,9 @@ void mt_set_pwm_3dlcm_enable(u8 enable)
 	mt_set_pwm_3dlcm_enable_hal(enable);
 	spin_unlock_irqrestore(&dev->lock, flags);
 }
+#endif /* mt_set_pwm_3dlcm_enable */
 
+#if 0 /* camellia: unused: mt_set_pwm_3dlcm_inv */
 void mt_set_pwm_3dlcm_inv(u32 pwm_no, u8 inv)
 {
 	unsigned long flags;
@@ -898,6 +907,7 @@ void mt_set_pwm_3dlcm_inv(u32 pwm_no, u8 inv)
 	mt_set_pwm_3dlcm_inv_hal(pwm_no, inv);
 	spin_unlock_irqrestore(&dev->lock, flags);
 }
+#endif /* mt_set_pwm_3dlcm_inv */
 
 s32 pwm_set_easy_config(struct pwm_easy_config *conf)
 {

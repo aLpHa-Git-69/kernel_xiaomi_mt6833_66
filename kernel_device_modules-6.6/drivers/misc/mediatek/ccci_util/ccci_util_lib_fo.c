@@ -959,10 +959,12 @@ int get_raw_check_hdr(char buf[], int size)
 	return cpy_size;
 }
 
+#if 0 /* camellia: unused: modem_run_env_ready */
 int modem_run_env_ready(void)
 {
 	return s_g_md_env_rdy_flag & (1<<0);
 }
+#endif /* modem_run_env_ready */
 
 int get_md_resv_ccb_info(phys_addr_t *ccb_data_base,
 	unsigned int *ccb_data_size)

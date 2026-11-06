@@ -184,12 +184,14 @@ enum SENINF_RETURN seninf_clk_init(struct SENINF_CLK *pclk)
 	return SENINF_RETURN_SUCCESS;
 }
 
+#if 0 /* camellia: unused: seninf_clk_exit */
 void seninf_clk_exit(struct SENINF_CLK *pclk)
 {
 #if IS_ENABLED(CONFIG_PM_SLEEP)
 	wakeup_source_unregister(pclk->seninf_wake_lock);
 #endif
 }
+#endif /* seninf_clk_exit */
 
 int seninf_clk_set(struct SENINF_CLK *pclk,
 					struct ACDK_SENSOR_MCLK_STRUCT *pmclk)

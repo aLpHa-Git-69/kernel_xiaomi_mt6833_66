@@ -1495,11 +1495,13 @@ fail_reg_cpu_frequency_entry:
 }
 EXPORT_SYMBOL_GPL(cm_mgr_common_init);
 
+#if 0 /* camellia: unused: force_use_bcpu_weight */
 void force_use_bcpu_weight(void)
 {
 	cm_mgr_use_bcpu_weight = 1;
 }
 EXPORT_SYMBOL_GPL(force_use_bcpu_weight);
+#endif /* force_use_bcpu_weight */
 
 void cm_mgr_common_exit(void)
 {

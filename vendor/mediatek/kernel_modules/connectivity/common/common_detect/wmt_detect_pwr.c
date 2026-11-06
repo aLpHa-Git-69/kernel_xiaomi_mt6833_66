@@ -34,6 +34,7 @@
 #define INVALID_PIN_ID (0xFFFFFFFF)
 
 /*copied form WMT module*/
+#if 0 /* camellia: unused: wmt_detect_dump_pin_conf */
 static int wmt_detect_dump_pin_conf(void)
 {
 	WMT_DETECT_PR_DBG("[WMT-DETECT]=>dump wmt pin configuration start<=\n");
@@ -56,6 +57,7 @@ static int wmt_detect_dump_pin_conf(void)
 
 	return 0;
 }
+#endif /* wmt_detect_dump_pin_conf */
 
 int _wmt_detect_output_low(unsigned int id)
 {
@@ -104,6 +106,7 @@ int _wmt_detect_read_gpio_input(unsigned int id)
  * 5. RTC32k clock control is a must
  *
  */
+#if 0 /* camellia: unused: wmt_detect_chip_pwr_on */
 static int wmt_detect_chip_pwr_on(void)
 {
 	int retval = -1;
@@ -196,7 +199,9 @@ static int wmt_detect_chip_pwr_on(void)
 	retval = 0;
 	return retval;
 }
+#endif /* wmt_detect_chip_pwr_on */
 
+#if 0 /* camellia: unused: wmt_detect_chip_pwr_off */
 static int wmt_detect_chip_pwr_off(void)
 {
 
@@ -211,6 +216,7 @@ static int wmt_detect_chip_pwr_off(void)
 		_wmt_detect_output_low(GPIO_COMBO_PMU_EN_PIN);
 	return 0;
 }
+#endif /* wmt_detect_chip_pwr_off */
 
 int wmt_detect_read_ext_cmb_status(void)
 {
@@ -226,6 +232,7 @@ int wmt_detect_read_ext_cmb_status(void)
 	return retval;
 }
 
+#if 0 /* camellia: unused: wmt_detect_chip_pwr_ctrl */
 int wmt_detect_chip_pwr_ctrl(int on)
 {
 	int retval = -1;
@@ -240,6 +247,7 @@ int wmt_detect_chip_pwr_ctrl(int on)
 	}
 	return retval;
 }
+#endif /* wmt_detect_chip_pwr_ctrl */
 
 int wmt_detect_sdio_pwr_ctrl(int on)
 {

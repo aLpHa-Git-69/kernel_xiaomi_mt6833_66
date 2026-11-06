@@ -24,12 +24,14 @@ static enum mtk_dpc_version mml_dpc_version;
 #define mml_sysid_to_dpc_hrt_read_idx(sysid)	\
 	(sysid == mml_sys_frame ? 10 : 2)
 
+#if 0 /* camellia: unused: mml_dpc_register */
 void mml_dpc_register(const struct dpc_funcs *funcs, enum mtk_dpc_version version)
 {
 	mml_dpc_funcs = *funcs;
 	mml_dpc_version = version;
 }
 EXPORT_SYMBOL_GPL(mml_dpc_register);
+#endif /* mml_dpc_register */
 
 void mml_dpc_enable(bool en)
 {

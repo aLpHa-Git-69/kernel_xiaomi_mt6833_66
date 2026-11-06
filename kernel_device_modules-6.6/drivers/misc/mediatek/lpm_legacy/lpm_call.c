@@ -38,6 +38,7 @@ int lpm_callee_registry(struct lpm_callee *callee)
 }
 EXPORT_SYMBOL(lpm_callee_registry);
 
+#if 0 /* camellia: unused: lpm_callee_unregistry */
 int lpm_callee_unregistry(struct lpm_callee *callee)
 {
 	int bRet = 0;
@@ -61,6 +62,7 @@ int lpm_callee_unregistry(struct lpm_callee *callee)
 	return bRet;
 }
 EXPORT_SYMBOL(lpm_callee_unregistry);
+#endif /* lpm_callee_unregistry */
 
 int lpm_callee_get_impl(int uid, const struct lpm_callee **callee)
 {
@@ -84,6 +86,7 @@ int lpm_callee_get_impl(int uid, const struct lpm_callee **callee)
 }
 EXPORT_SYMBOL(lpm_callee_get_impl);
 
+#if 0 /* camellia: unused: lpm_callee_put_impl */
 int lpm_callee_put_impl(struct lpm_callee const *callee)
 {
 	struct lpm_callee *pos;
@@ -105,4 +108,5 @@ int lpm_callee_put_impl(struct lpm_callee const *callee)
 	return ret;
 }
 EXPORT_SYMBOL(lpm_callee_put_impl);
+#endif /* lpm_callee_put_impl */
 

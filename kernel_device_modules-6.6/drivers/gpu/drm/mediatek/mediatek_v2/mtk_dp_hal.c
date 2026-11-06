@@ -948,6 +948,7 @@ void mhal_DPTx_PG_Frame(struct mtk_dp *mtk_dp, BYTE Location,
 	}
 }
 
+#if 0 /* camellia: unused: mhal_DPTx_Audio_Setting */
 void mhal_DPTx_Audio_Setting(struct mtk_dp *mtk_dp, BYTE Channel, BYTE bEnable)
 {
 	if (bEnable) {
@@ -973,6 +974,7 @@ void mhal_DPTx_Audio_Setting(struct mtk_dp *mtk_dp, BYTE Channel, BYTE bEnable)
 		msWrite4Byte(mtk_dp, 0x11210010, 0x00000000); //turn off afe
 	}
 }
+#endif /* mhal_DPTx_Audio_Setting */
 
 void mhal_DPTx_audio_sample_arrange(struct mtk_dp *mtk_dp, BYTE bEnable)
 {
@@ -2415,22 +2417,26 @@ void mhal_DPTx_USBC_HPD(struct mtk_dp *mtk_dp, bool conn)
 	DPTXFUNC("REG3414 = 0x%x\n", msReadByte(mtk_dp, REG_3414_DP_TRANS_P0));
 }
 
+#if 0 /* camellia: unused: mhal_DPTx_GetSWIRQStatus */
 WORD mhal_DPTx_GetSWIRQStatus(struct mtk_dp *mtk_dp)
 {
 	return msRead2Byte(mtk_dp, REG_35D0_DP_TRANS_P0);
 }
+#endif /* mhal_DPTx_GetSWIRQStatus */
 
 void mhal_DPTx_SWInterruptSet(struct mtk_dp *mtk_dp, WORD bstatus)
 {
 	msWrite2Byte(mtk_dp, REG_35C0_DP_TRANS_P0, bstatus);
 
 }
+#if 0 /* camellia: unused: mhal_DPTx_SWInterruptClr */
 void mhal_DPTx_SWInterruptClr(struct mtk_dp *mtk_dp, WORD bstatus)
 {
 	msWrite2Byte(mtk_dp, REG_35C8_DP_TRANS_P0, bstatus);
 	msWrite2Byte(mtk_dp, REG_35C8_DP_TRANS_P0, 0);
 
 }
+#endif /* mhal_DPTx_SWInterruptClr */
 
 void mhal_DPTx_SWInterruptEnable(struct mtk_dp *mtk_dp, bool enable)
 {
@@ -2634,12 +2640,14 @@ void mhal_DPTx_PhyPowerDown(struct mtk_dp *mtk_dp)
 	DPTXMSG("DPTX PHYD power down\n");
 }
 
+#if 0 /* camellia: unused: mhal_DPTx_phyd_power_off */
 void mhal_DPTx_phyd_power_off(struct mtk_dp *mtk_dp)
 {
 	mhal_DPTx_PHYD_Reset(mtk_dp);
 	msPhyWriteByteMask(mtk_dp, PHYD_DIG_GLB_OFFSET + DP_PHY_DIG_PLL_CTL_0,
 			0x0, FORCE_PWR_STATE_VAL_FLDMASK);
 }
+#endif /* mhal_DPTx_phyd_power_off */
 
 void mhal_DPTx_phy_param_init(struct mtk_dp *mtk_dp, UINT32 *buffer, UINT32 size)
 {
@@ -3082,6 +3090,7 @@ void mhal_DPTx_DigitalSwReset(struct mtk_dp *mtk_dp)
 	msWriteByteMask(mtk_dp, REG_340C_DP_TRANS_P0 + 1, 0, BIT(5));
 }
 
+#if 0 /* camellia: unused: mhal_DPTx_SetTxLaneToLane */
 void mhal_DPTx_SetTxLaneToLane(struct mtk_dp *mtk_dp, BYTE ucLaneNum,
 	BYTE ucSetLaneNum)
 {
@@ -3090,6 +3099,7 @@ void mhal_DPTx_SetTxLaneToLane(struct mtk_dp *mtk_dp, BYTE ucLaneNum,
 		(ucSetLaneNum << (ucLaneNum*2)),
 		(BIT(1)|BIT(0)) << (ucLaneNum*2)); // swap Lane A  to Lane B
 }
+#endif /* mhal_DPTx_SetTxLaneToLane */
 
 void mhal_DPTx_PHYD_Reset(struct mtk_dp *mtk_dp)
 {
@@ -3379,6 +3389,7 @@ void mhal_DPTx_SetScramble(struct mtk_dp *mtk_dp, bool  bENABLE)
 			BIT(0)); //[0]dp tx transmitter scramble enable
 }
 
+#if 0 /* camellia: unused: mhal_DPTx_SetScramble_Type */
 void mhal_DPTx_SetScramble_Type(struct mtk_dp *mtk_dp, bool bSelType)
 {
 	//[1]scrambler reset data,0:DP 16'ffff, 1:eDP 16'fffe
@@ -3393,6 +3404,7 @@ void mhal_DPTx_SetScramble_Type(struct mtk_dp *mtk_dp, bool bSelType)
 			0,
 			BIT(1));
 }
+#endif /* mhal_DPTx_SetScramble_Type */
 
 void mhal_DPTx_VideoMute(struct mtk_dp *mtk_dp, bool bENABLE)
 {

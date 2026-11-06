@@ -596,6 +596,7 @@ void cmdq_event_dump_and_clr(void *chan)
 }
 EXPORT_SYMBOL(cmdq_event_dump_and_clr);
 
+#if 0 /* camellia: unused: cmdq_get_usage_cb */
 void cmdq_get_usage_cb(struct mbox_chan *chan, cmdq_usage_cb usage_cb)
 {
 	struct cmdq *cmdq = container_of(((struct mbox_chan *)chan)->mbox,
@@ -611,6 +612,7 @@ void cmdq_get_usage_cb(struct mbox_chan *chan, cmdq_usage_cb usage_cb)
 	cmdq->thread[i].usage_cb = usage_cb;
 }
 EXPORT_SYMBOL(cmdq_get_usage_cb);
+#endif /* cmdq_get_usage_cb */
 
 void cmdq_dump_usage(void)
 {
@@ -817,6 +819,7 @@ static void cmdq_mtcmos_by_fast(struct cmdq *cmdq, bool on)
 	spin_unlock_irqrestore(&cmdq->fast_mtcmos_lock, flags);
 }
 
+#if 0 /* camellia: unused: cmdq_mbox_mtcmos_by_fast_chan */
 void cmdq_mbox_mtcmos_by_fast_chan(struct mbox_chan *chan, bool on)
 {
 	struct cmdq *cmdq = container_of(chan->mbox, typeof(*cmdq), mbox);
@@ -824,6 +827,7 @@ void cmdq_mbox_mtcmos_by_fast_chan(struct mbox_chan *chan, bool on)
 	cmdq_mtcmos_by_fast(cmdq, on);
 }
 EXPORT_SYMBOL(cmdq_mbox_mtcmos_by_fast_chan);
+#endif /* cmdq_mbox_mtcmos_by_fast_chan */
 
 void cmdq_mbox_mtcmos_by_fast(void *cmdq_mbox, bool on)
 {
@@ -4667,6 +4671,7 @@ phys_addr_t cmdq_dev_get_base_pa(struct device *dev)
 }
 EXPORT_SYMBOL(cmdq_dev_get_base_pa);
 
+#if 0 /* camellia: unused: cmdq_mbox_get_dummy_reg */
 phys_addr_t cmdq_mbox_get_dummy_reg(void *chan)
 {
 	struct cmdq *cmdq = container_of(((struct mbox_chan *)chan)->mbox,
@@ -4677,7 +4682,9 @@ phys_addr_t cmdq_mbox_get_dummy_reg(void *chan)
 		+ CMDQ_THR_SPR + 4*CMDQ_THR_SPR_IDX3;
 }
 EXPORT_SYMBOL(cmdq_mbox_get_dummy_reg);
+#endif /* cmdq_mbox_get_dummy_reg */
 
+#if 0 /* camellia: unused: cmdq_mbox_get_spr_pa */
 phys_addr_t cmdq_mbox_get_spr_pa(void *chan, u8 spr)
 {
 	struct cmdq_thread *thread =
@@ -4687,7 +4694,9 @@ phys_addr_t cmdq_mbox_get_spr_pa(void *chan, u8 spr)
 		CMDQ_THR_SPR + 4 * spr;
 }
 EXPORT_SYMBOL(cmdq_mbox_get_spr_pa);
+#endif /* cmdq_mbox_get_spr_pa */
 
+#if 0 /* camellia: unused: cmdq_mbox_get_dev */
 struct device *cmdq_mbox_get_dev(void *chan)
 {
 	struct cmdq *cmdq = container_of(((struct mbox_chan *)chan)->mbox,
@@ -4696,6 +4705,7 @@ struct device *cmdq_mbox_get_dev(void *chan)
 	return cmdq->mbox.dev;
 }
 EXPORT_SYMBOL(cmdq_mbox_get_dev);
+#endif /* cmdq_mbox_get_dev */
 
 s32 cmdq_mbox_set_hw_id(void *cmdq_mbox)
 {
@@ -4723,6 +4733,7 @@ s32 cmdq_mbox_reset_hw_id(void *cmdq_mbox)
 	return 0;
 }
 
+#if 0 /* camellia: unused: cmdq_mbox_thread_reset */
 s32 cmdq_mbox_thread_reset(void *chan)
 {
 	struct cmdq_thread *thread = ((struct mbox_chan *)chan)->con_priv;
@@ -4732,6 +4743,7 @@ s32 cmdq_mbox_thread_reset(void *chan)
 	return cmdq_thread_reset(cmdq, thread);
 }
 EXPORT_SYMBOL(cmdq_mbox_thread_reset);
+#endif /* cmdq_mbox_thread_reset */
 
 s32 cmdq_mbox_thread_suspend(void *chan)
 {
@@ -4748,6 +4760,7 @@ s32 cmdq_mbox_thread_suspend(void *chan)
 }
 EXPORT_SYMBOL(cmdq_mbox_thread_suspend);
 
+#if 0 /* camellia: unused: cmdq_mbox_thread_disable */
 void cmdq_mbox_thread_disable(void *chan)
 {
 	struct cmdq_thread *thread = ((struct mbox_chan *)chan)->con_priv;
@@ -4757,6 +4770,7 @@ void cmdq_mbox_thread_disable(void *chan)
 	cmdq_thread_disable(cmdq, thread);
 }
 EXPORT_SYMBOL(cmdq_mbox_thread_disable);
+#endif /* cmdq_mbox_thread_disable */
 
 u32 cmdq_mbox_get_thread_timeout(void *chan)
 {
@@ -4766,6 +4780,7 @@ u32 cmdq_mbox_get_thread_timeout(void *chan)
 }
 EXPORT_SYMBOL(cmdq_mbox_get_thread_timeout);
 
+#if 0 /* camellia: unused: cmdq_mbox_set_thread_timeout */
 u32 cmdq_mbox_set_thread_timeout(void *chan, u32 timeout)
 {
 	struct cmdq_thread *thread = ((struct mbox_chan *)chan)->con_priv;
@@ -4780,6 +4795,7 @@ u32 cmdq_mbox_set_thread_timeout(void *chan, u32 timeout)
 	return timeout_prv;
 }
 EXPORT_SYMBOL(cmdq_mbox_set_thread_timeout);
+#endif /* cmdq_mbox_set_thread_timeout */
 
 s32 cmdq_mbox_chan_id(void *chan)
 {
@@ -4909,6 +4925,7 @@ s32 cmdq_task_get_thread_irq(struct mbox_chan *chan, u32 *irq_out)
 }
 EXPORT_SYMBOL(cmdq_task_get_thread_irq);
 
+#if 0 /* camellia: unused: cmdq_task_get_thread_irq_en */
 s32 cmdq_task_get_thread_irq_en(struct mbox_chan *chan, u32 *irq_en_out)
 {
 	struct cmdq *cmdq;
@@ -4925,7 +4942,9 @@ s32 cmdq_task_get_thread_irq_en(struct mbox_chan *chan, u32 *irq_en_out)
 
 	return 0;
 }
+#endif /* cmdq_task_get_thread_irq_en */
 
+#if 0 /* camellia: unused: cmdq_task_get_thread_end_addr */
 s32 cmdq_task_get_thread_end_addr(struct mbox_chan *chan,
 	dma_addr_t *end_addr_out)
 {
@@ -4943,7 +4962,9 @@ s32 cmdq_task_get_thread_end_addr(struct mbox_chan *chan,
 
 	return 0;
 }
+#endif /* cmdq_task_get_thread_end_addr */
 
+#if 0 /* camellia: unused: cmdq_task_get_task_info_from_thread_unlock */
 s32 cmdq_task_get_task_info_from_thread_unlock(struct mbox_chan *chan,
 	struct list_head *task_list_out, u32 *task_num_out)
 {
@@ -4982,6 +5003,7 @@ s32 cmdq_task_get_task_info_from_thread_unlock(struct mbox_chan *chan,
 
 	return 0;
 }
+#endif /* cmdq_task_get_task_info_from_thread_unlock */
 
 s32 cmdq_task_get_pkt_from_thread(struct mbox_chan *chan,
 	struct cmdq_pkt **pkt_list_out, u32 pkt_list_size, u32 *pkt_count_out)

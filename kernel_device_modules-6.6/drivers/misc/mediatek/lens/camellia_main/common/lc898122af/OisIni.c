@@ -1223,6 +1223,7 @@ void IniCmd(void)
 		sizeof(struct stAdjPar)); /* Adjust Parameter Clear */
 }
 
+#if 0 /* camellia: unused: BsyWit */
 void BsyWit(unsigned short UsTrgAdr, unsigned char UcTrgDat)
 {
 	unsigned char UcFlgVal;
@@ -1238,6 +1239,7 @@ void BsyWit(unsigned short UsTrgAdr, unsigned char UcTrgDat)
 		UcFlgVal &= (UcTrgDat & 0x0F);
 	};
 }
+#endif /* BsyWit */
 
 void MemClr(unsigned char *NcTgtPtr, unsigned short UsClrSiz)
 {
@@ -1259,12 +1261,14 @@ void GyOutSignal(void)
 	RegWriteA_LC898122AF(GRSEL, 0x02);
 }
 
+#if 0 /* camellia: unused: GyOutSignalCont */
 void GyOutSignalCont(void)
 {
 
 	/*Start OIS Reading */
 	RegWriteA_LC898122AF(GRSEL, 0x04);
 }
+#endif /* GyOutSignalCont */
 
 #ifdef STANDBY_MODE
 
@@ -1280,6 +1284,7 @@ void AccWit(unsigned char UcTrgDat)
 	};
 }
 
+#if 0 /* camellia: unused: SelectGySleep */
 void SelectGySleep(unsigned char UcSelMode)
 {
 #ifdef USE_INVENSENSE
@@ -1403,6 +1408,7 @@ void SelectGySleep(unsigned char UcSelMode)
 	}
 #endif
 }
+#endif /* SelectGySleep */
 #endif
 
 #ifdef GAIN_CONT

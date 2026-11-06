@@ -31,6 +31,7 @@ static int ufs_mb_notify(struct ufs_hba *hba, struct ufs_mbrain_event *event)
 	return -EBADF;
 }
 
+#if 0 /* camellia: unused: ufs_mb_get_info */
 int ufs_mb_get_info(struct platform_device *pdev, struct ufs_mbrain_dev_info *mb_dev_info)
 {
 	struct ufs_hba *hba;
@@ -43,6 +44,7 @@ int ufs_mb_get_info(struct platform_device *pdev, struct ufs_mbrain_dev_info *mb
 	return 0;
 }
 EXPORT_SYMBOL_GPL(ufs_mb_get_info);
+#endif /* ufs_mb_get_info */
 
 int ufs_mb_register(struct platform_device *pdev,  ufs_mb_event_notify notify)
 {
@@ -62,6 +64,7 @@ int ufs_mb_register(struct platform_device *pdev,  ufs_mb_event_notify notify)
 }
 EXPORT_SYMBOL_GPL(ufs_mb_register);
 
+#if 0 /* camellia: unused: ufs_mb_unregister */
 int ufs_mb_unregister(struct platform_device *pdev)
 {
 	struct ufs_hba *hba;
@@ -74,6 +77,7 @@ int ufs_mb_unregister(struct platform_device *pdev)
 	return 0;
 }
 EXPORT_SYMBOL_GPL(ufs_mb_unregister);
+#endif /* ufs_mb_unregister */
 
 static void ufs_mb_work(struct work_struct *work)
 {

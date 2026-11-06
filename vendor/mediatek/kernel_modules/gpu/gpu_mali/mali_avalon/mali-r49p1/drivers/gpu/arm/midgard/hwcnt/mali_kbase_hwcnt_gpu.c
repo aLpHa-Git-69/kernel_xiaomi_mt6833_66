@@ -338,6 +338,7 @@ int kbase_hwcnt_jm_metadata_create(const struct kbase_hwcnt_gpu_info *gpu_info,
 	return 0;
 }
 
+#if 0 /* camellia: unused: kbase_hwcnt_csf_metadata_create */
 int kbase_hwcnt_csf_metadata_create(const struct kbase_hwcnt_gpu_info *gpu_info,
 				    enum kbase_hwcnt_set counter_set,
 				    const struct kbase_hwcnt_metadata **out_metadata)
@@ -356,6 +357,7 @@ int kbase_hwcnt_csf_metadata_create(const struct kbase_hwcnt_gpu_info *gpu_info,
 
 	return 0;
 }
+#endif /* kbase_hwcnt_csf_metadata_create */
 
 bool kbase_hwcnt_is_block_type_shader(const enum kbase_hwcnt_gpu_v5_block_type blk_type)
 {
@@ -379,6 +381,7 @@ bool kbase_hwcnt_is_block_type_memsys(const enum kbase_hwcnt_gpu_v5_block_type b
 	return false;
 }
 
+#if 0 /* camellia: unused: kbase_hwcnt_is_block_type_tiler */
 bool kbase_hwcnt_is_block_type_tiler(const enum kbase_hwcnt_gpu_v5_block_type blk_type)
 {
 	if (blk_type == KBASE_HWCNT_GPU_V5_BLOCK_TYPE_PERF_TILER ||
@@ -387,7 +390,9 @@ bool kbase_hwcnt_is_block_type_tiler(const enum kbase_hwcnt_gpu_v5_block_type bl
 
 	return false;
 }
+#endif /* kbase_hwcnt_is_block_type_tiler */
 
+#if 0 /* camellia: unused: kbase_hwcnt_is_block_type_fe */
 bool kbase_hwcnt_is_block_type_fe(const enum kbase_hwcnt_gpu_v5_block_type blk_type)
 {
 	if (blk_type == KBASE_HWCNT_GPU_V5_BLOCK_TYPE_PERF_FE ||
@@ -398,6 +403,7 @@ bool kbase_hwcnt_is_block_type_fe(const enum kbase_hwcnt_gpu_v5_block_type blk_t
 
 	return false;
 }
+#endif /* kbase_hwcnt_is_block_type_fe */
 
 int kbase_hwcnt_jm_dump_get(struct kbase_hwcnt_dump_buffer *dst, u64 *src,
 			    const struct kbase_hwcnt_enable_map *dst_enable_map, u64 pm_core_mask,
@@ -571,6 +577,7 @@ int kbase_hwcnt_jm_dump_get(struct kbase_hwcnt_dump_buffer *dst, u64 *src,
 	return 0;
 }
 
+#if 0 /* camellia: unused: kbase_hwcnt_csf_dump_get */
 int kbase_hwcnt_csf_dump_get(struct kbase_hwcnt_dump_buffer *dst, u64 *src,
 			     blk_stt_t *src_block_stt,
 			     const struct kbase_hwcnt_enable_map *dst_enable_map,
@@ -635,6 +642,7 @@ int kbase_hwcnt_csf_dump_get(struct kbase_hwcnt_dump_buffer *dst, u64 *src,
 
 	return 0;
 }
+#endif /* kbase_hwcnt_csf_dump_get */
 
 /**
  * kbasep_hwcnt_backend_gpu_block_map_from_physical() - Convert from a physical

@@ -7397,6 +7397,7 @@ struct CAMERA_DEVICE_INFO gImgEepromInfo_210A0 = {
 };
 
 #endif
+#if 0 /* camellia: unused: camellia_imgsensor_hwcfg */
 void camellia_imgsensor_hwcfg(void)
 {
     if (is_project(22083) || is_project(22291) || is_project(22292)) {
@@ -7664,4 +7665,5 @@ void camellia_imgsensor_hwcfg(void)
          gImgEepromInfo = gImgEepromInfo_20181;
     }
 }
+#endif /* camellia_imgsensor_hwcfg */
 

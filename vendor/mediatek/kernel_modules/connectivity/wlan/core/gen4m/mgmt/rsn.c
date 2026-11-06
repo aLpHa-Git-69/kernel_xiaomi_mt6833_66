@@ -78,6 +78,7 @@ uint8_t rsnKeyMgmtFT(uint32_t akm)
 	       akm == RSN_AKM_SUITE_FT_FILS_SHA384;
 }
 
+#if 0 /* camellia: unused: rsnKeyMgmtFils */
 uint8_t rsnKeyMgmtFils(uint32_t akm)
 {
 	return akm == RSN_AKM_SUITE_FILS_SHA256 ||
@@ -85,6 +86,7 @@ uint8_t rsnKeyMgmtFils(uint32_t akm)
 	       akm == RSN_AKM_SUITE_FT_FILS_SHA256 ||
 	       akm == RSN_AKM_SUITE_FT_FILS_SHA384;
 }
+#endif /* rsnKeyMgmtFils */
 
 uint32_t rsnKeyMgmtToAuthMode(enum ENUM_PARAM_AUTH_MODE eOriAuthMode,
 	uint32_t version, uint32_t akm)
@@ -278,13 +280,16 @@ uint8_t rsnApInvalidPMK(uint16_t status,
 	return FALSE;
 }
 
+#if 0 /* camellia: unused: rsnIsFilsAuthAlg */
 uint8_t rsnIsFilsAuthAlg(uint8_t alg)
 {
 	return alg == AUTH_ALGORITHM_NUM_FILS_SK ||
 	       alg == AUTH_ALGORITHM_NUM_FILS_SK_PFS ||
 	       alg == AUTH_ALGORITHM_NUM_FILS_PK;
 }
+#endif /* rsnIsFilsAuthAlg */
 
+#if 0 /* camellia: unused: rsnIsKeyMgmtSha256 */
 uint8_t rsnIsKeyMgmtSha256(uint32_t akm)
 {
 	return akm == RSN_AKM_SUITE_PSK_SHA256 ||
@@ -296,7 +301,9 @@ uint8_t rsnIsKeyMgmtSha256(uint32_t akm)
 	       akm == RSN_AKM_SUITE_FILS_SHA256 ||
 	       akm == RSN_AKM_SUITE_FT_FILS_SHA256;
 }
+#endif /* rsnIsKeyMgmtSha256 */
 
+#if 0 /* camellia: unused: rsnIsKeyMgmtSha384 */
 uint8_t rsnIsKeyMgmtSha384(uint32_t akm)
 {
 	return akm == RSN_AKM_SUITE_8021X_SUITE_B_192 ||
@@ -304,6 +311,7 @@ uint8_t rsnIsKeyMgmtSha384(uint32_t akm)
 	       akm == RSN_AKM_SUITE_FILS_SHA384 ||
 	       akm == RSN_AKM_SUITE_FT_FILS_SHA384;
 }
+#endif /* rsnIsKeyMgmtSha384 */
 
 uint8_t rsnIsKeyMgmtIeee8021x(uint32_t akm)
 {
@@ -322,6 +330,7 @@ uint8_t rsnIsKeyMgmtIeee8021x(uint32_t akm)
 	       akm == RSN_AKM_SUITE_FT_FILS_SHA384;
 }
 
+#if 0 /* camellia: unused: rsnKekLen */
 uint8_t rsnKekLen(uint32_t akmp, uint16_t pmk_len)
 {
 	switch (akmp) {
@@ -344,7 +353,9 @@ uint8_t rsnKekLen(uint32_t akmp, uint16_t pmk_len)
 		return 16;
 	}
 }
+#endif /* rsnKekLen */
 
+#if 0 /* camellia: unused: rsnCipherKeyLen */
 uint8_t rsnCipherKeyLen(uint32_t cipher)
 {
 	switch (cipher) {
@@ -364,6 +375,7 @@ uint8_t rsnCipherKeyLen(uint32_t cipher)
 
 	return 0;
 }
+#endif /* rsnCipherKeyLen */
 
 u_int8_t rsnParseRsnxIE(struct ADAPTER *prAdapter,
 				   struct RSNX_INFO_ELEM *prInfoElem,
@@ -1157,6 +1169,7 @@ uint8_t rsnIsKeyMgmtFor6g(struct ADAPTER *ad,
 	return FALSE;
 }
 
+#if 0 /* camellia: unused: rsnIsKeyMgmtForEht */
 uint8_t rsnIsKeyMgmtForEht(struct ADAPTER *ad,
 	struct BSS_DESC *prBss, uint8_t bssidx)
 {
@@ -1173,6 +1186,7 @@ uint8_t rsnIsKeyMgmtForEht(struct ADAPTER *ad,
 
 	return FALSE;
 }
+#endif /* rsnIsKeyMgmtForEht */
 
 void rsnMatchCipherSuite(struct RSN_INFO *prBssRsnInfo,
 	enum ENUM_WEP_STATUS eEncStatus, uint32_t *pu4PairwiseCipher,

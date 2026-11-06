@@ -165,6 +165,7 @@ void p2pGenerate_IEForAssocReq(struct ADAPTER *prAdapter,
 
 }				/* p2pGenerate_IEForAssocReq */
 #if CFG_SUPPORT_WFD
+#if 0 /* camellia: unused: wfdFuncAppendAttriDevInfo */
 uint32_t
 wfdFuncAppendAttriDevInfo(struct ADAPTER *prAdapter,
 		u_int8_t fgIsAssocFrame,
@@ -222,6 +223,7 @@ wfdFuncAppendAttriDevInfo(struct ADAPTER *prAdapter,
 
 	return u4AttriLen;
 }
+#endif /* wfdFuncAppendAttriDevInfo */
 
 /* wfdFuncAppendAttriDevInfo */
 #endif

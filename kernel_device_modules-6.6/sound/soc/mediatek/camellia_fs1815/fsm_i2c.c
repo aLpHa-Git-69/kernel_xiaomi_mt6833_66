@@ -252,6 +252,7 @@ int fsm_get_amb_tempr(void)
 	return tempr;
 }
 
+#if 0 /* camellia: unused: fsm_devm_kstrdup */
 void *fsm_devm_kstrdup(struct device *dev, void *buf, size_t size)
 {
 	char *devm_buf = devm_kzalloc(dev, size + 1, GFP_KERNEL);
@@ -263,7 +264,9 @@ void *fsm_devm_kstrdup(struct device *dev, void *buf, size_t size)
 
 	return devm_buf;
 }
+#endif /* fsm_devm_kstrdup */
 
+#if 0 /* camellia: unused: fsm_set_irq */
 static int fsm_set_irq(fsm_dev_t *fsm_dev, bool enable)
 {
 	if (!fsm_dev || fsm_dev->irq_id <= 0) {
@@ -276,7 +279,9 @@ static int fsm_set_irq(fsm_dev_t *fsm_dev, bool enable)
 
 	return 0;
 }
+#endif /* fsm_set_irq */
 
+#if 0 /* camellia: unused: fsm_set_monitor */
 int fsm_set_monitor(fsm_dev_t *fsm_dev, bool enable)
 {
 	fsm_config_t *cfg = fsm_get_config();
@@ -301,6 +306,7 @@ int fsm_set_monitor(fsm_dev_t *fsm_dev, bool enable)
 
 	return 0;
 }
+#endif /* fsm_set_monitor */
 
 static int fsm_ext_reset(fsm_dev_t *fsm_dev)
 {

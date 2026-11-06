@@ -10114,6 +10114,7 @@ static void mtk_crtc_comp_trigger(struct mtk_drm_crtc *mtk_crtc,
 	mtk_ddp_comp_config_trigger(comp, cmdq_handle, trig_flag);
 }
 
+#if 0 /* camellia: unused: mtk_crtc_comp_is_busy */
 int mtk_crtc_comp_is_busy(struct mtk_drm_crtc *mtk_crtc)
 {
 	int ret = 0;
@@ -10128,6 +10129,7 @@ int mtk_crtc_comp_is_busy(struct mtk_drm_crtc *mtk_crtc)
 
 	return ret;
 }
+#endif /* mtk_crtc_comp_is_busy */
 
 #ifndef DRM_CMDQ_DISABLE
 /* TODO: need to remove this in vdo mode for lowpower */
@@ -19553,10 +19555,12 @@ static void mtk_drm_set_crtc_caps(struct drm_crtc *crtc)
 	mtk_crtc_property[CRTC_PROP_CAPS_BLOB_ID].val = blob_id;
 }
 
+#if 0 /* camellia: unused: mtk_crtc_ability_chk */
 int mtk_crtc_ability_chk(struct mtk_drm_crtc *mtk_crtc, enum MTK_CRTC_ABILITY ability)
 {
 	return !!(mtk_crtc->crtc_caps.crtc_ability & ability);
 }
+#endif /* mtk_crtc_ability_chk */
 
 static void mtk_drm_crtc_attach_property(struct drm_crtc *crtc)
 {
@@ -19629,6 +19633,7 @@ err_cleanup_crtc:
 	return ret;
 }
 
+#if 0 /* camellia: unused: mtk_crtc_ddp_irq */
 void mtk_crtc_ddp_irq(struct drm_crtc *crtc, struct mtk_ddp_comp *comp)
 {
 	struct mtk_drm_crtc *mtk_crtc = to_mtk_crtc(crtc);
@@ -19639,6 +19644,7 @@ void mtk_crtc_ddp_irq(struct drm_crtc *crtc, struct mtk_ddp_comp *comp)
 
 	mtk_drm_finish_page_flip(mtk_crtc);
 }
+#endif /* mtk_crtc_ddp_irq */
 
 void mtk_crtc_vblank_irq(struct drm_crtc *crtc)
 {
@@ -22234,6 +22240,7 @@ void mtk_crtc_path_switch_prepare(struct drm_crtc *crtc, unsigned int ddp_mode,
 	mtk_crtc_attach_ddp_comp(crtc, ddp_mode, true);
 }
 
+#if 0 /* camellia: unused: mtk_crtc_path_switch_update_ddp_status */
 void mtk_crtc_path_switch_update_ddp_status(struct drm_crtc *crtc,
 					    unsigned int ddp_mode)
 {
@@ -22242,6 +22249,7 @@ void mtk_crtc_path_switch_update_ddp_status(struct drm_crtc *crtc,
 	mtk_crtc_attach_ddp_comp(crtc, mtk_crtc->ddp_mode, false);
 	mtk_crtc_attach_ddp_comp(crtc, ddp_mode, true);
 }
+#endif /* mtk_crtc_path_switch_update_ddp_status */
 
 void mtk_need_vds_path_switch(struct drm_crtc *crtc)
 {
@@ -23357,6 +23365,7 @@ unsigned int mtk_drm_primary_display_get_debug_state(
 	return len;
 }
 
+#if 0 /* camellia: unused: MMPathTraceCrtcPlanes */
 int MMPathTraceCrtcPlanes(struct drm_crtc *crtc,
 	char *str, int strlen, int n)
 {
@@ -23389,6 +23398,7 @@ int MMPathTraceCrtcPlanes(struct drm_crtc *crtc,
 
 	return n;
 }
+#endif /* MMPathTraceCrtcPlanes */
 
 /* ************   Panel Master   **************** */
 
@@ -23532,10 +23542,12 @@ skip:
 }
 /* ***********  Panel Master end ************** */
 
+#if 0 /* camellia: unused: mtk_drm_get_hdr_property */
 bool mtk_drm_get_hdr_property(void)
 {
 	return hdr_en;
 }
+#endif /* mtk_drm_get_hdr_property */
 
 /********************** Legacy DRM API *****************************/
 int mtk_drm_format_plane_cpp(uint32_t format, unsigned int plane)

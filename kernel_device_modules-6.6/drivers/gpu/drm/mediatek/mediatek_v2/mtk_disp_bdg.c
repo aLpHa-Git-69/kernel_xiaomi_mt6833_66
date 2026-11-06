@@ -399,11 +399,13 @@ void bdg_tx_pull_6382_reset_pin(struct mtk_dsi *dsi)
 //		disp_dts_gpio_select_state(DTS_GPIO_STATE_6382_RST_OUT0);
 //}
 
+#if 0 /* camellia: unused: bdg_tx_set_test_pattern */
 void bdg_tx_set_test_pattern(void)
 {
 	BDG_OUTREG32(NULL, TX_REG[0]->DSI_TX_SELF_PAT_CON0, 0x0FFF0002);
 	BDG_OUTREG32(NULL, TX_REG[0]->DSI_TX_INTSTA, 0x0);
 }
+#endif /* bdg_tx_set_test_pattern */
 
 void set_LDO_on(void *cmdq)
 {
@@ -510,6 +512,7 @@ void set_mtcmos_off(void *cmdq)
 			SYS_REG->SYSREG_PWR_CTRL, REG_PWR_ON, 0);
 }
 
+#if 0 /* camellia: unused: set_pll_on */
 void set_pll_on(void *cmdq)
 {
 	unsigned int reg = 0;
@@ -562,6 +565,7 @@ void set_pll_on(void *cmdq)
 	reg = reg | 0x00800001;
 	BDG_OUTREG32(cmdq, APMIXEDSYS->MAINPLL_CON0, reg);
 }
+#endif /* set_pll_on */
 
 void set_pll_off(void *cmdq)
 {
@@ -692,6 +696,7 @@ void ana_macro_off(void *cmdq)
 	set_pll_off(cmdq);
 }
 
+#if 0 /* camellia: unused: set_topck_on */
 void set_topck_on(void *cmdq)
 {
 	unsigned int reg = 0;
@@ -705,7 +710,9 @@ void set_topck_on(void *cmdq)
 	BDG_OUTREG32(cmdq, TOPCKGEN->CLK_CFG_0, reg);
 
 }
+#endif /* set_topck_on */
 
+#if 0 /* camellia: unused: set_topck_off */
 void set_topck_off(void *cmdq)
 {
 	unsigned int reg = 0;
@@ -729,6 +736,7 @@ void set_topck_off(void *cmdq)
 	reg = reg | 0x00000001;
 	BDG_OUTREG32(cmdq, TOPCKGEN->CLK_MODE, reg);
 }
+#endif /* set_topck_off */
 
 void set_subsys_on(void *cmdq)
 {
@@ -756,6 +764,7 @@ void set_subsys_on(void *cmdq)
 	BDG_OUTREG32(cmdq, SYS_REG->DISP_MISC1, 1);
 }
 
+#if 0 /* camellia: unused: set_subsys_off */
 void set_subsys_off(void *cmdq)
 {
 	unsigned int reg = 0;
@@ -782,6 +791,7 @@ void set_subsys_off(void *cmdq)
 	BDG_OUTREG32(cmdq, DISPSYS_REG->MMSYS_HW_DCM_1ST_DIS0, 0);
 	BDG_OUTREG32(cmdq, DISPSYS_REG->MMSYS_HW_DCM_2ND_DIS0, 0);
 }
+#endif /* set_subsys_off */
 
 void set_ana_mipi_dsi_off(void *cmdq)
 {
@@ -1787,6 +1797,7 @@ int bdg_tx_set_mode(enum DISP_BDG_ENUM module,
 	return 0;
 }
 
+#if 0 /* camellia: unused: bdg_tx_bist_pattern */
 int bdg_tx_bist_pattern(enum DISP_BDG_ENUM module,
 				void *cmdq, bool enable, unsigned int sel,
 				unsigned int red, unsigned int green,
@@ -1821,6 +1832,7 @@ int bdg_tx_bist_pattern(enum DISP_BDG_ENUM module,
 
 	return 0;
 }
+#endif /* bdg_tx_bist_pattern */
 
 int bdg_tx_start(enum DISP_BDG_ENUM module, void *cmdq)
 {
@@ -1836,6 +1848,7 @@ int bdg_tx_start(enum DISP_BDG_ENUM module, void *cmdq)
 	return 0;
 }
 
+#if 0 /* camellia: unused: bdg_set_dcs_read_cmd */
 int bdg_set_dcs_read_cmd(bool enable, void *cmdq)
 {
 	if (enable) {
@@ -1851,7 +1864,9 @@ int bdg_set_dcs_read_cmd(bool enable, void *cmdq)
 	}
 	return 0;
 }
+#endif /* bdg_set_dcs_read_cmd */
 
+#if 0 /* camellia: unused: bdg_tx_stop */
 int bdg_tx_stop(enum DISP_BDG_ENUM module, void *cmdq)
 {
 	unsigned int i;
@@ -1862,6 +1877,7 @@ int bdg_tx_stop(enum DISP_BDG_ENUM module, void *cmdq)
 
 	return 0;
 }
+#endif /* bdg_tx_stop */
 
 int bdg_tx_reset(enum DISP_BDG_ENUM module, void *cmdq)
 {
@@ -1886,6 +1902,7 @@ void bdg_rx_reset(void *cmdq)
 	BDG_OUTREG32(cmdq, DSI2_REG->DSI2_DEVICE_SOFT_RSTN_OS, 1);
 }
 
+#if 0 /* camellia: unused: bdg_vm_mode_set */
 int bdg_vm_mode_set(enum DISP_BDG_ENUM module, bool enable,
 			unsigned int long_pkt, void *cmdq)
 {
@@ -1906,7 +1923,9 @@ int bdg_vm_mode_set(enum DISP_BDG_ENUM module, bool enable,
 	}
 	return 0;
 }
+#endif /* bdg_vm_mode_set */
 
+#if 0 /* camellia: unused: bdg_tx_cmd_mode */
 int bdg_tx_cmd_mode(enum DISP_BDG_ENUM module, void *cmdq)
 {
 	unsigned int i;
@@ -1919,7 +1938,9 @@ int bdg_tx_cmd_mode(enum DISP_BDG_ENUM module, void *cmdq)
 
 	return 0;
 }
+#endif /* bdg_tx_cmd_mode */
 
+#if 0 /* camellia: unused: bdg_mutex_trigger */
 int bdg_mutex_trigger(enum DISP_BDG_ENUM module, void *cmdq)
 {
 
@@ -1929,6 +1950,7 @@ int bdg_mutex_trigger(enum DISP_BDG_ENUM module, void *cmdq)
 			MUTEX_REG->DISP_MUTEX0_EN, MUTEX0_EN, 1);
 	return 0;
 }
+#endif /* bdg_mutex_trigger */
 
 int bdg_dsi_dump_reg(enum DISP_BDG_ENUM module)
 {
@@ -3611,12 +3633,14 @@ void dbg_set_cmdq_V2(enum DISP_BDG_ENUM module, void *cmdq,
 	}
 }
 
+#if 0 /* camellia: unused: BDG_set_cmdq_V2_DSI0 */
 void BDG_set_cmdq_V2_DSI0(void *cmdq, unsigned int cmd, unsigned char count,
 	unsigned char *para_list, unsigned char force_update)
 {
 	dbg_set_cmdq_V2(DISP_BDG_DSI0, cmdq, cmd, count, para_list,
 		force_update);
 }
+#endif /* BDG_set_cmdq_V2_DSI0 */
 
 int bdg_tx_init(enum DISP_BDG_ENUM module,
 		   struct mtk_dsi *dsi, void *cmdq)
@@ -3644,6 +3668,7 @@ int bdg_tx_init(enum DISP_BDG_ENUM module,
 	return ret;
 }
 
+#if 0 /* camellia: unused: bdg_tx_deinit */
 int bdg_tx_deinit(enum DISP_BDG_ENUM module, void *cmdq)
 {
 	unsigned int i;
@@ -3659,6 +3684,7 @@ int bdg_tx_deinit(enum DISP_BDG_ENUM module, void *cmdq)
 
 	return 0;
 }
+#endif /* bdg_tx_deinit */
 
 void calculate_datarate_cfgs_rx(unsigned int data_rate)
 {
@@ -5592,6 +5618,7 @@ int bdg_common_deinit(enum DISP_BDG_ENUM module, void *cmdq, struct mtk_dsi *dsi
 	return ret;
 }
 
+#if 0 /* camellia: unused: bdg_common_init_for_rx_pat */
 int bdg_common_init_for_rx_pat(enum DISP_BDG_ENUM module,
 			struct mtk_dsi *dsi, void *cmdq)
 {
@@ -5733,6 +5760,7 @@ int bdg_common_init_for_rx_pat(enum DISP_BDG_ENUM module,
 
 	return ret;
 }
+#endif /* bdg_common_init_for_rx_pat */
 
 
 static struct task_struct *bdg_eint_chk_task;

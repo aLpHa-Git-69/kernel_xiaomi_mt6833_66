@@ -495,6 +495,7 @@ int mt_usb_otg_switch_init(struct mt_usb_glue *glue)
 }
 EXPORT_SYMBOL(mt_usb_otg_switch_init);
 
+#if 0 /* camellia: unused: mt_usb_otg_switch_exit */
 void mt_usb_otg_switch_exit(struct mt_usb_glue *glue)
 {
 	struct otg_switch_mtk *otg_sx = &glue->otg_sx;
@@ -505,3 +506,4 @@ void mt_usb_otg_switch_exit(struct mt_usb_glue *glue)
 	usb_role_switch_unregister(otg_sx->role_sw);
 	sysfs_remove_group(&mtk_musb->controller->kobj, &mt_usb_dr_group);
 }
+#endif /* mt_usb_otg_switch_exit */

@@ -514,6 +514,7 @@ u32 teec_register_shared_memory(struct teec_context *context,
 }
 EXPORT_SYMBOL(teec_register_shared_memory);
 
+#if 0 /* camellia: unused: teec_allocate_shared_memory */
 u32 teec_allocate_shared_memory(struct teec_context *context,
 				struct teec_shared_memory *shared_mem)
 {
@@ -573,6 +574,7 @@ u32 teec_allocate_shared_memory(struct teec_context *context,
 	return TEEC_SUCCESS;
 }
 EXPORT_SYMBOL(teec_allocate_shared_memory);
+#endif /* teec_allocate_shared_memory */
 
 void teec_release_shared_memory(struct teec_shared_memory *shared_mem)
 {
@@ -609,6 +611,7 @@ void teec_release_shared_memory(struct teec_shared_memory *shared_mem)
 }
 EXPORT_SYMBOL(teec_release_shared_memory);
 
+#if 0 /* camellia: unused: teec_request_cancellation */
 void teec_request_cancellation(struct teec_operation *operation)
 {
 	struct teec_session_imp *session;
@@ -651,6 +654,7 @@ void teec_request_cancellation(struct teec_operation *operation)
 		mc_dev_devel("Notify failed: %d", ret);
 }
 EXPORT_SYMBOL(teec_request_cancellation);
+#endif /* teec_request_cancellation */
 
 #ifndef MC_FFA_FASTCALL
 

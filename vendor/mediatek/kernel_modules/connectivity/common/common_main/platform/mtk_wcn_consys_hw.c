@@ -221,6 +221,7 @@ UINT32 mtk_wcn_consys_jtag_flag_ctrl(UINT32 en)
 #endif
 
 #ifdef CONSYS_WMT_REG_SUSPEND_CB_ENABLE
+#if 0 /* camellia: unused: mtk_wcn_consys_hw_osc_en_ctrl */
 UINT32 mtk_wcn_consys_hw_osc_en_ctrl(UINT32 en)
 {
 	if (wmt_consys_ic_ops->consys_ic_hw_osc_en_ctrl)
@@ -228,6 +229,7 @@ UINT32 mtk_wcn_consys_hw_osc_en_ctrl(UINT32 en)
 
 	return 0;
 }
+#endif /* mtk_wcn_consys_hw_osc_en_ctrl */
 #endif
 
 P_WMT_CONSYS_IC_OPS mtk_wcn_get_consys_ic_ops(VOID)
@@ -1238,11 +1240,13 @@ INT32 mtk_wcn_consys_read_irq_info_from_dts(PINT32 irq_num, PUINT32 irq_flag)
 		return 0;
 }
 
+#if 0 /* camellia: unused: mtk_wcn_consys_hang_debug */
 VOID mtk_wcn_consys_hang_debug(VOID)
 {
 	if (wmt_consys_ic_ops && wmt_consys_ic_ops->consys_hang_debug)
 		wmt_consys_ic_ops->consys_hang_debug();
 }
+#endif /* mtk_wcn_consys_hang_debug */
 
 UINT32 mtk_consys_get_gps_lna_pin_num(VOID)
 {
@@ -1332,6 +1336,7 @@ VOID mtk_wcn_consys_clock_fail_dump(VOID)
 		wmt_consys_ic_ops->consys_ic_clock_fail_dump();
 }
 
+#if 0 /* camellia: unused: mtk_consys_is_connsys_reg */
 INT32 mtk_consys_is_connsys_reg(UINT32 addr)
 {
 	if (wmt_consys_ic_ops->consys_ic_is_connsys_reg)
@@ -1339,6 +1344,7 @@ INT32 mtk_consys_is_connsys_reg(UINT32 addr)
 	else
 		return 0;
 }
+#endif /* mtk_consys_is_connsys_reg */
 
 VOID mtk_consys_set_mcif_mpu_protection(MTK_WCN_BOOL enable)
 {
@@ -1360,10 +1366,12 @@ VOID mtk_consys_set_chip_reset_status(INT32 status)
 	chip_reset_status = status;
 }
 
+#if 0 /* camellia: unused: mtk_consys_chip_reset_status */
 INT32 mtk_consys_chip_reset_status(VOID)
 {
 	return chip_reset_status;
 }
+#endif /* mtk_consys_chip_reset_status */
 
 INT32 mtk_consys_is_ant_swap_enable_by_hwid(VOID)
 {
@@ -1504,7 +1512,9 @@ P_REG_MAP_ADDR mtk_wcn_consys_get_debug_reg_ary(VOID)
 	return NULL;
 }
 
+#if 0 /* camellia: unused: get_consys_device */
 struct platform_device *get_consys_device(void)
 {
 	return g_pdev;
 }
+#endif /* get_consys_device */

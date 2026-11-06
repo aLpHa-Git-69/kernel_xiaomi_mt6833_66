@@ -2287,10 +2287,12 @@ free_buf:
 	return err;
 }
 
+#if 0 /* camellia: unused: kbasep_vinstr_dump_worker */
 void kbasep_vinstr_dump_worker(struct work_struct *work)
 {
 	return;
 }
+#endif /* kbasep_vinstr_dump_worker */
 
 /* MTK GPU PMU */
 void MTK_update_mtk_pm(int flag)

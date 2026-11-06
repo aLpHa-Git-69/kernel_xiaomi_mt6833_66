@@ -1463,6 +1463,7 @@ bool mml_pq_hdr_hist_reading(struct mml_pq_task *pq_task, u8 out_idx, u8 pipe)
 	return false;
 }
 
+#if 0 /* camellia: unused: mml_pq_hdr_flag_check */
 void mml_pq_hdr_flag_check(bool dual, u8 out_idx)
 {
 	mutex_lock(&dev_data[out_idx]->hdr_hist_mutex);
@@ -1472,6 +1473,7 @@ void mml_pq_hdr_flag_check(bool dual, u8 out_idx)
 	}
 	mutex_unlock(&dev_data[out_idx]->hdr_hist_mutex);
 }
+#endif /* mml_pq_hdr_flag_check */
 
 #if !IS_ENABLED(CONFIG_MTK_MML_LEGACY)
 int mml_pq_ir_hdr_readback(struct mml_pq_task *pq_task, struct mml_pq_frame_data frame_data,

@@ -1448,6 +1448,7 @@ int _btif_lpbk_ctrl(struct _mtk_btif_ *p_btif, bool flag)
 	return i_ret;
 }
 
+#if 0 /* camellia: unused: btif_clock_ctrl */
 int btif_clock_ctrl(struct _mtk_btif_ *p_btif, int en)
 {
 	int i_ret = 0;
@@ -1467,6 +1468,7 @@ int btif_clock_ctrl(struct _mtk_btif_ *p_btif, int en)
 
 	return i_ret;
 }
+#endif /* btif_clock_ctrl */
 
 int _btif_controller_setup(struct _mtk_btif_ *p_btif)
 {
@@ -3558,10 +3560,12 @@ int mtk_btif_hal_get_log_lvl(void)
 	return mtk_btif_dbg_lvl;
 }
 
+#if 0 /* camellia: unused: mtk_btif_read_cpu_sw_rst_debug */
 void mtk_btif_read_cpu_sw_rst_debug(void)
 {
 	mtk_btif_read_cpu_sw_rst_debug_plat();
 }
+#endif /* mtk_btif_read_cpu_sw_rst_debug */
 
 static int _btif_rx_thread_lock(struct _mtk_btif_ *p_btif, bool enable)
 {

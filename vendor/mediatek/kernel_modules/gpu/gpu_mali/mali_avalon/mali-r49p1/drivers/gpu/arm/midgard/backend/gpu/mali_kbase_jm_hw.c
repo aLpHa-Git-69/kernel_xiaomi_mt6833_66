@@ -1239,10 +1239,12 @@ bool kbase_reset_gpu_is_active(struct kbase_device *kbdev)
 	return true;
 }
 
+#if 0 /* camellia: unused: kbase_reset_gpu_is_not_pending */
 bool kbase_reset_gpu_is_not_pending(struct kbase_device *kbdev)
 {
 	return atomic_read(&kbdev->hwaccess.backend.reset_gpu) == KBASE_RESET_GPU_NOT_PENDING;
 }
+#endif /* kbase_reset_gpu_is_not_pending */
 
 int kbase_reset_gpu_wait(struct kbase_device *kbdev)
 {

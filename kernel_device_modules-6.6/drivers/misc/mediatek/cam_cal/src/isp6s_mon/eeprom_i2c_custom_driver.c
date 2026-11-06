@@ -29,8 +29,12 @@
 
 #define EEPROM_I2C_MSG_SIZE_READ 2
 
+#if 0 /* camellia: unused: g_spinLock */
 static DEFINE_SPINLOCK(g_spinLock);
+#endif /* g_spinLock */
+#if 0 /* camellia: unused: g_pstI2CclientG */
 static struct i2c_client *g_pstI2CclientG;
+#endif /* g_pstI2CclientG */
 
 /************************************************************
  * I2C read function (Custom)
@@ -38,6 +42,7 @@ static struct i2c_client *g_pstI2CclientG;
  * Below is an example
  ************************************************************/
  #define PAGE_SIZE_ 256
+#if 0 /* camellia: unused: iReadRegI2C */
 static int iReadRegI2C(u8 *a_pSendData, u16 a_sizeSendData,
 		u8 *a_pRecvData, u16 a_sizeRecvData, u16 i2cId)
 {
@@ -69,7 +74,9 @@ static int iReadRegI2C(u8 *a_pSendData, u16 a_sizeSendData,
 	}
 	return 0;
 }
+#endif /* iReadRegI2C */
 
+#if 0 /* camellia: unused: custom_read_region */
 static int custom_read_region(u32 addr, u8 *data, u16 i2c_id, u32 size)
 {
 	u8 *buff __maybe_unused = data;
@@ -96,9 +103,11 @@ static int custom_read_region(u32 addr, u8 *data, u16 i2c_id, u32 size)
 	pr_debug("addr =%x size %d data read = %d\n", addr, size, ret);
 	return ret;
 }
+#endif /* custom_read_region */
 
 
 
+#if 0 /* camellia: unused: Custom_read_region */
 unsigned int Custom_read_region(struct i2c_client *client, unsigned int addr,
 				unsigned char *data, unsigned int size)
 {
@@ -108,5 +117,6 @@ unsigned int Custom_read_region(struct i2c_client *client, unsigned int addr,
 	else
 		return 0;
 }
+#endif /* Custom_read_region */
 
 

@@ -374,6 +374,7 @@ static void mtk_atomic_state_put(struct drm_atomic_state *state)
 	kref_put(&mtk_state->kref, mtk_atomic_state_free);
 }
 
+#if 0 /* camellia: unused: mtk_atomic_state_put_queue */
 void mtk_atomic_state_put_queue(struct drm_atomic_state *state)
 {
 	struct drm_device *drm = state->dev;
@@ -387,6 +388,7 @@ void mtk_atomic_state_put_queue(struct drm_atomic_state *state)
 
 	schedule_work(&mtk_drm->unreference.work);
 }
+#endif /* mtk_atomic_state_put_queue */
 
 static uint32_t mtk_atomic_crtc_mask(struct drm_device *drm,
 				     struct drm_atomic_state *state)
@@ -6968,6 +6970,7 @@ void mtk_drm_suspend_release_present_fence(struct device *dev,
 				  atomic_read(&private->crtc_present[index]), 0);
 }
 
+#if 0 /* camellia: unused: mtk_drm_suspend_release_sf_present_fence */
 void mtk_drm_suspend_release_sf_present_fence(struct device *dev,
 					      unsigned int index)
 {
@@ -6976,6 +6979,7 @@ void mtk_drm_suspend_release_sf_present_fence(struct device *dev,
 	mtk_release_sf_present_fence(private->session_id[index],
 			atomic_read(&private->crtc_sf_present[index]));
 }
+#endif /* mtk_drm_suspend_release_sf_present_fence */
 
 int mtk_drm_suspend_release_fence(struct device *dev)
 {

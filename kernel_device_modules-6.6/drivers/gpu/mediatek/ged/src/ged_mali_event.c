@@ -16,6 +16,7 @@ static uint32_t cs_error_info_idx;
 static uint32_t device_lost_info_idx;
 static uint32_t gpu_reset_info_idx;
 
+#if 0 /* camellia: unused: ged_mali_event_init */
 void ged_mali_event_init(void)
 {
 	int i = 0;
@@ -38,8 +39,10 @@ void ged_mali_event_init(void)
 	mutex_unlock(&ged_mali_event_callback_lock);
 }
 EXPORT_SYMBOL(ged_mali_event_init);
+#endif /* ged_mali_event_init */
 
 // only use the function under interrupt context with spinlock held
+#if 0 /* camellia: unused: ged_mali_event_update_cs_error_nolock */
 void ged_mali_event_update_cs_error_nolock(pid_t pid, u8 handle, u32 csg_nr, s8 csi_index, u32 cs_fatal_type,
 	u32 cs_fatal_data, u64 cs_fatal_info_data)
 {
@@ -65,7 +68,9 @@ void ged_mali_event_update_cs_error_nolock(pid_t pid, u8 handle, u32 csg_nr, s8 
 	cs_error_info_idx = (cs_error_info_idx + 1) % MAX_RECORD_DATA;
 }
 EXPORT_SYMBOL(ged_mali_event_update_cs_error_nolock);
+#endif /* ged_mali_event_update_cs_error_nolock */
 
+#if 0 /* camellia: unused: ged_mali_event_update_device_lost */
 void ged_mali_event_update_device_lost(uint32_t reason)
 {
 	unsigned long long timestamp = 0;
@@ -90,7 +95,9 @@ void ged_mali_event_update_device_lost(uint32_t reason)
 	mutex_unlock(&ged_mali_event_callback_lock);
 }
 EXPORT_SYMBOL(ged_mali_event_update_device_lost);
+#endif /* ged_mali_event_update_device_lost */
 
+#if 0 /* camellia: unused: ged_mali_event_update_device_lost_nolock */
 void ged_mali_event_update_device_lost_nolock(uint32_t reason)
 {
 	unsigned long long timestamp = 0;
@@ -106,7 +113,9 @@ void ged_mali_event_update_device_lost_nolock(uint32_t reason)
 	device_lost_info_idx = (device_lost_info_idx + 1) % MAX_RECORD_DATA;
 }
 EXPORT_SYMBOL(ged_mali_event_update_device_lost_nolock);
+#endif /* ged_mali_event_update_device_lost_nolock */
 
+#if 0 /* camellia: unused: ged_mali_event_update_gpu_reset */
 void ged_mali_event_update_gpu_reset(uint32_t reason)
 {
 	unsigned long long timestamp = 0;
@@ -131,7 +140,9 @@ void ged_mali_event_update_gpu_reset(uint32_t reason)
 	mutex_unlock(&ged_mali_event_callback_lock);
 }
 EXPORT_SYMBOL(ged_mali_event_update_gpu_reset);
+#endif /* ged_mali_event_update_gpu_reset */
 
+#if 0 /* camellia: unused: ged_mali_event_update_gpu_reset_nolock */
 void ged_mali_event_update_gpu_reset_nolock(uint32_t reason)
 {
 	unsigned long long timestamp = 0;
@@ -147,7 +158,9 @@ void ged_mali_event_update_gpu_reset_nolock(uint32_t reason)
 	gpu_reset_info_idx = (gpu_reset_info_idx + 1) % MAX_RECORD_DATA;
 }
 EXPORT_SYMBOL(ged_mali_event_update_gpu_reset_nolock);
+#endif /* ged_mali_event_update_gpu_reset_nolock */
 
+#if 0 /* camellia: unused: ged_mali_event_update_pmode_flag */
 void ged_mali_event_update_pmode_flag(bool flag)
 {
 	mutex_lock(&ged_mali_event_callback_lock);
@@ -155,13 +168,17 @@ void ged_mali_event_update_pmode_flag(bool flag)
 	mutex_unlock(&ged_mali_event_callback_lock);
 }
 EXPORT_SYMBOL(ged_mali_event_update_pmode_flag);
+#endif /* ged_mali_event_update_pmode_flag */
 
+#if 0 /* camellia: unused: ged_mali_event_update_pmode_flag_nolock */
 void ged_mali_event_update_pmode_flag_nolock(bool flag)
 {
 	ged_mali_event_info.pmode_flag = flag;
 }
 EXPORT_SYMBOL(ged_mali_event_update_pmode_flag_nolock);
+#endif /* ged_mali_event_update_pmode_flag_nolock */
 
+#if 0 /* camellia: unused: ged_mali_event_notify_fence_timeout_event */
 int ged_mali_event_notify_fence_timeout_event(int pid, uint32_t fenceType, uint32_t fenceTimeoutSec)
 {
 	int i = 0;
@@ -189,7 +206,9 @@ int ged_mali_event_notify_fence_timeout_event(int pid, uint32_t fenceType, uint3
 	return ret;
 }
 EXPORT_SYMBOL(ged_mali_event_notify_fence_timeout_event);
+#endif /* ged_mali_event_notify_fence_timeout_event */
 
+#if 0 /* camellia: unused: ged_mali_event_register_fence_timeout_callback */
 int ged_mali_event_register_fence_timeout_callback(fence_timeout_notify_callback func_cb)
 {
 	int i = 0;
@@ -215,7 +234,9 @@ int ged_mali_event_register_fence_timeout_callback(fence_timeout_notify_callback
 	return ret;
 }
 EXPORT_SYMBOL(ged_mali_event_register_fence_timeout_callback);
+#endif /* ged_mali_event_register_fence_timeout_callback */
 
+#if 0 /* camellia: unused: ged_mali_event_unregister_fence_timeout_callback */
 int ged_mali_event_unregister_fence_timeout_callback(fence_timeout_notify_callback func_cb)
 {
 	int i = 0;
@@ -235,7 +256,9 @@ int ged_mali_event_unregister_fence_timeout_callback(fence_timeout_notify_callba
 	return ret;
 }
 EXPORT_SYMBOL(ged_mali_event_unregister_fence_timeout_callback);
+#endif /* ged_mali_event_unregister_fence_timeout_callback */
 
+#if 0 /* camellia: unused: ged_mali_event_notify_gpu_reset_done */
 int ged_mali_event_notify_gpu_reset_done(void)
 {
 	int i = 0;
@@ -260,7 +283,9 @@ int ged_mali_event_notify_gpu_reset_done(void)
 	return ret;
 }
 EXPORT_SYMBOL(ged_mali_event_notify_gpu_reset_done);
+#endif /* ged_mali_event_notify_gpu_reset_done */
 
+#if 0 /* camellia: unused: ged_mali_event_register_gpu_reset_done_callback */
 int ged_mali_event_register_gpu_reset_done_callback(gpu_reset_done_notify_callback func_cb)
 {
 	int i = 0;
@@ -286,7 +311,9 @@ int ged_mali_event_register_gpu_reset_done_callback(gpu_reset_done_notify_callba
 	return ret;
 }
 EXPORT_SYMBOL(ged_mali_event_register_gpu_reset_done_callback);
+#endif /* ged_mali_event_register_gpu_reset_done_callback */
 
+#if 0 /* camellia: unused: ged_mali_event_unregister_gpu_reset_done_callback */
 int ged_mali_event_unregister_gpu_reset_done_callback(gpu_reset_done_notify_callback func_cb)
 {
 	int i = 0;
@@ -306,3 +333,4 @@ int ged_mali_event_unregister_gpu_reset_done_callback(gpu_reset_done_notify_call
 	return ret;
 }
 EXPORT_SYMBOL(ged_mali_event_unregister_gpu_reset_done_callback);
+#endif /* ged_mali_event_unregister_gpu_reset_done_callback */

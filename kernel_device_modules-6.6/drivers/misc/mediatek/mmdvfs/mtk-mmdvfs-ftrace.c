@@ -13,29 +13,37 @@ void ftrace_record_opp_v1(unsigned long rec, unsigned long opp)
 }
 EXPORT_SYMBOL_GPL(ftrace_record_opp_v1);
 
+#if 0 /* camellia: unused: ftrace_pwr_opp_v3 */
 void ftrace_pwr_opp_v3(unsigned long pwr, unsigned long opp)
 {
 	trace_mmdvfs__pwr_opp_v3(pwr, opp);
 }
 EXPORT_SYMBOL_GPL(ftrace_pwr_opp_v3);
+#endif /* ftrace_pwr_opp_v3 */
 
+#if 0 /* camellia: unused: ftrace_user_opp_v3_vcore */
 void ftrace_user_opp_v3_vcore(unsigned long user, unsigned long opp)
 {
 	trace_mmdvfs__user_opp_v3_vcore(user, opp);
 }
 EXPORT_SYMBOL_GPL(ftrace_user_opp_v3_vcore);
+#endif /* ftrace_user_opp_v3_vcore */
 
+#if 0 /* camellia: unused: ftrace_user_opp_v3_vmm */
 void ftrace_user_opp_v3_vmm(unsigned long user, unsigned long opp)
 {
 	trace_mmdvfs__user_opp_v3_vmm(user, opp);
 }
 EXPORT_SYMBOL_GPL(ftrace_user_opp_v3_vmm);
+#endif /* ftrace_user_opp_v3_vmm */
 
+#if 0 /* camellia: unused: ftrace_user_opp_v3 */
 void ftrace_user_opp_v3(unsigned long user, unsigned long opp)
 {
 	trace_mmdvfs__user_opp_v3(user, opp);
 }
 EXPORT_SYMBOL_GPL(ftrace_user_opp_v3);
+#endif /* ftrace_user_opp_v3 */
 
 MODULE_DESCRIPTION("MMDVFS FTRACE");
 MODULE_AUTHOR("Anthony Huang<anthony.huang@mediatek.com>");

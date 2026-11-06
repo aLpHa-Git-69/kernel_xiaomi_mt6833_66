@@ -327,12 +327,14 @@ int cqhci_deactivate(struct mmc_host *mmc)
 }
 EXPORT_SYMBOL(cqhci_deactivate);
 
+#if 0 /* camellia: unused: cqhci_resume */
 int cqhci_resume(struct mmc_host *mmc)
 {
 	/* Re-enable is done upon first request */
 	return 0;
 }
 EXPORT_SYMBOL(cqhci_resume);
+#endif /* cqhci_resume */
 
 static int cqhci_enable(struct mmc_host *mmc, struct mmc_card *card)
 {

@@ -503,6 +503,7 @@ Description:
 return:
 	n.a.
 *******************************************************/
+#if 0 /* camellia: unused: nvt_sw_reset */
 void nvt_sw_reset(void)
 {
 	//---software reset cmds to SWRST_N8_ADDR---
@@ -510,6 +511,7 @@ void nvt_sw_reset(void)
 
 	msleep(10);
 }
+#endif /* nvt_sw_reset */
 
 /*******************************************************
 Description:

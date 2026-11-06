@@ -58,14 +58,18 @@ int dcm_topckg(int on)
 	return 0;
 }
 
+#if 0 /* camellia: unused: dcm_infracfg_ao_emi_indiv */
 void dcm_infracfg_ao_emi_indiv(int on)
 {
 }
+#endif /* dcm_infracfg_ao_emi_indiv */
 
+#if 0 /* camellia: unused: dcm_infra_preset */
 int dcm_infra_preset(int on)
 {
 	return 0;
 }
+#endif /* dcm_infra_preset */
 
 static int dcm_infra_is_on(void)
 {
@@ -158,15 +162,19 @@ int dcm_mcusys(int on)
 	return 0;
 }
 
+#if 0 /* camellia: unused: dcm_mcusys_preset */
 int dcm_mcusys_preset(int on)
 {
 	return 0;
 }
+#endif /* dcm_mcusys_preset */
 
+#if 0 /* camellia: unused: dcm_big_core_preset */
 int dcm_big_core_preset(void)
 {
 	return 0;
 }
+#endif /* dcm_big_core_preset */
 
 static int dcm_big_core_is_on(void)
 {
@@ -180,10 +188,12 @@ int dcm_big_core(int on)
 	return 0;
 }
 
+#if 0 /* camellia: unused: dcm_stall_preset */
 int dcm_stall_preset(int on)
 {
 	return 0;
 }
+#endif /* dcm_stall_preset */
 
 static int dcm_stall_is_on(void)
 {
@@ -289,15 +299,19 @@ int dcm_lpdma(int on)
 	return 0;
 }
 
+#if 0 /* camellia: unused: dcm_pwrap */
 int dcm_pwrap(int on)
 {
 	return 0;
 }
+#endif /* dcm_pwrap */
 
+#if 0 /* camellia: unused: dcm_mcsi_preset */
 int dcm_mcsi_preset(int on)
 {
 	return 0;
 }
+#endif /* dcm_mcsi_preset */
 static int dcm_mcsi_is_on(void)
 {
 	int ret = 1;
@@ -472,7 +486,9 @@ struct DCM dcm_array[] = {
 	 {0},
 };
 
+#if 0 /* camellia: unused: dcm_set_hotplug_nb */
 void dcm_set_hotplug_nb(void) {}
+#endif /* dcm_set_hotplug_nb */
 
 void dcm_array_register(void)
 {

@@ -677,6 +677,7 @@ GED_ERROR ged_log_buf_resize(
 	return GED_OK;
 }
 
+#if 0 /* camellia: unused: ged_log_buf_ignore_lines */
 GED_ERROR ged_log_buf_ignore_lines(GED_LOG_BUF_HANDLE hLogBuf, int n)
 {
 	struct GED_LOG_BUF *psGEDLogBuf = ged_log_buf_from_handle(hLogBuf);
@@ -722,6 +723,7 @@ GED_ERROR ged_log_buf_ignore_lines(GED_LOG_BUF_HANDLE hLogBuf, int n)
 
 	return GED_OK;
 }
+#endif /* ged_log_buf_ignore_lines */
 
 GED_LOG_BUF_HANDLE ged_log_buf_get(const char *pszName)
 {
@@ -751,6 +753,7 @@ GED_LOG_BUF_HANDLE ged_log_buf_get(const char *pszName)
 }
 EXPORT_SYMBOL(ged_log_buf_get);
 
+#if 0 /* camellia: unused: ged_log_buf_get_early */
 int ged_log_buf_get_early(const char *pszName,
 	GED_LOG_BUF_HANDLE *callback_set_handle)
 {
@@ -818,6 +821,7 @@ exit_unlock:
 	return err;
 }
 EXPORT_SYMBOL(ged_log_buf_get_early);
+#endif /* ged_log_buf_get_early */
 
 //-----------------------------------------------------------------------------
 void ged_log_buf_free(GED_LOG_BUF_HANDLE hLogBuf)
@@ -1008,11 +1012,13 @@ static const struct seq_operations gsGEDLogReadOps = {
 #endif /* GED_DEBUG_FS */
 
 //-----------------------------------------------------------------------------
+#if 0 /* camellia: unused: is_gpu_ged_log_enable */
 unsigned int is_gpu_ged_log_enable(void)
 {
 	return gpu_debug_log_enable;
 }
 EXPORT_SYMBOL(is_gpu_ged_log_enable);
+#endif /* is_gpu_ged_log_enable */
 
 static ssize_t gpu_debug_log_store(struct kobject *kobj, struct kobj_attribute *attr,
 		const char *buf, size_t count)
@@ -1113,6 +1119,7 @@ void ged_log_system_exit(void)
 	ged_sysfs_remove_dir(&gpu_debug_kobj);
 }
 //-----------------------------------------------------------------------------
+#if 0 /* camellia: unused: ged_log_buf_write */
 int ged_log_buf_write(GED_LOG_BUF_HANDLE hLogBuf,
 	const char __user *pszBuffer, int i32Count)
 {
@@ -1120,6 +1127,7 @@ int ged_log_buf_write(GED_LOG_BUF_HANDLE hLogBuf,
 
 	return __ged_log_buf_write(psGEDLogBuf, pszBuffer, i32Count);
 }
+#endif /* ged_log_buf_write */
 
 static int ged_log_buf_dump(struct GED_LOG_BUF *psGEDLogBuf, int i)
 {

@@ -21,11 +21,14 @@ static const struct property_entry role_switch_props[] = {
 	{},
 };
 
+#if 0 /* camellia: unused: xhci_intel_unregister_pdev */
 static void xhci_intel_unregister_pdev(void *arg)
 {
 	platform_device_unregister(arg);
 }
+#endif /* xhci_intel_unregister_pdev */
 
+#if 0 /* camellia: unused: xhci_create_intel_xhci_sw_pdev */
 static int xhci_create_intel_xhci_sw_pdev(struct xhci_hcd *xhci, u32 cap_offset)
 {
 	struct usb_hcd *hcd = xhci_to_hcd(xhci);
@@ -81,7 +84,9 @@ static int xhci_create_intel_xhci_sw_pdev(struct xhci_hcd *xhci, u32 cap_offset)
 
 	return 0;
 }
+#endif /* xhci_create_intel_xhci_sw_pdev */
 
+#if 0 /* camellia: unused: xhci_ext_cap_init_ */
 int xhci_ext_cap_init_(struct xhci_hcd *xhci)
 {
 	void __iomem *base = &xhci->cap_regs->hc_capbase;
@@ -109,3 +114,4 @@ int xhci_ext_cap_init_(struct xhci_hcd *xhci)
 	return 0;
 }
 EXPORT_SYMBOL_GPL(xhci_ext_cap_init_);
+#endif /* xhci_ext_cap_init_ */

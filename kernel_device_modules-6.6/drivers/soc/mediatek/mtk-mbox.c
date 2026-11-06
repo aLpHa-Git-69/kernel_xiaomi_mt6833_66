@@ -353,6 +353,7 @@ EXPORT_SYMBOL_GPL(mtk_mbox_read_recv_irq);
  * set mbox base address to init register
  *
  */
+#if 0 /* camellia: unused: mtk_mbox_set_base_reg */
 int mtk_mbox_set_base_reg(struct mtk_mbox_device *mbdev, unsigned int mbox,
 		unsigned int addr)
 {
@@ -371,11 +372,13 @@ int mtk_mbox_set_base_reg(struct mtk_mbox_device *mbdev, unsigned int mbox,
 	return MBOX_DONE;
 }
 EXPORT_SYMBOL_GPL(mtk_mbox_set_base_reg);
+#endif /* mtk_mbox_set_base_reg */
 
 /*
  * set mbox base address, task context
  *
  */
+#if 0 /* camellia: unused: mtk_mbox_set_base_addr */
 int mtk_mbox_set_base_addr(struct mtk_mbox_device *mbdev, unsigned int mbox,
 		unsigned int addr)
 {
@@ -405,11 +408,13 @@ int mtk_mbox_set_base_addr(struct mtk_mbox_device *mbdev, unsigned int mbox,
 	return MBOX_DONE;
 }
 EXPORT_SYMBOL_GPL(mtk_mbox_set_base_addr);
+#endif /* mtk_mbox_set_base_addr */
 
 /*
  * mtk_mbox_cb_register, register callback function
  *
  */
+#if 0 /* camellia: unused: mtk_mbox_cb_register */
 int mtk_mbox_cb_register(struct mtk_mbox_device *mbdev, unsigned int pin_offset,
 		mbox_pin_cb_t mbox_pin_cb, void *prdata)
 {
@@ -425,6 +430,7 @@ int mtk_mbox_cb_register(struct mtk_mbox_device *mbdev, unsigned int pin_offset,
 	return MBOX_DONE;
 }
 EXPORT_SYMBOL_GPL(mtk_mbox_cb_register);
+#endif /* mtk_mbox_cb_register */
 
 /*
  * mbox polling, context is protected by mbox_lock
@@ -1003,6 +1009,7 @@ EXPORT_SYMBOL_GPL(mtk_mbox_dump_recv_pin);
 /*
  *mbox single send pin information dump
  */
+#if 0 /* camellia: unused: mtk_mbox_dump_send */
 void mtk_mbox_dump_send(struct mtk_mbox_device *mbdev, unsigned int pin)
 {
 	struct mtk_mbox_pin_send *pin_send;
@@ -1015,10 +1022,12 @@ void mtk_mbox_dump_send(struct mtk_mbox_device *mbdev, unsigned int pin)
 	}
 }
 EXPORT_SYMBOL_GPL(mtk_mbox_dump_send);
+#endif /* mtk_mbox_dump_send */
 
 /*
  *mbox single mbox information dump
  */
+#if 0 /* camellia: unused: mtk_mbox_dump */
 void mtk_mbox_dump(struct mtk_mbox_device *mbdev, unsigned int mbox)
 {
 	struct mtk_mbox_info *minfo;
@@ -1031,10 +1040,12 @@ void mtk_mbox_dump(struct mtk_mbox_device *mbdev, unsigned int mbox)
 	}
 }
 EXPORT_SYMBOL_GPL(mtk_mbox_dump);
+#endif /* mtk_mbox_dump */
 
 /*
  *mbox log enable function
  */
+#if 0 /* camellia: unused: mtk_mbox_log_enable */
 int mtk_mbox_log_enable(struct mtk_mbox_device *mbdev, bool enable)
 {
 	if (!mbdev)
@@ -1044,6 +1055,7 @@ int mtk_mbox_log_enable(struct mtk_mbox_device *mbdev, bool enable)
 	return MBOX_DONE;
 }
 EXPORT_SYMBOL_GPL(mtk_mbox_log_enable);
+#endif /* mtk_mbox_log_enable */
 
 /*
  *mbox reset record

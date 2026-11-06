@@ -1269,11 +1269,13 @@ EXPORT_SYMBOL(connsys_log_read_to_user);
 * RETURNS
 *  void __iomem *    ioremap EMI log base address
 *****************************************************************************/
+#if 0 /* camellia: unused: connsys_log_get_emi_log_base_vir_addr */
 void __iomem *connsys_log_get_emi_log_base_vir_addr(void)
 {
 	return gDev.virAddrEmiLogBase;
 }
 EXPORT_SYMBOL(connsys_log_get_emi_log_base_vir_addr);
+#endif /* connsys_log_get_emi_log_base_vir_addr */
 
 /*****************************************************************************
 * FUNCTION
@@ -1353,10 +1355,12 @@ void connsys_dedicated_log_set_log_mode(int mode)
 * RETURNS
 * int    log mode
 *****************************************************************************/
+#if 0 /* camellia: unused: connsys_dedicated_log_get_log_mode */
 int connsys_dedicated_log_get_log_mode(void)
 {
 	return atomic_read(&log_mode);
 }
+#endif /* connsys_dedicated_log_get_log_mode */
 
 /*****************************************************************************
 * FUNCTION

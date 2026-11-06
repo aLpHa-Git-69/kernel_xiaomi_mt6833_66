@@ -275,11 +275,13 @@ EXPORT_SYMBOL(mtk_wcn_btif_write);
  *  int   positive: data length read from BTIF;
  *        negative: please see ENUM_BTIF_OP_ERROR_CODE
  *****************************************************************************/
+#if 0 /* camellia: unused: mtk_wcn_btif_read */
 int mtk_wcn_btif_read(unsigned long u_id,
 		      unsigned char *p_buf, unsigned int max_len)
 {
 	return 0;
 }
+#endif /* mtk_wcn_btif_read */
 
 /*****************************************************************************
  * FUNCTION
@@ -568,6 +570,7 @@ int btif_write_no_id(const unsigned char *p_buf, unsigned int len)
 	return i_ret;
 }
 
+#if 0 /* camellia: unused: btif_dpidle_ctrl_no_id */
 int btif_dpidle_ctrl_no_id(enum _ENUM_BTIF_DPIDLE_ en_flag)
 {
 	int i_ret = -1;
@@ -580,7 +583,9 @@ int btif_dpidle_ctrl_no_id(enum _ENUM_BTIF_DPIDLE_ en_flag)
 
 	return i_ret;
 }
+#endif /* btif_dpidle_ctrl_no_id */
 
+#if 0 /* camellia: unused: btif_wakeup_consys_no_id */
 int btif_wakeup_consys_no_id(void)
 {
 	int i_ret = -1;
@@ -591,6 +596,7 @@ int btif_wakeup_consys_no_id(void)
 
 	return i_ret;
 }
+#endif /* btif_wakeup_consys_no_id */
 
 int btif_loopback_ctrl_no_id(enum _ENUM_BTIF_LPBK_MODE_ enable)
 {
@@ -694,10 +700,12 @@ int mtk_btif_exp_close_test(void)
 	return i_ret;
 }
 
+#if 0 /* camellia: unused: mtk_btif_exp_write_test */
 int mtk_btif_exp_write_test(void)
 {
 	return mtk_btif_exp_write_stress_test(100, 10);
 }
+#endif /* mtk_btif_exp_write_test */
 
 int mtk_btif_exp_write_stress_test(unsigned int length, unsigned int max_loop)
 {
@@ -736,6 +744,7 @@ int mtk_btif_exp_write_stress_test(unsigned int length, unsigned int max_loop)
 	return i_ret;
 }
 
+#if 0 /* camellia: unused: mtk_btif_exp_suspend_test */
 int mtk_btif_exp_suspend_test(void)
 {
 	int i_ret = 0;
@@ -744,7 +753,9 @@ int mtk_btif_exp_suspend_test(void)
 	i_ret = _btif_suspend(p_btif);
 	return i_ret;
 }
+#endif /* mtk_btif_exp_suspend_test */
 
+#if 0 /* camellia: unused: mtk_btif_exp_restore_noirq_test */
 int mtk_btif_exp_restore_noirq_test(void)
 {
 	int i_ret = 0;
@@ -753,7 +764,9 @@ int mtk_btif_exp_restore_noirq_test(void)
 	i_ret = _btif_restore_noirq(p_btif);
 	return i_ret;
 }
+#endif /* mtk_btif_exp_restore_noirq_test */
 
+#if 0 /* camellia: unused: mtk_btif_exp_clock_ctrl */
 int mtk_btif_exp_clock_ctrl(int en)
 {
 	int i_ret = 0;
@@ -762,7 +775,9 @@ int mtk_btif_exp_clock_ctrl(int en)
 	i_ret = btif_clock_ctrl(p_btif, en);
 	return i_ret;
 }
+#endif /* mtk_btif_exp_clock_ctrl */
 
+#if 0 /* camellia: unused: mtk_btif_exp_resume_test */
 int mtk_btif_exp_resume_test(void)
 {
 	int i_ret = 0;
@@ -771,17 +786,23 @@ int mtk_btif_exp_resume_test(void)
 	i_ret = _btif_resume(p_btif);
 	return i_ret;
 }
+#endif /* mtk_btif_exp_resume_test */
 
+#if 0 /* camellia: unused: mtk_btif_exp_enter_dpidle_test */
 int mtk_btif_exp_enter_dpidle_test(void)
 {
 	return btif_dpidle_ctrl_no_id(BTIF_DPIDLE_ENABLE);
 }
+#endif /* mtk_btif_exp_enter_dpidle_test */
 
+#if 0 /* camellia: unused: mtk_btif_exp_exit_dpidle_test */
 int mtk_btif_exp_exit_dpidle_test(void)
 {
 	return btif_dpidle_ctrl_no_id(BTIF_DPIDLE_DISABLE);
 }
+#endif /* mtk_btif_exp_exit_dpidle_test */
 
+#if 0 /* camellia: unused: mtk_btif_exp_log_debug_test */
 int mtk_btif_exp_log_debug_test(int flag)
 {
 	int i_ret = 0;
@@ -789,11 +810,14 @@ int mtk_btif_exp_log_debug_test(int flag)
 	i_ret = btif_dbg_ctrl_no_id(flag);
 	return i_ret;
 }
+#endif /* mtk_btif_exp_log_debug_test */
 
+#if 0 /* camellia: unused: mtk_btif_read_cpu_sw_rst_debug_exp */
 void mtk_btif_read_cpu_sw_rst_debug_exp(void)
 {
 	mtk_btif_read_cpu_sw_rst_debug();
 }
+#endif /* mtk_btif_read_cpu_sw_rst_debug_exp */
 
 int mtk_btif_exp_rx_has_pending_data(unsigned long u_id)
 {

@@ -232,6 +232,7 @@ void teei_cpus_read_unlock(void)
 		cpus_read_unlock();
 }
 
+#if 0 /* camellia: unused: teei_cpus_write_lock */
 void teei_cpus_write_lock(void)
 {
 #ifdef ISEE_FP_SINGLE_CHANNEL
@@ -239,7 +240,9 @@ void teei_cpus_write_lock(void)
 	teei_cpu_write_owner = current;
 #endif
 }
+#endif /* teei_cpus_write_lock */
 
+#if 0 /* camellia: unused: teei_cpus_write_unlock */
 void teei_cpus_write_unlock(void)
 {
 #ifdef ISEE_FP_SINGLE_CHANNEL
@@ -247,18 +250,24 @@ void teei_cpus_write_unlock(void)
 	cpus_write_unlock();
 #endif
 }
+#endif /* teei_cpus_write_unlock */
 
+#if 0 /* camellia: unused: get_tz_drv_state */
 struct tz_driver_state *get_tz_drv_state(void)
 {
 	return tz_drv_state;
 }
+#endif /* get_tz_drv_state */
 
+#if 0 /* camellia: unused: tz_malloc */
 void *tz_malloc(size_t size, int flags)
 {
 	void *ptr = kmalloc(size, flags | GFP_ATOMIC);
 	return ptr;
 }
+#endif /* tz_malloc */
 
+#if 0 /* camellia: unused: tz_malloc_shared_mem */
 void *tz_malloc_shared_mem(size_t size, int flags)
 {
 #ifdef UT_DMA_ZONE
@@ -269,11 +278,14 @@ void *tz_malloc_shared_mem(size_t size, int flags)
 					get_order(ROUND_UP(size, SZ_4K)));
 #endif
 }
+#endif /* tz_malloc_shared_mem */
 
+#if 0 /* camellia: unused: tz_free_shared_mem */
 void tz_free_shared_mem(void *addr, size_t size)
 {
 	free_pages((unsigned long)addr, get_order(ROUND_UP(size, SZ_4K)));
 }
+#endif /* tz_free_shared_mem */
 
 int teei_move_cpu_context(int target_cpu_id, int original_cpu_id)
 {

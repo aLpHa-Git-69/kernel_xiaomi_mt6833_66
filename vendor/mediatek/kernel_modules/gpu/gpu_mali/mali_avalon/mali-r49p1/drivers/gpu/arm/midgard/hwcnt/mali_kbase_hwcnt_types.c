@@ -228,6 +228,7 @@ void kbase_hwcnt_dump_buffer_zero(struct kbase_hwcnt_dump_buffer *dst,
 	memset(dst->blk_stt_buf, 0, metadata->blk_stt_bytes);
 }
 
+#if 0 /* camellia: unused: kbase_hwcnt_dump_buffer_zero_strict */
 void kbase_hwcnt_dump_buffer_zero_strict(struct kbase_hwcnt_dump_buffer *dst)
 {
 	if (WARN_ON(!dst))
@@ -237,6 +238,7 @@ void kbase_hwcnt_dump_buffer_zero_strict(struct kbase_hwcnt_dump_buffer *dst)
 	memset(dst->clk_cnt_buf, 0, sizeof(*dst->clk_cnt_buf) * dst->metadata->clk_cnt);
 	memset(dst->blk_stt_buf, 0, dst->metadata->blk_stt_bytes);
 }
+#endif /* kbase_hwcnt_dump_buffer_zero_strict */
 
 void kbase_hwcnt_dump_buffer_zero_non_enabled(struct kbase_hwcnt_dump_buffer *dst,
 					      const struct kbase_hwcnt_enable_map *dst_enable_map)
@@ -407,6 +409,7 @@ void kbase_hwcnt_dump_buffer_accumulate(struct kbase_hwcnt_dump_buffer *dst,
 	}
 }
 
+#if 0 /* camellia: unused: kbase_hwcnt_dump_buffer_accumulate_strict */
 void kbase_hwcnt_dump_buffer_accumulate_strict(struct kbase_hwcnt_dump_buffer *dst,
 					       const struct kbase_hwcnt_dump_buffer *src,
 					       const struct kbase_hwcnt_enable_map *dst_enable_map)
@@ -456,6 +459,7 @@ void kbase_hwcnt_dump_buffer_accumulate_strict(struct kbase_hwcnt_dump_buffer *d
 			dst->clk_cnt_buf[clk] = 0;
 	}
 }
+#endif /* kbase_hwcnt_dump_buffer_accumulate_strict */
 
 void kbase_hwcnt_dump_buffer_block_state_update(struct kbase_hwcnt_dump_buffer *dst,
 						const struct kbase_hwcnt_enable_map *dst_enable_map,

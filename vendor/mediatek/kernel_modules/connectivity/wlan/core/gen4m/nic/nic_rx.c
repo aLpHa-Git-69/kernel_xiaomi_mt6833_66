@@ -3138,6 +3138,7 @@ void nicRxReceiveRFB(struct ADAPTER *prAdapter, struct SW_RFB *rfb)
  */
 /*----------------------------------------------------------------------------*/
 
+#if 0 /* camellia: unused: nicRxCopyRFB */
 uint32_t nicRxCopyRFB(struct ADAPTER *prAdapter,
 		       struct SW_RFB *prDst, struct SW_RFB *prSrc)
 {
@@ -3149,6 +3150,7 @@ uint32_t nicRxCopyRFB(struct ADAPTER *prAdapter,
 
 	return WLAN_STATUS_SUCCESS;
 }
+#endif /* nicRxCopyRFB */
 
 u_int8_t isRfbFromSpared(struct RX_CTRL *prRxCtrl, struct SW_RFB *prSwRfb)
 {
@@ -4251,6 +4253,7 @@ int32_t nicRxGetLastRxRssi(struct ADAPTER *prAdapter, char *pcCommand,
 /**
  * Lookup wlan index by matching band index.
  */
+#if 0 /* camellia: unused: getWlanIdxByBand */
 uint8_t getWlanIdxByBand(struct ADAPTER *prAdapter, uint8_t ucHwBandIdx,
 			 uint8_t ucWlanIdx)
 {
@@ -4260,6 +4263,7 @@ uint8_t getWlanIdxByBand(struct ADAPTER *prAdapter, uint8_t ucHwBandIdx,
 	return ucWlanIdx;
 #endif
 }
+#endif /* getWlanIdxByBand */
 
 /**
  * HW RX setting MLD_ID
@@ -4271,6 +4275,7 @@ uint8_t getWlanIdxByBand(struct ADAPTER *prAdapter, uint8_t ucHwBandIdx,
  * else: (management frame goes here, need to distinguish by band)
  *     MLD_ID = primary_MLD_ID
  */
+#if 0 /* camellia: unused: getPrimaryWlanIdx */
 uint8_t getPrimaryWlanIdx(struct ADAPTER *prAdapter,
 		uint8_t ucTid, uint8_t ucWlanIdx)
 {
@@ -4280,6 +4285,7 @@ uint8_t getPrimaryWlanIdx(struct ADAPTER *prAdapter,
 	return ucWlanIdx;
 #endif
 }
+#endif /* getPrimaryWlanIdx */
 
 /**
  * For MLO, it should read prSwRfb->ucHwBandIdx to match the RX link.
@@ -4720,6 +4726,7 @@ uint32_t nicRxGetUnUseCnt(struct ADAPTER *prAdapter)
 #endif /* CFG_DYNAMIC_RFB_ADJUSTMENT */
 }
 
+#if 0 /* camellia: unused: nicRxSetUnUseCnt */
 void nicRxSetUnUseCnt(struct ADAPTER *prAdapter,
 	uint32_t u4UnUseCnt, u_int8_t fgAdjustNow)
 {
@@ -4735,7 +4742,9 @@ void nicRxSetUnUseCnt(struct ADAPTER *prAdapter,
 		nicRxAdjustUnUseRFB(prAdapter);
 #endif /* CFG_DYNAMIC_RFB_ADJUSTMENT */
 }
+#endif /* nicRxSetUnUseCnt */
 
+#if 0 /* camellia: unused: nicRxProcessRxvLinkStats */
 void nicRxProcessRxvLinkStats(struct ADAPTER *prAdapter,
 	struct SW_RFB *prRetSwRfb, uint32_t *pu4RxV)
 {
@@ -4749,6 +4758,7 @@ void nicRxProcessRxvLinkStats(struct ADAPTER *prAdapter,
 	updateLinkStatsMpduAc(prAdapter, prRetSwRfb);
 #endif
 }
+#endif /* nicRxProcessRxvLinkStats */
 
 uint16_t nicRxGetFrameControl(struct ADAPTER *prAdapter, struct SW_RFB *prSwRfb)
 {

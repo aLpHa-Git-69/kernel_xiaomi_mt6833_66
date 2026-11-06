@@ -39,6 +39,7 @@ void kbase_sync_fence_wait_worker(struct work_struct *data)
 }
 #endif /* !MALI_USE_CSF */
 
+#if 0 /* camellia: unused: kbase_sync_status_string */
 const char *kbase_sync_status_string(int status)
 {
 	if (status == 0)
@@ -48,3 +49,4 @@ const char *kbase_sync_status_string(int status)
 	else
 		return "error";
 }
+#endif /* kbase_sync_status_string */

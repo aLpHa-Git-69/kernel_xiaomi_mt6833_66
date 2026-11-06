@@ -99,9 +99,15 @@ struct gpu_index_st {
 
 #define NO_CPU_CORES (TZCPU_NO_CPU_CORES)
 				/* /< 4-Core is maximum */
+#if 0 /* camellia: unused: cpu_index_list */
 static struct cpu_index_st cpu_index_list[NO_CPU_CORES];
+#endif /* cpu_index_list */
+#if 0 /* camellia: unused: cpufreqs */
 static int cpufreqs[NO_CPU_CORES];
+#endif /* cpufreqs */
+#if 0 /* camellia: unused: cpuloadings */
 static int cpuloadings[NO_CPU_CORES];
+#endif /* cpuloadings */
 
 #define SEEK_BUFF(x, c)	\
 do { \
@@ -162,6 +168,7 @@ u64 get_idle_time(struct kernel_cpustat *kcs, int cpu)
 	return idle;
 }
 #endif
+#if 0 /* camellia: unused: get_iowait_time */
 static u64 get_iowait_time(struct kernel_cpustat *kcs, int cpu)
 {
 	u64 iowait, iowait_usecs = -1ULL;
@@ -177,9 +184,11 @@ static u64 get_iowait_time(struct kernel_cpustat *kcs, int cpu)
 
 	return iowait;
 }
+#endif /* get_iowait_time */
 
 #endif
 
+#if 0 /* camellia: unused: get_sys_cpu_usage_info_ex */
 static int get_sys_cpu_usage_info_ex(void)
 {
 	int nCoreIndex = 0, i;
@@ -310,11 +319,13 @@ static int get_sys_cpu_usage_info_ex(void)
 	return 0;
 
 }
+#endif /* get_sys_cpu_usage_info_ex */
 
 static bool dmips_limit_warned;
 static int check_dmips_limit;
 
 #include <linux/cpufreq.h>
+#if 0 /* camellia: unused: get_sys_all_cpu_freq_info */
 static int get_sys_all_cpu_freq_info(void)
 {
 	int i;
@@ -347,6 +358,7 @@ static int get_sys_all_cpu_freq_info(void)
 
 	return 0;
 }
+#endif /* get_sys_all_cpu_freq_info */
 
 static int mtk_thermal_validation_rd(struct seq_file *m, void *v)
 {
@@ -418,6 +430,7 @@ void  mtk_thermal_platform_exit(void)
 
 }
 
+#if 0 /* camellia: unused: mtk_thermal_get_cpu_info */
 int mtk_thermal_get_cpu_info(int *nocores, int **cpufreq, int **cpuloading)
 {
 	/* ****************** */
@@ -444,6 +457,7 @@ int mtk_thermal_get_cpu_info(int *nocores, int **cpufreq, int **cpuloading)
 	return 0;
 }
 EXPORT_SYMBOL(mtk_thermal_get_cpu_info);
+#endif /* mtk_thermal_get_cpu_info */
 
 #define NO_GPU_CORES (1)
 static int gpufreqs[NO_GPU_CORES];
@@ -496,6 +510,7 @@ enum {
 	NO_EXTRA_THERMAL_ATTR
 };
 
+#if 0 /* camellia: unused: mtk_thermal_force_get_batt_temp */
 int mtk_thermal_force_get_batt_temp(void)
 {
 	int ret = 0;
@@ -505,6 +520,7 @@ int mtk_thermal_force_get_batt_temp(void)
 	return ret;
 }
 EXPORT_SYMBOL(mtk_thermal_force_get_batt_temp);
+#endif /* mtk_thermal_force_get_batt_temp */
 
 static unsigned int _thermal_scen;
 

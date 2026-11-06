@@ -201,6 +201,7 @@ scanP2pProcessBeaconAndProbeResp(struct ADAPTER *prAdapter,
 	} while (FALSE);
 }
 
+#if 0 /* camellia: unused: scnEventReturnChannel */
 void scnEventReturnChannel(struct ADAPTER *prAdapter,
 		uint8_t ucScnSeqNum)
 {
@@ -218,6 +219,7 @@ void scnEventReturnChannel(struct ADAPTER *prAdapter,
 			    sizeof(struct CMD_SCAN_CANCEL),
 			    (uint8_t *)&rCmdScanCancel, NULL, 0);
 }				/* scnEventReturnChannel */
+#endif /* scnEventReturnChannel */
 
 #if (CFG_SUPPORT_802_11BE_MLO == 1)
 static u_int8_t scanP2pNeedTriggerMlScan(struct ADAPTER *prAdapter,

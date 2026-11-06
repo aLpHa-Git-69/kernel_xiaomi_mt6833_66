@@ -385,6 +385,7 @@ void nicReleaseAdapterMemory(struct ADAPTER *prAdapter)
 	checkLeakMemory(prAdapter);
 }
 
+#if 0 /* camellia: unused: nicTriggerAHDBG */
 void nicTriggerAHDBG(struct ADAPTER *prAdapter,
 	uint32_t u4mod, uint32_t u4reason,
 	uint32_t u4BssIdx, uint32_t u4wlanIdx)
@@ -395,6 +396,7 @@ void nicTriggerAHDBG(struct ADAPTER *prAdapter,
 	prAdapter->u4HifDbgReason = u4wlanIdx;
 	kalSetHifDbgEvent(prAdapter->prGlueInfo);
 }
+#endif /* nicTriggerAHDBG */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -1882,6 +1884,7 @@ uint32_t nicGetS1Freq(struct ADAPTER *prAdapter,
 	return nicChannelNum2Freq(ucS1Channel, eBand) / 1000;
 }
 
+#if 0 /* camellia: unused: nicGetS2 */
 uint8_t nicGetS2(enum ENUM_BAND eBand,
 		uint8_t ucPrimaryChannel,
 		uint8_t ucBandwidth,
@@ -1893,6 +1896,7 @@ uint8_t nicGetS2(enum ENUM_BAND eBand,
 #endif
 	return 0;
 }
+#endif /* nicGetS2 */
 
 #if (CFG_SUPPORT_WIFI_6G == 1)
 uint8_t nicGetHe6gS2(uint8_t ucPrimaryChannel,
@@ -4281,6 +4285,7 @@ uint32_t nicSetAutoTxPowerControl(struct ADAPTER
  *         WLAN_STATUS_FAILURE
  */
 /*----------------------------------------------------------------------------*/
+#if 0 /* camellia: unused: nicUpdate5GOffset */
 uint32_t nicUpdate5GOffset(struct ADAPTER *prAdapter,
 			   struct CMD_5G_PWR_OFFSET *pr5GPwrOffset)
 {
@@ -4298,6 +4303,7 @@ uint32_t nicUpdate5GOffset(struct ADAPTER *prAdapter,
 	return 0;
 #endif
 }
+#endif /* nicUpdate5GOffset */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -6103,6 +6109,7 @@ uint8_t nicGetChipEcoVer(struct ADAPTER *prAdapter)
 	return prAdapter->chip_info->eco_info[ucEcoVer].ucEcoVer;
 }
 
+#if 0 /* camellia: unused: nicIsEcoVerEqualTo */
 u_int8_t nicIsEcoVerEqualTo(struct ADAPTER *prAdapter,
 			    uint8_t ucEcoVer)
 {
@@ -6111,7 +6118,9 @@ u_int8_t nicIsEcoVerEqualTo(struct ADAPTER *prAdapter,
 	else
 		return FALSE;
 }
+#endif /* nicIsEcoVerEqualTo */
 
+#if 0 /* camellia: unused: nicIsEcoVerEqualOrLaterTo */
 u_int8_t nicIsEcoVerEqualOrLaterTo(struct ADAPTER
 				   *prAdapter, uint8_t ucEcoVer)
 {
@@ -6120,6 +6129,7 @@ u_int8_t nicIsEcoVerEqualOrLaterTo(struct ADAPTER
 	else
 		return FALSE;
 }
+#endif /* nicIsEcoVerEqualOrLaterTo */
 
 void nicSerStopTxRx(struct ADAPTER *prAdapter)
 {
@@ -6195,6 +6205,7 @@ void nicSerStartTxRx(struct ADAPTER *prAdapter)
 	prAdapter->ucSerState = SER_IDLE_DONE;
 }
 
+#if 0 /* camellia: unused: nicSerIsWaitingReset */
 u_int8_t nicSerIsWaitingReset(struct ADAPTER *prAdapter)
 {
 	if (prAdapter->ucSerState == SER_STOP_HOST_TX_RX)
@@ -6202,6 +6213,7 @@ u_int8_t nicSerIsWaitingReset(struct ADAPTER *prAdapter)
 	else
 		return FALSE;
 }
+#endif /* nicSerIsWaitingReset */
 
 u_int8_t nicSerIsTxStop(struct ADAPTER *prAdapter)
 {

@@ -9240,6 +9240,7 @@ uint8_t aisCollectNeighborMld(struct ADAPTER *prAdapter,
 }
 #endif
 
+#if 0 /* camellia: unused: aisGetNeighborAPEntry */
 struct NEIGHBOR_AP *aisGetNeighborAPEntry(
 	struct ADAPTER *prAdapter, struct BSS_DESC *bss, uint8_t ucBssIndex)
 {
@@ -9269,6 +9270,7 @@ struct NEIGHBOR_AP *aisGetNeighborAPEntry(
 
 	return NULL;
 }
+#endif /* aisGetNeighborAPEntry */
 
 uint32_t aisCollectNeighborAP(struct ADAPTER *prAdapter, uint8_t *pucApBuf,
 			  uint16_t u2ApBufLen, uint8_t ucValidInterval,
@@ -9743,10 +9745,12 @@ struct STA_RECORD *aisGetLinkStaRec(struct AIS_FSM_INFO *prAisFsmInfo,
 	return prAisFsmInfo->aprLinkInfo[ucLinkIdx].prTargetStaRec;
 }
 
+#if 0 /* camellia: unused: aisGetMainLinkStaRec */
 struct STA_RECORD *aisGetMainLinkStaRec(struct AIS_FSM_INFO *prAisFsmInfo)
 {
 	return aisGetLinkStaRec(prAisFsmInfo, AIS_MAIN_LINK_INDEX);
 }
+#endif /* aisGetMainLinkStaRec */
 
 void aisClearAllLink(struct AIS_FSM_INFO *prAisFsmInfo)
 {
@@ -9917,12 +9921,14 @@ struct TIMER *aisGetScanDoneTimer(
 	return &aisGetAisFsmInfo(prAdapter, ucBssIndex)->rScanDoneTimer;
 }
 
+#if 0 /* camellia: unused: aisGetCurrState */
 enum ENUM_AIS_STATE aisGetCurrState(
 	struct ADAPTER *prAdapter,
 	uint8_t ucBssIndex)
 {
 	return aisGetAisFsmInfo(prAdapter, ucBssIndex)->eCurrentState;
 }
+#endif /* aisGetCurrState */
 
 struct CONNECTION_SETTINGS *aisGetConnSettings(
 	struct ADAPTER *prAdapter,

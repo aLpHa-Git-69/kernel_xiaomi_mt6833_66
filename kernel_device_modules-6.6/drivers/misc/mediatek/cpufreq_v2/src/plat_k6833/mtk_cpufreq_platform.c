@@ -255,10 +255,12 @@ int __weak sync_dcm_set_mp1_freq(unsigned int mhz)
 	return 0;
 }
 
+#if 0 /* camellia: unused: sync_dcm_set_mp2_freq */
 int __weak sync_dcm_set_mp2_freq(unsigned int mhz)
 {
 	return 0;
 }
+#endif /* sync_dcm_set_mp2_freq */
 
 int __weak sync_dcm_set_cci_freq(unsigned int mhz)
 {
@@ -330,6 +332,7 @@ static void adjust_clkdiv(struct pll_ctrl_t *pll_p, unsigned int clk_div)
 	cpufreq_write_mask(pll_p->armpll_div_addr, 21:17, sel);
 }
 
+#if 0 /* camellia: unused: get_posdiv */
 unsigned char get_posdiv(struct pll_ctrl_t *pll_p)
 {
 	unsigned char sel, cur_posdiv;
@@ -341,7 +344,9 @@ unsigned char get_posdiv(struct pll_ctrl_t *pll_p)
 
 	return cur_posdiv;
 }
+#endif /* get_posdiv */
 
+#if 0 /* camellia: unused: get_clkdiv */
 unsigned char get_clkdiv(struct pll_ctrl_t *pll_p)
 {
 	unsigned char sel, cur_clkdiv;
@@ -353,6 +358,7 @@ unsigned char get_clkdiv(struct pll_ctrl_t *pll_p)
 
 	return cur_clkdiv;
 }
+#endif /* get_clkdiv */
 
 static void adjust_freq_hopping(struct pll_ctrl_t *pll_p, unsigned int dds)
 {
@@ -545,12 +551,16 @@ struct hp_action_tbl cpu_dvfs_hp_action[] = {
 };
 
 unsigned int nr_hp_action = ARRAY_SIZE(cpu_dvfs_hp_action);
+#if 0 /* camellia: unused: can_turbo */
 static int can_turbo;
+#endif /* can_turbo */
+#if 0 /* camellia: unused: mt_cpufreq_turbo_action */
 void mt_cpufreq_turbo_action(unsigned long action,
 	unsigned int *cpus, enum mt_cpu_dvfs_id cluster_id)
 {
 	can_turbo = 0;
 }
+#endif /* mt_cpufreq_turbo_action */
 
 int mt_cpufreq_turbo_config(enum mt_cpu_dvfs_id id,
 	unsigned int turbo_f, unsigned int turbo_v)

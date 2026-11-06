@@ -22,6 +22,7 @@ struct udc_comp_req_t *req_des_0_base, *req_des_1_base;
 struct udc_comp_rslt_t *rslt_des_0_base, *rslt_des_1_base;
 static unsigned int total_comp_size;
 
+#if 0 /* camellia: unused: set_udc_status */
 void set_udc_status(struct sk_buff *skb)
 {
 	struct ccci_udc_cmd_rsp_t *udc_cmd_rsp =
@@ -35,6 +36,7 @@ void set_udc_status(struct sk_buff *skb)
 	if (udc_cmd_rsp->udc_cmd == UDC_CMD_DISC)
 		atomic_set(&udc_status, UDC_DISCARD);
 }
+#endif /* set_udc_status */
 
 int udc_resp_msg_to_md(struct port_t *port,
 	struct sk_buff *skb, int handle_udc_ret)

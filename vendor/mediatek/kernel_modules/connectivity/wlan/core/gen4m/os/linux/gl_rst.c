@@ -217,6 +217,7 @@ int glGetRstReason(void)
 	return eResetReason;
 }
 
+#if 0 /* camellia: unused: kalIsRstPreventFwOwn */
 u_int8_t kalIsRstPreventFwOwn(void)
 {
 #if CFG_CHIP_RESET_SUPPORT
@@ -226,6 +227,7 @@ u_int8_t kalIsRstPreventFwOwn(void)
 #endif
 
 }
+#endif /* kalIsRstPreventFwOwn */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -289,6 +291,7 @@ void glResetCleanResetFlag(void)
 #endif
 }
 
+#if 0 /* camellia: unused: glIsL0Resetting */
 u_int8_t glIsL0Resetting(void)
 {
 #if CFG_CHIP_RESET_SUPPORT
@@ -297,6 +300,7 @@ u_int8_t glIsL0Resetting(void)
 	return FALSE;
 #endif
 }
+#endif /* glIsL0Resetting */
 
 void glResetUpdateL0Flag(u_int8_t status)
 {
@@ -453,6 +457,7 @@ void glResetUninit(void)
  * @retval  None
  */
 /*----------------------------------------------------------------------------*/
+#if 0 /* camellia: unused: glSendResetRequest */
 void glSendResetRequest(void)
 {
 #if CFG_WMT_RESET_API_SUPPORT
@@ -460,6 +465,7 @@ void glSendResetRequest(void)
 	/* WMT thread would trigger whole chip reset itself */
 #endif
 }
+#endif /* glSendResetRequest */
 
 #if CFG_WMT_RESET_API_SUPPORT
 #ifdef CONFIG_PM
@@ -1746,6 +1752,7 @@ static u_int8_t glResetMsgHandler(enum ENUM_RST_MSG MsgBody)
 	return TRUE;
 }
 
+#if 0 /* camellia: unused: glRstCheckRstCriteria */
 bool glRstCheckRstCriteria(void)
 {
 	/*
@@ -1757,6 +1764,7 @@ bool glRstCheckRstCriteria(void)
 	else
 		return TRUE;
 }
+#endif /* glRstCheckRstCriteria */
 
 void glRstWholeChipRstParamInit(void)
 {
@@ -2102,6 +2110,7 @@ int wlan_post_whole_chip_rst_v2(void)
 }
 #endif
 
+#if 0 /* camellia: unused: kalIsWholeChipResetting */
 u_int8_t kalIsWholeChipResetting(void)
 {
 #if CFG_CHIP_RESET_SUPPORT
@@ -2110,6 +2119,7 @@ u_int8_t kalIsWholeChipResetting(void)
 	return FALSE;
 #endif
 }
+#endif /* kalIsWholeChipResetting */
 
 void glReset_timeinit(struct timespec64 *rNowTs, struct timespec64 *rLastTs)
 {
@@ -2522,6 +2532,7 @@ void kalSetRstEvent(u_int8_t force_dump)
 	wake_up_interruptible(&g_waitq_rst);
 }
 
+#if 0 /* camellia: unused: kalSetRstFwNotifyL05Event */
 void kalSetRstFwNotifyL05Event(u_int8_t force_dump)
 {
 	struct RESET_STRUCT *rst = &wifi_rst;
@@ -2534,7 +2545,9 @@ void kalSetRstFwNotifyL05Event(u_int8_t force_dump)
 	/* when we got interrupt, we wake up servie thread */
 	wake_up_interruptible(&g_waitq_rst);
 }
+#endif /* kalSetRstFwNotifyL05Event */
 
+#if 0 /* camellia: unused: kalSetRstFwNotifyTriggerL0Event */
 void kalSetRstFwNotifyTriggerL0Event(u_int8_t force_dump)
 {
 	struct RESET_STRUCT *rst = &wifi_rst;
@@ -2547,7 +2560,9 @@ void kalSetRstFwNotifyTriggerL0Event(u_int8_t force_dump)
 	/* when we got interrupt, we wake up servie thread */
 	wake_up_interruptible(&g_waitq_rst);
 }
+#endif /* kalSetRstFwNotifyTriggerL0Event */
 
+#if 0 /* camellia: unused: glRstSetRstEndEvent */
 void glRstSetRstEndEvent(void)
 {
 	struct RESET_STRUCT *rst = &wifi_rst;
@@ -2559,6 +2574,7 @@ void glRstSetRstEndEvent(void)
 	/* when we got interrupt, we wake up servie thread */
 	wake_up_interruptible(&g_waitq_rst);
 }
+#endif /* glRstSetRstEndEvent */
 
 int reset_wait_for_trigger_completion(void)
 {
@@ -2579,10 +2595,12 @@ int reset_wait_for_trigger_completion(void)
 	return waitRet > 0 ? 0 : -ETIMEDOUT;
 }
 
+#if 0 /* camellia: unused: reset_done_trigger_completion */
 void reset_done_trigger_completion(void)
 {
 	complete(&g_triggerComp);
 }
+#endif /* reset_done_trigger_completion */
 #else
 #if (CFG_CHIP_RESET_KO_SUPPORT == 0)
 static u_int8_t is_bt_exist(void)

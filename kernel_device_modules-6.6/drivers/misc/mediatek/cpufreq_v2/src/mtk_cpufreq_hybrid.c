@@ -1020,6 +1020,7 @@ int cpuhvfs_set_init_ptbl(void)
 	return 0;
 }
 
+#if 0 /* camellia: unused: cpuhvfs_set_turbo_scale */
 int cpuhvfs_set_turbo_scale(unsigned int turbo_f, unsigned int turbo_v)
 {
 	csram_write(OFFS_TURBO_FREQ, turbo_f);
@@ -1027,6 +1028,7 @@ int cpuhvfs_set_turbo_scale(unsigned int turbo_f, unsigned int turbo_v)
 
 	return 0;
 }
+#endif /* cpuhvfs_set_turbo_scale */
 #ifdef DFD_WORKAROUND
 int cpuhvfs_read_ack(void)
 {
@@ -1187,6 +1189,7 @@ int cpuhvfs_get_cur_volt(int cluster_id)
 	return csram_read(OFFS_CUR_VPROC_S + (p->Vproc_buck_id * 4));
 }
 
+#if 0 /* camellia: unused: cpuhvfs_get_volt */
 int cpuhvfs_get_volt(int buck_id)
 {
 #if IS_ENABLED(CONFIG_MTK_CPU_MSSV)
@@ -1212,7 +1215,9 @@ int cpuhvfs_get_volt(int buck_id)
 	return csram_read(OFFS_CUR_VPROC_S + (buck_id * 4));
 #endif
 }
+#endif /* cpuhvfs_get_volt */
 
+#if 0 /* camellia: unused: cpuhvfs_get_freq */
 int cpuhvfs_get_freq(int pll_id)
 {
 #if IS_ENABLED(CONFIG_MTK_CPU_MSSV)
@@ -1238,6 +1243,7 @@ int cpuhvfs_get_freq(int pll_id)
 	return 0;
 #endif
 }
+#endif /* cpuhvfs_get_freq */
 
 int cpuhvfs_set_volt(int cluster_id, unsigned int volt)
 {
@@ -1394,12 +1400,14 @@ int cpuhvfs_set_cluster_load_freq(enum mt_cpu_dvfs_id id, unsigned int freq)
 	return 0;
 }
 
+#if 0 /* camellia: unused: cpuhvfs_set_set_cci_volt */
 int cpuhvfs_set_set_cci_volt(unsigned int volt)
 {
 	csram_write(OFFS_CCI_VOLT_CLAMP, volt);
 
 	return 0;
 }
+#endif /* cpuhvfs_set_set_cci_volt */
 
 u32 *recordRef;
 static unsigned int *recordTbl;
@@ -1510,6 +1518,7 @@ unsigned int cpuhvfs_get_cci_mode(void)
 }
 #endif
 
+#if 0 /* camellia: unused: cpuhvfs_update_volt */
 int cpuhvfs_update_volt(unsigned int cluster_id, unsigned int *volt_tbl,
 	char nr_volt_tbl)
 {
@@ -1536,8 +1545,10 @@ int cpuhvfs_update_volt(unsigned int cluster_id, unsigned int *volt_tbl,
 
 	return 0;
 }
+#endif /* cpuhvfs_update_volt */
 
 #ifdef READ_SRAM_VOLT
+#if 0 /* camellia: unused: get_sram_table_volt */
 unsigned int get_sram_table_volt(unsigned int cluster_id, int idx)
 {
 	unsigned int volt;
@@ -1557,6 +1568,7 @@ unsigned int get_sram_table_volt(unsigned int cluster_id, int idx)
 
 	return volt;
 }
+#endif /* get_sram_table_volt */
 #endif
 
 #ifdef ENABLE_DOE

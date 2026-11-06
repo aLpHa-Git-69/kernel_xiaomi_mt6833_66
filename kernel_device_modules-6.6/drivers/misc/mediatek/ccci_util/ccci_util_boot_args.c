@@ -227,6 +227,7 @@ int mtk_ccci_args_key_val_init(void)
 	return 0;
 }
 
+#if 0 /* camellia: unused: mtk_ccci_dump_args_info */
 void mtk_ccci_dump_args_info(void)
 {
 	unsigned int i;
@@ -256,3 +257,4 @@ void mtk_ccci_dump_args_info(void)
 		}
 	}
 }
+#endif /* mtk_ccci_dump_args_info */

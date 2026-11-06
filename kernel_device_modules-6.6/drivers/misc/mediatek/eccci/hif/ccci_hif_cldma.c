@@ -1875,6 +1875,7 @@ void cldma_disable_irq(struct md_cd_ctrl *md_ctrl)
 		disable_irq(md_ctrl->cldma_irq_id);
 }
 
+#if 0 /* camellia: unused: cldma_disable_irq_nosync */
 void cldma_disable_irq_nosync(struct md_cd_ctrl *md_ctrl)
 {
 	if (atomic_cmpxchg(&md_ctrl->cldma_irq_enabled, 1, 0) == 1)
@@ -1884,15 +1885,18 @@ void cldma_disable_irq_nosync(struct md_cd_ctrl *md_ctrl)
 		 */
 		disable_irq_nosync(md_ctrl->cldma_irq_id);
 }
+#endif /* cldma_disable_irq_nosync */
 static void cldma_rx_worker_start(struct md_cd_ctrl *md_ctrl, int qno)
 {
 	tasklet_hi_schedule(&md_ctrl->cldma_rxq0_task);
 
 }
 
+#if 0 /* camellia: unused: md_cd_check_md_DCM */
 void __weak md_cd_check_md_DCM(struct md_cd_ctrl *md_ctrl)
 {
 }
+#endif /* md_cd_check_md_DCM */
 
 static void cldma_irq_work_cb(struct md_cd_ctrl *md_ctrl)
 {

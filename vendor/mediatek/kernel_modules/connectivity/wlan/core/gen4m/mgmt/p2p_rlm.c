@@ -1412,6 +1412,7 @@ enum ENUM_CHNL_EXT rlmGetScoForAP(struct ADAPTER *prAdapter,
  * \return UINT_8 AP channel number of Channel Center Frequency Segment 0
  */
 /*----------------------------------------------------------------------------*/
+#if 0 /* camellia: unused: rlmGetVhtS1ForAP */
 uint8_t rlmGetVhtS1ForAP(struct ADAPTER *prAdapter,
 		struct BSS_INFO *prBssInfo)
 {
@@ -1443,6 +1444,7 @@ uint8_t rlmGetVhtS1ForAP(struct ADAPTER *prAdapter,
 
 	return ucFreq1Channel;
 }
+#endif /* rlmGetVhtS1ForAP */
 
 void rlmGetChnlInfoForCSA(struct ADAPTER *prAdapter,
 	enum ENUM_BAND eBand,

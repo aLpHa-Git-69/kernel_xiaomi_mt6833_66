@@ -505,15 +505,19 @@ unsigned int ged_get_cur_real_stack_freq(void)
 		return cur_real_stack_freq;
 }
 
+#if 0 /* camellia: unused: ged_get_cur_volt */
 unsigned int ged_get_cur_volt(void)
 {
 	return gpufreq_get_cur_volt(TARGET_DEFAULT);
 }
+#endif /* ged_get_cur_volt */
 
+#if 0 /* camellia: unused: ged_get_cur_top_volt */
 unsigned int ged_get_cur_top_volt(void)
 {
 	return gpufreq_get_cur_volt(TARGET_GPU);
 }
+#endif /* ged_get_cur_top_volt */
 
 static int ged_get_cur_virtual_oppidx(void)
 {
@@ -601,10 +605,12 @@ int ged_get_max_oppidx(void)
 }
 
 /* get the largest oppidx whose stack freq does not repeat */
+#if 0 /* camellia: unused: ged_get_min_stack_oppidx */
 int ged_get_min_stack_oppidx(void)
 {
 	return g_min_stack_oppidx;
 }
+#endif /* ged_get_min_stack_oppidx */
 
 int ged_get_min_oppidx_real(void)
 {
@@ -690,15 +696,19 @@ int ged_get_oppidx_by_stack_freq(unsigned int freq)
 	return (i > g_max_working_oppidx) ? i : g_max_working_oppidx;
 }
 
+#if 0 /* camellia: unused: ged_get_leakage_power */
 unsigned int ged_get_leakage_power(unsigned int volt)
 {
 	return gpufreq_get_leakage_power(TARGET_DEFAULT, volt);
 }
+#endif /* ged_get_leakage_power */
 
+#if 0 /* camellia: unused: ged_get_dynamic_power */
 unsigned int ged_get_dynamic_power(unsigned int freq, unsigned int volt)
 {
 	return gpufreq_get_dynamic_power(TARGET_DEFAULT, freq, volt);
 }
+#endif /* ged_get_dynamic_power */
 
 int ged_get_cur_limit_idx_ceil(void)
 {
@@ -1009,10 +1019,12 @@ unsigned int ged_gpufreq_bringup(void)
 	return gpufreq_bringup();
 }
 
+#if 0 /* camellia: unused: ged_gpufreq_get_power_state */
 unsigned int ged_gpufreq_get_power_state(void)
 {
 	return gpufreq_get_power_state();
 }
+#endif /* ged_gpufreq_get_power_state */
 
 unsigned int ged_gpufreq_get_dcs_sysram(void)
 {

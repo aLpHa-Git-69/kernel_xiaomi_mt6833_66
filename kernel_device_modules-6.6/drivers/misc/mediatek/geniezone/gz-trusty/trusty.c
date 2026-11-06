@@ -112,6 +112,7 @@ s32 trusty_fast_call32(struct device *dev, u32 smcnr, u32 a0, u32 a1, u32 a2)
 EXPORT_SYMBOL(trusty_fast_call32);
 
 #if IS_ENABLED(CONFIG_64BIT)
+#if 0 /* camellia: unused: trusty_fast_call64 */
 s64 trusty_fast_call64(struct device *dev, u64 smcnr, u64 a0, u64 a1, u64 a2)
 {
 	struct trusty_state *s = platform_get_drvdata(to_platform_device(dev));
@@ -122,6 +123,7 @@ s64 trusty_fast_call64(struct device *dev, u64 smcnr, u64 a0, u64 a1, u64 a2)
 
 	return smc_asm(smcnr, a0, a1, a2);
 }
+#endif /* trusty_fast_call64 */
 #endif
 
 static inline bool is_busy(int ret)

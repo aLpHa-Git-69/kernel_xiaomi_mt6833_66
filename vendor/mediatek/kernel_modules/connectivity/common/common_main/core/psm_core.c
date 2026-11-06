@@ -1638,10 +1638,12 @@ INT32 stp_psm_disable_by_tx_rx_density(MTKSTP_PSM_T *stp_psm, INT32 dir, INT32 l
 #endif
 
 /*external function for WMT module to do sleep/wakeup*/
+#if 0 /* camellia: unused: stp_psm_set_state */
 INT32 stp_psm_set_state(MTKSTP_PSM_T *stp_psm, MTKSTP_PSM_STATE_T state)
 {
 	return _stp_psm_set_state(stp_psm, state);
 }
+#endif /* stp_psm_set_state */
 
 
 INT32 stp_psm_thread_lock_aquire(MTKSTP_PSM_T *stp_psm)
@@ -1657,10 +1659,12 @@ INT32 stp_psm_thread_lock_release(MTKSTP_PSM_T *stp_psm)
 
 
 
+#if 0 /* camellia: unused: stp_psm_do_wakeup */
 INT32 stp_psm_do_wakeup(MTKSTP_PSM_T *stp_psm)
 {
 	return _stp_psm_do_wakeup(stp_psm);
 }
+#endif /* stp_psm_do_wakeup */
 
 INT32 stp_psm_notify_stp(MTKSTP_PSM_T *stp_psm, const MTKSTP_PSM_ACTION_T action)
 {

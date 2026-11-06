@@ -193,6 +193,7 @@ void SET_FADJ_PARAM(const struct _FACT_ADJ *param)
 	(unsigned short int)(GYRSNS * 11 / 10) /* GYRSNS * limit[deg] */
 #define G_SENSE 131			       /* [LSB/dps] */
 
+#if 0 /* camellia: unused: func_SET_SCENE_PARAM */
 short int func_SET_SCENE_PARAM(unsigned char u16_scene, unsigned char u16_mode,
 			       unsigned char filter, unsigned char range,
 			       const struct _FACT_ADJ *param)
@@ -369,6 +370,7 @@ short int func_SET_SCENE_PARAM(unsigned char u16_scene, unsigned char u16_mode,
 
 	return ADJ_OK; /* RHM_HT 2013/04/15    Change return value */
 }
+#endif /* func_SET_SCENE_PARAM */
 
 short int func_SET_SCENE_PARAM_for_NewGYRO_Fil(unsigned char u16_scene,
 					       unsigned char u16_mode,
@@ -551,6 +553,7 @@ short int func_SET_SCENE_PARAM_for_NewGYRO_Fil(unsigned char u16_scene,
 /* ***************************************************** */
 /* **** Enable HalfShutter */
 /* ***************************************************** */
+#if 0 /* camellia: unused: HalfShutterOn */
 void HalfShutterOn(void)
 {
 	unsigned short int u16_dat = 0;
@@ -560,6 +563,7 @@ void HalfShutterOn(void)
 	I2C_OIS_mem_write(_M_EQCTL, u16_dat);
 	DEBUG_printf(("SET : EQCTL:%.4x\n", u16_dat));
 }
+#endif /* HalfShutterOn */
 
 /* <== RHM_HT 2014/11/27        Added */
 
@@ -605,6 +609,7 @@ void I2C_OIS_mem_write(unsigned char u08_adr, unsigned short int u16_dat)
 /* **** unsigned char      adr     Peripheral Address */
 /* **** unsigned short int      dat     Read data */
 /* ***************************************************** */
+#if 0 /* camellia: unused: I2C_OIS_per__read */
 unsigned short int I2C_OIS_per__read(unsigned char u08_adr)
 {
 	unsigned char u08_dat[2];
@@ -614,6 +619,7 @@ unsigned short int I2C_OIS_per__read(unsigned char u08_adr)
 
 	return RD_I2C(_SLV_OIS_, 2, u08_dat);
 }
+#endif /* I2C_OIS_per__read */
 
 /* ***************************************************** */
 /* **** Read from the Memory register < 84h > */
@@ -666,6 +672,7 @@ void I2C_OIS_F0123_wr_(unsigned char u08_dat0, unsigned char u08_dat1,
 	WR_I2C(_SLV_OIS_, 5, out);
 }
 
+#if 0 /* camellia: unused: I2C_OIS_F0123__rd */
 unsigned short int I2C_OIS_F0123__rd(void)
 {
 	unsigned char u08_dat[2];
@@ -675,6 +682,7 @@ unsigned short int I2C_OIS_F0123__rd(void)
 
 	return RD_I2C(_SLV_OIS_, 2, u08_dat);
 }
+#endif /* I2C_OIS_F0123__rd */
 
 /* ----------------------------------------------------------- */
 /* ----------------------------------------------------------- */

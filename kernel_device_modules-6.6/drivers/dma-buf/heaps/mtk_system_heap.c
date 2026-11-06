@@ -1714,11 +1714,13 @@ const char *refill_heap_names[] = {
 	NULL,
 };
 
+#if 0 /* camellia: unused: mtk_refill_heap_names */
 const char **mtk_refill_heap_names(void)
 {
 	return &refill_heap_names[0];
 }
 EXPORT_SYMBOL_GPL(mtk_refill_heap_names);
+#endif /* mtk_refill_heap_names */
 
 /* ref code: dma_buf.c, dma_buf_set_name */
 long mtk_dma_buf_set_name(struct dma_buf *dmabuf, const char *buf)
@@ -1754,6 +1756,7 @@ int is_system_heap_dmabuf(const struct dma_buf *dmabuf)
 }
 EXPORT_SYMBOL_GPL(is_system_heap_dmabuf);
 
+#if 0 /* camellia: unused: is_uncached_dmabuf */
 int is_uncached_dmabuf(const struct dma_buf *dmabuf)
 {
 	struct system_heap_buffer *buffer;
@@ -1768,10 +1771,12 @@ int is_uncached_dmabuf(const struct dma_buf *dmabuf)
 	return buffer->uncached;
 }
 EXPORT_SYMBOL_GPL(is_uncached_dmabuf);
+#endif /* is_uncached_dmabuf */
 
 hang_dump_cb hang_dump_proc;
 EXPORT_SYMBOL_GPL(hang_dump_proc);
 
+#if 0 /* camellia: unused: mtk_dmaheap_register_slc_callback */
 int mtk_dmaheap_register_slc_callback(dmaheap_slc_callback cb)
 {
 	//pr_info("%s slc_callback:0x%lx cb:0x%lx\n", __func__,
@@ -1783,14 +1788,18 @@ int mtk_dmaheap_register_slc_callback(dmaheap_slc_callback cb)
 	return 0;
 }
 EXPORT_SYMBOL_GPL(mtk_dmaheap_register_slc_callback);
+#endif /* mtk_dmaheap_register_slc_callback */
 
+#if 0 /* camellia: unused: mtk_dmaheap_unregister_slc_callback */
 int mtk_dmaheap_unregister_slc_callback(void)
 {
 	slc_callback = NULL;
 	return 0;
 }
 EXPORT_SYMBOL_GPL(mtk_dmaheap_unregister_slc_callback);
+#endif /* mtk_dmaheap_unregister_slc_callback */
 
+#if 0 /* camellia: unused: dma_buf_set_gid */
 int dma_buf_set_gid(struct dma_buf *dmabuf, int gid)
 {
 	struct system_heap_buffer *buffer = dmabuf->priv;
@@ -1802,6 +1811,7 @@ int dma_buf_set_gid(struct dma_buf *dmabuf, int gid)
 	return 0;
 }
 EXPORT_SYMBOL_GPL(dma_buf_set_gid);
+#endif /* dma_buf_set_gid */
 
 int dma_buf_get_gid(struct dma_buf *dmabuf)
 {

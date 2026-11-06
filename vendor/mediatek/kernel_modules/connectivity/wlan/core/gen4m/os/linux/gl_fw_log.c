@@ -173,6 +173,7 @@ static void fw_log_get_version_workQ(struct work_struct *work)
 			&prInf->ver_length, MANIFEST_BUFFER_SIZE);
 }
 
+#if 0 /* camellia: unused: fw_log_notify_rcv */
 uint32_t fw_log_notify_rcv(enum ENUM_FW_LOG_CTRL_TYPE type,
 	uint8_t *buffer,
 	uint32_t size)
@@ -210,6 +211,7 @@ uint32_t fw_log_notify_rcv(enum ENUM_FW_LOG_CTRL_TYPE type,
 
 	return written;
 }
+#endif /* fw_log_notify_rcv */
 
 int fw_log_wifi_inf_init(void)
 {

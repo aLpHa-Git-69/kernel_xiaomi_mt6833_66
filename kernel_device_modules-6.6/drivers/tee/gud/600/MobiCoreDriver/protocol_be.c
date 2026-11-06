@@ -27,6 +27,7 @@ static inline void protocol_be_get(struct protocol_fe *pfe)
 	memset(pfe->be2fe_data, 0, sizeof(*pfe->be2fe_data));
 }
 
+#if 0 /* camellia: unused: protocol_call_fe */
 static void protocol_call_fe(struct protocol_fe *pfe,
 			     atomic_t call_vm_instance_no)
 {
@@ -36,9 +37,11 @@ static void protocol_call_fe(struct protocol_fe *pfe,
 		     pfe->be2fe_data->cmd_ret);
 	be_ops->call_fe(pfe, call_vm_instance_no);
 }
+#endif /* protocol_call_fe */
 
 /* MC protocol interface */
 
+#if 0 /* camellia: unused: protocol_be_get_version */
 static int protocol_be_get_version(struct protocol_fe *pfe)
 {
 	struct mc_version_info version_info;
@@ -51,7 +54,9 @@ static int protocol_be_get_version(struct protocol_fe *pfe)
 	pfe->fe2be_data->version_info = version_info;
 	return 0;
 }
+#endif /* protocol_be_get_version */
 
+#if 0 /* camellia: unused: protocol_be_mc_open_session */
 static int protocol_be_mc_open_session(struct protocol_fe *pfe)
 {
 	struct tee_protocol_buffer *tci_buffer = &pfe->fe2be_data->buffers[0];
@@ -98,7 +103,9 @@ out:
 		     pfe->fe2be_data->session_id, ret);
 	return ret;
 }
+#endif /* protocol_be_mc_open_session */
 
+#if 0 /* camellia: unused: protocol_be_mc_open_trustlet */
 static int protocol_be_mc_open_trustlet(struct protocol_fe *pfe)
 {
 	struct tee_protocol_buffer *ta_bin = &pfe->fe2be_data->ta_bin;
@@ -176,18 +183,23 @@ err_ta_map:
 		     pfe->fe2be_data->session_id, ret);
 	return ret;
 }
+#endif /* protocol_be_mc_open_trustlet */
 
+#if 0 /* camellia: unused: protocol_be_mc_close_session */
 static int protocol_be_mc_close_session(struct protocol_fe *pfe)
 {
 	return client_remove_session(pfe->client,
 				     pfe->fe2be_data->session_id);
 }
+#endif /* protocol_be_mc_close_session */
 
+#if 0 /* camellia: unused: protocol_be_mc_notify */
 static int protocol_be_mc_notify(struct protocol_fe *pfe)
 {
 	return client_notify_session(pfe->client,
 				     pfe->fe2be_data->session_id);
 }
+#endif /* protocol_be_mc_notify */
 
 /* mc_wait cannot keep the channel busy while waiting, so we use a worker */
 struct mc_wait_work {
@@ -199,6 +211,7 @@ struct mc_wait_work {
 	atomic_t		vm_instance_no;
 };
 
+#if 0 /* camellia: unused: protocol_be_mc_wait_worker */
 static void protocol_be_mc_wait_worker(struct work_struct *work)
 {
 	struct mc_wait_work *wait_work =
@@ -281,7 +294,9 @@ bypass_waitnotif_session:
 	protocol_put(pfe);
 	kfree(wait_work);
 }
+#endif /* protocol_be_mc_wait_worker */
 
+#if 0 /* camellia: unused: protocol_be_mc_wait */
 static int protocol_be_mc_wait(struct protocol_fe *pfe)
 {
 	struct mc_wait_work *wait_work;
@@ -301,7 +316,9 @@ static int protocol_be_mc_wait(struct protocol_fe *pfe)
 	schedule_work(&wait_work->work);
 	return 0;
 }
+#endif /* protocol_be_mc_wait */
 
+#if 0 /* camellia: unused: protocol_be_mc_wait_canceled */
 static int protocol_be_mc_wait_canceled(struct protocol_fe *pfe)
 {
 	int ret;
@@ -312,7 +329,9 @@ static int protocol_be_mc_wait_canceled(struct protocol_fe *pfe)
 		     pfe->fe2be_data->session_id);
 	return ret;
 }
+#endif /* protocol_be_mc_wait_canceled */
 
+#if 0 /* camellia: unused: protocol_be_mc_map */
 static int protocol_be_mc_map(struct protocol_fe *pfe)
 {
 	struct tee_protocol_buffer *buffer = &pfe->fe2be_data->buffers[0];
@@ -359,7 +378,9 @@ static int protocol_be_mc_map(struct protocol_fe *pfe)
 		     pfe->fe2be_data->session_id, ret);
 	return ret;
 }
+#endif /* protocol_be_mc_map */
 
+#if 0 /* camellia: unused: protocol_be_mc_unmap */
 static int protocol_be_mc_unmap(struct protocol_fe *pfe)
 {
 	struct tee_protocol_buffer *buffer = &pfe->fe2be_data->buffers[0];
@@ -377,7 +398,9 @@ static int protocol_be_mc_unmap(struct protocol_fe *pfe)
 		     pfe->fe2be_data->session_id, ret);
 	return ret;
 }
+#endif /* protocol_be_mc_unmap */
 
+#if 0 /* camellia: unused: protocol_be_mc_get_err */
 static int protocol_be_mc_get_err(struct protocol_fe *pfe)
 {
 	int ret;
@@ -391,9 +414,11 @@ static int protocol_be_mc_get_err(struct protocol_fe *pfe)
 		     ret);
 	return ret;
 }
+#endif /* protocol_be_mc_get_err */
 
 /* GP protocol interface */
 
+#if 0 /* camellia: unused: protocol_be_gp_register_shared_mem */
 static int protocol_be_gp_register_shared_mem(struct protocol_fe *pfe)
 {
 	struct tee_protocol_buffer *buffer = &pfe->fe2be_data->buffers[0];
@@ -436,7 +461,9 @@ static int protocol_be_gp_register_shared_mem(struct protocol_fe *pfe)
 		     pfe->fe2be_data->session_id, ret);
 	return ret;
 }
+#endif /* protocol_be_gp_register_shared_mem */
 
+#if 0 /* camellia: unused: protocol_be_gp_release_shared_mem */
 static int protocol_be_gp_release_shared_mem(struct protocol_fe *pfe)
 {
 	struct tee_protocol_buffer *buffer = &pfe->fe2be_data->buffers[0];
@@ -452,6 +479,7 @@ static int protocol_be_gp_release_shared_mem(struct protocol_fe *pfe)
 	mc_dev_devel("exit with %d", ret);
 	return ret;
 }
+#endif /* protocol_be_gp_release_shared_mem */
 
 /* GP functions cannot keep the ring busy while waiting, so we use a worker */
 struct gp_work {
@@ -467,6 +495,7 @@ struct gp_work {
 	atomic_t			vm_instance_no;
 };
 
+#if 0 /* camellia: unused: protocol_be_gp_open_session_worker */
 static void protocol_be_gp_open_session_worker(struct work_struct *work)
 {
 	struct gp_work *gp_work = container_of(work, struct gp_work, work);
@@ -501,7 +530,9 @@ static void protocol_be_gp_open_session_worker(struct work_struct *work)
 
 	kfree(gp_work);
 }
+#endif /* protocol_be_gp_open_session_worker */
 
+#if 0 /* camellia: unused: protocol_be_gp_open_session */
 static int protocol_be_gp_open_session(struct protocol_fe *pfe)
 {
 	struct tee_protocol_buffer *ta_bin = &pfe->fe2be_data->ta_bin;
@@ -587,7 +618,9 @@ err_ta_map:
 	kfree(gp_work);
 	return ret;
 }
+#endif /* protocol_be_gp_open_session */
 
+#if 0 /* camellia: unused: protocol_be_gp_close_session_worker */
 static void protocol_be_gp_close_session_worker(
 	struct work_struct *work)
 {
@@ -611,7 +644,9 @@ static void protocol_be_gp_close_session_worker(
 	protocol_put(pfe);
 	kfree(gp_work);
 }
+#endif /* protocol_be_gp_close_session_worker */
 
+#if 0 /* camellia: unused: protocol_be_gp_close_session */
 static int protocol_be_gp_close_session(struct protocol_fe *pfe)
 {
 	struct gp_work *gp_work;
@@ -629,7 +664,9 @@ static int protocol_be_gp_close_session(struct protocol_fe *pfe)
 	schedule_work(&gp_work->work);
 	return 0;
 }
+#endif /* protocol_be_gp_close_session */
 
+#if 0 /* camellia: unused: protocol_be_gp_invoke_command_worker */
 static void protocol_be_gp_invoke_command_worker(
 	struct work_struct *work)
 {
@@ -663,7 +700,9 @@ static void protocol_be_gp_invoke_command_worker(
 	protocol_put(pfe);
 	kfree(gp_work);
 }
+#endif /* protocol_be_gp_invoke_command_worker */
 
+#if 0 /* camellia: unused: protocol_be_gp_invoke_command */
 static int protocol_be_gp_invoke_command(struct protocol_fe *pfe)
 {
 	struct gp_work *gp_work;
@@ -720,18 +759,22 @@ err_map:
 	kfree(gp_work);
 	return ret;
 }
+#endif /* protocol_be_gp_invoke_command */
 
+#if 0 /* camellia: unused: protocol_be_gp_request_cancellation */
 static int protocol_be_gp_request_cancellation(struct protocol_fe *pfe)
 {
 	client_gp_request_cancellation(pfe->client,
 				       pfe->fe2be_data->operation_id);
 	return 0;
 }
+#endif /* protocol_be_gp_request_cancellation */
 
 /* Once Backend/Frontend connection established and VMs data struct to control
  * comm and exchange messages (struct tee_xfe) configured successfully,
  * TEE Commands managed here.
  */
+#if 0 /* camellia: unused: protocol_be_dispatch */
 int protocol_be_dispatch(struct protocol_fe *pfe)
 {
 	int ret = -EINVAL;
@@ -799,4 +842,5 @@ int protocol_be_dispatch(struct protocol_fe *pfe)
 
 	return ret;
 }
+#endif /* protocol_be_dispatch */
 

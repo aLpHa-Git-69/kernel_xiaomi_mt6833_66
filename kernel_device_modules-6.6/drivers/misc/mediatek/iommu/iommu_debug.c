@@ -452,11 +452,13 @@ iova_trace:
 EXPORT_SYMBOL_GPL(mtk_iova_unmap);
 
 /* For smmu, tab_id is smmu hardware id */
+#if 0 /* camellia: unused: mtk_iova_map_dump */
 int mtk_iova_map_dump(u64 iova, u64 tab_id)
 {
 	return mtk_iommu_iova_map_dump(NULL, iova, tab_id);
 }
 EXPORT_SYMBOL_GPL(mtk_iova_map_dump);
+#endif /* mtk_iova_map_dump */
 
 /* For smmu, tab_id is smmu hardware id */
 int mtk_iova_dump(u64 iova, u64 tab_id)
@@ -631,11 +633,13 @@ static int mtk_iommu_trace_dump(struct seq_file *s)
 	return __iommu_trace_dump(s, 0);
 }
 
+#if 0 /* camellia: unused: mtk_iova_trace_dump */
 int mtk_iova_trace_dump(u64 iova)
 {
 	return __iommu_trace_dump(NULL, iova);
 }
 EXPORT_SYMBOL_GPL(mtk_iova_trace_dump);
+#endif /* mtk_iova_trace_dump */
 
 void mtk_iommu_debug_reset(void)
 {
@@ -1731,6 +1735,7 @@ static char *mt6983_peri_tf(enum peri_iommu id, u32 fault_id)
 	}
 }
 
+#if 0 /* camellia: unused: get_peri_iommu_id */
 enum peri_iommu get_peri_iommu_id(u32 bus_id)
 {
 	int i;
@@ -1743,6 +1748,7 @@ enum peri_iommu get_peri_iommu_id(u32 bus_id)
 	return PERI_IOMMU_NUM;
 };
 EXPORT_SYMBOL_GPL(get_peri_iommu_id);
+#endif /* get_peri_iommu_id */
 
 char *peri_tf_analyse(enum peri_iommu iommu_id, u32 fault_id)
 {

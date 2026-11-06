@@ -776,6 +776,7 @@ u32 mtk_ccci_get_smem_by_id(enum SMEM_USER_ID user_id,
 EXPORT_SYMBOL(mtk_ccci_get_smem_by_id);
 
 
+#if 0 /* camellia: unused: mtk_ccci_get_smem_start_addr */
 void __iomem *mtk_ccci_get_smem_start_addr(enum SMEM_USER_ID user_id, int *size_o)
 {
 	void __iomem *addr = NULL;
@@ -798,8 +799,10 @@ void __iomem *mtk_ccci_get_smem_start_addr(enum SMEM_USER_ID user_id, int *size_
 	return addr;
 }
 EXPORT_SYMBOL(mtk_ccci_get_smem_start_addr);
+#endif /* mtk_ccci_get_smem_start_addr */
 
 
+#if 0 /* camellia: unused: mtk_ccci_get_smem_phy_start_addr */
 phys_addr_t mtk_ccci_get_smem_phy_start_addr(enum SMEM_USER_ID user_id, int *size_o)
 {
 	phys_addr_t addr = 0;
@@ -820,6 +823,7 @@ phys_addr_t mtk_ccci_get_smem_phy_start_addr(enum SMEM_USER_ID user_id, int *siz
 	return addr;
 }
 EXPORT_SYMBOL(mtk_ccci_get_smem_phy_start_addr);
+#endif /* mtk_ccci_get_smem_phy_start_addr */
 
 
 unsigned int mtk_ccci_get_md_nc_smem_inf(void __iomem **o_ap_vir, phys_addr_t *o_ap_phy,
@@ -840,10 +844,12 @@ unsigned int mtk_ccci_get_md_nc_smem_inf(void __iomem **o_ap_vir, phys_addr_t *o
 }
 EXPORT_SYMBOL(mtk_ccci_get_md_nc_smem_inf);
 
+#if 0 /* camellia: unused: mtk_ccci_get_md_nc_smem_mpu_size */
 unsigned int mtk_ccci_get_md_nc_smem_mpu_size(void)
 {
 	return s_md_nc_smem_mpu_size;
 }
+#endif /* mtk_ccci_get_md_nc_smem_mpu_size */
 
 unsigned int mtk_ccci_get_md_c_smem_inf(void __iomem **o_ap_vir, phys_addr_t *o_ap_phy,
 					u32 *o_md_phy)
@@ -863,10 +869,12 @@ unsigned int mtk_ccci_get_md_c_smem_inf(void __iomem **o_ap_vir, phys_addr_t *o_
 }
 EXPORT_SYMBOL(mtk_ccci_get_md_c_smem_inf);
 
+#if 0 /* camellia: unused: mtk_ccci_get_md_c_smem_mpu_size */
 unsigned int mtk_ccci_get_md_c_smem_mpu_size(void)
 {
 	return s_md_c_smem_mpu_size;
 }
+#endif /* mtk_ccci_get_md_c_smem_mpu_size */
 
 
 struct md_mem_blk {

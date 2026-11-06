@@ -458,11 +458,13 @@ mtk_eara_thermal_pb_handle(int total_pwr_budget,
 	return 0;
 }
 
+#if 0 /* camellia: unused: print_risky_temps */
 void __attribute__ ((weak))
 print_risky_temps(char *prefix, int offset, int printLevel)
 {
 
 }
+#endif /* print_risky_temps */
 
 /*=============================================================*/
 
@@ -486,11 +488,13 @@ int tsatm_thermal_get_catm_type(void)
 	return ctm_on;
 }
 
+#if 0 /* camellia: unused: mtk_thermal_get_tpcb_target */
 int mtk_thermal_get_tpcb_target(void)
 {
 	return STEADY_TARGET_TPCB;
 }
 EXPORT_SYMBOL(mtk_thermal_get_tpcb_target);
+#endif /* mtk_thermal_get_tpcb_target */
 
 /**
  * TODO: What's the diff from get_cpu_target_tj?
@@ -968,11 +972,13 @@ int is_cpu_power_unlimit(void)
 }
 EXPORT_SYMBOL(is_cpu_power_unlimit);
 
+#if 0 /* camellia: unused: is_cpu_power_min */
 int is_cpu_power_min(void)
 {
 	return (g_total_power <= MINIMUM_TOTAL_POWER) ? 1 : 0;
 }
 EXPORT_SYMBOL(is_cpu_power_min);
+#endif /* is_cpu_power_min */
 
 /**
  * TODO: What's the diff from get_target_tj?
@@ -983,24 +989,30 @@ int get_cpu_target_tj(void)
 }
 EXPORT_SYMBOL(get_cpu_target_tj);
 
+#if 0 /* camellia: unused: get_cpu_target_offset */
 int get_cpu_target_offset(void)
 {
 	return cpu_target_offset;
 }
 EXPORT_SYMBOL(get_cpu_target_offset);
+#endif /* get_cpu_target_offset */
 
 /*add for DLPT*/
+#if 0 /* camellia: unused: tscpu_get_min_cpu_pwr */
 int tscpu_get_min_cpu_pwr(void)
 {
 	return MINIMUM_CPU_POWER;
 }
 EXPORT_SYMBOL(tscpu_get_min_cpu_pwr);
+#endif /* tscpu_get_min_cpu_pwr */
 
+#if 0 /* camellia: unused: tscpu_get_min_gpu_pwr */
 int tscpu_get_min_gpu_pwr(void)
 {
 	return MINIMUM_GPU_POWER;
 }
 EXPORT_SYMBOL(tscpu_get_min_gpu_pwr);
+#endif /* tscpu_get_min_gpu_pwr */
 
 #if defined(THERMAL_VPU_SUPPORT)
 int tscpu_get_min_vpu_pwr(void)

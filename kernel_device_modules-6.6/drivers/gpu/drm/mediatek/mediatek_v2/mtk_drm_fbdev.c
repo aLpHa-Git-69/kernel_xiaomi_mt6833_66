@@ -400,6 +400,7 @@ fini:
 	return ret;
 }
 
+#if 0 /* camellia: unused: mtk_fbdev_fini */
 void mtk_fbdev_fini(struct drm_device *dev)
 {
 	struct mtk_drm_private *priv = dev->dev_private;
@@ -414,3 +415,4 @@ void mtk_fbdev_fini(struct drm_device *dev)
 
 	drm_fb_helper_fini(helper);
 }
+#endif /* mtk_fbdev_fini */

@@ -132,6 +132,7 @@ uint32_t wlanGetPatchDataModeV2(struct ADAPTER *prAdapter,
 	return u4DataMode;
 }
 
+#if 0 /* camellia: unused: wlanGetHarvardFwInfo */
 void wlanGetHarvardFwInfo(struct ADAPTER *prAdapter,
 	struct WIFI_VER_INFO *prVerInfo,
 	uint8_t u4SecIdx,
@@ -156,6 +157,7 @@ void wlanGetHarvardFwInfo(struct ADAPTER *prAdapter,
 	*pfgIsEMIDownload = FALSE;
 	*pfgIsNotDownload = FALSE;
 }
+#endif /* wlanGetHarvardFwInfo */
 
 void wlanGetConnacFwInfo(struct ADAPTER *prAdapter,
 	struct WIFI_VER_INFO *prVerInfo,
@@ -736,6 +738,7 @@ static uint32_t wlanEmiSectionStartCmd(struct ADAPTER *prAdapter,
 	return u4Status;
 }
 
+#if 0 /* camellia: unused: wlanDownloadEMISectionViaDma */
 uint32_t wlanDownloadEMISectionViaDma(struct ADAPTER *prAdapter,
 	uint32_t u4DestAddr,
 	uint32_t u4DataMode,
@@ -784,6 +787,7 @@ uint32_t wlanDownloadEMISectionViaDma(struct ADAPTER *prAdapter,
 exit:
 	return u4Status;
 }
+#endif /* wlanDownloadEMISectionViaDma */
 
 #if CFG_SUPPORT_COMPRESSION_FW_OPTION
 u_int8_t wlanImageSectionCheckFwCompressInfo(
@@ -1610,6 +1614,7 @@ exit:
  * @return crc32 value
  */
 /*----------------------------------------------------------------------------*/
+#if 0 /* camellia: unused: wlanCRC32 */
 uint32_t wlanCRC32(uint8_t *buf, uint32_t len)
 {
 	uint32_t i, crc32 = 0xFFFFFFFF;
@@ -1674,6 +1679,7 @@ uint32_t wlanCRC32(uint8_t *buf, uint32_t len)
 
 	return ~crc32;
 }
+#endif /* wlanCRC32 */
 
 uint32_t wlanGetHarvardTailerInfo(struct ADAPTER
 	*prAdapter, void *prFwBuffer, uint32_t u4FwSize,

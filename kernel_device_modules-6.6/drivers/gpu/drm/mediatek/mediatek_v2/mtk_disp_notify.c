@@ -68,11 +68,13 @@ int mtk_disp_3rd_notifier_register(const char *source, struct notifier_block *nb
 }
 EXPORT_SYMBOL_GPL(mtk_disp_3rd_notifier_register);
 
+#if 0 /* camellia: unused: mtk_disp_3rd_notifier_unregister */
 int mtk_disp_3rd_notifier_unregister(struct notifier_block *nb)
 {
 	return blocking_notifier_chain_unregister(&disp_3rd_notifier_list, nb);
 }
 EXPORT_SYMBOL_GPL(mtk_disp_3rd_notifier_unregister);
+#endif /* mtk_disp_3rd_notifier_unregister */
 
 int mtk_disp_3rd_notifier_call_chain(unsigned long val, void *v)
 {

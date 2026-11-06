@@ -769,8 +769,10 @@ int aes_gcm_ad_impl(
 	return 0;
 }
 
+#if 0 /* camellia: unused: aes_gmac_impl */
 int aes_gmac_impl(uint8_t *key, size_t key_len, uint8_t *iv, size_t iv_len,
 		uint8_t *aad, size_t aad_len, uint8_t *tag)
 {
 	return aes_gcm_ae(aad, aad_len, key, key_len, iv, iv_len, tag);
 }
+#endif /* aes_gmac_impl */

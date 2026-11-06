@@ -42,11 +42,13 @@ static const struct sp_clk_ops *sp_clk_ops;
 
 static bool mmproc_sspm_vote_sync_bits_support;
 
+#if 0 /* camellia: unused: set_sp_clk_ops */
 void set_sp_clk_ops(const struct sp_clk_ops *ops)
 {
 	sp_clk_ops = ops;
 }
 EXPORT_SYMBOL_GPL(set_sp_clk_ops);
+#endif /* set_sp_clk_ops */
 
 int sp_merge_clk_control(struct mtk_clk_mux *mux, u8 index, u32 mask)
 {
@@ -63,11 +65,13 @@ int register_mtk_clk_notifier(struct notifier_block *nb)
 }
 EXPORT_SYMBOL_GPL(register_mtk_clk_notifier);
 
+#if 0 /* camellia: unused: unregister_mtk_clk_notifier */
 int unregister_mtk_clk_notifier(struct notifier_block *nb)
 {
 	return atomic_notifier_chain_unregister(&mtk_clk_notifier_list, nb);
 }
 EXPORT_SYMBOL_GPL(unregister_mtk_clk_notifier);
+#endif /* unregister_mtk_clk_notifier */
 
 int mtk_clk_notify(struct regmap *regmap, struct regmap *hwv_regmap,
 		const char *name, u32 ofs, u32 id, u32 shift, int event_type)
@@ -88,11 +92,13 @@ int mtk_clk_notify(struct regmap *regmap, struct regmap *hwv_regmap,
 }
 EXPORT_SYMBOL_GPL(mtk_clk_notify);
 
+#if 0 /* camellia: unused: mtk_clk_register_ipi_callback */
 void mtk_clk_register_ipi_callback(struct ipi_callbacks *clk_cb)
 {
 	g_clk_cb = clk_cb;
 }
 EXPORT_SYMBOL_GPL(mtk_clk_register_ipi_callback);
+#endif /* mtk_clk_register_ipi_callback */
 
 struct ipi_callbacks *mtk_clk_get_ipi_cb(void)
 {
@@ -286,6 +292,7 @@ err_out:
 }
 EXPORT_SYMBOL_GPL(mtk_alloc_clk_data);
 
+#if 0 /* camellia: unused: mtk_free_clk_data */
 void mtk_free_clk_data(struct clk_onecell_data *clk_data)
 {
 	if (!clk_data)
@@ -295,6 +302,7 @@ void mtk_free_clk_data(struct clk_onecell_data *clk_data)
 	kfree(clk_data);
 }
 EXPORT_SYMBOL_GPL(mtk_free_clk_data);
+#endif /* mtk_free_clk_data */
 
 void mtk_clk_register_fixed_clks(const struct mtk_fixed_clk *clks,
 		int num, struct clk_onecell_data *clk_data)

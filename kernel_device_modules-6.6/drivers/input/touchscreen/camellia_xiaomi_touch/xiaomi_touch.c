@@ -147,17 +147,21 @@ struct xiaomi_touch *xiaomi_touch_dev_get(int minor)
 }
 EXPORT_SYMBOL(xiaomi_touch_dev_get);
 
+#if 0 /* camellia: unused: get_xiaomi_touch_class */
 struct class *get_xiaomi_touch_class(void)
 {
 	return xiaomi_touch_dev.class;
 }
 EXPORT_SYMBOL(get_xiaomi_touch_class);
+#endif /* get_xiaomi_touch_class */
 
+#if 0 /* camellia: unused: get_xiaomi_touch_dev */
 struct device *get_xiaomi_touch_dev(void)
 {
 	return xiaomi_touch_dev.dev;
 }
 EXPORT_SYMBOL(get_xiaomi_touch_dev);
+#endif /* get_xiaomi_touch_dev */
 
 int xiaomitouch_register_modedata(struct xiaomi_touch_interface *data)
 {

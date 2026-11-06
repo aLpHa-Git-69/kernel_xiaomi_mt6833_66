@@ -224,6 +224,7 @@ int register_low_battery_notify(low_battery_callback lb_cb,
 }
 EXPORT_SYMBOL(register_low_battery_notify);
 
+#if 0 /* camellia: unused: register_low_battery_mbrain_cb */
 int register_low_battery_mbrain_cb(low_battery_mbrain_callback cb)
 {
 	if (!cb)
@@ -234,6 +235,7 @@ int register_low_battery_mbrain_cb(low_battery_mbrain_callback cb)
 	return 0;
 }
 EXPORT_SYMBOL(register_low_battery_mbrain_cb);
+#endif /* register_low_battery_mbrain_cb */
 
 void exec_throttle(unsigned int thl_level, enum LOW_BATTERY_USER_TAG user, unsigned int thd_volt, unsigned int input)
 {

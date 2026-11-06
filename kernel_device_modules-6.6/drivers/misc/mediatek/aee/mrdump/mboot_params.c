@@ -208,10 +208,12 @@ void sram_log_save(const char *msg, int count)
 	}
 }
 
+#if 0 /* camellia: unused: aee_disable_mboot_params_write */
 void aee_disable_mboot_params_write(void)
 {
 	atomic_set(&mp_in_fiq, 1);
 }
+#endif /* aee_disable_mboot_params_write */
 
 void aee_sram_fiq_log(const char *msg)
 {
@@ -254,12 +256,14 @@ static void mboot_params_write(struct console *console, const char *s,
 	spin_unlock_irqrestore(&mboot_params_lock, flags);
 }
 
+#if 0 /* camellia: unused: mboot_params */
 static struct console mboot_params = {
 	.name = "ram",
 	.write = mboot_params_write,
 	.flags = CON_PRINTBUFFER | CON_ENABLED | CON_ANYTIME,
 	.index = -1,
 };
+#endif /* mboot_params */
 
 void aee_sram_printk(const char *fmt, ...)
 {
@@ -293,6 +297,7 @@ void aee_sram_printk(const char *fmt, ...)
 }
 EXPORT_SYMBOL(aee_sram_printk);
 
+#if 0 /* camellia: unused: mboot_params_enable_console */
 void mboot_params_enable_console(int enabled)
 {
 	if (enabled)
@@ -300,6 +305,7 @@ void mboot_params_enable_console(int enabled)
 	else
 		mboot_params.flags &= ~CON_ENABLED;
 }
+#endif /* mboot_params_enable_console */
 
 static int mboot_params_check_header(struct mboot_params_buffer *buffer)
 {
@@ -637,12 +643,14 @@ void aee_rr_rec_exp_type(unsigned int type)
 		LAST_RR_SET(exp_type, MBOOT_PARAMS_EXP_TYPE_MAGIC | type);
 }
 
+#if 0 /* camellia: unused: aee_rr_curr_exp_type */
 unsigned int aee_rr_curr_exp_type(void)
 {
 	unsigned int exp_type = LAST_RR_VAL(exp_type);
 
 	return MBOOT_PARAMS_EXP_TYPE_DEC(exp_type);
 }
+#endif /* aee_rr_curr_exp_type */
 
 void aee_rr_rec_kick(uint32_t kick_bit)
 {
@@ -703,6 +711,7 @@ void aee_rr_rec_mcdi_val(int id, u32 val)
 		pr_notice("%s invalid id= %d\n", __func__, id);
 }
 
+#if 0 /* camellia: unused: aee_rr_rec_mtk_cpuidle_footprint_va */
 unsigned long *aee_rr_rec_mtk_cpuidle_footprint_va(void)
 {
 	if (mboot_params_buffer)
@@ -710,7 +719,9 @@ unsigned long *aee_rr_rec_mtk_cpuidle_footprint_va(void)
 	else
 		return NULL;
 }
+#endif /* aee_rr_rec_mtk_cpuidle_footprint_va */
 
+#if 0 /* camellia: unused: aee_rr_rec_mtk_cpuidle_footprint_pa */
 unsigned long *aee_rr_rec_mtk_cpuidle_footprint_pa(void)
 {
 	if (mboot_params_buffer_pa)
@@ -718,6 +729,7 @@ unsigned long *aee_rr_rec_mtk_cpuidle_footprint_pa(void)
 	else
 		return NULL;
 }
+#endif /* aee_rr_rec_mtk_cpuidle_footprint_pa */
 
 void aee_rr_rec_gpu_dvfs_vgpu(u8 val)
 {
@@ -727,11 +739,13 @@ void aee_rr_rec_gpu_dvfs_vgpu(u8 val)
 }
 EXPORT_SYMBOL(aee_rr_rec_gpu_dvfs_vgpu);
 
+#if 0 /* camellia: unused: aee_rr_curr_gpu_dvfs_vgpu */
 u8 aee_rr_curr_gpu_dvfs_vgpu(void)
 {
 	return LAST_RR_VAL(gpu_dvfs_vgpu);
 }
 EXPORT_SYMBOL(aee_rr_curr_gpu_dvfs_vgpu);
+#endif /* aee_rr_curr_gpu_dvfs_vgpu */
 
 void aee_rr_rec_gpu_dvfs_oppidx(u8 val)
 {
@@ -763,6 +777,7 @@ void aee_rr_rec_gpu_dvfs_power_count(int val)
 }
 EXPORT_SYMBOL(aee_rr_rec_gpu_dvfs_power_count);
 
+#if 0 /* camellia: unused: aee_rr_rec_ptp_vboot */
 void aee_rr_rec_ptp_vboot(u64 val)
 {
 	if (!mboot_params_init_done || !mboot_params_buffer)
@@ -770,7 +785,9 @@ void aee_rr_rec_ptp_vboot(u64 val)
 	LAST_RR_SET(ptp_vboot, val);
 }
 EXPORT_SYMBOL(aee_rr_rec_ptp_vboot);
+#endif /* aee_rr_rec_ptp_vboot */
 
+#if 0 /* camellia: unused: aee_rr_rec_ptp_gpu_volt */
 void aee_rr_rec_ptp_gpu_volt(u64 val)
 {
 	if (!mboot_params_init_done || !mboot_params_buffer)
@@ -778,7 +795,9 @@ void aee_rr_rec_ptp_gpu_volt(u64 val)
 	LAST_RR_SET(ptp_gpu_volt, val);
 }
 EXPORT_SYMBOL(aee_rr_rec_ptp_gpu_volt);
+#endif /* aee_rr_rec_ptp_gpu_volt */
 
+#if 0 /* camellia: unused: aee_rr_rec_ptp_gpu_volt_1 */
 void aee_rr_rec_ptp_gpu_volt_1(u64 val)
 {
 	if (!mboot_params_init_done || !mboot_params_buffer)
@@ -786,7 +805,9 @@ void aee_rr_rec_ptp_gpu_volt_1(u64 val)
 	LAST_RR_SET(ptp_gpu_volt_1, val);
 }
 EXPORT_SYMBOL(aee_rr_rec_ptp_gpu_volt_1);
+#endif /* aee_rr_rec_ptp_gpu_volt_1 */
 
+#if 0 /* camellia: unused: aee_rr_rec_ptp_gpu_volt_2 */
 void aee_rr_rec_ptp_gpu_volt_2(u64 val)
 {
 	if (!mboot_params_init_done || !mboot_params_buffer)
@@ -794,7 +815,9 @@ void aee_rr_rec_ptp_gpu_volt_2(u64 val)
 	LAST_RR_SET(ptp_gpu_volt_2, val);
 }
 EXPORT_SYMBOL(aee_rr_rec_ptp_gpu_volt_2);
+#endif /* aee_rr_rec_ptp_gpu_volt_2 */
 
+#if 0 /* camellia: unused: aee_rr_rec_ptp_gpu_volt_3 */
 void aee_rr_rec_ptp_gpu_volt_3(u64 val)
 {
 	if (!mboot_params_init_done || !mboot_params_buffer)
@@ -802,7 +825,9 @@ void aee_rr_rec_ptp_gpu_volt_3(u64 val)
 	LAST_RR_SET(ptp_gpu_volt_3, val);
 }
 EXPORT_SYMBOL(aee_rr_rec_ptp_gpu_volt_3);
+#endif /* aee_rr_rec_ptp_gpu_volt_3 */
 
+#if 0 /* camellia: unused: aee_rr_rec_ptp_temp */
 void aee_rr_rec_ptp_temp(u64 val)
 {
 	if (!mboot_params_init_done || !mboot_params_buffer)
@@ -810,7 +835,9 @@ void aee_rr_rec_ptp_temp(u64 val)
 	LAST_RR_SET(ptp_temp, val);
 }
 EXPORT_SYMBOL(aee_rr_rec_ptp_temp);
+#endif /* aee_rr_rec_ptp_temp */
 
+#if 0 /* camellia: unused: aee_rr_rec_ptp_status */
 void aee_rr_rec_ptp_status(u8 val)
 {
 	if (!mboot_params_init_done || !mboot_params_buffer)
@@ -818,43 +845,57 @@ void aee_rr_rec_ptp_status(u8 val)
 	LAST_RR_SET(ptp_status, val);
 }
 EXPORT_SYMBOL(aee_rr_rec_ptp_status);
+#endif /* aee_rr_rec_ptp_status */
 
+#if 0 /* camellia: unused: aee_rr_curr_ptp_gpu_volt */
 u64 aee_rr_curr_ptp_gpu_volt(void)
 {
 	return LAST_RR_VAL(ptp_gpu_volt);
 }
 EXPORT_SYMBOL(aee_rr_curr_ptp_gpu_volt);
+#endif /* aee_rr_curr_ptp_gpu_volt */
 
+#if 0 /* camellia: unused: aee_rr_curr_ptp_gpu_volt_1 */
 u64 aee_rr_curr_ptp_gpu_volt_1(void)
 {
 	return LAST_RR_VAL(ptp_gpu_volt_1);
 }
 EXPORT_SYMBOL(aee_rr_curr_ptp_gpu_volt_1);
+#endif /* aee_rr_curr_ptp_gpu_volt_1 */
 
+#if 0 /* camellia: unused: aee_rr_curr_ptp_gpu_volt_2 */
 u64 aee_rr_curr_ptp_gpu_volt_2(void)
 {
 	return LAST_RR_VAL(ptp_gpu_volt_2);
 }
 EXPORT_SYMBOL(aee_rr_curr_ptp_gpu_volt_2);
+#endif /* aee_rr_curr_ptp_gpu_volt_2 */
 
+#if 0 /* camellia: unused: aee_rr_curr_ptp_gpu_volt_3 */
 u64 aee_rr_curr_ptp_gpu_volt_3(void)
 {
 	return LAST_RR_VAL(ptp_gpu_volt_3);
 }
 EXPORT_SYMBOL(aee_rr_curr_ptp_gpu_volt_3);
+#endif /* aee_rr_curr_ptp_gpu_volt_3 */
 
+#if 0 /* camellia: unused: aee_rr_curr_ptp_temp */
 u64 aee_rr_curr_ptp_temp(void)
 {
 	return LAST_RR_VAL(ptp_temp);
 }
 EXPORT_SYMBOL(aee_rr_curr_ptp_temp);
+#endif /* aee_rr_curr_ptp_temp */
 
+#if 0 /* camellia: unused: aee_rr_curr_ptp_status */
 u8 aee_rr_curr_ptp_status(void)
 {
 	return LAST_RR_VAL(ptp_status);
 }
 EXPORT_SYMBOL(aee_rr_curr_ptp_status);
+#endif /* aee_rr_curr_ptp_status */
 
+#if 0 /* camellia: unused: aee_rr_rec_last_init_func */
 void aee_rr_rec_last_init_func(unsigned long val)
 {
 	if (!mboot_params_init_done || !mboot_params_buffer)
@@ -863,20 +904,25 @@ void aee_rr_rec_last_init_func(unsigned long val)
 		return;
 	LAST_RR_SET(last_init_func, val);
 }
+#endif /* aee_rr_rec_last_init_func */
 
+#if 0 /* camellia: unused: aee_rr_rec_last_init_func_name */
 void aee_rr_rec_last_init_func_name(const char *str)
 {
 	if (!mboot_params_init_done || !mboot_params_buffer)
 		return;
 	LAST_RR_MEMCPY(last_init_func_name, str, FUNC_NAME_LEN-1);
 }
+#endif /* aee_rr_rec_last_init_func_name */
 
+#if 0 /* camellia: unused: aee_rr_rec_last_shutdown_device */
 void aee_rr_rec_last_shutdown_device(const char *str)
 {
 	if (!mboot_params_init_done || !mboot_params_buffer)
 		return;
 	LAST_RR_MEMCPY(last_shutdown_device, str, FUNC_NAME_LEN-1);
 }
+#endif /* aee_rr_rec_last_shutdown_device */
 
 void aee_rr_rec_hang_detect_timeout_count(unsigned int val)
 {
@@ -886,6 +932,7 @@ void aee_rr_rec_hang_detect_timeout_count(unsigned int val)
 }
 EXPORT_SYMBOL(aee_rr_rec_hang_detect_timeout_count);
 
+#if 0 /* camellia: unused: aee_rr_rec_gz_irq_pa */
 unsigned long *aee_rr_rec_gz_irq_pa(void)
 {
 	if (mboot_params_buffer_pa)
@@ -893,6 +940,7 @@ unsigned long *aee_rr_rec_gz_irq_pa(void)
 	else
 		return NULL;
 }
+#endif /* aee_rr_rec_gz_irq_pa */
 
 typedef void (*last_rr_show_t) (struct seq_file *m);
 typedef void (*last_rr_show_cpu_t) (struct seq_file *m, int cpu);
@@ -1021,6 +1069,7 @@ void aee_rr_show_ptp_gpu_volt(struct seq_file *m)
 			   (LAST_RRR_VAL(ptp_gpu_volt) >> (i * 8)) & 0xFF);
 }
 
+#if 0 /* camellia: unused: aee_rr_show_ptp_gpu_volt_1 */
 void aee_rr_show_ptp_gpu_volt_1(struct seq_file *m)
 {
 	int i;
@@ -1029,6 +1078,7 @@ void aee_rr_show_ptp_gpu_volt_1(struct seq_file *m)
 		seq_printf(m, "ptp_gpu_volt_1[%d] = %llx\n", i,
 			   (LAST_RRR_VAL(ptp_gpu_volt_1) >> (i * 8)) & 0xFF);
 }
+#endif /* aee_rr_show_ptp_gpu_volt_1 */
 
 void aee_rr_show_ptp_gpu_volt_2(struct seq_file *m)
 {

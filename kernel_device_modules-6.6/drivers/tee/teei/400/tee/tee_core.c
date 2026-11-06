@@ -1331,11 +1331,13 @@ EXPORT_SYMBOL_GPL(isee_device_unregister);
  * @teedev:	Device containing the driver_data pointer
  * @returns the driver_data pointer supplied to tee_register().
  */
+#if 0 /* camellia: unused: isee_get_drvdata */
 void *isee_get_drvdata(struct tee_device *teedev)
 {
 	return dev_get_drvdata(&teedev->dev);
 }
 EXPORT_SYMBOL_GPL(isee_get_drvdata);
+#endif /* isee_get_drvdata */
 
 struct match_dev_data {
 	struct tee_ioctl_version_data *vers;
@@ -1343,6 +1345,7 @@ struct match_dev_data {
 	int (*match)(struct tee_ioctl_version_data *vars, const void *data);
 };
 
+#if 0 /* camellia: unused: match_dev */
 static int match_dev(struct device *dev, const void *data)
 {
 	const struct match_dev_data *match_data = data;
@@ -1351,7 +1354,9 @@ static int match_dev(struct device *dev, const void *data)
 	teedev->desc->ops->get_version(teedev, match_data->vers);
 	return match_data->match(match_data->vers, match_data->data);
 }
+#endif /* match_dev */
 
+#if 0 /* camellia: unused: isee_client_open_context */
 struct tee_context *isee_client_open_context(struct tee_context *start,
 			int (*match)(struct tee_ioctl_version_data *,
 				const void *),
@@ -1383,21 +1388,27 @@ struct tee_context *isee_client_open_context(struct tee_context *start,
 	return ctx;
 }
 EXPORT_SYMBOL_GPL(isee_client_open_context);
+#endif /* isee_client_open_context */
 
+#if 0 /* camellia: unused: isee_client_close_context */
 void isee_client_close_context(struct tee_context *ctx)
 {
 	teedev_close_context(ctx);
 }
 EXPORT_SYMBOL_GPL(isee_client_close_context);
+#endif /* isee_client_close_context */
 
+#if 0 /* camellia: unused: isee_client_get_version */
 void isee_client_get_version(struct tee_context *ctx,
 			struct tee_ioctl_version_data *vers)
 {
 	ctx->teedev->desc->ops->get_version(ctx->teedev, vers);
 }
 EXPORT_SYMBOL_GPL(isee_client_get_version);
+#endif /* isee_client_get_version */
 
 
+#if 0 /* camellia: unused: isee_client_open_session */
 int isee_client_open_session(struct tee_context *ctx,
 			struct tee_ioctl_open_session_arg *arg,
 			struct tee_param *param)
@@ -1407,7 +1418,9 @@ int isee_client_open_session(struct tee_context *ctx,
 	return ctx->teedev->desc->ops->open_session(ctx, arg, param);
 }
 EXPORT_SYMBOL_GPL(isee_client_open_session);
+#endif /* isee_client_open_session */
 
+#if 0 /* camellia: unused: isee_client_close_session */
 int isee_client_close_session(struct tee_context *ctx, u32 session)
 {
 	if (!ctx->teedev->desc->ops->close_session)
@@ -1415,7 +1428,9 @@ int isee_client_close_session(struct tee_context *ctx, u32 session)
 	return ctx->teedev->desc->ops->close_session(ctx, session);
 }
 EXPORT_SYMBOL_GPL(isee_client_close_session);
+#endif /* isee_client_close_session */
 
+#if 0 /* camellia: unused: isee_client_invoke_func */
 int isee_client_invoke_func(struct tee_context *ctx,
 			struct tee_ioctl_invoke_arg *arg,
 			struct tee_param *param)
@@ -1425,6 +1440,7 @@ int isee_client_invoke_func(struct tee_context *ctx,
 	return ctx->teedev->desc->ops->invoke_func(ctx, arg, param);
 }
 EXPORT_SYMBOL_GPL(isee_client_invoke_func);
+#endif /* isee_client_invoke_func */
 
 int teei_tee_init(void)
 {

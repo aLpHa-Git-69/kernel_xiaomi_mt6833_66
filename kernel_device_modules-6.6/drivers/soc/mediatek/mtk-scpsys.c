@@ -146,19 +146,23 @@ int register_scpsys_notifier(struct notifier_block *nb)
 }
 EXPORT_SYMBOL_GPL(register_scpsys_notifier);
 
+#if 0 /* camellia: unused: unregister_scpsys_notifier */
 int unregister_scpsys_notifier(struct notifier_block *nb)
 {
 	return blocking_notifier_chain_unregister(&scpsys_notifier_list, nb);
 }
 EXPORT_SYMBOL_GPL(unregister_scpsys_notifier);
+#endif /* unregister_scpsys_notifier */
 
 static struct apu_callbacks *g_apucb;
 
+#if 0 /* camellia: unused: register_apu_callback */
 void register_apu_callback(struct apu_callbacks *apucb)
 {
 	g_apucb = apucb;
 }
 EXPORT_SYMBOL_GPL(register_apu_callback);
+#endif /* register_apu_callback */
 
 static int __scpsys_domain_is_on(void __iomem *addr, u32 sta_mask)
 {

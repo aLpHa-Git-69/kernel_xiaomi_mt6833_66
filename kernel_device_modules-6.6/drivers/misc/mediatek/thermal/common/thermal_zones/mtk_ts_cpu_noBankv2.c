@@ -282,6 +282,7 @@ IMM_IsAdcInitReady(void)
 #endif
 
 /*=============================================================*/
+#if 0 /* camellia: unused: thermal_get_current_time_us */
 long long thermal_get_current_time_us(void)
 {
 	long long temp;
@@ -291,6 +292,7 @@ long long thermal_get_current_time_us(void)
 	temp = (((long long) t.tv_sec) * 1000000 + (long)t.tv_nsec/1000);
 	return temp;
 }
+#endif /* thermal_get_current_time_us */
 
 
 #if !defined(CFG_THERM_NO_AUXADC)
@@ -2090,6 +2092,7 @@ static const struct proc_ops mtktscpu_ttpct_fops = {
 };
 
 #if THERMAL_DRV_UPDATE_TEMP_DIRECT_TO_MET
+#if 0 /* camellia: unused: tscpu_get_cpu_temp_met */
 int tscpu_get_cpu_temp_met(enum mtk_thermal_sensor_cpu_id_met id)
 {
 	unsigned long flags;
@@ -2116,6 +2119,7 @@ int tscpu_get_cpu_temp_met(enum mtk_thermal_sensor_cpu_id_met id)
 	return ret;
 }
 EXPORT_SYMBOL(tscpu_get_cpu_temp_met);
+#endif /* tscpu_get_cpu_temp_met */
 #endif
 
 static DEFINE_SPINLOCK(temp_valid_spinlock);

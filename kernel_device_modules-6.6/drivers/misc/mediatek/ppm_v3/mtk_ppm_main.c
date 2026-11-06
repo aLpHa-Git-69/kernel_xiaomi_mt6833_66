@@ -41,7 +41,9 @@ static unsigned int log_cnt;
 static unsigned int filter_cnt;
 /* force update limit to HPS since it's not ready at previous round */
 static bool force_update_to_hps;
+#if 0 /* camellia: unused: is_in_game */
 static bool is_in_game;
+#endif /* is_in_game */
 /*==============================================================*/
 /* Local function declarition					*/
 /*==============================================================*/
@@ -605,10 +607,12 @@ end:
 	FUNC_EXIT(FUNC_LV_MAIN);
 }
 
+#if 0 /* camellia: unused: ppm_game_mode_change_cb */
 void ppm_game_mode_change_cb(int is_game_mode)
 {
 	is_in_game = 0;
 }
+#endif /* ppm_game_mode_change_cb */
 
 static void ppm_main_log_print(unsigned int policy_mask,
 	unsigned int min_power_budget, unsigned int root_cluster, char *msg)

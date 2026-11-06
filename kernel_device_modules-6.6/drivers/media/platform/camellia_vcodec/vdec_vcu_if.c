@@ -466,10 +466,12 @@ int vcu_dec_start(struct vdec_vcu_inst *vcu,
 	return err;
 }
 
+#if 0 /* camellia: unused: vcu_dec_end */
 int vcu_dec_end(struct vdec_vcu_inst *vcu)
 {
 	return vcodec_send_ap_ipi(vcu, AP_IPIMSG_DEC_END);
 }
+#endif /* vcu_dec_end */
 
 int vcu_dec_deinit(struct vdec_vcu_inst *vcu)
 {

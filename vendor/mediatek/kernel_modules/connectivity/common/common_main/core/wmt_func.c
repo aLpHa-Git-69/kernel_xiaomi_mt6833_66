@@ -289,6 +289,7 @@ CMB_PIN_CTRL gCmbPinCtrl[3] = {
 
 #if CFG_FUNC_BT_SUPPORT
 
+#if 0 /* camellia: unused: wmt_func_bt_ctrl */
 INT32 _osal_inline_ wmt_func_bt_ctrl(ENUM_FUNC_STATE funcState)
 {
 	/*only need to send turn BT subsystem wmt command */
@@ -296,6 +297,7 @@ INT32 _osal_inline_ wmt_func_bt_ctrl(ENUM_FUNC_STATE funcState)
 				      (FUNC_ON ==
 				       funcState) ? MTK_WCN_BOOL_TRUE : MTK_WCN_BOOL_FALSE);
 }
+#endif /* wmt_func_bt_ctrl */
 
 INT32 wmt_func_bt_on(P_WMT_IC_OPS pOps, P_WMT_GEN_CONF pConf)
 {
@@ -357,6 +359,7 @@ INT32 wmt_func_bt_off(P_WMT_IC_OPS pOps, P_WMT_GEN_CONF pConf)
 #endif
 #if CFG_FUNC_ANT_SUPPORT
 
+#if 0 /* camellia: unused: wmt_func_ant_ctrl */
 INT32 _osal_inline_ wmt_func_ant_ctrl(ENUM_FUNC_STATE funcState)
 {
 	/*only need to send turn BT subsystem wmt command */
@@ -364,6 +367,7 @@ INT32 _osal_inline_ wmt_func_ant_ctrl(ENUM_FUNC_STATE funcState)
 				      (FUNC_ON ==
 				       funcState) ? MTK_WCN_BOOL_TRUE : MTK_WCN_BOOL_FALSE);
 }
+#endif /* wmt_func_ant_ctrl */
 
 INT32 wmt_func_ant_on(P_WMT_IC_OPS pOps, P_WMT_GEN_CONF pConf)
 {
@@ -705,6 +709,7 @@ INT32 wmt_func_gpsl5_off(P_WMT_IC_OPS pOps, P_WMT_GEN_CONF pConf)
 
 #if CFG_FUNC_FM_SUPPORT
 
+#if 0 /* camellia: unused: wmt_func_fm_ctrl */
 INT32 _osal_inline_ wmt_func_fm_ctrl(ENUM_FUNC_STATE funcState)
 {
 	/*only need to send turn FM subsystem wmt command */
@@ -712,6 +717,7 @@ INT32 _osal_inline_ wmt_func_fm_ctrl(ENUM_FUNC_STATE funcState)
 				      (FUNC_ON ==
 				       funcState) ? MTK_WCN_BOOL_TRUE : MTK_WCN_BOOL_FALSE);
 }
+#endif /* wmt_func_fm_ctrl */
 
 
 INT32 wmt_func_fm_on(P_WMT_IC_OPS pOps, P_WMT_GEN_CONF pConf)

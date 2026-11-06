@@ -4609,6 +4609,7 @@ static void release_sticky_resource_meta(struct kbase_context *kctx,
 	kfree(meta);
 }
 
+#if 0 /* camellia: unused: kbase_sticky_resource_release */
 bool kbase_sticky_resource_release(struct kbase_context *kctx, struct kbase_ctx_ext_res_meta *meta,
 				   u64 gpu_addr)
 {
@@ -4629,6 +4630,7 @@ bool kbase_sticky_resource_release(struct kbase_context *kctx, struct kbase_ctx_
 
 	return true;
 }
+#endif /* kbase_sticky_resource_release */
 
 bool kbase_sticky_resource_release_force(struct kbase_context *kctx,
 					 struct kbase_ctx_ext_res_meta *meta, u64 gpu_addr)

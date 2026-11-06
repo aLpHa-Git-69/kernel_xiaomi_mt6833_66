@@ -697,10 +697,12 @@ void scp_schedule_logger_work(struct scp_work_struct *scp_ws)
 }
 #endif
 
+#if 0 /* camellia: unused: scp_schedule_thermal_work */
 void scp_schedule_thermal_work(struct scp_work_struct *scp_ws)
 {
 	queue_work(scp_thermal_workqueue, &scp_ws->work);
 }
+#endif /* scp_schedule_thermal_work */
 
 /*
  * callback function for work struct
@@ -1976,11 +1978,13 @@ EXPORT_SYMBOL_GPL(sensor_control_scp);
 /* scp dram region manage
  * 0: not probed, -1: disable, 1: enable
  */
+#if 0 /* camellia: unused: get_scp_dram_region_manage */
 int get_scp_dram_region_manage(void)
 {
 	return scpreg.scp_dram_region;
 }
 EXPORT_SYMBOL_GPL(get_scp_dram_region_manage);
+#endif /* get_scp_dram_region_manage */
 
 /*
  * apps notification
@@ -2314,6 +2318,7 @@ void scp_send_reset_wq(enum SCP_RESET_TYPE type)
 }
 #endif
 
+#if 0 /* camellia: unused: scp_send_thermal_wq */
 void scp_send_thermal_wq(enum SCP_THERMAL_TYPE type)
 {
 	scp_sys_thermal_work.flags = (unsigned int) type;
@@ -2321,6 +2326,7 @@ void scp_send_thermal_wq(enum SCP_THERMAL_TYPE type)
 	scp_schedule_thermal_work(&scp_sys_thermal_work);
 }
 EXPORT_SYMBOL_GPL(scp_send_thermal_wq);
+#endif /* scp_send_thermal_wq */
 
 void scp_sys_thermal_ws(struct work_struct *ws)
 {
@@ -2353,6 +2359,7 @@ void scp_sys_thermal_ws(struct work_struct *ws)
 				, __func__, scp_thermal_type);
 }
 
+#if 0 /* camellia: unused: scp_check_resource */
 int scp_check_resource(void)
 {
 	/* called by lowpower related function
@@ -2366,6 +2373,7 @@ int scp_check_resource(void)
 	int scp_resource_status = 0;
 	return scp_resource_status;
 }
+#endif /* scp_check_resource */
 
 #if SCP_RECOVERY_SUPPORT
 void scp_region_info_init(void)

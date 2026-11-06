@@ -560,6 +560,7 @@ static void mtk_addon_path_stop(struct drm_crtc *crtc,
 	}
 }
 
+#if 0 /* camellia: unused: mtk_addon_path_config */
 void mtk_addon_path_config(struct drm_crtc *crtc,
 			const struct mtk_addon_module_data *module_data,
 			union mtk_addon_config *addon_config,
@@ -584,6 +585,7 @@ void mtk_addon_path_config(struct drm_crtc *crtc,
 					  addon_config, cmdq_handle);
 	}
 }
+#endif /* mtk_addon_path_config */
 
 static void
 mtk_addon_path_connect_and_add_mutex(struct drm_crtc *crtc,

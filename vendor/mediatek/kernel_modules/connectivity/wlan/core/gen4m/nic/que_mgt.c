@@ -1436,6 +1436,7 @@ void qmDetermineStaRecIndex(struct ADAPTER *prAdapter,
 #endif
 }
 
+#if 0 /* camellia: unused: qmDetermineStaToBeDequeued */
 struct STA_RECORD *qmDetermineStaToBeDequeued(
 	struct ADAPTER *prAdapter,
 	uint32_t u4StartStaRecIndex)
@@ -1443,12 +1444,15 @@ struct STA_RECORD *qmDetermineStaToBeDequeued(
 
 	return NULL;
 }
+#endif /* qmDetermineStaToBeDequeued */
 
+#if 0 /* camellia: unused: qmDequeueStaTxPackets */
 struct QUE *qmDequeueStaTxPackets(struct ADAPTER *prAdapter)
 {
 
 	return NULL;
 }
+#endif /* qmDequeueStaTxPackets */
 #if CFG_SUPPORT_NAN
 void
 qmUpdateFreeNANQouta(struct ADAPTER *prAdapter,
@@ -2684,6 +2688,7 @@ void qmAdjustTcQuotaPle(struct ADAPTER *prAdapter,
  * \return (none)
  */
 /*----------------------------------------------------------------------------*/
+#if 0 /* camellia: unused: qmAdjustTcQuotas */
 u_int8_t qmAdjustTcQuotas(struct ADAPTER *prAdapter,
 	struct TX_TCQ_ADJUST *prTcqAdjust,
 	struct TX_TCQ_STATUS *prTcqStatus)
@@ -2773,6 +2778,7 @@ u_int8_t qmAdjustTcQuotas(struct ADAPTER *prAdapter,
 	return FALSE;
 #endif
 }
+#endif /* qmAdjustTcQuotas */
 
 #if QM_ADAPTIVE_TC_RESOURCE_CTRL
 #if (CFG_TX_RSRC_WMM_ENHANCE == 1)
@@ -3381,11 +3387,13 @@ uint32_t gmGetDequeueQuota(
  * \return (none)
  */
 /*----------------------------------------------------------------------------*/
+#if 0 /* camellia: unused: qmInitRxQueues */
 void qmInitRxQueues(struct ADAPTER *prAdapter)
 {
 	/* DbgPrint("QM: Enter qmInitRxQueues()\n"); */
 	/* TODO */
 }
+#endif /* qmInitRxQueues */
 
 #if (CFG_SUPPORT_HOST_OFFLOAD == 1)
 u_int8_t qmHandleRroPkt(struct ADAPTER *prAdapter,
@@ -5764,11 +5772,13 @@ void qmHandleEventCheckReorderBubble(struct ADAPTER *prAdapter,
  * \return (none)
  */
 /*----------------------------------------------------------------------------*/
+#if 0 /* camellia: unused: qmHandleMailboxRxMessage */
 void qmHandleMailboxRxMessage(struct MAILBOX_MSG prMailboxRxMsg)
 {
 	/* DbgPrint("QM: Enter qmHandleMailboxRxMessage()\n"); */
 	/* TODO */
 }
+#endif /* qmHandleMailboxRxMessage */
 
 /*----------------------------------------------------------------------------*/
 /*!

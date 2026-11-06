@@ -718,11 +718,13 @@ enum hrtimer_restart ged_sw_vsync_check_cb(struct hrtimer *timer)
 }
 
 #if IS_ENABLED(CONFIG_MTK_GPU_POWER_ON_OFF_TEST)
+#if 0 /* camellia: unused: ged_gpu_power_stress_test_enable */
 unsigned int ged_gpu_power_stress_test_enable(void)
 {
 	return g_ged_power_stress_test_support;
 }
 EXPORT_SYMBOL(ged_gpu_power_stress_test_enable);
+#endif /* ged_gpu_power_stress_test_enable */
 #endif /* MTK_GPU_POWER_ON_OFF_TEST */
 
 unsigned int ged_gpu_whitebox_power_test_support(int support_flag)
@@ -755,6 +757,7 @@ unsigned int ged_get_whitebox_power_test_case(void)
 EXPORT_SYMBOL(ged_get_whitebox_power_test_case);
 
 
+#if 0 /* camellia: unused: ged_get_whitebox_power_test_case_clear */
 unsigned int ged_get_whitebox_power_test_case_clear(void)
 {
 	mcu_replace = 0;
@@ -762,21 +765,26 @@ unsigned int ged_get_whitebox_power_test_case_clear(void)
 	return mcu_replace;
 }
 EXPORT_SYMBOL(ged_get_whitebox_power_test_case_clear);
+#endif /* ged_get_whitebox_power_test_case_clear */
 
 
+#if 0 /* camellia: unused: ged_set_whitebox_power_state_store */
 void ged_set_whitebox_power_state_store(int first, int second)
 {
 	if (first >= 0 && second >= 0)
 		stat_mcu_store[first][second]++;
 }
 EXPORT_SYMBOL(ged_set_whitebox_power_state_store);
+#endif /* ged_set_whitebox_power_state_store */
 
 #if IS_ENABLED(CONFIG_MTK_GPU_APO_SUPPORT)
+#if 0 /* camellia: unused: ged_gpu_apo_support */
 unsigned int ged_gpu_apo_support(void)
 {
 	return g_ged_apo_support;
 }
 EXPORT_SYMBOL(ged_gpu_apo_support);
+#endif /* ged_gpu_apo_support */
 
 unsigned long long ged_get_apo_thr_ns(void)
 {
@@ -838,12 +846,14 @@ void ged_set_apo_lp_thr_ns(unsigned long long apo_lp_thr_ns)
 }
 EXPORT_SYMBOL(ged_set_apo_lp_thr_ns);
 
+#if 0 /* camellia: unused: ged_set_all_apo_thr_ns_nolock */
 void ged_set_all_apo_thr_ns_nolock(unsigned long long apo_thr_ns)
 {
 	g_apo_thr_ns = apo_thr_ns;
 	g_apo_wakeup_ns = apo_thr_ns + 1000000;
 }
 EXPORT_SYMBOL(ged_set_all_apo_thr_ns_nolock);
+#endif /* ged_set_all_apo_thr_ns_nolock */
 
 int ged_get_apo_hint(void)
 {
@@ -957,6 +967,7 @@ void ged_set_apo_autosuspend_delay_ms_ref_idletime_nolock(long long idle_time)
 }
 EXPORT_SYMBOL(ged_set_apo_autosuspend_delay_ms_ref_idletime_nolock);
 
+#if 0 /* camellia: unused: ged_set_apo_autosuspend_delay_ms_ref_idletime */
 void ged_set_apo_autosuspend_delay_ms_ref_idletime(long long idle_time)
 {
 	unsigned long ulIRQFlags;
@@ -968,6 +979,7 @@ void ged_set_apo_autosuspend_delay_ms_ref_idletime(long long idle_time)
 	spin_unlock_irqrestore(&g_sApoLock, ulIRQFlags);
 }
 EXPORT_SYMBOL(ged_set_apo_autosuspend_delay_ms_ref_idletime);
+#endif /* ged_set_apo_autosuspend_delay_ms_ref_idletime */
 
 void ged_set_apo_autosuspend_delay_ms_nolock(unsigned int apo_autosuspend_delay_ms)
 {
@@ -1033,6 +1045,7 @@ enum ged_apo_legacy ged_get_apo_legacy(void)
 }
 EXPORT_SYMBOL(ged_get_apo_legacy);
 
+#if 0 /* camellia: unused: ged_get_active_time */
 void ged_get_active_time(void)
 {
 	unsigned long ulIRQFlags;
@@ -1052,7 +1065,9 @@ void ged_get_active_time(void)
 	spin_unlock_irqrestore(&g_sApoLock, ulIRQFlags);
 }
 EXPORT_SYMBOL(ged_get_active_time);
+#endif /* ged_get_active_time */
 
+#if 0 /* camellia: unused: ged_get_idle_time */
 void ged_get_idle_time(void)
 {
 	unsigned long ulIRQFlags;
@@ -1065,6 +1080,7 @@ void ged_get_idle_time(void)
 	spin_unlock_irqrestore(&g_sApoLock, ulIRQFlags);
 }
 EXPORT_SYMBOL(ged_get_idle_time);
+#endif /* ged_get_idle_time */
 
 
 bool ged_gpu_is_heavy(void)
@@ -1141,13 +1157,16 @@ void ged_gpu_apo_init_nolock(void)
 }
 EXPORT_SYMBOL(ged_gpu_apo_init_nolock);
 
+#if 0 /* camellia: unused: ged_gpu_apo_reset_nolock */
 void ged_gpu_apo_reset_nolock(void)
 {
 	g_bGPUAPO = false;
 	g_ns_gpu_I_to_A_duration = 0;
 }
 EXPORT_SYMBOL(ged_gpu_apo_reset_nolock);
+#endif /* ged_gpu_apo_reset_nolock */
 
+#if 0 /* camellia: unused: ged_gpu_apo_reset */
 void ged_gpu_apo_reset(void)
 {
 	unsigned long ulIRQFlags;
@@ -1159,6 +1178,7 @@ void ged_gpu_apo_reset(void)
 	spin_unlock_irqrestore(&g_sApoLock, ulIRQFlags);
 }
 EXPORT_SYMBOL(ged_gpu_apo_reset);
+#endif /* ged_gpu_apo_reset */
 
 bool ged_gpu_apo_notify(void)
 {
@@ -1170,6 +1190,7 @@ bool ged_gpu_apo_notify(void)
 }
 EXPORT_SYMBOL(ged_gpu_apo_notify);
 
+#if 0 /* camellia: unused: ged_get_predict_active_time */
 void ged_get_predict_active_time(void)
 {
 	unsigned long ulIRQFlags;
@@ -1200,7 +1221,9 @@ void ged_get_predict_active_time(void)
 	spin_unlock_irqrestore(&g_sApoLock, ulIRQFlags);
 }
 EXPORT_SYMBOL(ged_get_predict_active_time);
+#endif /* ged_get_predict_active_time */
 
+#if 0 /* camellia: unused: ged_get_predict_idle_time */
 void ged_get_predict_idle_time(void)
 {
 	unsigned long ulIRQFlags;
@@ -1221,6 +1244,7 @@ void ged_get_predict_idle_time(void)
 	spin_unlock_irqrestore(&g_sApoLock, ulIRQFlags);
 }
 EXPORT_SYMBOL(ged_get_predict_idle_time);
+#endif /* ged_get_predict_idle_time */
 
 bool ged_check_predict_power_autosuspend_nolock(void)
 {
@@ -1267,6 +1291,7 @@ bool ged_check_predict_power_autosuspend_nolock(void)
 }
 EXPORT_SYMBOL(ged_check_predict_power_autosuspend_nolock);
 
+#if 0 /* camellia: unused: ged_check_predict_power_autosuspend */
 bool ged_check_predict_power_autosuspend(void)
 {
 	bool bPredict_current_I_to_A = true;
@@ -1281,6 +1306,7 @@ bool ged_check_predict_power_autosuspend(void)
 	return bPredict_current_I_to_A;
 }
 EXPORT_SYMBOL(ged_check_predict_power_autosuspend);
+#endif /* ged_check_predict_power_autosuspend */
 
 void ged_check_predict_power_duration(void)
 {
@@ -1359,6 +1385,7 @@ void ged_gpu_predict_apo_init_nolock(void)
 }
 EXPORT_SYMBOL(ged_gpu_predict_apo_init_nolock);
 
+#if 0 /* camellia: unused: ged_gpu_predict_apo_reset_nolock */
 void ged_gpu_predict_apo_reset_nolock(void)
 {
 	g_bGPUPredictAPO = false;
@@ -1366,7 +1393,9 @@ void ged_gpu_predict_apo_reset_nolock(void)
 	g_ns_gpu_predict_I_to_A_duration = 0;
 }
 EXPORT_SYMBOL(ged_gpu_predict_apo_reset_nolock);
+#endif /* ged_gpu_predict_apo_reset_nolock */
 
+#if 0 /* camellia: unused: ged_gpu_predict_apo_reset */
 void ged_gpu_predict_apo_reset(void)
 {
 	unsigned long ulIRQFlags;
@@ -1381,6 +1410,7 @@ void ged_gpu_predict_apo_reset(void)
 	spin_unlock_irqrestore(&g_sApoLock, ulIRQFlags);
 }
 EXPORT_SYMBOL(ged_gpu_predict_apo_reset);
+#endif /* ged_gpu_predict_apo_reset */
 
 bool ged_gpu_predict_apo_notify(void)
 {
@@ -1543,14 +1573,17 @@ int ged_dvfs_query_power_state_time(u64 *off_time, u64 *idle_time,
 EXPORT_SYMBOL(ged_dvfs_query_power_state_time);
 /* MBrain end */
 
+#if 0 /* camellia: unused: ged_gpu_autosuspend_timeout_notify */
 void ged_gpu_autosuspend_timeout_notify(int autosuspend_timeout_ms)
 {
 	trace_GPU_Power__Policy__APO__AST(autosuspend_timeout_ms);
 }
 EXPORT_SYMBOL(ged_gpu_autosuspend_timeout_notify);
+#endif /* ged_gpu_autosuspend_timeout_notify */
 
 
 /* Check PM callback state in Kbase */
+#if 0 /* camellia: unused: check_pm_callback_state */
 int check_pm_callback_state(enum ged_gpu_power_state power_state)
 {
 	/* check now pm_callback state */
@@ -1562,6 +1595,7 @@ int check_pm_callback_state(enum ged_gpu_power_state power_state)
 	return 0;
 }
 EXPORT_SYMBOL(check_pm_callback_state);
+#endif /* check_pm_callback_state */
 
 
 /* If power transition timeout, dump info */

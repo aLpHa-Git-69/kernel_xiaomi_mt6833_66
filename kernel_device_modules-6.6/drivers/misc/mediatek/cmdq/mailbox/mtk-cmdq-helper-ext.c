@@ -282,6 +282,7 @@ void vhost_cmdq_set_client(void *client, uint32_t hwid)
 EXPORT_SYMBOL(vhost_cmdq_set_client);
 #endif
 
+#if 0 /* camellia: unused: cmdq_hw_trace_dump */
 void cmdq_hw_trace_dump(void *chan)
 {
 	u32 hwid = cmdq_util_get_hw_id((u32)cmdq_mbox_get_base_pa(chan));
@@ -290,6 +291,7 @@ void cmdq_hw_trace_dump(void *chan)
 		hwid, cmdq_util_get_bit_feature() & CMDQ_LOG_FEAT_PERF);
 }
 EXPORT_SYMBOL(cmdq_hw_trace_dump);
+#endif /* cmdq_hw_trace_dump */
 
 void cmdq_dump_buffer_size(void)
 {
@@ -425,6 +427,7 @@ static s8 cmdq_subsys_base_to_id(struct cmdq_base *clt_base, u32 base)
 	return -EINVAL;
 }
 
+#if 0 /* camellia: unused: cmdq_subsys_id_to_base */
 u32 cmdq_subsys_id_to_base(struct cmdq_base *clt_base, int id)
 {
 	u32 i;
@@ -440,7 +443,9 @@ u32 cmdq_subsys_id_to_base(struct cmdq_base *clt_base, int id)
 	return 0;
 }
 EXPORT_SYMBOL(cmdq_subsys_id_to_base);
+#endif /* cmdq_subsys_id_to_base */
 
+#if 0 /* camellia: unused: cmdq_pkt_realloc_cmd_buffer */
 int cmdq_pkt_realloc_cmd_buffer(struct cmdq_pkt *pkt, size_t size)
 {
 	while (pkt->buf_size < size)
@@ -448,6 +453,7 @@ int cmdq_pkt_realloc_cmd_buffer(struct cmdq_pkt *pkt, size_t size)
 	return 0;
 }
 EXPORT_SYMBOL(cmdq_pkt_realloc_cmd_buffer);
+#endif /* cmdq_pkt_realloc_cmd_buffer */
 
 struct cmdq_base *cmdq_register_device(struct device *dev)
 {
@@ -699,11 +705,13 @@ static dma_addr_t cmdq_get_vcp_dummy(enum CMDQ_VCP_ENG_ENUM engine)
 	return MMINFRA_BASE + offset[engine];
 }
 
+#if 0 /* camellia: unused: cmdq_pkt_set_noirq */
 void cmdq_pkt_set_noirq(struct cmdq_pkt *pkt, const bool noirq)
 {
 	pkt->no_irq = noirq;
 }
 EXPORT_SYMBOL(cmdq_pkt_set_noirq);
+#endif /* cmdq_pkt_set_noirq */
 
 u32 cmdq_pkt_vcp_reuse_val(enum CMDQ_VCP_ENG_ENUM engine, u32 buf_offset, u16 size)
 {
@@ -1307,6 +1315,7 @@ void cmdq_mbox_destroy(struct cmdq_client *client)
 }
 EXPORT_SYMBOL(cmdq_mbox_destroy);
 
+#if 0 /* camellia: unused: cmdq_pkt_create_with_id */
 struct cmdq_pkt *cmdq_pkt_create_with_id(struct cmdq_client *client, u32 debug_id)
 {
 	struct cmdq_pkt *pkt;
@@ -1321,6 +1330,7 @@ struct cmdq_pkt *cmdq_pkt_create_with_id(struct cmdq_client *client, u32 debug_i
 	return pkt;
 }
 EXPORT_SYMBOL(cmdq_pkt_create_with_id);
+#endif /* cmdq_pkt_create_with_id */
 
 struct cmdq_pkt *cmdq_pkt_create(struct cmdq_client *client)
 {
@@ -1834,6 +1844,7 @@ s32 cmdq_pkt_assign_command_reuse(struct cmdq_pkt *pkt, u16 reg_idx, u32 value,
 }
 EXPORT_SYMBOL(cmdq_pkt_assign_command_reuse);
 
+#if 0 /* camellia: unused: cmdq_pkt_write_reg_addr_reuse */
 s32 cmdq_pkt_write_reg_addr_reuse(struct cmdq_pkt *pkt, dma_addr_t addr,
 	u16 src_reg_idx, u32 mask, struct cmdq_reuse *reuse)
 {
@@ -1854,6 +1865,7 @@ s32 cmdq_pkt_write_reg_addr_reuse(struct cmdq_pkt *pkt, dma_addr_t addr,
 	return err;
 }
 EXPORT_SYMBOL(cmdq_pkt_write_reg_addr_reuse);
+#endif /* cmdq_pkt_write_reg_addr_reuse */
 
 s32 cmdq_pkt_write_value_addr_reuse(struct cmdq_pkt *pkt, dma_addr_t addr,
 	u32 value, u32 mask, struct cmdq_reuse *reuse)
@@ -2248,6 +2260,7 @@ s32 cmdq_pkt_store_value_reg(struct cmdq_pkt *pkt, u16 indirect_dst_reg_idx,
 }
 EXPORT_SYMBOL(cmdq_pkt_store_value_reg);
 
+#if 0 /* camellia: unused: cmdq_pkt_store64_value_reg */
 s32 cmdq_pkt_store64_value_reg(struct cmdq_pkt *pkt,
 	u16 indirect_dst_reg_idx, u16 indirect_src_reg_idx)
 {
@@ -2256,7 +2269,9 @@ s32 cmdq_pkt_store64_value_reg(struct cmdq_pkt *pkt,
 		CMDQ_REG_TYPE, CMDQ_CODE_WRITE);
 }
 EXPORT_SYMBOL(cmdq_pkt_store64_value_reg);
+#endif /* cmdq_pkt_store64_value_reg */
 
+#if 0 /* camellia: unused: cmdq_pkt_write_dummy */
 s32 cmdq_pkt_write_dummy(struct cmdq_pkt *pkt, dma_addr_t addr)
 {
 	s32 err;
@@ -2280,6 +2295,7 @@ s32 cmdq_pkt_write_dummy(struct cmdq_pkt *pkt, dma_addr_t addr)
 	return 0;
 }
 EXPORT_SYMBOL(cmdq_pkt_write_dummy);
+#endif /* cmdq_pkt_write_dummy */
 
 s32 cmdq_pkt_write_indriect(struct cmdq_pkt *pkt, struct cmdq_base *clt_base,
 	dma_addr_t addr, u16 src_reg_idx, u32 mask)
@@ -2547,6 +2563,7 @@ s32 cmdq_pkt_poll_sleep(struct cmdq_pkt *pkt, u32 value,
 }
 EXPORT_SYMBOL(cmdq_pkt_poll_sleep);
 
+#if 0 /* camellia: unused: cmdq_pkt_timer_en */
 int cmdq_pkt_timer_en(struct cmdq_pkt *pkt)
 {
 	struct cmdq_client *cl = pkt->cl;
@@ -2561,6 +2578,7 @@ int cmdq_pkt_timer_en(struct cmdq_pkt *pkt)
 	return cmdq_pkt_write(pkt, NULL, gce_pa + CMDQ_TPR_MASK, en, en);
 }
 EXPORT_SYMBOL(cmdq_pkt_timer_en);
+#endif /* cmdq_pkt_timer_en */
 
 s32 cmdq_pkt_sleep(struct cmdq_pkt *pkt, u32 tick, u16 reg_gpr)
 {
@@ -5055,6 +5073,7 @@ char *cmdq_pkt_parse_buf(struct cmdq_pkt *pkt, u32 *size_out, void **raw_out, u3
 }
 EXPORT_SYMBOL(cmdq_pkt_parse_buf);
 
+#if 0 /* camellia: unused: cmdq_pkt_set_err_cb */
 void cmdq_pkt_set_err_cb(struct cmdq_pkt *pkt,
 	cmdq_async_flush_cb cb, void *data)
 {
@@ -5062,6 +5081,7 @@ void cmdq_pkt_set_err_cb(struct cmdq_pkt *pkt,
 	pkt->err_cb.data = (void *)data;
 }
 EXPORT_SYMBOL(cmdq_pkt_set_err_cb);
+#endif /* cmdq_pkt_set_err_cb */
 
 #if IS_ENABLED(CONFIG_MTK_CMDQ_MBOX_EXT)
 void cmdq_helper_set_fp(struct cmdq_util_helper_fp *cust_cmdq_util)

@@ -66,6 +66,7 @@ void ccu_set_sensor_info(int32_t sensorType, struct ccu_sensor_info *info)
 	}
 }
 
+#if 0 /* camellia: unused: ccu_get_sensor_i2c_slave_addr */
 void ccu_get_sensor_i2c_slave_addr(int32_t *sensorI2cSlaveAddr)
 {
 	sensorI2cSlaveAddr[0] =
@@ -79,6 +80,7 @@ void ccu_get_sensor_i2c_slave_addr(int32_t *sensorI2cSlaveAddr)
 	sensorI2cSlaveAddr[4] =
 		g_ccu_sensor_info[IMGSENSOR_SENSOR_IDX_SUB2].slave_addr;
 }
+#endif /* ccu_get_sensor_i2c_slave_addr */
 
 void ccu_get_sensor_name(char **sensor_name)
 {

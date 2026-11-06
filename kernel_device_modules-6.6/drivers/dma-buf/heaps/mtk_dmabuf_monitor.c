@@ -854,6 +854,7 @@ void dmabuf_log_allocate(struct dma_heap *heap, u64 tm, u32 nent, u64 size)
 	dmabuf_log_add(log_info, data1, pid);
 }
 
+#if 0 /* camellia: unused: dmabuf_log_refill */
 void dmabuf_log_refill(struct mtk_dmabuf_page_pool *pool, u64 tm, int ret, u32 pages_refill)
 {
 	u64 log_info = 0, data1 = 0, data2;
@@ -882,6 +883,7 @@ void dmabuf_log_refill(struct mtk_dmabuf_page_pool *pool, u64 tm, int ret, u32 p
 	dmabuf_log_add(log_info, data1, data2);
 }
 EXPORT_SYMBOL_GPL(dmabuf_log_refill);
+#endif /* dmabuf_log_refill */
 
 void dmabuf_log_prefill(struct dma_heap *heap, u64 tm, int ret, u32 size)
 {
@@ -907,6 +909,7 @@ void dmabuf_log_prefill(struct dma_heap *heap, u64 tm, int ret, u32 size)
 	dmabuf_log_add(log_info, data1, data2);
 }
 
+#if 0 /* camellia: unused: dmabuf_log_recycle */
 void dmabuf_log_recycle(struct mtk_dmabuf_page_pool *pool, u64 tm, u32 pages_recycle)
 {
 	u64 log_info = 0, data2;
@@ -924,7 +927,9 @@ void dmabuf_log_recycle(struct mtk_dmabuf_page_pool *pool, u64 tm, u32 pages_rec
 	dmabuf_log_add(log_info, pool->order, data2);
 }
 EXPORT_SYMBOL_GPL(dmabuf_log_recycle);
+#endif /* dmabuf_log_recycle */
 
+#if 0 /* camellia: unused: mtk_register_refill_order_callback */
 int mtk_register_refill_order_callback(mtk_refill_order_cb cb)
 {
 	if (refill_order_callback)
@@ -934,6 +939,7 @@ int mtk_register_refill_order_callback(mtk_refill_order_cb cb)
 	return 1;
 }
 EXPORT_SYMBOL_GPL(mtk_register_refill_order_callback);
+#endif /* mtk_register_refill_order_callback */
 
 static inline void dmabuf_log_size_nent(struct dma_buf *dmabuf, u32 log_type,
 					struct monitor_size_nents *size_nents, u32 size)

@@ -17,6 +17,7 @@
 #include "scp_l1c.h"
 #include <mt-plat/aee.h>
 
+#if 0 /* camellia: unused: scp_l1c_flua */
 enum scp_l1c_status_t scp_l1c_flua(uint32_t L1C_type)
 {
 	L1C_SEL(L1C_type)->L1C_OP &= ~L1C_OP_OP_MASK;
@@ -25,4 +26,5 @@ enum scp_l1c_status_t scp_l1c_flua(uint32_t L1C_type)
 		L1C_OP_EN_MASK);
 	return SCP_L1C_STATUS_OK;
 }
+#endif /* scp_l1c_flua */
 

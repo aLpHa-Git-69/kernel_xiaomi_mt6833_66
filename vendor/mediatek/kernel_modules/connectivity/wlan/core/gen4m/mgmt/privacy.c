@@ -293,6 +293,7 @@ u_int8_t secCheckClassError(struct ADAPTER *prAdapter,
  *
  */
 /*----------------------------------------------------------------------------*/
+#if 0 /* camellia: unused: secSetPortBlocked */
 void secSetPortBlocked(struct ADAPTER *prAdapter,
 		       struct STA_RECORD *prSta, u_int8_t fgPortBlock)
 {
@@ -307,6 +308,7 @@ void secSetPortBlocked(struct ADAPTER *prAdapter,
 	       fgPortBlock == TRUE ? "BLOCK" : " OPEN");
 #endif
 }
+#endif /* secSetPortBlocked */
 
 #if 0				/* Marked for MT6630 */
 
@@ -1241,6 +1243,7 @@ uint8_t secGetBssIdxByRfb(struct ADAPTER *prAdapter, struct SW_RFB *prSwRfb)
 	return aisGetDefaultLinkBssIndex(prAdapter);
 }
 
+#if 0 /* camellia: unused: secGetBssByRfb */
 struct BSS_INFO *secGetBssByRfb(struct ADAPTER *prAdapter,
 		struct SW_RFB *prSwRfb)
 {
@@ -1254,6 +1257,7 @@ struct BSS_INFO *secGetBssByRfb(struct ADAPTER *prAdapter,
 
 	return NULL;
 }
+#endif /* secGetBssByRfb */
 
 /*----------------------------------------------------------------------------*/
 /*!

@@ -365,6 +365,7 @@ int hvbp_hal_enable_hz(struct chg_alg_device *alg,
 	return charger_dev_set_mivr(hal->chgdevs[chgtyp], milli_to_micro(mV));
 }
 
+#if 0 /* camellia: unused: hvbp_hal_set_vacovp */
 int hvbp_hal_set_vacovp(struct chg_alg_device *alg,
 			  enum chg_idx chgidx, u32 mV)
 {
@@ -376,6 +377,7 @@ int hvbp_hal_set_vacovp(struct chg_alg_device *alg,
 	return charger_dev_set_vac_ovp(hal->chgdevs[chgtyp],
 				       milli_to_micro(mV));
 }
+#endif /* hvbp_hal_set_vacovp */
 
 int hvbp_hal_set_vbusovp(struct chg_alg_device *alg,
 			  enum chg_idx chgidx, u32 mV)
@@ -413,6 +415,7 @@ int hvbp_hal_set_vbatovp(struct chg_alg_device *alg,
 				       milli_to_micro(mV));
 }
 
+#if 0 /* camellia: unused: hvbp_hal_set_ibatocp */
 int hvbp_hal_set_ibatocp(struct chg_alg_device *alg,
 			  enum chg_idx chgidx, u32 mA)
 {
@@ -424,7 +427,9 @@ int hvbp_hal_set_ibatocp(struct chg_alg_device *alg,
 	return charger_dev_set_ibatocp(hal->chgdevs[chgtyp],
 				       milli_to_micro(mA));
 }
+#endif /* hvbp_hal_set_ibatocp */
 
+#if 0 /* camellia: unused: hvbp_hal_set_vbatovp_alarm */
 int hvbp_hal_set_vbatovp_alarm(struct chg_alg_device *alg,
 				enum chg_idx chgidx, u32 mV)
 {
@@ -436,6 +441,7 @@ int hvbp_hal_set_vbatovp_alarm(struct chg_alg_device *alg,
 	return charger_dev_set_vbatovp_alarm(hal->chgdevs[chgtyp],
 					     milli_to_micro(mV));
 }
+#endif /* hvbp_hal_set_vbatovp_alarm */
 
 int hvbp_hal_reset_vbatovp_alarm(struct chg_alg_device *alg,
 				  enum chg_idx chgidx)

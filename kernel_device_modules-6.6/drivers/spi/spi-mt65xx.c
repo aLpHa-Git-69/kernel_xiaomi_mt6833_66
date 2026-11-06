@@ -2038,6 +2038,7 @@ static int mtk_spi_runtime_resume(struct device *dev)
 	return 0;
 }
 
+#if 0 /* camellia: unused: mtk_spi_set_autosuspend_delay */
 void mtk_spi_set_autosuspend_delay(struct spi_device *spi, int delay_ms)
 {
 	struct mtk_spi *mdata = spi_master_get_devdata(spi->master);
@@ -2051,6 +2052,7 @@ void mtk_spi_set_autosuspend_delay(struct spi_device *spi, int delay_ms)
 	}
 }
 EXPORT_SYMBOL(mtk_spi_set_autosuspend_delay);
+#endif /* mtk_spi_set_autosuspend_delay */
 
 static int mtk_spi_suspend(struct device *dev)
 {

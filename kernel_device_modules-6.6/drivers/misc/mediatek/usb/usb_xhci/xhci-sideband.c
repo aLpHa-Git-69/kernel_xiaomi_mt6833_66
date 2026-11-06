@@ -13,6 +13,7 @@
 #include "xhci.h"
 
 /* sideband internal helpers */
+#if 0 /* camellia: unused: xhci_ring_to_sgtable */
 static struct sg_table *
 xhci_ring_to_sgtable(struct xhci_sideband *sb, struct xhci_ring *ring)
 {
@@ -66,7 +67,9 @@ xhci_ring_to_sgtable(struct xhci_sideband *sb, struct xhci_ring *ring)
 
 	return sgt;
 }
+#endif /* xhci_ring_to_sgtable */
 
+#if 0 /* camellia: unused: __xhci_sideband_remove_endpoint */
 static void
 __xhci_sideband_remove_endpoint(struct xhci_sideband *sb, struct xhci_virt_ep *ep)
 {
@@ -79,6 +82,7 @@ __xhci_sideband_remove_endpoint(struct xhci_sideband *sb, struct xhci_virt_ep *e
 	ep->sideband = NULL;
 	sb->eps[ep->ep_index] = NULL;
 }
+#endif /* __xhci_sideband_remove_endpoint */
 
 /* sideband api functions */
 
@@ -94,6 +98,7 @@ __xhci_sideband_remove_endpoint(struct xhci_sideband *sb, struct xhci_virt_ep *e
  *
  * Return: 0 on success, negative error otherwise.
  */
+#if 0 /* camellia: unused: xhci_sideband_add_endpoint_ */
 int
 xhci_sideband_add_endpoint_(struct xhci_sideband *sb,
 			   struct usb_host_endpoint *host_ep)
@@ -130,6 +135,7 @@ xhci_sideband_add_endpoint_(struct xhci_sideband *sb,
 	return 0;
 }
 EXPORT_SYMBOL_GPL(xhci_sideband_add_endpoint_);
+#endif /* xhci_sideband_add_endpoint_ */
 
 /**
  * xhci_sideband_remove_endpoint - remove endpoint from sideband access list
@@ -143,6 +149,7 @@ EXPORT_SYMBOL_GPL(xhci_sideband_add_endpoint_);
  *
  * Return: 0 on success, negative error otherwise.
  */
+#if 0 /* camellia: unused: xhci_sideband_remove_endpoint_ */
 int
 xhci_sideband_remove_endpoint_(struct xhci_sideband *sb,
 			      struct usb_host_endpoint *host_ep)
@@ -166,7 +173,9 @@ xhci_sideband_remove_endpoint_(struct xhci_sideband *sb,
 	return 0;
 }
 EXPORT_SYMBOL_GPL(xhci_sideband_remove_endpoint_);
+#endif /* xhci_sideband_remove_endpoint_ */
 
+#if 0 /* camellia: unused: xhci_sideband_stop_endpoint_ */
 int
 xhci_sideband_stop_endpoint_(struct xhci_sideband *sb,
 			    struct usb_host_endpoint *host_ep)
@@ -183,6 +192,7 @@ xhci_sideband_stop_endpoint_(struct xhci_sideband *sb,
 	return xhci_stop_endpoint_sync_(sb->xhci, ep, 0, GFP_KERNEL);
 }
 EXPORT_SYMBOL_GPL(xhci_sideband_stop_endpoint_);
+#endif /* xhci_sideband_stop_endpoint_ */
 
 /**
  * xhci_sideband_get_endpoint_buffer - gets the endpoint transfer buffer address
@@ -197,6 +207,7 @@ EXPORT_SYMBOL_GPL(xhci_sideband_stop_endpoint_);
  *
  * Return: struct sg_table * if successful. NULL otherwise.
  */
+#if 0 /* camellia: unused: xhci_sideband_get_endpoint_buffer_ */
 struct sg_table *
 xhci_sideband_get_endpoint_buffer_(struct xhci_sideband *sb,
 			      struct usb_host_endpoint *host_ep)
@@ -213,6 +224,7 @@ xhci_sideband_get_endpoint_buffer_(struct xhci_sideband *sb,
 	return xhci_ring_to_sgtable(sb, ep->ring);
 }
 EXPORT_SYMBOL_GPL(xhci_sideband_get_endpoint_buffer_);
+#endif /* xhci_sideband_get_endpoint_buffer_ */
 
 /**
  * xhci_sideband_get_event_buffer - return the event buffer for this device
@@ -226,6 +238,7 @@ EXPORT_SYMBOL_GPL(xhci_sideband_get_endpoint_buffer_);
  *
  * Return: struct sg_table * if successful. NULL otherwise.
  */
+#if 0 /* camellia: unused: xhci_sideband_get_event_buffer_ */
 struct sg_table *
 xhci_sideband_get_event_buffer_(struct xhci_sideband *sb)
 {
@@ -235,6 +248,7 @@ xhci_sideband_get_event_buffer_(struct xhci_sideband *sb)
 	return xhci_ring_to_sgtable(sb, sb->ir->event_ring);
 }
 EXPORT_SYMBOL_GPL(xhci_sideband_get_event_buffer_);
+#endif /* xhci_sideband_get_event_buffer_ */
 
 /**
  * xhci_sideband_enable_interrupt - enable interrupt for secondary interrupter
@@ -247,6 +261,7 @@ EXPORT_SYMBOL_GPL(xhci_sideband_get_event_buffer_);
  *
  * Returns 0 on success, negative error otherwise
  */
+#if 0 /* camellia: unused: xhci_sideband_enable_interrupt_ */
 int xhci_sideband_enable_interrupt_(struct xhci_sideband *sb, u32 imod_interval)
 {
 	if (!sb || !sb->ir)
@@ -259,6 +274,7 @@ int xhci_sideband_enable_interrupt_(struct xhci_sideband *sb, u32 imod_interval)
 	return 0;
 }
 EXPORT_SYMBOL_GPL(xhci_sideband_enable_interrupt_);
+#endif /* xhci_sideband_enable_interrupt_ */
 
 /**
  * xhci_sideband_create_interrupter - creates a new interrupter for this sideband
@@ -275,6 +291,7 @@ EXPORT_SYMBOL_GPL(xhci_sideband_enable_interrupt_);
  *
  * Returns 0 on success, negative error otherwise
  */
+#if 0 /* camellia: unused: xhci_sideband_create_interrupter_ */
 int
 xhci_sideband_create_interrupter_(struct xhci_sideband *sb, int num_seg,
 				 int intr_num, bool ip_autoclear)
@@ -307,6 +324,7 @@ out:
 	return ret;
 }
 EXPORT_SYMBOL_GPL(xhci_sideband_create_interrupter_);
+#endif /* xhci_sideband_create_interrupter_ */
 
 /**
  * xhci_sideband_remove_interrupter - remove the interrupter from a sideband
@@ -315,6 +333,7 @@ EXPORT_SYMBOL_GPL(xhci_sideband_create_interrupter_);
  * Removes a registered interrupt for a sideband.  This would allow for other
  * sideband users to utilize this interrupter.
  */
+#if 0 /* camellia: unused: xhci_sideband_remove_interrupter_ */
 void
 xhci_sideband_remove_interrupter_(struct xhci_sideband *sb)
 {
@@ -330,6 +349,7 @@ xhci_sideband_remove_interrupter_(struct xhci_sideband *sb)
 	mutex_unlock(&sb->mutex);
 }
 EXPORT_SYMBOL_GPL(xhci_sideband_remove_interrupter_);
+#endif /* xhci_sideband_remove_interrupter_ */
 
 /**
  * xhci_sideband_interrupter_id - return the interrupter target id
@@ -343,6 +363,7 @@ EXPORT_SYMBOL_GPL(xhci_sideband_remove_interrupter_);
  *
  * Returns interrupter id on success, negative error othgerwise
  */
+#if 0 /* camellia: unused: xhci_sideband_interrupter_id_ */
 int
 xhci_sideband_interrupter_id_(struct xhci_sideband *sb)
 {
@@ -352,6 +373,7 @@ xhci_sideband_interrupter_id_(struct xhci_sideband *sb)
 	return sb->ir->intr_num;
 }
 EXPORT_SYMBOL_GPL(xhci_sideband_interrupter_id_);
+#endif /* xhci_sideband_interrupter_id_ */
 
 /**
  * xhci_sideband_register - register a sideband for a usb device
@@ -413,6 +435,7 @@ EXPORT_SYMBOL_GPL(xhci_sideband_register_);
  * be accessed via sideband. The xhci driver can now take over handling
  * the buffers.
  */
+#if 0 /* camellia: unused: xhci_sideband_unregister_ */
 void
 xhci_sideband_unregister_(struct xhci_sideband *sb)
 {
@@ -435,4 +458,5 @@ xhci_sideband_unregister_(struct xhci_sideband *sb)
 	kfree(sb);
 }
 EXPORT_SYMBOL_GPL(xhci_sideband_unregister_);
+#endif /* xhci_sideband_unregister_ */
 MODULE_LICENSE("GPL");

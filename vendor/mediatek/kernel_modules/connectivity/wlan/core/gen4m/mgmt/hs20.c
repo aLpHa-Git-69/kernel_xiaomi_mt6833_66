@@ -179,6 +179,7 @@ void hs20FillProreqExtCapIE(struct ADAPTER *prAdapter, uint8_t *pucIE)
  * \return VOID
  */
 /*---------------------------------------------------------------------------*/
+#if 0 /* camellia: unused: hs20FillHS20IE */
 void hs20FillHS20IE(struct ADAPTER *prAdapter, uint8_t *pucIE)
 {
 	struct IE_HS20_INDICATION *prHS20IndicationIe;
@@ -204,6 +205,7 @@ void hs20FillHS20IE(struct ADAPTER *prAdapter, uint8_t *pucIE)
 	prHS20IndicationIe->ucHotspotConfig = 0x10;
 
 }
+#endif /* hs20FillHS20IE */
 
 /*---------------------------------------------------------------------------*/
 /*!
@@ -216,6 +218,7 @@ void hs20FillHS20IE(struct ADAPTER *prAdapter, uint8_t *pucIE)
  * \return the length of composed HS20 IE
  */
 /*---------------------------------------------------------------------------*/
+#if 0 /* camellia: unused: hs20CalculateHS20RelatedIEForProbeReq */
 uint32_t hs20CalculateHS20RelatedIEForProbeReq(struct ADAPTER *prAdapter,
 		uint8_t *pucTargetBSSID)
 {
@@ -235,6 +238,7 @@ uint32_t hs20CalculateHS20RelatedIEForProbeReq(struct ADAPTER *prAdapter,
 
 	return u4IeLength;
 }
+#endif /* hs20CalculateHS20RelatedIEForProbeReq */
 
 /*---------------------------------------------------------------------------*/
 /*!
@@ -248,6 +252,7 @@ uint32_t hs20CalculateHS20RelatedIEForProbeReq(struct ADAPTER *prAdapter,
  * \return the wlan status
  */
 /*---------------------------------------------------------------------------*/
+#if 0 /* camellia: unused: hs20GenerateHS20RelatedIEForProbeReq */
 uint32_t hs20GenerateHS20RelatedIEForProbeReq(struct ADAPTER *prAdapter,
 		uint8_t *pucTargetBSSID, uint8_t *prIE)
 {
@@ -282,6 +287,7 @@ uint32_t hs20GenerateHS20RelatedIEForProbeReq(struct ADAPTER *prAdapter,
 
 	return WLAN_STATUS_SUCCESS;
 }
+#endif /* hs20GenerateHS20RelatedIEForProbeReq */
 
 u_int8_t hs20IsGratuitousArp(struct ADAPTER *prAdapter,
 		struct SW_RFB *prCurrSwRfb)

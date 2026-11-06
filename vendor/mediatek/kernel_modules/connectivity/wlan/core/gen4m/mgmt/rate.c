@@ -283,6 +283,7 @@ rateGetDataRatesFromRateSet(uint16_t u2OperationalRateSet,
  * \retval FALSE Highest Rate Index was not found
  */
 /*----------------------------------------------------------------------------*/
+#if 0 /* camellia: unused: rateGetHighestRateIndexFromRateSet */
 u_int8_t rateGetHighestRateIndexFromRateSet(uint16_t u2RateSet,
 					    uint8_t *pucHighestRateIndex)
 {
@@ -298,6 +299,7 @@ u_int8_t rateGetHighestRateIndexFromRateSet(uint16_t u2RateSet,
 	return FALSE;
 
 }			/* end of rateGetHighestRateIndexFromRateSet() */
+#endif /* rateGetHighestRateIndexFromRateSet */
 
 /*----------------------------------------------------------------------------*/
 /*!

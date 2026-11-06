@@ -436,6 +436,7 @@ static int mtk_drm_gem_object_mmap(struct drm_gem_object *obj,
 	return ret;
 }
 
+#if 0 /* camellia: unused: mtk_drm_gem_mmap_buf */
 int mtk_drm_gem_mmap_buf(struct drm_gem_object *obj, struct vm_area_struct *vma)
 {
 	int ret;
@@ -446,6 +447,7 @@ int mtk_drm_gem_mmap_buf(struct drm_gem_object *obj, struct vm_area_struct *vma)
 
 	return mtk_drm_gem_object_mmap(obj, vma);
 }
+#endif /* mtk_drm_gem_mmap_buf */
 
 int mtk_drm_gem_mmap(struct file *filp, struct vm_area_struct *vma)
 {

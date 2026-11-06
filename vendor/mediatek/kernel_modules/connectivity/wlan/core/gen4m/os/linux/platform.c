@@ -323,6 +323,7 @@ int glUnregisterEarlySuspend(struct early_suspend *prDesc)
  *           FALSE
  */
 /*----------------------------------------------------------------------------*/
+#if 0 /* camellia: unused: kalCfgDataRead */
 u_int8_t kalCfgDataRead(struct GLUE_INFO *prGlueInfo,
 			uint32_t u4Offset,
 			ssize_t len, uint16_t *pu2Data)
@@ -344,6 +345,7 @@ u_int8_t kalCfgDataRead(struct GLUE_INFO *prGlueInfo,
 	}
 #endif
 }
+#endif /* kalCfgDataRead */
 
 /*----------------------------------------------------------------------------*/
 /*!

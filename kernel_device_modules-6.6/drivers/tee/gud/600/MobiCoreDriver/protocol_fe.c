@@ -45,6 +45,7 @@ struct protocol_gp_operation {
 	struct interworld_session	*iws;
 };
 
+#if 0 /* camellia: unused: protocol_fe_init */
 int protocol_fe_init(struct protocol_fe *pfe)
 {
 	/* Initialize pfe in arg */
@@ -58,6 +59,7 @@ int protocol_fe_init(struct protocol_fe *pfe)
 	l_ctx.pfe = pfe;
 	return 0;
 }
+#endif /* protocol_fe_init */
 
 static inline void protocol_fe_get(struct protocol_fe *pfe)
 {
@@ -86,6 +88,7 @@ static inline struct protocol_mc_session *find_mc_session(u32 session_id)
 	return session;
 }
 
+#if 0 /* camellia: unused: protocol_mc_wait_done */
 static int protocol_mc_wait_done(struct protocol_fe *pfe)
 {
 	struct protocol_mc_session *session;
@@ -103,9 +106,11 @@ static int protocol_mc_wait_done(struct protocol_fe *pfe)
 	complete(&session->completion);
 	return 0;
 }
+#endif /* protocol_mc_wait_done */
 
 /* GP protocol */
 
+#if 0 /* camellia: unused: find_gp_operation */
 static struct protocol_gp_operation *find_gp_operation(u64 operation_id)
 {
 	struct protocol_gp_operation *operation =
@@ -125,7 +130,9 @@ static struct protocol_gp_operation *find_gp_operation(u64 operation_id)
 	     operation_id);
 	return operation;
 }
+#endif /* find_gp_operation */
 
+#if 0 /* camellia: unused: protocol_gp_operation_done */
 static int protocol_gp_operation_done(struct protocol_fe *pfe)
 {
 	struct protocol_gp_operation *operation;
@@ -146,9 +153,11 @@ static int protocol_gp_operation_done(struct protocol_fe *pfe)
 	complete(&operation->completion);
 	return 0;
 }
+#endif /* protocol_gp_operation_done */
 
 /* Dispatch function for the FE callback */
 
+#if 0 /* camellia: unused: protocol_fe_dispatch */
 int protocol_fe_dispatch(struct protocol_fe *pfe)
 {
 	int ret = -EINVAL;
@@ -173,6 +182,7 @@ int protocol_fe_dispatch(struct protocol_fe *pfe)
 
 	return ret;
 }
+#endif /* protocol_fe_dispatch */
 
 /* Call Backend */
 

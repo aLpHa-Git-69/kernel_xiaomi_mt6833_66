@@ -442,6 +442,7 @@ static void __gpuppm_update_gpuppm_info(void)
 	memcpy(g_shared_status->limit_table, g_limit_table, copy_size);
 }
 
+#if 0 /* camellia: unused: gpuppm_set_stress_test */
 void gpuppm_set_stress_test(unsigned int val)
 {
 	g_stress_test = val;
@@ -453,6 +454,7 @@ void gpuppm_set_stress_test(unsigned int val)
 	if (g_shared_status)
 		g_shared_status->stress_test = g_stress_test;
 }
+#endif /* gpuppm_set_stress_test */
 
 const struct gpuppm_limit_info *gpuppm_get_limit_table(enum gpufreq_target target)
 {

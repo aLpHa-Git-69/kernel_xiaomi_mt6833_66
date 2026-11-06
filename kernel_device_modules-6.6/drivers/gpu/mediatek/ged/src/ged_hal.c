@@ -37,6 +37,7 @@
 
 static struct kobject *hal_kobj;
 
+#if 0 /* camellia: unused: tokenizer */
 int tokenizer(char *pcSrc, int i32len, int *pi32IndexArray, int i32NumToken)
 {
 	int i = 0;
@@ -67,6 +68,7 @@ int tokenizer(char *pcSrc, int i32len, int *pi32IndexArray, int i32NumToken)
 
 	return -1;
 }
+#endif /* tokenizer */
 
 /* MBrain */
 static ssize_t opp_logs_show(struct kobject *kobj,
@@ -881,6 +883,7 @@ static struct {
 	.listen   = LIST_HEAD_INIT(g_ged_event_change.listen),
 };
 
+#if 0 /* camellia: unused: mtk_register_ged_event_change */
 bool mtk_register_ged_event_change(const char *name,
 	ged_event_change_fp callback, void *private_data)
 {
@@ -904,7 +907,9 @@ bool mtk_register_ged_event_change(const char *name,
 
 	return true;
 }
+#endif /* mtk_register_ged_event_change */
 
+#if 0 /* camellia: unused: mtk_unregister_ged_event_change */
 bool mtk_unregister_ged_event_change(const char *name)
 {
 	struct list_head *pos, *head;
@@ -929,6 +934,7 @@ bool mtk_unregister_ged_event_change(const char *name)
 
 	return true;
 }
+#endif /* mtk_unregister_ged_event_change */
 
 void mtk_ged_event_notify(int events)
 {

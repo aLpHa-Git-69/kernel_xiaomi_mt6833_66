@@ -190,6 +190,7 @@ int mtk_lp_sysfs_entry_func_node_remove(
 }
 EXPORT_SYMBOL(mtk_lp_sysfs_entry_func_node_remove);
 
+#if 0 /* camellia: unused: mtk_lp_sysfs_entry_func_group_create */
 int mtk_lp_sysfs_entry_func_group_create(const char *name,
 		int mode, struct mtk_lp_sysfs_group *_group,
 		struct mtk_lp_sysfs_handle *parent,
@@ -204,3 +205,4 @@ int mtk_lp_sysfs_entry_func_group_create(const char *name,
 	return bRet;
 }
 EXPORT_SYMBOL(mtk_lp_sysfs_entry_func_group_create);
+#endif /* mtk_lp_sysfs_entry_func_group_create */

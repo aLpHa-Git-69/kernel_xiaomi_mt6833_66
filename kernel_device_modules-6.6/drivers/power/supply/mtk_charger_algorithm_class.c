@@ -197,12 +197,14 @@ int register_chg_alg_notifier(struct chg_alg_device *alg_dev,
 }
 EXPORT_SYMBOL(register_chg_alg_notifier);
 
+#if 0 /* camellia: unused: unregister_chg_alg_notifier */
 int unregister_chg_alg_notifier(struct chg_alg_device *alg_dev,
 				struct notifier_block *nb)
 {
 	return srcu_notifier_chain_unregister(&alg_dev->evt_nh, nb);
 }
 EXPORT_SYMBOL(unregister_chg_alg_notifier);
+#endif /* unregister_chg_alg_notifier */
 
 /**
  * chg_alg_device_register - create and register a new object of

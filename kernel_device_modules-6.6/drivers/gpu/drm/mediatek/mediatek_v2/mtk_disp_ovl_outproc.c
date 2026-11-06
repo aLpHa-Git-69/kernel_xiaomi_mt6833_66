@@ -147,10 +147,12 @@ static inline struct mtk_disp_ovl_outproc *comp_to_ovl_outproc(struct mtk_ddp_co
 	return container_of(comp, struct mtk_disp_ovl_outproc, ddp_comp);
 }
 
+#if 0 /* camellia: unused: mtk_ovl_outproc_layer_num */
 int mtk_ovl_outproc_layer_num(struct mtk_ddp_comp *comp)
 {
 	return 1;
 }
+#endif /* mtk_ovl_outproc_layer_num */
 
 resource_size_t mtk_ovl_outproc_mmsys_mapping_MT6991(struct mtk_ddp_comp *comp)
 {
@@ -228,6 +230,7 @@ unsigned int mtk_ovl_outproc_aid_sel_MT6991(struct mtk_ddp_comp *comp)
 	}
 }
 
+#if 0 /* camellia: unused: mtk_ovl_outproc_aid_bit */
 int mtk_ovl_outproc_aid_bit(struct mtk_ddp_comp *comp, bool is_ext, int id)
 {
 	if (is_ext)
@@ -235,6 +238,7 @@ int mtk_ovl_outproc_aid_bit(struct mtk_ddp_comp *comp, bool is_ext, int id)
 	else
 		return id;
 }
+#endif /* mtk_ovl_outproc_aid_bit */
 
 static int mtk_ovl_outproc_io_cmd(struct mtk_ddp_comp *comp, struct cmdq_pkt *handle,
 			  enum mtk_ddp_io_cmd io_cmd, void *params);
@@ -395,6 +399,7 @@ static void mtk_ovl_outproc_layer_off(struct mtk_ddp_comp *comp, unsigned int id
 	DDPDBG("%s+ %s\n", __func__, mtk_dump_comp_str(comp));
 }
 
+#if 0 /* camellia: unused: mtk_ovl_outproc_swap */
 void mtk_ovl_outproc_swap(int *a, int *b)
 {
 	int tmp;
@@ -403,7 +408,9 @@ void mtk_ovl_outproc_swap(int *a, int *b)
 	*a = *b;
 	*b = tmp;
 }
+#endif /* mtk_ovl_outproc_swap */
 
+#if 0 /* camellia: unused: mtk_ovl_outproc_transpose */
 void mtk_ovl_outproc_transpose(int *matrix, int size)
 {
 	int i, j;
@@ -413,6 +420,7 @@ void mtk_ovl_outproc_transpose(int *matrix, int size)
 			if (i != j)
 				mtk_ovl_outproc_swap(matrix + i * size + j, matrix + j * size + i);
 }
+#endif /* mtk_ovl_outproc_transpose */
 
 static void mtk_ovl_outproc_layer_config(struct mtk_ddp_comp *comp, unsigned int idx,
 				 struct mtk_plane_state *state,

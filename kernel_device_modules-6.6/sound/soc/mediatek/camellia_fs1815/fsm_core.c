@@ -335,6 +335,7 @@ struct fsm_dev *fsm_get_fsm_dev(uint8_t addr)
 	return NULL;
 }
 
+#if 0 /* camellia: unused: fsm_get_fsm_dev_by_id */
 struct fsm_dev *fsm_get_fsm_dev_by_id(int id)
 {
 	fsm_config_t *cfg = fsm_get_config();
@@ -352,6 +353,7 @@ struct fsm_dev *fsm_get_fsm_dev_by_id(int id)
 
 	return NULL;
 }
+#endif /* fsm_get_fsm_dev_by_id */
 
 int fsm_reg_write(fsm_dev_t *fsm_dev, uint8_t reg, uint16_t val)
 {
@@ -851,6 +853,7 @@ int fsm_init_dev_list(fsm_dev_t *fsm_dev)
 	return 0;
 }
 
+#if 0 /* camellia: unused: fsm_get_list_by_idx */
 void *fsm_get_list_by_idx(fsm_dev_t *fsm_dev, int idx)
 {
 	dev_list_t *dev_list;
@@ -869,6 +872,7 @@ void *fsm_get_list_by_idx(fsm_dev_t *fsm_dev, int idx)
 
 	return (void *)(&pdata[index[idx].offset]);
 }
+#endif /* fsm_get_list_by_idx */
 
 void *fsm_get_data_list(fsm_dev_t *fsm_dev, int type)
 {
@@ -1174,10 +1178,12 @@ int fsm_config_vol(fsm_dev_t *fsm_dev)
 	return fsm_reg_write(fsm_dev, volctrl, volume);
 }
 
+#if 0 /* camellia: unused: fsm_ops_dummy */
 int fsm_ops_dummy(fsm_dev_t *fsm_dev)
 {
 	return 0;
 }
+#endif /* fsm_ops_dummy */
 
 /*
  * fsm stub api
@@ -1298,6 +1304,7 @@ int fsm_stub_dev_deinit(fsm_dev_t *fsm_dev)
 	return 0;
 }
 
+#if 0 /* camellia: unused: fsm_save_re25 */
 int fsm_save_re25(struct fsm_calib_v2 *data)
 {
 	int ret = 0;
@@ -1312,7 +1319,9 @@ int fsm_save_re25(struct fsm_calib_v2 *data)
 //#endif
 	return ret;
 }
+#endif /* fsm_save_re25 */
 
+#if 0 /* camellia: unused: fsm_get_re25 */
 int fsm_get_re25(struct fsm_calib_v2 *data)
 {
 	if (!data) {
@@ -1330,6 +1339,7 @@ int fsm_get_re25(struct fsm_calib_v2 *data)
 	return -EINVAL;
 //#endif
 }
+#endif /* fsm_get_re25 */
 
 int fsm_dev_count(void)
 {
@@ -1699,6 +1709,7 @@ void fsm_stereo_rotation(int next_angle)
 	fsm_mutex_unlock();
 }
 
+#if 0 /* camellia: unused: fsm_dump */
 void fsm_dump(void)
 {
 	fsm_dev_t *fsm_dev = NULL;
@@ -1706,7 +1717,9 @@ void fsm_dump(void)
 	fsm_list_func(fsm_dev, fsm_reg_dump);
 	fsm_mutex_unlock();
 }
+#endif /* fsm_dump */
 
+#if 0 /* camellia: unused: fsm_deinit */
 void fsm_deinit(void)
 {
 	fsm_dev_t *fsm_dev = NULL;
@@ -1721,3 +1734,4 @@ void fsm_deinit(void)
 	fsm_mutex_unlock();
 	fsm_hal_close();
 }
+#endif /* fsm_deinit */

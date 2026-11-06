@@ -859,8 +859,10 @@ void tmem_ut_cases_exit(void)
 {
 }
 
+#if 0 /* camellia: unused: tmem_ut_cases */
 void tmem_ut_cases(void)
 {
 	tmem_region_on_off_stress_test(NULL, NULL);
 	tmem_regmgr_run_all(NULL, NULL);
 }
+#endif /* tmem_ut_cases */

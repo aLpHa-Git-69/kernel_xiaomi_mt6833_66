@@ -516,6 +516,7 @@ int disp_pq_proxy_virtual_type_impl(struct drm_crtc *crtc, struct drm_device *de
 	return ret;
 }
 
+#if 0 /* camellia: unused: disp_pq_is_cmd_need_pm */
 bool disp_pq_is_cmd_need_pm(enum mtk_pq_frame_cfg_cmd cmd)
 {
 	bool ret = true;
@@ -545,6 +546,7 @@ bool disp_pq_is_cmd_need_pm(enum mtk_pq_frame_cfg_cmd cmd)
 	}
 	return ret;
 }
+#endif /* disp_pq_is_cmd_need_pm */
 
 /*
  * camellia: the proxy ioctl body on a kernel buffer, so the 4.14 PQ ioctls

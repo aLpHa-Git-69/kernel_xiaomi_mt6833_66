@@ -27,6 +27,7 @@ signed int fm_enable_eint(void)
 	return 0;
 }
 
+#if 0 /* camellia: unused: fm_disable_eint */
 signed int fm_disable_eint(void)
 {
 	struct fm_ext_interface *ei = &fm_wcn_ops.ei;
@@ -36,6 +37,7 @@ signed int fm_disable_eint(void)
 
 	return 0;
 }
+#endif /* fm_disable_eint */
 
 signed int fm_request_eint(void (*parser) (void))
 {

@@ -2638,6 +2638,7 @@ void rlmReqGenerateOMIIE(struct ADAPTER *prAdapter,
  * \return none
  */
 /*----------------------------------------------------------------------------*/
+#if 0 /* camellia: unused: rlmGenerateCountryIE */
 void rlmGenerateCountryIE(struct ADAPTER *prAdapter,
 		struct MSDU_INFO *prMsduInfo)
 {
@@ -2661,6 +2662,7 @@ void rlmGenerateCountryIE(struct ADAPTER *prAdapter,
 
 	prMsduInfo->u2FrameLength += IE_SIZE(pucBuf);
 }
+#endif /* rlmGenerateCountryIE */
 #endif
 
 void rlmModifyVhtBwPara(uint8_t *pucVhtChannelFrequencyS1,
@@ -9347,6 +9349,7 @@ static void rlmChangeOwnOpInfo(struct ADAPTER *prAdapter,
 	}
 }
 
+#if 0 /* camellia: unused: rlmSyncAntCtrl */
 void rlmSyncAntCtrl(struct ADAPTER *prAdapter, uint8_t txNss, uint8_t rxNss)
 {
 #if (CFG_SUPPORT_POWER_THROTTLING == 1 && CFG_SUPPORT_CNM_POWER_CTRL == 1)
@@ -9372,6 +9375,7 @@ void rlmSyncAntCtrl(struct ADAPTER *prAdapter, uint8_t txNss, uint8_t rxNss)
 	prAdapter->ucANTCtrlPendingCount = 0;
 #endif
 }
+#endif /* rlmSyncAntCtrl */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -10879,6 +10883,7 @@ uint16_t rlmOpClassToBandwidth(uint8_t ucOpClass)
 	return BW_20;
 }
 
+#if 0 /* camellia: unused: rlmGetOpClassForChannel */
 int32_t rlmGetOpClassForChannel(int32_t channel,
 	enum ENUM_BAND band, enum ENUM_CHNL_EXT eSco,
 	enum ENUM_CHANNEL_WIDTH eChBw, uint16_t u2Country)
@@ -11054,6 +11059,7 @@ int32_t rlmGetOpClassForChannel(int32_t channel,
 
 	return 0;
 }
+#endif /* rlmGetOpClassForChannel */
 
 #if CFG_SUPPORT_BFER
 /*----------------------------------------------------------------------------*/

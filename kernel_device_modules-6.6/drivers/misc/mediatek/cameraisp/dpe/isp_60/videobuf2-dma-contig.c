@@ -770,12 +770,14 @@ EXPORT_SYMBOL_GPL(vb2_dpe_dma_contig_memops_isp6);
  * (see vb2_dpe_dma_contig_set_max_seg_size_isp6() function).
  * It should be called from device drivers on driver remove.
  */
+#if 0 /* camellia: unused: vb2_dpe_dma_contig_clear_max_seg_size_isp6 */
 void vb2_dpe_dma_contig_clear_max_seg_size_isp6(struct device *dev)
 {
 	kfree(dev->dma_parms);
 	dev->dma_parms = NULL;
 }
 EXPORT_SYMBOL_GPL(vb2_dpe_dma_contig_clear_max_seg_size_isp6);
+#endif /* vb2_dpe_dma_contig_clear_max_seg_size_isp6 */
 
 MODULE_DESCRIPTION("DMA-contig memory handling routines for videobuf2");
 MODULE_AUTHOR("Pawel Osciak <pawel@osciak.com>");

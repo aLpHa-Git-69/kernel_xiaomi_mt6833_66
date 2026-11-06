@@ -134,6 +134,7 @@ int ccci_hif_dump_status(unsigned int hif_flag,
 	return ret;
 }
 
+#if 0 /* camellia: unused: ccci_hif_debug */
 int ccci_hif_debug(unsigned char hif_id, enum ccci_hif_debug_flg debug_id,
 		int *paras, int len)
 {
@@ -142,6 +143,7 @@ int ccci_hif_debug(unsigned char hif_id, enum ccci_hif_debug_flg debug_id,
 	else
 		return 0;
 }
+#endif /* ccci_hif_debug */
 
 void *ccci_hif_fill_rt_header(unsigned char hif_id,
 	int packet_size, unsigned int tx_ch, unsigned int txqno)

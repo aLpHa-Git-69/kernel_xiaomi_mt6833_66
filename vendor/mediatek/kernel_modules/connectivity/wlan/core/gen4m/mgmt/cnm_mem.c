@@ -930,12 +930,14 @@ struct STA_RECORD *cnmGetStaRecByIndex(struct ADAPTER *prAdapter,
  * \return none
  */
 /*----------------------------------------------------------------------------*/
+#if 0 /* camellia: unused: cnmGetStaRecByWlanIndex */
 struct STA_RECORD *cnmGetStaRecByWlanIndex(struct ADAPTER *prAdapter,
 	uint8_t ucWlanIndex)
 {
 	return cnmGetStaRecByIndex(prAdapter,
 		secGetStaIdxByWlanIdx(prAdapter, ucWlanIndex));
 }
+#endif /* cnmGetStaRecByWlanIndex */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -1522,6 +1524,7 @@ uint8_t *cnmStaRecGetRoleString(enum ENUM_STA_TYPE eStaType)
 	return pucRoleString;
 }
 
+#if 0 /* camellia: unused: cnmShowBssInfo */
 int cnmShowBssInfo(struct ADAPTER *prAdapter, struct BSS_INFO *prBssInfo,
 	char *pcCommand, int i4TotalLen)
 {
@@ -1600,7 +1603,9 @@ int cnmShowBssInfo(struct ADAPTER *prAdapter, struct BSS_INFO *prBssInfo,
 
 	return i4BytesWritten;
 }
+#endif /* cnmShowBssInfo */
 
+#if 0 /* camellia: unused: cnmShowStaRec */
 int cnmShowStaRec(struct ADAPTER *prAdapter, struct STA_RECORD *prStaRec,
 	char *pcCommand, int i4TotalLen)
 {
@@ -1687,6 +1692,7 @@ int cnmShowStaRec(struct ADAPTER *prAdapter, struct STA_RECORD *prStaRec,
 
 	return i4BytesWritten;
 }
+#endif /* cnmShowStaRec */
 
 void cnmDumpBssInfo(struct ADAPTER *prAdapter, uint8_t ucBssIdx)
 {

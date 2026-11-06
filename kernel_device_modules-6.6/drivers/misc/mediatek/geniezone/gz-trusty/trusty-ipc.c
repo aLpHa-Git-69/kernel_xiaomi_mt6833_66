@@ -592,6 +592,7 @@ static void fill_msg_hdr(struct tipc_msg_buf *mb, u32 src, u32 dst)
 	hdr->reserved = 0;
 }
 
+#if 0 /* camellia: unused: tipc_create_channel */
 struct tipc_chan *tipc_create_channel(struct device *dev,
 				      const struct tipc_chan_ops *ops,
 				      void *ops_arg)
@@ -621,6 +622,7 @@ struct tipc_chan *tipc_create_channel(struct device *dev,
 	return chan;
 }
 EXPORT_SYMBOL(tipc_create_channel);
+#endif /* tipc_create_channel */
 
 struct tipc_msg_buf *tipc_chan_get_rxbuf(struct tipc_chan *chan)
 {

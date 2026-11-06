@@ -1001,6 +1001,7 @@ static void ufs_mtk_trace_vh_compl_command(void *data, struct ufs_hba *hba, stru
 	}
 }
 
+#if 0 /* camellia: unused: ufs_mtk_trace_vh_ufs_prepare_command */
 void ufs_mtk_trace_vh_ufs_prepare_command(void *data, struct ufs_hba *hba,
 		struct request *rq, struct ufshcd_lrb *lrbp, int *err)
 {
@@ -1009,6 +1010,7 @@ void ufs_mtk_trace_vh_ufs_prepare_command(void *data, struct ufs_hba *hba,
 	if (cmnd[0] == WRITE_10 | cmnd[0] == WRITE_16)
 		cmnd[1] &= ~0x08;
 }
+#endif /* ufs_mtk_trace_vh_ufs_prepare_command */
 
 void ufs_mtk_trace_vh_check_int_errors(void *data, struct ufs_hba *hba, bool queue_eh_work)
 {
@@ -3208,10 +3210,12 @@ static void ufs_mtk_hibern8_notify(struct ufs_hba *hba, enum uic_cmd_dme cmd,
 	ufs_mtk_dbg_phy_hibern8_notify(hba, cmd, status);
 }
 
+#if 0 /* camellia: unused: _ufs_mtk_dbg_dump */
 void _ufs_mtk_dbg_dump(struct ufs_hba *hba, u32 latest_cnt)
 {
 	ufs_mtk_dbg_dump(latest_cnt);
 }
+#endif /* _ufs_mtk_dbg_dump */
 #endif
 
 /*

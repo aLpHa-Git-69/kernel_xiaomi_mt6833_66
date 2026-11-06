@@ -151,6 +151,7 @@ int trusted_mem_api_alloc(enum TRUSTED_MEM_REQ_TYPE req_mem_type, u32 alignment,
 }
 EXPORT_SYMBOL(trusted_mem_api_alloc);
 
+#if 0 /* camellia: unused: trusted_mem_api_alloc_zero */
 int trusted_mem_api_alloc_zero(enum TRUSTED_MEM_REQ_TYPE mem_type,
 			       u32 alignment, u32 size, u32 *refcount,
 			       u64 *sec_handle, uint8_t *owner, uint32_t id)
@@ -159,6 +160,7 @@ int trusted_mem_api_alloc_zero(enum TRUSTED_MEM_REQ_TYPE mem_type,
 				     refcount, sec_handle, owner, id, 1);
 }
 EXPORT_SYMBOL(trusted_mem_api_alloc_zero);
+#endif /* trusted_mem_api_alloc_zero */
 
 int trusted_mem_api_unref(enum TRUSTED_MEM_REQ_TYPE req_mem_type, u64 sec_handle,
 			  uint8_t *owner, uint32_t id, struct ssheap_buf_info *buf_info)
@@ -199,6 +201,7 @@ int trusted_mem_api_query_pa(enum TRUSTED_MEM_REQ_TYPE mem_type, u32 alignment,
 }
 EXPORT_SYMBOL(trusted_mem_api_query_pa);
 
+#if 0 /* camellia: unused: trusted_mem_ffa_query_pa */
 int trusted_mem_ffa_query_pa(u64 *handle, uint64_t *phy_addr)
 {
 #if IS_ENABLED(CONFIG_ARM_FFA_TRANSPORT)
@@ -211,7 +214,9 @@ int trusted_mem_ffa_query_pa(u64 *handle, uint64_t *phy_addr)
 #endif
 }
 EXPORT_SYMBOL(trusted_mem_ffa_query_pa);
+#endif /* trusted_mem_ffa_query_pa */
 
+#if 0 /* camellia: unused: trusted_mem_api_get_page_replace */
 enum TRUSTED_MEM_REQ_TYPE trusted_mem_api_get_page_replace(
 				enum TRUSTED_MEM_REQ_TYPE req_type)
 {
@@ -225,12 +230,15 @@ enum TRUSTED_MEM_REQ_TYPE trusted_mem_api_get_page_replace(
 	}
 }
 EXPORT_SYMBOL(trusted_mem_api_get_page_replace);
+#endif /* trusted_mem_api_get_page_replace */
 
+#if 0 /* camellia: unused: trusted_mem_is_ffa_enabled */
 bool trusted_mem_is_ffa_enabled(void)
 {
 	return is_ffa_enabled();
 }
 EXPORT_SYMBOL(trusted_mem_is_ffa_enabled);
+#endif /* trusted_mem_is_ffa_enabled */
 
 bool trusted_mem_is_page_v2_enabled(void)
 {

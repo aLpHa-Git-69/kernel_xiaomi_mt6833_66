@@ -622,6 +622,7 @@ static inline TZ_RESULT _handleOpFunc_1(uint32_t cmd,
 	return TZ_RESULT_SUCCESS;
 }
 
+#if 0 /* camellia: unused: KREE_AllocSecuremem */
 TZ_RESULT KREE_AllocSecuremem(KREE_SESSION_HANDLE session,
 	KREE_SECUREMEM_HANDLE *mem_handle, uint32_t alignment, uint32_t size)
 {
@@ -632,6 +633,7 @@ TZ_RESULT KREE_AllocSecuremem(KREE_SESSION_HANDLE session,
 	return ret;
 }
 EXPORT_SYMBOL(KREE_AllocSecuremem);
+#endif /* KREE_AllocSecuremem */
 
 TZ_RESULT KREE_ZallocSecuremem(KREE_SESSION_HANDLE session,
 	KREE_SECUREMEM_HANDLE *mem_handle, uint32_t alignment, uint32_t size)
@@ -644,6 +646,7 @@ TZ_RESULT KREE_ZallocSecuremem(KREE_SESSION_HANDLE session,
 }
 EXPORT_SYMBOL(KREE_ZallocSecuremem);
 
+#if 0 /* camellia: unused: KREE_AllocSecurememWithTag */
 TZ_RESULT KREE_AllocSecurememWithTag(KREE_SESSION_HANDLE session,
 	KREE_SECUREMEM_HANDLE *mem_handle, uint32_t alignment, uint32_t size,
 	const char *tag)
@@ -655,6 +658,7 @@ TZ_RESULT KREE_AllocSecurememWithTag(KREE_SESSION_HANDLE session,
 	return ret;
 }
 EXPORT_SYMBOL(KREE_AllocSecurememWithTag);
+#endif /* KREE_AllocSecurememWithTag */
 
 TZ_RESULT KREE_ZallocSecurememWithTag(KREE_SESSION_HANDLE session,
 	KREE_SECUREMEM_HANDLE *mem_handle, uint32_t alignment, uint32_t size,
@@ -984,20 +988,24 @@ EXPORT_SYMBOL(KREE_ION_QueryChunkmem_TEST);
 #if API_chunkMem /*for general case chunk mem (4KB page unit) */
 
 /*for general chunk memory*/
+#if 0 /* camellia: unused: KREE_AppendSecureMultichunkmem_basic */
 TZ_RESULT KREE_AppendSecureMultichunkmem_basic(KREE_SESSION_HANDLE session,
 	KREE_SHAREDMEM_HANDLE *cm_handle, KREE_SHAREDMEM_PARAM *param)
 {
 	return _kree_mcm_Append(session, cm_handle,
 			param, TZCMD_MEM_APPEND_MULTI_CHUNKMEM);
 }
+#endif /* KREE_AppendSecureMultichunkmem_basic */
 
 /*for general chunk memory*/
+#if 0 /* camellia: unused: KREE_ReleaseSecureMultichunkmem_basic */
 TZ_RESULT KREE_ReleaseSecureMultichunkmem_basic(KREE_SESSION_HANDLE session,
 	KREE_SHAREDMEM_HANDLE cm_handle)
 {
 	return _kree_mcm_Release(session, cm_handle,
 			TZCMD_MEM_RELEASE_CHUNKMEM);
 }
+#endif /* KREE_ReleaseSecureMultichunkmem_basic */
 
 TZ_RESULT KREE_QueryChunkmem_TEST(KREE_SESSION_HANDLE session,
 	KREE_SECUREMEM_HANDLE mem_handle, uint32_t cmd)

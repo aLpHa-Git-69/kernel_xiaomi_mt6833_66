@@ -893,6 +893,7 @@ err:
 }
 EXPORT_SYMBOL(mtk_i2c_clock_enable_ex);
 
+#if 0 /* camellia: unused: mtk_i2c_clock_disable_ex */
 int mtk_i2c_clock_disable_ex(struct i2c_adapter *adap)
 {
 	int ret = 0;
@@ -909,6 +910,7 @@ err:
 	return ret;
 }
 EXPORT_SYMBOL(mtk_i2c_clock_disable_ex);
+#endif /* mtk_i2c_clock_disable_ex */
 
 static void mtk_i2c_init_hw(struct mtk_i2c *i2c)
 {

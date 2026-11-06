@@ -906,6 +906,7 @@ void kalDumpRxRing(struct GLUE_INFO *prGlueInfo,
 		prMemOps->dumpRx(prHifInfo, prRxRing, u4Num, u4DumpLen);
 }
 
+#if 0 /* camellia: unused: halIsWfdmaRxCidxChanged */
 u_int8_t halIsWfdmaRxCidxChanged(struct ADAPTER *prAdapter, uint32_t u4Idx)
 {
 	struct GL_HIF_INFO *prHifInfo = &prAdapter->prGlueInfo->rHifInfo;
@@ -922,6 +923,7 @@ u_int8_t halIsWfdmaRxCidxChanged(struct ADAPTER *prAdapter, uint32_t u4Idx)
 
 	return FALSE;
 }
+#endif /* halIsWfdmaRxCidxChanged */
 
 #if CFG_MTK_WIFI_WFDMA_WB
 void halCheckWfdmaHangForWB(struct ADAPTER *prAdapter)

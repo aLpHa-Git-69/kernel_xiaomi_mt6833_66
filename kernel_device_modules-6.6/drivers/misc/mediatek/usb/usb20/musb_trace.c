@@ -9,6 +9,7 @@
 #define CREATE_TRACE_POINTS
 #include "musb_trace.h"
 
+#if 0 /* camellia: unused: musb_dbg */
 void musb_dbg(struct musb *musb, const char *fmt, ...)
 {
 	struct va_format vaf;
@@ -22,6 +23,7 @@ void musb_dbg(struct musb *musb, const char *fmt, ...)
 
 	va_end(args);
 }
+#endif /* musb_dbg */
 
 EXPORT_TRACEPOINT_SYMBOL_GPL(musb_gadget_enable);
 EXPORT_TRACEPOINT_SYMBOL_GPL(musb_gadget_disable);

@@ -252,18 +252,24 @@ void mt_set_pwm_disable_hal(u32 pwm_no)
 	CLRREG32(PWM_ENABLE, 1 << pwm_no);
 }
 
+#if 0 /* camellia: unused: mt_set_pwm_enable_seqmode_hal */
 void mt_set_pwm_enable_seqmode_hal(void)
 {
 }
+#endif /* mt_set_pwm_enable_seqmode_hal */
 
+#if 0 /* camellia: unused: mt_set_pwm_disable_seqmode_hal */
 void mt_set_pwm_disable_seqmode_hal(void)
 {
 }
+#endif /* mt_set_pwm_disable_seqmode_hal */
 
+#if 0 /* camellia: unused: mt_set_pwm_test_sel_hal */
 s32 mt_set_pwm_test_sel_hal(u32 val)
 {
 	return 0;
 }
+#endif /* mt_set_pwm_test_sel_hal */
 
 void mt_set_pwm_clk_hal(u32 pwm_no, u32 clksrc, u32 div)
 {
@@ -409,6 +415,7 @@ s32 mt_set_pwm_con_oldmode_hal(u32 pwm_no, u32 val)
 	return 0;
 }
 
+#if 0 /* camellia: unused: mt_set_pwm_udf_hal */
 void mt_set_pwm_udf_hal(u32 pwm_no)
 {                              /* only low 16 bits are valid */
 	unsigned long reg_udf;
@@ -416,7 +423,9 @@ void mt_set_pwm_udf_hal(u32 pwm_no)
 	reg_udf = (unsigned long)pwm_base + 0x8;
 	OUTREG32(reg_udf, 0xF);
 }
+#endif /* mt_set_pwm_udf_hal */
 
+#if 0 /* camellia: unused: mt_get_pwm_udf_hal */
 u32 mt_get_pwm_udf_hal(u32 pwm_no)
 {                              /* only low 16 bits are valid */
 	unsigned long reg_udf;
@@ -424,6 +433,7 @@ u32 mt_get_pwm_udf_hal(u32 pwm_no)
 	reg_udf = (unsigned long)pwm_base + 0x10;
 	return INREG32(reg_udf);
 }
+#endif /* mt_get_pwm_udf_hal */
 
 void mt_set_pwm_HiDur_hal(u32 pwm_no, uint16_t DurVal)
 {				/* only low 16 bits are valid */
@@ -623,11 +633,13 @@ void mt_pwm_dump_regs_hal(void)
 
 }
 
+#if 0 /* camellia: unused: pwm_debug_store_hal */
 void pwm_debug_store_hal(void)
 {
 	/* dump clock status */
 	/*pr_debug("peri pdn0 clock: 0x%x\n", INREG32(INFRA_PDN_STA0));*/
 }
+#endif /* pwm_debug_store_hal */
 
 void pwm_debug_show_hal(void)
 {
@@ -638,15 +650,18 @@ void pwm_debug_show_hal(void)
 /*
  *base pwm2, select pwm3&4&5 same as pwm2 or inversion of pwm2
  */
+#if 0 /* camellia: unused: mt_set_pwm_3dlcm_enable_hal */
 void mt_set_pwm_3dlcm_enable_hal(u8 enable)
 {
 	if (pwm_version >= PWM_V2)
 		SETREG32(PWM_3DLCM_V2, 1 << PWM_3DLCM_ENABLE_OFFSET);
 }
+#endif /* mt_set_pwm_3dlcm_enable_hal */
 
 /*
  *set "pwm_no" inversion of pwm base or not
  */
+#if 0 /* camellia: unused: mt_set_pwm_3dlcm_inv_hal */
 void mt_set_pwm_3dlcm_inv_hal(u32 pwm_no, u8 inv)
 {
 	if (pwm_version >= PWM_V2) {
@@ -663,7 +678,9 @@ void mt_set_pwm_3dlcm_inv_hal(u32 pwm_no, u8 inv)
 			CLRREG32(reg_con, 1 << (17));
 	}
 }
+#endif /* mt_set_pwm_3dlcm_inv_hal */
 
+#if 0 /* camellia: unused: mt_set_pwm_3dlcm_base_hal */
 void mt_set_pwm_3dlcm_base_hal(u32 pwm_no)
 {
 	if (pwm_version >= PWM_V2) {
@@ -675,6 +692,7 @@ void mt_set_pwm_3dlcm_base_hal(u32 pwm_no)
 		SETREG32(reg_con, 1 << (18));
 	}
 }
+#endif /* mt_set_pwm_3dlcm_base_hal */
 
 void mt_pwm_26M_clk_enable_hal(u32 enable)
 {

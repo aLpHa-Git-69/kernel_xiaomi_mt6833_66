@@ -81,11 +81,13 @@ free_memory:
 	return retVal;
 }
 
+#if 0 /* camellia: unused: register_fdrv */
 void register_fdrv(struct teei_fdrv *fdrv)
 {
 	list_add_tail(&fdrv->list, &fdrv_list);
 }
 EXPORT_SYMBOL(register_fdrv);
+#endif /* register_fdrv */
 
 int fdrv_notify(struct teei_fdrv *fdrv)
 {

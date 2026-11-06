@@ -120,6 +120,7 @@ void dcm_infracfg_ao_infra_bus_dcm(int on)
 #define INFRACFG_AO_INFRA_CONN_BUS_DCM_REG1_OFF ((0x1 << 8))
 #define INFRACFG_AO_INFRA_CONN_BUS_DCM_REG2_OFF ((0x0 << 8))
 
+#if 0 /* camellia: unused: dcm_infracfg_ao_infra_conn_bus_dcm_is_on */
 bool dcm_infracfg_ao_infra_conn_bus_dcm_is_on(void)
 {
 	bool ret = true;
@@ -130,6 +131,7 @@ bool dcm_infracfg_ao_infra_conn_bus_dcm_is_on(void)
 
 	return ret;
 }
+#endif /* dcm_infracfg_ao_infra_conn_bus_dcm_is_on */
 
 void dcm_infracfg_ao_infra_conn_bus_dcm(int on)
 {

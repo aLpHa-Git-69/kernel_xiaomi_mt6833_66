@@ -224,6 +224,7 @@ void asicEnableFWDownload(struct ADAPTER *prAdapter,
 	}
 }
 
+#if 0 /* camellia: unused: fillNicTxDescAppendWithCR4 */
 void fillNicTxDescAppendWithCR4(struct ADAPTER
 				*prAdapter, struct MSDU_INFO *prMsduInfo,
 				uint8_t *prTxDescBuffer)
@@ -240,7 +241,9 @@ void fillNicTxDescAppendWithCR4(struct ADAPTER
 	prHwTxDescAppend->CR4_APPEND.ucBssIndex =
 		prMsduInfo->ucBssIndex;
 }
+#endif /* fillNicTxDescAppendWithCR4 */
 
+#if 0 /* camellia: unused: fillTxDescAppendByHost */
 void fillTxDescAppendByHost(struct ADAPTER *prAdapter,
 	struct MSDU_INFO *prMsduInfo, uint16_t u4MsduId,
 	phys_addr_t rDmaAddr, uint32_t u4Idx,
@@ -267,7 +270,9 @@ void fillTxDescAppendByHost(struct ADAPTER *prAdapter,
 			prPtrLen->u2Len1 |= TXD_LEN_AL;
 	}
 }
+#endif /* fillTxDescAppendByHost */
 
+#if 0 /* camellia: unused: fillTxDescAppendByCR4 */
 void fillTxDescAppendByCR4(struct ADAPTER *prAdapter,
 	struct MSDU_INFO *prMsduInfo, uint16_t u4MsduId,
 	phys_addr_t rDmaAddr, uint32_t u4Idx,
@@ -284,6 +289,7 @@ void fillTxDescAppendByCR4(struct ADAPTER *prAdapter,
 	prHwTxDescAppend->CR4_APPEND.au2BufLen[u4Idx] =
 		prMsduInfo->u2FrameLength;
 }
+#endif /* fillTxDescAppendByCR4 */
 
 void fillTxDescTxByteCount(struct ADAPTER *prAdapter,
 			   struct MSDU_INFO *prMsduInfo,

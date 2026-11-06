@@ -300,6 +300,7 @@ INT8 mtk_wcn_wmt_therm_ctrl(ENUM_WMTTHERM_TYPE_T eType)
 }
 EXPORT_SYMBOL(mtk_wcn_wmt_therm_ctrl);
 
+#if 0 /* camellia: unused: mtk_wcn_wmt_hwver_get */
 ENUM_WMTHWVER_TYPE_T mtk_wcn_wmt_hwver_get(VOID)
 {
 	/* TODO: [ChangeFeature][GeorgeKuo] Reconsider usage of this type */
@@ -308,6 +309,7 @@ ENUM_WMTHWVER_TYPE_T mtk_wcn_wmt_hwver_get(VOID)
 	return wmt_lib_get_icinfo(WMTCHIN_MAPPINGHWVER);
 }
 EXPORT_SYMBOL(mtk_wcn_wmt_hwver_get);
+#endif /* mtk_wcn_wmt_hwver_get */
 
 UINT32 mtk_wcn_wmt_ic_info_get(ENUM_WMT_CHIPINFO_TYPE_T type)
 {
@@ -759,12 +761,15 @@ MTK_WCN_BOOL mtk_wcn_wmt_do_reset_only(ENUM_WMTDRV_TYPE_T type)
 }
 EXPORT_SYMBOL(mtk_wcn_wmt_do_reset_only);
 
+#if 0 /* camellia: unused: mtk_wcn_wmt_set_wifi_ver */
 VOID mtk_wcn_wmt_set_wifi_ver(UINT32 Value)
 {
 	wmt_lib_soc_set_wifiver(Value);
 }
 EXPORT_SYMBOL(mtk_wcn_wmt_set_wifi_ver);
+#endif /* mtk_wcn_wmt_set_wifi_ver */
 
+#if 0 /* camellia: unused: mtk_wcn_wmt_wifi_fem_cfg_report */
 INT32 mtk_wcn_wmt_wifi_fem_cfg_report(PVOID pvInfoBuf)
 {
 	INT32 iRet = -1;
@@ -773,6 +778,7 @@ INT32 mtk_wcn_wmt_wifi_fem_cfg_report(PVOID pvInfoBuf)
 	return iRet;
 }
 EXPORT_SYMBOL(mtk_wcn_wmt_wifi_fem_cfg_report);
+#endif /* mtk_wcn_wmt_wifi_fem_cfg_report */
 
 VOID mtk_wcn_wmt_dump_wmtd_backtrace(VOID)
 {
@@ -786,11 +792,13 @@ UINT32 mtk_wmt_get_gps_lna_pin_num(VOID)
 }
 EXPORT_SYMBOL(mtk_wmt_get_gps_lna_pin_num);
 
+#if 0 /* camellia: unused: mtk_wmt_set_ext_ldo */
 VOID mtk_wmt_set_ext_ldo(UINT32 flag)
 {
 	wmt_lib_set_ext_ldo(flag);
 }
 EXPORT_SYMBOL(mtk_wmt_set_ext_ldo);
+#endif /* mtk_wmt_set_ext_ldo */
 
 INT32 mtk_wmt_gps_mcu_ctrl(PUINT8 p_tx_data_buf, UINT32 tx_data_len, PUINT8 p_rx_data_buf,
 			   UINT32 rx_data_buf_len, PUINT32 p_rx_data_len)
@@ -868,17 +876,21 @@ MTK_WCN_BOOL mtk_wmt_gps_l5_suspend_ctrl(MTK_WCN_BOOL suspend)
 }
 EXPORT_SYMBOL(mtk_wmt_gps_l5_suspend_ctrl);
 
+#if 0 /* camellia: unused: mtk_wcn_wmt_mpu_lock_aquire */
 INT32 mtk_wcn_wmt_mpu_lock_aquire(VOID)
 {
 	return wmt_lib_mpu_lock_aquire();
 }
 EXPORT_SYMBOL(mtk_wcn_wmt_mpu_lock_aquire);
+#endif /* mtk_wcn_wmt_mpu_lock_aquire */
 
+#if 0 /* camellia: unused: mtk_wcn_wmt_mpu_lock_release */
 VOID mtk_wcn_wmt_mpu_lock_release(VOID)
 {
 	wmt_lib_mpu_lock_release();
 }
 EXPORT_SYMBOL(mtk_wcn_wmt_mpu_lock_release);
+#endif /* mtk_wcn_wmt_mpu_lock_release */
 
 INT32 mtk_wcn_get_reset_info(PUINT8 pBuff, INT32 buffLen)
 {
@@ -905,8 +917,10 @@ INT32 mtk_wcn_get_reset_info(PUINT8 pBuff, INT32 buffLen)
 }
 EXPORT_SYMBOL(mtk_wcn_get_reset_info);
 
+#if 0 /* camellia: unused: mtk_wcn_get_host_assert_info */
 INT32 mtk_wcn_get_host_assert_info(PUINT32 type, PUINT32 reason, PUINT32 en)
 {
 	return wmt_lib_get_host_assert_info(type, reason, en);
 }
 EXPORT_SYMBOL(mtk_wcn_get_host_assert_info);
+#endif /* mtk_wcn_get_host_assert_info */

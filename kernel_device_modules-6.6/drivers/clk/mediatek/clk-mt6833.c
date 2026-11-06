@@ -2010,6 +2010,7 @@ static int clk_mt6833_top_probe(struct platform_device *pdev)
 }
 
 /* for suspend LDVT only */
+#if 0 /* camellia: unused: pll_force_off_internal */
 static void pll_force_off_internal(const struct mtk_pll_data *plls,
 		void __iomem *base)
 {
@@ -2038,7 +2039,9 @@ static void pll_force_off_internal(const struct mtk_pll_data *plls,
 				pwr_reg);
 	}
 }
+#endif /* pll_force_off_internal */
 
+#if 0 /* camellia: unused: pll_force_off */
 void pll_force_off(void)
 {
 	int i;
@@ -2047,6 +2050,7 @@ void pll_force_off(void)
 		pll_force_off_internal(plls_data[i], plls_base[i]);
 }
 EXPORT_SYMBOL(pll_force_off);
+#endif /* pll_force_off */
 
 static const struct of_device_id of_match_clk_mt6833[] = {
 	{

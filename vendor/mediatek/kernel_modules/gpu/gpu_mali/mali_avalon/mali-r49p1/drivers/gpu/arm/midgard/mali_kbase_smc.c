@@ -63,6 +63,7 @@ u64 kbase_invoke_smc_fid(u32 fid, u64 arg0, u64 arg1, u64 arg2)
 	return invoke_smc_fid(fid, arg0, arg1, arg2);
 }
 
+#if 0 /* camellia: unused: kbase_invoke_smc */
 u64 kbase_invoke_smc(u32 oen, u16 function_number, bool smc64, u64 arg0, u64 arg1, u64 arg2)
 {
 	u32 fid = 0;
@@ -79,5 +80,6 @@ u64 kbase_invoke_smc(u32 oen, u16 function_number, bool smc64, u64 arg0, u64 arg
 
 	return kbase_invoke_smc_fid(fid, arg0, arg1, arg2);
 }
+#endif /* kbase_invoke_smc */
 
 #endif /* CONFIG_ARM64 */

@@ -7,10 +7,12 @@
 #include "imgsensor_i2c.h"
 
 #ifdef IMGSENSOR_LEGACY_COMPAT
+#if 0 /* camellia: unused: kdSetI2CSpeed */
 void kdSetI2CSpeed(u16 i2cSpeed)
 {
 
 }
+#endif /* kdSetI2CSpeed */
 
 int iReadRegI2C(u8 *a_pSendData, u16 a_sizeSendData,
 		u8 *a_pRecvData, u16 a_sizeRecvData,
@@ -74,6 +76,7 @@ int iWriteRegI2CTiming(u8 *a_pSendData, u16 a_sizeSendData,
 			timing);
 }
 
+#if 0 /* camellia: unused: iBurstWriteReg */
 int iBurstWriteReg(u8 *pData, u32 bytes, u16 i2cId)
 {
 	if (imgsensor_i2c_get_device() == NULL)
@@ -87,6 +90,7 @@ int iBurstWriteReg(u8 *pData, u32 bytes, u16 i2cId)
 			i2cId,
 			IMGSENSOR_I2C_SPEED);
 }
+#endif /* iBurstWriteReg */
 
 int iBurstWriteReg_multi(u8 *pData, u32 bytes, u16 i2cId,
 				u16 transfer_length, u16 timing)

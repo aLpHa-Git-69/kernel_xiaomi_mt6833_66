@@ -62,34 +62,44 @@ s_int32 sys_ad_cmp_mem(void *dest, void *src, u_long length)
 /*****************************************************************************
  *	OS task create/manage/kill related functions
  *****************************************************************************/
+#if 0 /* camellia: unused: sys_ad_kill_os_task */
 s_int32 sys_ad_kill_os_task(struct serv_os_task *task)
 {
 	return SERV_STATUS_SUCCESS;
 }
+#endif /* sys_ad_kill_os_task */
 
+#if 0 /* camellia: unused: sys_ad_attach_os_task */
 s_int32 sys_ad_attach_os_task(
 	struct serv_os_task *task, SERV_OS_TASK_CALLBACK fn, u_long arg)
 {
 	return SERV_STATUS_SUCCESS;
 }
+#endif /* sys_ad_attach_os_task */
 
+#if 0 /* camellia: unused: sys_ad_init_os_task */
 s_int32 sys_ad_init_os_task(
 	struct serv_os_task *task, char *task_name,
 	void *priv_winfos, void *priv_configs)
 {
 	return SERV_STATUS_SUCCESS;
 }
+#endif /* sys_ad_init_os_task */
 
+#if 0 /* camellia: unused: sys_ad_wait_os_task */
 boolean sys_ad_wait_os_task(
 	void *reserved, struct serv_os_task *task, s_int32 *status)
 {
 	return SERV_STATUS_SUCCESS;
 }
+#endif /* sys_ad_wait_os_task */
 
+#if 0 /* camellia: unused: sys_ad_wakeup_os_task */
 void sys_ad_wakeup_os_task(struct serv_os_task *task)
 {
 	UNUSED(task);
 }
+#endif /* sys_ad_wakeup_os_task */
 /*****************************************************************************
  *	OS debug functions
  *****************************************************************************/

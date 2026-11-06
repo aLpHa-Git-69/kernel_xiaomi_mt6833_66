@@ -1953,6 +1953,7 @@ int is_mtk_sec_heap_dmabuf(const struct dma_buf *dmabuf)
 }
 EXPORT_SYMBOL_GPL(is_mtk_sec_heap_dmabuf);
 
+#if 0 /* camellia: unused: is_support_secure_handle */
 int is_support_secure_handle(const struct dma_buf *dmabuf)
 {
 	if (IS_ERR_OR_NULL(dmabuf))
@@ -1961,6 +1962,7 @@ int is_support_secure_handle(const struct dma_buf *dmabuf)
 	return is_region_base_dmabuf(dmabuf);
 }
 EXPORT_SYMBOL_GPL(is_support_secure_handle);
+#endif /* is_support_secure_handle */
 
 /* return 0 means error */
 u64 dmabuf_to_secure_handle(const struct dma_buf *dmabuf)

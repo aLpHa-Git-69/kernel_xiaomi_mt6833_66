@@ -197,12 +197,14 @@ void mtk_unprepare_venc_dvfs(void)
 #endif
 }
 
+#if 0 /* camellia: unused: mtk_release_pmqos */
 void mtk_release_pmqos(struct mtk_vcodec_ctx *ctx)
 {
 #if ENC_DVFS
 	free_hist_by_handle(&ctx->id, &venc_hists);
 #endif
 }
+#endif /* mtk_release_pmqos */
 
 void mtk_prepare_venc_emi_bw(void)
 {

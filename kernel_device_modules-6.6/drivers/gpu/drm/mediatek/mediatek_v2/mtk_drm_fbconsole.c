@@ -281,6 +281,7 @@ enum MFC_STATUS MFC_Open(MFC_HANDLE *handle, void *fb_addr,
 	return MFC_STATUS_OK;
 }
 
+#if 0 /* camellia: unused: MFC_Open_Ex */
 enum MFC_STATUS MFC_Open_Ex(MFC_HANDLE *handle, void *fb_addr,
 			    unsigned int fb_width, unsigned int fb_height,
 			    unsigned int fb_pitch, unsigned int fb_bpp,
@@ -320,7 +321,9 @@ enum MFC_STATUS MFC_Open_Ex(MFC_HANDLE *handle, void *fb_addr,
 
 	return MFC_STATUS_OK;
 }
+#endif /* MFC_Open_Ex */
 
+#if 0 /* camellia: unused: MFC_Close */
 enum MFC_STATUS MFC_Close(MFC_HANDLE handle)
 {
 	if (!handle)
@@ -330,6 +333,7 @@ enum MFC_STATUS MFC_Close(MFC_HANDLE handle)
 
 	return MFC_STATUS_OK;
 }
+#endif /* MFC_Close */
 
 enum MFC_STATUS MFC_SetColor(MFC_HANDLE handle, unsigned int fg_color,
 			     unsigned int bg_color)
@@ -499,6 +503,7 @@ enum MFC_STATUS MFC_LowMemory_Printf(MFC_HANDLE handle, const char *str,
 static struct screen_logger logger_head;
 static int screen_logger_inited;
 
+#if 0 /* camellia: unused: screen_logger_init */
 void screen_logger_init(void)
 {
 	if (screen_logger_inited == 0) {
@@ -506,7 +511,9 @@ void screen_logger_init(void)
 		screen_logger_inited = 1;
 	}
 }
+#endif /* screen_logger_init */
 
+#if 0 /* camellia: unused: screen_logger_add_message */
 void screen_logger_add_message(char *obj, enum message_mode mode, char *message)
 {
 	struct screen_logger *p = NULL;
@@ -557,7 +564,9 @@ void screen_logger_add_message(char *obj, enum message_mode mode, char *message)
 		list_add_tail(&logger->list, &logger_head.list);
 	}
 }
+#endif /* screen_logger_add_message */
 
+#if 0 /* camellia: unused: screen_logger_remove_message */
 void screen_logger_remove_message(const char *obj)
 {
 	struct screen_logger *p = NULL;
@@ -574,7 +583,9 @@ void screen_logger_remove_message(const char *obj)
 	}
 	p = NULL;
 }
+#endif /* screen_logger_remove_message */
 
+#if 0 /* camellia: unused: screen_logger_print */
 void screen_logger_print(MFC_HANDLE handle)
 {
 	struct screen_logger *p = NULL;
@@ -582,7 +593,9 @@ void screen_logger_print(MFC_HANDLE handle)
 	list_for_each_entry(p, &logger_head.list, list)
 		MFC_Print(handle, p->message);
 }
+#endif /* screen_logger_print */
 
+#if 0 /* camellia: unused: screen_logger_empty */
 void screen_logger_empty(void)
 {
 	struct screen_logger *p = NULL;
@@ -593,7 +606,9 @@ void screen_logger_empty(void)
 		p = list_entry(logger_head.list.prev, typeof(*p), list);
 	}
 }
+#endif /* screen_logger_empty */
 
+#if 0 /* camellia: unused: screen_logger_test_case */
 void screen_logger_test_case(MFC_HANDLE handle)
 {
 	screen_logger_add_message("message1", MESSAGE_REPLACE,
@@ -603,3 +618,4 @@ void screen_logger_test_case(MFC_HANDLE handle)
 	screen_logger_print(handle);
 	screen_logger_empty();
 }
+#endif /* screen_logger_test_case */

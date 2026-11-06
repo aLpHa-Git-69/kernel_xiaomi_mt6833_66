@@ -254,6 +254,7 @@ exit:
 	mutex_unlock(&test_status_mutex);
 }
 
+#if 0 /* camellia: unused: get_dcih_notify_test_result */
 int get_dcih_notify_test_result(void)
 {
 	int ret = -EINVAL;
@@ -271,6 +272,7 @@ int get_dcih_notify_test_result(void)
 
 	return ret;
 }
+#endif /* get_dcih_notify_test_result */
 
 void start_dcih_wait_notify_test(uint32_t driver_id)
 {
@@ -301,6 +303,7 @@ exit:
 
 }
 
+#if 0 /* camellia: unused: get_dcih_wait_notify_test_result */
 int get_dcih_wait_notify_test_result(void)
 {
 	int ret = -EINVAL;
@@ -318,3 +321,4 @@ int get_dcih_wait_notify_test_result(void)
 
 	return ret;
 }
+#endif /* get_dcih_wait_notify_test_result */

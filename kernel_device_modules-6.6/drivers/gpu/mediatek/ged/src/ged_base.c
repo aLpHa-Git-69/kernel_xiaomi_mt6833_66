@@ -64,12 +64,14 @@ void ged_free(void *pvBuf, int i32Size)
 	}
 }
 
+#if 0 /* camellia: unused: ged_get_pid */
 long ged_get_pid(void)
 {
 	if (in_interrupt())
 		return 0xffffffffL;
 	return (long)task_tgid_nr(current);
 }
+#endif /* ged_get_pid */
 
 unsigned long long ged_get_time(void)
 {

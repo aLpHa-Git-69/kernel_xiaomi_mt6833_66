@@ -109,6 +109,7 @@ int tcpci_set_auto_dischg_discnt(struct tcpc_device *tcpc, bool en)
 }
 EXPORT_SYMBOL(tcpci_set_auto_dischg_discnt);
 
+#if 0 /* camellia: unused: tcpci_get_vbus_voltage */
 int tcpci_get_vbus_voltage(struct tcpc_device *tcpc, u32 *vbus)
 {
 	int ret = 0;
@@ -119,6 +120,7 @@ int tcpci_get_vbus_voltage(struct tcpc_device *tcpc, u32 *vbus)
 	return ret;
 }
 EXPORT_SYMBOL(tcpci_get_vbus_voltage);
+#endif /* tcpci_get_vbus_voltage */
 
 bool tcpci_check_vsafe0v(struct tcpc_device *tcpc)
 {
@@ -155,6 +157,7 @@ int tcpci_set_alert_mask(struct tcpc_device *tcpc, uint32_t mask)
 }
 EXPORT_SYMBOL(tcpci_set_alert_mask);
 
+#if 0 /* camellia: unused: tcpci_get_alert_mask */
 int tcpci_get_alert_mask(
 	struct tcpc_device *tcpc, uint32_t *mask)
 {
@@ -163,6 +166,7 @@ int tcpci_get_alert_mask(
 	return tcpc->ops->get_alert_mask(tcpc, mask);
 }
 EXPORT_SYMBOL(tcpci_get_alert_mask);
+#endif /* tcpci_get_alert_mask */
 
 int tcpci_get_alert_status_and_mask(
 	struct tcpc_device *tcpc, uint32_t *alert, uint32_t *mask)
@@ -480,6 +484,7 @@ int tcpci_set_rx_enable(struct tcpc_device *tcpc, uint8_t enable)
 }
 EXPORT_SYMBOL(tcpci_set_rx_enable);
 
+#if 0 /* camellia: unused: tcpci_protocol_reset */
 int tcpci_protocol_reset(struct tcpc_device *tcpc)
 {
 	if (tcpc->ops->protocol_reset)
@@ -488,6 +493,7 @@ int tcpci_protocol_reset(struct tcpc_device *tcpc)
 	return 0;
 }
 EXPORT_SYMBOL(tcpci_protocol_reset);
+#endif /* tcpci_protocol_reset */
 
 int tcpci_get_message(struct tcpc_device *tcpc,
 	uint32_t *payload, uint16_t *head, enum tcpm_transmit_type *type)
@@ -621,6 +627,7 @@ int tcpci_set_bist_test_mode(struct tcpc_device *tcpc, bool en)
 }
 EXPORT_SYMBOL(tcpci_set_bist_test_mode);
 
+#if 0 /* camellia: unused: tcpci_set_bist_carrier_mode */
 int tcpci_set_bist_carrier_mode(struct tcpc_device *tcpc, uint8_t pattern)
 {
 	PD_BUG_ON(tcpc->ops->set_bist_carrier_mode == NULL);
@@ -631,6 +638,7 @@ int tcpci_set_bist_carrier_mode(struct tcpc_device *tcpc, uint8_t pattern)
 	return tcpc->ops->set_bist_carrier_mode(tcpc, pattern);
 }
 EXPORT_SYMBOL(tcpci_set_bist_carrier_mode);
+#endif /* tcpci_set_bist_carrier_mode */
 #endif	/* CONFIG_USB_POWER_DELIVERY */
 
 int tcpci_notify_typec_state(struct tcpc_device *tcpc)

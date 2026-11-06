@@ -27,22 +27,28 @@ static int is_perf_fist;
 #define ACT_CORE(cluster)	(active_core[PPM_CLUSTER_##cluster])
 #define CORE_LIMIT(cluster)	(core_limit_tmp[PPM_CLUSTER_##cluster])
 
+#if 0 /* camellia: unused: ppm_cobra_pass_tbl */
 struct ppm_cobra_data *ppm_cobra_pass_tbl(void)
 {
 	if (cobra_init_done)
 		return cobra_tbl;
 	return NULL;
 }
+#endif /* ppm_cobra_pass_tbl */
 
+#if 0 /* camellia: unused: eara_is_perf_first */
 int eara_is_perf_first(void)
 {
 	return is_perf_fist;
 }
+#endif /* eara_is_perf_first */
 
+#if 0 /* camellia: unused: eara_pass_perf_first_hint */
 void eara_pass_perf_first_hint(int enable)
 {
 	is_perf_fist = enable;
 }
+#endif /* eara_pass_perf_first_hint */
 
 static unsigned int get_idx_in_pwr_tbl(enum ppm_cluster cluster)
 {

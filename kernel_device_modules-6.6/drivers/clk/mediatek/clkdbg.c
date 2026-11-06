@@ -43,9 +43,11 @@
 
 #define genpd_is_irq_safe(genpd)	(genpd->flags & GENPD_FLAG_IRQ_SAFE)
 
+#if 0 /* camellia: unused: clkdbg_set_cfg */
 void __attribute__((weak)) clkdbg_set_cfg(void)
 {
 }
+#endif /* clkdbg_set_cfg */
 
 static const struct clkdbg_ops *clkdbg_ops;
 
@@ -140,15 +142,19 @@ static struct clk *__clk_dbg_lookup(const char *name)
 	return NULL;
 }
 
+#if 0 /* camellia: unused: print_fclk_freq */
 static void print_fclk_freq(const struct fmeter_clk *fclk, u32 freq, void *data)
 {
 	pr_dbg("%2d: %-29s: %d\n", fclk->id, fclk->name, freq);
 }
+#endif /* print_fclk_freq */
 
+#if 0 /* camellia: unused: print_fmeter_all */
 void print_fmeter_all(void)
 {
 	proc_all_fclk_freq(print_fclk_freq, NULL);
 }
+#endif /* print_fmeter_all */
 
 static void seq_print_fclk_freq(const struct fmeter_clk *fclk,
 				u32 freq, void *data)
@@ -178,6 +184,7 @@ static void proc_all_regname(fn_regname_proc proc, void *data)
 		proc(rn, data);
 }
 
+#if 0 /* camellia: unused: print_reg */
 static void print_reg(const struct regname *rn, void *data)
 {
 	if (!is_valid_reg(ADDR(rn)))
@@ -186,11 +193,14 @@ static void print_reg(const struct regname *rn, void *data)
 	pr_dbg("%-21s: [0x%08x][0x%p] = 0x%08x\n",
 			rn->name, PHYSADDR(rn), ADDR(rn), clk_readl(ADDR(rn)));
 }
+#endif /* print_reg */
 
+#if 0 /* camellia: unused: print_regs */
 void print_regs(void)
 {
 	proc_all_regname(print_reg, NULL);
 }
+#endif /* print_regs */
 
 static int clkdbg_pvdck_is_on(struct provider_clk *pvdck)
 {
@@ -292,10 +302,12 @@ static int clkdbg_dump_muxes(struct seq_file *s, void *v)
 
 static char last_cmd[128] = "null";
 
+#if 0 /* camellia: unused: get_last_cmd */
 const char *get_last_cmd(void)
 {
 	return last_cmd;
 }
+#endif /* get_last_cmd */
 
 static void proc_fclk_freq(fn_fclk_freq_proc proc, void *data)
 {

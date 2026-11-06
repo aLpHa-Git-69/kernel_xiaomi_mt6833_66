@@ -74,6 +74,7 @@ void MTK_LTR_gpu_pmu_start(unsigned int interval_ns) {
 }
 EXPORT_SYMBOL(MTK_LTR_gpu_pmu_start);
 
+#if 0 /* camellia: unused: MTK_LTR_gpu_pmu_start_swpm */
 void MTK_LTR_gpu_pmu_start_swpm(unsigned int interval_ns){
 	int pm_tool = MTK_get_mtk_pm();
 	mutex_lock(&gpu_pmu_info_lock);
@@ -101,6 +102,7 @@ void MTK_LTR_gpu_pmu_start_swpm(unsigned int interval_ns){
 	mutex_unlock(&gpu_pmu_info_lock);
 }
 EXPORT_SYMBOL(MTK_LTR_gpu_pmu_start_swpm);
+#endif /* MTK_LTR_gpu_pmu_start_swpm */
 
 void MTK_LTR_gpu_pmu_stop(void){
 

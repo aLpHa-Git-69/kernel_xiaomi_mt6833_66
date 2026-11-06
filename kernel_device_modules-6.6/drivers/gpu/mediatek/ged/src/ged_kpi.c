@@ -509,11 +509,13 @@ EXPORT_SYMBOL(ged_kpi_check_if_fallback_mode_fp);
 
 /* ------------------------------------------------------------------- */
 void (*ged_kpi_fastdvfs_update_dcs_fp)(void);
+#if 0 /* camellia: unused: ged_kpi_fastdvfs_update_dcs */
 void ged_kpi_fastdvfs_update_dcs(void)
 {
 	if (ged_kpi_fastdvfs_update_dcs_fp)
 		ged_kpi_fastdvfs_update_dcs_fp();
 }
+#endif /* ged_kpi_fastdvfs_update_dcs */
 EXPORT_SYMBOL(ged_kpi_fastdvfs_update_dcs_fp);
 
 /* ------------------------------------------------------------------- */
@@ -619,6 +621,7 @@ static inline void check_refresh_diff(struct GED_KPI_HEAD *psHead)
 	}
 }
 
+#if 0 /* camellia: unused: update_fb_timer_set_count */
 void update_fb_timer_set_count(void)
 {
 	fb_timer_set_count++;
@@ -627,12 +630,15 @@ void update_fb_timer_set_count(void)
 
 	mtk_gpueb_sysram_write(SYSRAM_GPU_FB_FALLBACK_RESET_COUNT, fb_timer_set_count);
 }
+#endif /* update_fb_timer_set_count */
 
+#if 0 /* camellia: unused: reset_fb_timer_set_count */
 void reset_fb_timer_set_count(void)
 {
 	fb_timer_set_count = 0;
 	mtk_gpueb_sysram_write(SYSRAM_GPU_FB_FALLBACK_RESET_COUNT, fb_timer_set_count);
 }
+#endif /* reset_fb_timer_set_count */
 
 void update_gpu_fps_table(int i32MarginValue)
 {
@@ -1277,12 +1283,14 @@ static GED_BOOL ged_kpi_find_and_delete_miss_tag(u64 ulID, int i32FrameID
 	return ret;
 }
 
+#if 0 /* camellia: unused: ged_kpi_get_taget_time */
 u64 ged_kpi_get_taget_time(void)
 {
 	//return t_gpu_target_now *2;
 	//100ms
 	return 100000000;
 }
+#endif /* ged_kpi_get_taget_time */
 
 // input argument unit: nanosecond
 static void set_lb_timeout(int t_gpu_target)
@@ -1308,12 +1316,14 @@ static void set_lb_timeout(int t_gpu_target)
 	}
 }
 
+#if 0 /* camellia: unused: ged_kpi_set_loading_mode */
 void ged_kpi_set_loading_mode(unsigned int mode, unsigned int stride_size)
 {
 	g_loading_target_mode = mode;
 	g_loading_stride_size = stride_size;
 	set_lb_timeout(t_gpu_target_now);
 }
+#endif /* ged_kpi_set_loading_mode */
 
 /* ------------------------------------------------------------------- */
 /* while producer */
@@ -2520,6 +2530,7 @@ void ged_kpi_get_latest_perf_state(long long *t_cpu_remained,
 #endif /* MTK_GED_KPI */
 }
 /* ------------------------------------------------------------------- */
+#if 0 /* camellia: unused: ged_kpi_get_uncompleted_count */
 int ged_kpi_get_uncompleted_count(void)
 {
 #ifdef MTK_GED_KPI
@@ -2529,6 +2540,7 @@ int ged_kpi_get_uncompleted_count(void)
 	return 0;
 #endif /* MTK_GED_KPI */
 }
+#endif /* ged_kpi_get_uncompleted_count */
 /* ------------------------------------------------------------------- */
 unsigned int ged_kpi_get_cur_fps(void)
 {
@@ -2634,6 +2646,7 @@ static GED_BOOL ged_kpi_update_sysram_uncompleted_fcn(void *pvoid, void *pvParam
 	return GED_TRUE;
 }
 
+#if 0 /* camellia: unused: ged_kpi_update_sysram_uncompleted_tgpu */
 void ged_kpi_update_sysram_uncompleted_tgpu(struct ged_sysram_info *info)
 {
 #if defined(MTK_GPU_EB_SUPPORT)
@@ -2736,6 +2749,7 @@ void ged_kpi_update_sysram_uncompleted_tgpu(struct ged_sysram_info *info)
 	spin_unlock_irqrestore(&gs_hashtableLock, ulIRQFlags);
 #endif
 }
+#endif /* ged_kpi_update_sysram_uncompleted_tgpu */
 
 
 /* ------------------------------------------------------------------- */
@@ -2850,6 +2864,7 @@ void ged_kpi_system_exit(void)
 void (*ged_kpi_set_gpu_dvfs_hint_fp)(int t_gpu_target, int boost_accum_gpu);
 EXPORT_SYMBOL(ged_kpi_set_gpu_dvfs_hint_fp);
 
+#if 0 /* camellia: unused: ged_kpi_set_gpu_dvfs_hint */
 bool ged_kpi_set_gpu_dvfs_hint(int t_gpu_target, int boost_accum_gpu)
 {
 	if (ged_kpi_set_gpu_dvfs_hint_fp != NULL) {
@@ -2858,6 +2873,7 @@ bool ged_kpi_set_gpu_dvfs_hint(int t_gpu_target, int boost_accum_gpu)
 	}
 	return false;
 }
+#endif /* ged_kpi_set_gpu_dvfs_hint */
 /* ------------------------------------------------------------------- */
 void (*ged_kpi_set_cpu_remained_time_fp)(long long t_cpu_remained,
 	int QedBuffer_length);
@@ -2958,17 +2974,21 @@ void ged_kpi_enable_fw_idle_policy(unsigned int enable)
 EXPORT_SYMBOL(ged_kpi_enable_fw_idle_policy);
 #endif /* MTK_GPU_FW_IDLE */
 /* ------------------------------------------------------------------- */
+#if 0 /* camellia: unused: ged_kpi_get_panel_refresh_rate */
 int ged_kpi_get_panel_refresh_rate(void)
 {
 	return g_target_fps_default;
 }
 EXPORT_SYMBOL(ged_kpi_get_panel_refresh_rate);
+#endif /* ged_kpi_get_panel_refresh_rate */
 /* ------------------------------------------------------------------- */
+#if 0 /* camellia: unused: ged_kpi_get_target_fps */
 int ged_kpi_get_target_fps(void)
 {
 	return g_target_fps;
 }
 EXPORT_SYMBOL(ged_kpi_get_target_fps);
+#endif /* ged_kpi_get_target_fps */
 /* ------------------------------------------------------------------- */
 
 static GED_BOOL ged_kpi_find_riskyBQ_func(unsigned long ulID,
@@ -3079,6 +3099,7 @@ GED_ERROR ged_kpi_timer_based_pick_riskyBQ(struct ged_risky_bq_info *info)
 	return ret;
 }
 
+#if 0 /* camellia: unused: ged_kpi_eb_dvfs_get_time */
 GED_ERROR ged_kpi_eb_dvfs_get_time(struct ged_risky_bq_info *info)
 {
 	GED_ERROR ret = GED_ERROR_FAIL;
@@ -3125,6 +3146,7 @@ GED_ERROR ged_kpi_eb_dvfs_get_time(struct ged_risky_bq_info *info)
 	 */
 	return ret;
 }
+#endif /* ged_kpi_eb_dvfs_get_time */
 
 static GED_BOOL ged_kpi_update_t_gpu_latest_uncompleted_fcn(unsigned long ulID,
 	void *pvoid, void *pvParam)

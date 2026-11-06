@@ -422,6 +422,7 @@ static void read_controller_reg_when_error(void)
 	}
 }
 
+#if 0 /* camellia: unused: read_controller_reg_when_error_by_ctrl_num */
 static void read_controller_reg_when_error_by_ctrl_num(int ctrl_num)
 {
 	int j, offset, temp;
@@ -436,6 +437,7 @@ static void read_controller_reg_when_error_by_ctrl_num(int ctrl_num)
 		}
 	//}
 }
+#endif /* read_controller_reg_when_error_by_ctrl_num */
 
 static void read_device_reg_before_active(void)
 {
@@ -485,6 +487,7 @@ static void read_device_reg_when_error(void)
 	}
 }
 
+#if 0 /* camellia: unused: read_device_reg_when_error_by_ctrl_num */
 static void read_device_reg_when_error_by_ctrl_num(int ctrl_num)
 {
 	int j, offset, cnt;
@@ -518,6 +521,7 @@ static void read_device_reg_when_error_by_ctrl_num(int ctrl_num)
 		}
 	//}
 }
+#endif /* read_device_reg_when_error_by_ctrl_num */
 
 
 void clear_lvts_register_value_array(void)
@@ -537,6 +541,7 @@ void clear_lvts_register_value_array(void)
 	}
 }
 
+#if 0 /* camellia: unused: dump_lvts_register_value_by_ctrl_num */
 static void dump_lvts_register_value_by_ctrl_num(int ctrl_num)
 {
 	int j, offset, tc_offset;
@@ -588,6 +593,7 @@ static void dump_lvts_register_value_by_ctrl_num(int ctrl_num)
 		lvts_printk("%s\n", buffer);
 	//}
 }
+#endif /* dump_lvts_register_value_by_ctrl_num */
 
 static void dump_lvts_register_value(void)
 {
@@ -652,6 +658,7 @@ void dump_lvts_error_info(void)
 	dump_lvts_register_value();
 }
 
+#if 0 /* camellia: unused: dump_lvts_error_info_by_ctrl_num */
 void dump_lvts_error_info_by_ctrl_num(int crtl_num)
 {
 	read_controller_reg_when_error_by_ctrl_num(crtl_num);
@@ -662,6 +669,7 @@ void dump_lvts_error_info_by_ctrl_num(int crtl_num)
 	read_device_reg_when_error_by_ctrl_num(crtl_num);
 	dump_lvts_register_value_by_ctrl_num(crtl_num);
 }
+#endif /* dump_lvts_error_info_by_ctrl_num */
 
 #endif
 
@@ -878,6 +886,7 @@ void lvts_device_read_count_RC_N(void)
 #endif
 }
 
+#if 0 /* camellia: unused: lvts_device_enable_auto_rck */
 void lvts_device_enable_auto_rck(void)
 {
 	int i;
@@ -887,6 +896,7 @@ void lvts_device_enable_auto_rck(void)
 		lvts_write_device(0xC1030000, 0x0E, 0x01, i);
 	}
 }
+#endif /* lvts_device_enable_auto_rck */
 
 void lvts_efuse_setting(void)
 {
@@ -1713,6 +1723,7 @@ void read_all_tc_lvts_temperature(void)
 }
 
 /* pause ALL periodoc temperature sensing point */
+#if 0 /* camellia: unused: lvts_pause_all_sensing_points */
 void lvts_pause_all_sensing_points(void)
 {
 	int i, temp, offset;
@@ -1725,6 +1736,7 @@ void lvts_pause_all_sensing_points(void)
 					offset + LVTSMSRCTL1_0);
 	}
 }
+#endif /* lvts_pause_all_sensing_points */
 
 /*
  * lvts_thermal_check_all_sensing_point_idle -

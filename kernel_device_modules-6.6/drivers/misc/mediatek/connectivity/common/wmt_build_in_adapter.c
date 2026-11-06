@@ -82,10 +82,16 @@ struct conn_dbg_record {
 };
 
 /* device node related */
+#if 0 /* camellia: unused: gConnDbgMajor */
 static int gConnDbgMajor = CONN_DBG_DEV_MAJOR;
+#endif /* gConnDbgMajor */
+#if 0 /* camellia: unused: pConnDbgClass */
 static struct class *pConnDbgClass;
+#endif /* pConnDbgClass */
 static struct device *pConnDbgDev;
+#if 0 /* camellia: unused: gConnDbgdev */
 static struct cdev gConnDbgdev;
+#endif /* gConnDbgdev */
 
 /*******************************************************************************
  * Bridging from platform -> wmt_drv.ko
@@ -100,6 +106,7 @@ static spinlock_t conn_dbg_log_lock;
 static struct conn_dbg_record *g_conn_dbg_record_p;
 static int conn_dbg_record_num;
 
+#if 0 /* camellia: unused: conn_dbg_dump_log */
 static void conn_dbg_dump_log(char *buf)
 {
 	struct conn_dbg_record *rec;
@@ -123,7 +130,9 @@ static void conn_dbg_dump_log(char *buf)
 	spin_unlock_irqrestore(&conn_dbg_log_lock, flag);
 	buf[CONN_DBG_LOG_BUF_SIZE - 1] = '\0';
 }
+#endif /* conn_dbg_dump_log */
 
+#if 0 /* camellia: unused: hw_monitor_show */
 static ssize_t hw_monitor_show(
 	struct kobject *kobj,
 	struct kobj_attribute *attr,
@@ -132,10 +141,15 @@ static ssize_t hw_monitor_show(
 	conn_dbg_dump_log(buf);
 	return strlen(buf);
 }
+#endif /* hw_monitor_show */
 
+#if 0 /* camellia: unused: conn_kobj */
 static struct kobject *conn_kobj;
+#endif /* conn_kobj */
+#if 0 /* camellia: unused: hw_monitor_attr */
 static struct kobj_attribute hw_monitor_attr
 	= __ATTR(hw_monitor, 0664, hw_monitor_show, NULL);
+#endif /* hw_monitor_attr */
 
 static void conn_dbg_get_local_time(u64 *sec, unsigned long *nsec)
 {
@@ -225,6 +239,7 @@ exit:
 }
 EXPORT_SYMBOL(conn_dbg_add_log);
 
+#if 0 /* camellia: unused: conn_dbg_log_init */
 static int conn_dbg_log_init(void)
 {
 	int ret;
@@ -241,7 +256,9 @@ static int conn_dbg_log_init(void)
 
 	return ret;
 }
+#endif /* conn_dbg_log_init */
 
+#if 0 /* camellia: unused: conn_dbg_log_deinit */
 static void conn_dbg_log_deinit(void)
 {
 	struct conn_dbg_record *rec;
@@ -263,6 +280,7 @@ static void conn_dbg_log_deinit(void)
 	kobject_put(conn_kobj);
 	conn_kobj = NULL;
 }
+#endif /* conn_dbg_log_deinit */
 
 ssize_t conn_dbg_dev_write(struct file *filp, const char __user *buffer,
 				size_t count, loff_t *f_pos)
@@ -289,6 +307,7 @@ static const struct file_operations gConnDbgDevFops = {
 	.write = conn_dbg_dev_write,
 };
 
+#if 0 /* camellia: unused: conn_dbg_dev_init */
 static int conn_dbg_dev_init(void)
 {
 	dev_t dev_id = MKDEV(gConnDbgMajor, 0);
@@ -339,7 +358,9 @@ err1:
 
 	return -1;
 }
+#endif /* conn_dbg_dev_init */
 
+#if 0 /* camellia: unused: conn_dbg_dev_deinit */
 static int conn_dbg_dev_deinit(void)
 {
 	dev_t dev_id = MKDEV(gConnDbgMajor, 0);
@@ -359,6 +380,7 @@ static int conn_dbg_dev_deinit(void)
 
 	return 0;
 }
+#endif /* conn_dbg_dev_deinit */
 
 void wmt_export_platform_bridge_register(struct wmt_platform_bridge *cb)
 {
@@ -381,6 +403,7 @@ void wmt_export_platform_bridge_unregister(void)
 }
 EXPORT_SYMBOL(wmt_export_platform_bridge_unregister);
 
+#if 0 /* camellia: unused: wmt_export_platform_dbg_bridge_register */
 void wmt_export_platform_dbg_bridge_register(const struct wmt_platform_dbg_bridge *cb)
 {
 	if (unlikely(!cb))
@@ -393,7 +416,9 @@ void wmt_export_platform_dbg_bridge_register(const struct wmt_platform_dbg_bridg
 	conn_dbg_log_init();
 }
 EXPORT_SYMBOL(wmt_export_platform_dbg_bridge_register);
+#endif /* wmt_export_platform_dbg_bridge_register */
 
+#if 0 /* camellia: unused: wmt_export_platform_dbg_bridge_unregister */
 void wmt_export_platform_dbg_bridge_unregister(void)
 {
 	if (g_dbg_bridge.write_cb && g_dbg_bridge.read_cb)
@@ -402,6 +427,7 @@ void wmt_export_platform_dbg_bridge_unregister(void)
 	conn_dbg_log_deinit();
 }
 EXPORT_SYMBOL(wmt_export_platform_dbg_bridge_unregister);
+#endif /* wmt_export_platform_dbg_bridge_unregister */
 
 int mtk_wcn_cmb_stub_query_ctrl(void)
 {

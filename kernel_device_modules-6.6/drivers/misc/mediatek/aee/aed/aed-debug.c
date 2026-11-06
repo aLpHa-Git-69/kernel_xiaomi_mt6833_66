@@ -848,6 +848,7 @@ int aed_proc_debug_init(struct proc_dir_entry *aed_proc_dir)
 	return 0;
 }
 
+#if 0 /* camellia: unused: aed_proc_debug_done */
 int aed_proc_debug_done(struct proc_dir_entry *aed_proc_dir)
 {
 	remove_proc_entry("generate-oops", aed_proc_dir);
@@ -862,3 +863,4 @@ int aed_proc_debug_done(struct proc_dir_entry *aed_proc_dir)
 	remove_proc_entry("generate-platform", aed_proc_dir);
 	return 0;
 }
+#endif /* aed_proc_debug_done */

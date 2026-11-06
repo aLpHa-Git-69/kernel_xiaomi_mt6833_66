@@ -256,12 +256,14 @@ s32 mtk_mmqos_hrt_scen(enum hrt_scen scen, bool is_start)
 }
 EXPORT_SYMBOL_GPL(mtk_mmqos_hrt_scen);
 
+#if 0 /* camellia: unused: mtk_mmqos_set_md_type */
 void mtk_mmqos_set_md_type(u32 md_type)
 {
 	mmqos_hrt->md_type = md_type;
 	mtk_mmqos_hrt_scen(MD_SPEECH, mmqos_hrt->in_speech);
 }
 EXPORT_SYMBOL_GPL(mtk_mmqos_set_md_type);
+#endif /* mtk_mmqos_set_md_type */
 
 static ssize_t mtk_mmqos_scen_store(struct device *dev,
 		struct device_attribute *attr, const char *buf, size_t count)

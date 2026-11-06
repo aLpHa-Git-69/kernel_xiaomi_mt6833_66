@@ -71,6 +71,7 @@ int sensorlist_sensor_to_handle(int sensor)
 	return handle;
 }
 
+#if 0 /* camellia: unused: sensorlist_handle_to_sensor */
 int sensorlist_handle_to_sensor(int handle)
 {
 	int type = -1;
@@ -115,6 +116,7 @@ int sensorlist_handle_to_sensor(int handle)
 	}
 	return type;
 }
+#endif /* sensorlist_handle_to_sensor */
 
 MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("dynamic sensorlist driver");

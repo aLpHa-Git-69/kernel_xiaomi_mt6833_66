@@ -805,6 +805,7 @@ void p2pDeactivateAllLink(
 	}
 }
 
+#if 0 /* camellia: unused: p2pGetDefaultRoleFsmInfo */
 struct P2P_ROLE_FSM_INFO *p2pGetDefaultRoleFsmInfo(
 	struct ADAPTER *prAdapter,
 	enum ENUM_IFTYPE eIftype)
@@ -813,6 +814,7 @@ struct P2P_ROLE_FSM_INFO *p2pGetDefaultRoleFsmInfo(
 	return P2P_ROLE_INDEX_2_ROLE_FSM_INFO(prAdapter,
 		P2P_MAIN_ROLE_INDEX);
 }
+#endif /* p2pGetDefaultRoleFsmInfo */
 
 struct BSS_INFO *p2pGetDefaultLinkBssInfo(
 	struct ADAPTER *prAdapter,
@@ -1315,6 +1317,7 @@ p2pNeedAppendP2pIE(
 	return TRUE;
 }
 
+#if 0 /* camellia: unused: p2pNeedSkipProbeResp */
 u_int8_t
 p2pNeedSkipProbeResp(
 	struct ADAPTER *ad,
@@ -1338,5 +1341,6 @@ p2pNeedSkipProbeResp(
 
 	return FALSE;
 }
+#endif /* p2pNeedSkipProbeResp */
 
 #endif /* CFG_ENABLE_WIFI_DIRECT */

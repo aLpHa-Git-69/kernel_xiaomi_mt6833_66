@@ -127,6 +127,7 @@ bool dp_dfp_u_notify_pe_ready(
 	return true;
 }
 
+#if 0 /* camellia: unused: dp_notify_pe_shutdown */
 bool dp_notify_pe_shutdown(
 	struct pd_port *pd_port, struct svdm_svid_data *svid_data)
 {
@@ -137,6 +138,7 @@ bool dp_notify_pe_shutdown(
 
 	return false;
 }
+#endif /* dp_notify_pe_shutdown */
 
 bool dp_dfp_u_notify_discover_id(struct pd_port *pd_port,
 	struct svdm_svid_data *svid_data, bool ack)

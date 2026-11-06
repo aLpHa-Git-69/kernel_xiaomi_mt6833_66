@@ -802,6 +802,7 @@ static int32_t HQA_FWPacketCMD_ClockSwitchDisable(
 	return i4Ret;
 }
 
+#if 0 /* camellia: unused: HQA_CMD_SET0 */
 static HQA_CMD_HANDLER HQA_CMD_SET0[] = {
 	/* cmd id start from 0x1000 */
 	HQA_OpenAdapter,	/* 0x1000 */
@@ -826,6 +827,7 @@ static HQA_CMD_HANDLER HQA_CMD_SET0[] = {
 	HQA_AntennaSel,		/* 0x1013 */
 	HQA_FWPacketCMD_ClockSwitchDisable,	/* 0x1014 */
 };
+#endif /* HQA_CMD_SET0 */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -1287,6 +1289,7 @@ static int32_t HQA_SetAntSwap(struct net_device *prNetDev,
 #endif
 
 
+#if 0 /* camellia: unused: HQA_CMD_SET1 */
 static HQA_CMD_HANDLER HQA_CMD_SET1[] = {
 	/* cmd id start from 0x1100 */
 	HQA_SetChannel,		/* 0x1100 */
@@ -1307,6 +1310,7 @@ static HQA_CMD_HANDLER HQA_CMD_SET1[] = {
 	HQA_SetAntSwap,		/* 0x110E */
 #endif
 };
+#endif /* HQA_CMD_SET1 */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -1687,6 +1691,7 @@ static int32_t HQA_SetFAGCRssiPath(struct net_device
 	return i4Ret;
 }
 
+#if 0 /* camellia: unused: HQA_CMD_SET2 */
 static HQA_CMD_HANDLER HQA_CMD_SET2[] = {
 	/* cmd id start from 0x1200 */
 	HQA_ResetTxRxCounter,	/* 0x1200 */
@@ -1701,6 +1706,7 @@ static HQA_CMD_HANDLER HQA_CMD_SET2[] = {
 	HQA_SetRXVectorIdx,	/* 0x1209 */
 	HQA_SetFAGCRssiPath,	/* 0x120A */
 };
+#endif /* HQA_CMD_SET2 */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -3495,6 +3501,7 @@ static int32_t HQA_SetBufferBin(struct net_device *prNetDev,
 	return Ret;
 }
 
+#if 0 /* camellia: unused: HQA_CMD_SET3 */
 static HQA_CMD_HANDLER HQA_CMD_SET3[] = {
 	/* cmd id start from 0x1300 */
 	HQA_MacBbpRegRead,	/* 0x1300 */
@@ -3521,6 +3528,7 @@ static HQA_CMD_HANDLER HQA_CMD_SET3[] = {
 	ToDoFunction,       /* 0x1315 */
 	HQA_SetBufferBin,   /* 0x1316 */
 };
+#endif /* HQA_CMD_SET3 */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -3621,12 +3629,14 @@ static int32_t HQA_SetSideBandOption(struct net_device
 	return i4Ret;
 }
 
+#if 0 /* camellia: unused: HQA_CMD_SET4 */
 static HQA_CMD_HANDLER HQA_CMD_SET4[] = {
 	/* cmd id start from 0x1400 */
 	HQA_ReadTempReferenceValue,	/* 0x1400 */
 	HQA_GetThermalValue,	/* 0x1401 */
 	HQA_SetSideBandOption,	/* 0x1402 */
 };
+#endif /* HQA_CMD_SET4 */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -5916,15 +5926,20 @@ static int32_t HQA_GetDumpRXV(struct net_device *prNetDev,
 	return i4Ret;
 }
 
+#if 0 /* camellia: unused: HQA_ReCal_CMDS */
 static HQA_CMD_HANDLER HQA_ReCal_CMDS[] = {
 	HQA_GetDumpRecal,			/*0x1581 */
 };
+#endif /* HQA_ReCal_CMDS */
 
+#if 0 /* camellia: unused: HQA_RXV_CMDS */
 static HQA_CMD_HANDLER HQA_RXV_CMDS[] = {
 	HQA_GetDumpRXV,		/* 0x1581 */
 };
+#endif /* HQA_RXV_CMDS */
 
 
+#if 0 /* camellia: unused: HQA_CMD_SET5 */
 static HQA_CMD_HANDLER HQA_CMD_SET5[] = {
 	/* cmd id start from 0x1500 */
 	HQA_GetFWInfo,		/* 0x1500 */
@@ -5989,6 +6004,7 @@ static HQA_CMD_HANDLER HQA_CMD_SET5[] = {
 	HQA_MPSSetNss,		/* 0x1536 */
 	HQA_MPSSetPerpacketBW,	/* 0x1537 */
 };
+#endif /* HQA_CMD_SET5 */
 
 #if CFG_SUPPORT_TX_BF
 static int32_t HQA_TxBfProfileTagInValid(struct net_device
@@ -7157,6 +7173,7 @@ static int32_t HQA_ManualAssoc(struct net_device *prNetDev,
 	return i4Ret;
 }
 
+#if 0 /* camellia: unused: HQA_TXBF_CMDS */
 static HQA_CMD_HANDLER HQA_TXBF_CMDS[] = {
 	HQA_TxBfProfileTagInValid,	/* 0x1540 */
 	HQA_TxBfProfileTagPfmuIdx,	/* 0x1541 */
@@ -7186,6 +7203,7 @@ static HQA_CMD_HANDLER HQA_TXBF_CMDS[] = {
 	HQA_TxBfTxApply,	/* 0x1559 */
 	HQA_ManualAssoc,	/* 0x155A */
 };
+#endif /* HQA_TXBF_CMDS */
 
 #if CFG_SUPPORT_MU_MIMO
 static int32_t HQA_MUGetInitMCS(struct net_device *prNetDev,
@@ -7834,6 +7852,7 @@ static int32_t HQA_MUTriggerTx(struct net_device *prNetDev,
 	return i4Ret;
 }
 
+#if 0 /* camellia: unused: HQA_TXMU_CMDS */
 static HQA_CMD_HANDLER HQA_TXMU_CMDS[] = {
 	HQA_MUGetInitMCS,	/* 0x1560 */
 	HQA_MUCalInitMCS,	/* 0x1561 */
@@ -7849,6 +7868,7 @@ static HQA_CMD_HANDLER HQA_TXMU_CMDS[] = {
 	HQA_MUSetGID_UP,	/* 0x156B */
 	HQA_MUTriggerTx,	/* 0x156C */
 };
+#endif /* HQA_TXMU_CMDS */
 #endif
 #endif
 
@@ -8017,6 +8037,7 @@ static int32_t HQA_CapWiFiSpectrum(struct net_device
 	return 0;
 }
 
+#if 0 /* camellia: unused: mt6632SetICapStart */
 int32_t mt6632SetICapStart(struct GLUE_INFO *prGlueInfo,
 			   uint32_t u4Trigger, uint32_t u4RingCapEn,
 			   uint32_t u4Event, uint32_t u4Node, uint32_t u4Len,
@@ -8173,6 +8194,7 @@ int32_t mt6632SetICapStart(struct GLUE_INFO *prGlueInfo,
 		return -EFAULT;
 	return 0;
 }
+#endif /* mt6632SetICapStart */
 
 int32_t mt6632GetICapStatus(struct GLUE_INFO *prGlueInfo)
 {
@@ -8399,9 +8421,11 @@ int32_t connacGetICapIQData(struct GLUE_INFO *prGlueInfo,
 }
 
 
+#if 0 /* camellia: unused: HQA_ICAP_CMDS */
 static HQA_CMD_HANDLER HQA_ICAP_CMDS[] = {
 	HQA_CapWiFiSpectrum,	/* 0x1580 */
 };
+#endif /* HQA_ICAP_CMDS */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -9356,11 +9380,14 @@ static int32_t hqa_ext_cmds(struct net_device *prNetDev,
 	return i4Ret;
 }
 
+#if 0 /* camellia: unused: HQA_CMD_SET6 */
 static HQA_CMD_HANDLER HQA_CMD_SET6[] = {
 	/* cmd id start from 0x1600 */
 	hqa_ext_cmds,		/* 0x1600 */
 };
+#endif /* HQA_CMD_SET6 */
 
+#if 0 /* camellia: unused: HQA_CMD_TABLES */
 static struct HQA_CMD_TABLE HQA_CMD_TABLES[] = {
 	{
 		HQA_CMD_SET0,
@@ -9439,6 +9466,7 @@ static struct HQA_CMD_TABLE HQA_CMD_TABLES[] = {
 	}
 	,
 };
+#endif /* HQA_CMD_TABLES */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -9452,6 +9480,7 @@ static struct HQA_CMD_TABLE HQA_CMD_TABLES[] = {
  * \retval 0			On success.
  */
 /*----------------------------------------------------------------------------*/
+#if 0 /* camellia: unused: HQA_CMDHandler */
 int HQA_CMDHandler(struct net_device *prNetDev,
 		   union iwreq_data *prIwReqData,
 		   struct HQA_CMD_FRAME *HqaCmdFrame)
@@ -9482,6 +9511,7 @@ int HQA_CMDHandler(struct net_device *prNetDev,
 
 	return i4Status;
 }
+#endif /* HQA_CMDHandler */
 
 /*----------------------------------------------------------------------------*/
 /*!

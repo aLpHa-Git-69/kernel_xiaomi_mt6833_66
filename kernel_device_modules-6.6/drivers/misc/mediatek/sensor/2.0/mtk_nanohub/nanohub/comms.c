@@ -300,6 +300,7 @@ static int nanohub_comms_tx_rx(struct nanohub_data *data,
 	return ret;
 }
 
+#if 0 /* camellia: unused: nanohub_comms_rx_retrans_boottime */
 int nanohub_comms_rx_retrans_boottime(struct nanohub_data *data,
 						u32 cmd, u8 *rx, size_t rx_len,
 						int retrans_cnt,
@@ -352,6 +353,7 @@ int nanohub_comms_rx_retrans_boottime(struct nanohub_data *data,
 
 	return ret;
 }
+#endif /* nanohub_comms_rx_retrans_boottime */
 
 int nanohub_comms_tx_rx_retrans(struct nanohub_data *data, u32 cmd,
 				const u8 *tx, u8 tx_len,
@@ -414,6 +416,7 @@ struct firmware_chunk {
 	u8 data[252 - sizeof(u32)];
 } __packed;
 
+#if 0 /* camellia: unused: nanohub_comms_download */
 static int nanohub_comms_download(struct nanohub_data *data,
 				  const u8 *image, size_t length,
 				  u8 type)
@@ -516,16 +519,21 @@ static int nanohub_comms_download(struct nanohub_data *data,
 
 	return 0;
 }
+#endif /* nanohub_comms_download */
 
+#if 0 /* camellia: unused: nanohub_comms_kernel_download */
 int nanohub_comms_kernel_download(struct nanohub_data *data,
 				  const u8 *image, size_t length)
 {
 	return nanohub_comms_download(data, image, length,
 				      COMMS_FLASH_KERNEL_ID);
 }
+#endif /* nanohub_comms_kernel_download */
 
+#if 0 /* camellia: unused: nanohub_comms_app_download */
 int nanohub_comms_app_download(struct nanohub_data *data, const u8 *image,
 			       size_t length)
 {
 	return nanohub_comms_download(data, image, length, COMMS_FLASH_APP_ID);
 }
+#endif /* nanohub_comms_app_download */

@@ -238,6 +238,7 @@ int BU64748_main_Initial(void)
 	return str;
 }
 
+#if 0 /* camellia: unused: bu64748_main_af_cur_pos */
 unsigned short bu64748_main_af_cur_pos(void)
 {
 	unsigned char in[2] = {0};
@@ -252,6 +253,7 @@ unsigned short bu64748_main_af_cur_pos(void)
 	u16_dat = (read[0] * 256) + read[1];
 	return u16_dat;
 }
+#endif /* bu64748_main_af_cur_pos */
 
 void BU64748_main_soft_power_ctrl(int On)
 {

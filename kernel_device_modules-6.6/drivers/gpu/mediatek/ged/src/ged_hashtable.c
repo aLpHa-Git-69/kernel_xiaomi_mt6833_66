@@ -263,6 +263,7 @@ void ged_hashtable_iterator(GED_HASHTABLE_HANDLE hHashTable,
 	}
 }
 
+#if 0 /* camellia: unused: ged_hashtable_search */
 void *ged_hashtable_search(GED_HASHTABLE_HANDLE hHashTable,
 	void* (*pFunc)(unsigned long ulID, void *pvoid, void *pvParam),
 	void *pvParam)
@@ -295,6 +296,7 @@ void *ged_hashtable_search(GED_HASHTABLE_HANDLE hHashTable,
 	}
 	return pResult;
 }
+#endif /* ged_hashtable_search */
 
 void ged_hashtable_iterator_delete(GED_HASHTABLE_HANDLE hHashTable,
 	GED_BOOL (*pFunc)(unsigned long ulID, void *pvoid, void *pvParam,
@@ -336,6 +338,7 @@ void ged_hashtable_iterator_delete(GED_HASHTABLE_HANDLE hHashTable,
 
 }
 
+#if 0 /* camellia: unused: ged_hashtable_get_count */
 unsigned long ged_hashtable_get_count(GED_HASHTABLE_HANDLE hHashTable)
 {
 	struct GED_HASHTABLE *psHT = __ged_hashtable_verify(hHashTable);
@@ -344,4 +347,5 @@ unsigned long ged_hashtable_get_count(GED_HASHTABLE_HANDLE hHashTable)
 		return psHT->ulCount;
 	return 0;
 }
+#endif /* ged_hashtable_get_count */
 

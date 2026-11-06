@@ -13,6 +13,7 @@
 
 static struct mtk_lp_sysfs_handle mtk_lpm_fs_root;
 
+#if 0 /* camellia: unused: mtk_lpm_sysfs_entry_node_add */
 int mtk_lpm_sysfs_entry_node_add(const char *name
 		, int mode, const struct mtk_lp_sysfs_op *op
 		, struct mtk_lp_sysfs_handle *handle)
@@ -24,6 +25,7 @@ int mtk_lpm_sysfs_entry_node_add(const char *name
 			, mode, op, &mtk_lpm_fs_root, handle);
 }
 EXPORT_SYMBOL(mtk_lpm_sysfs_entry_node_add);
+#endif /* mtk_lpm_sysfs_entry_node_add */
 
 int mtk_lpm_sysfs_entry_node_remove(
 		struct mtk_lp_sysfs_handle *handle)
@@ -45,6 +47,7 @@ int mtk_lpm_sysfs_root_entry_create(void)
 }
 EXPORT_SYMBOL(mtk_lpm_sysfs_root_entry_create);
 
+#if 0 /* camellia: unused: mtk_lpm_sysfs_entry_root_get */
 int mtk_lpm_sysfs_entry_root_get(struct mtk_lp_sysfs_handle **handle)
 {
 	if (!handle ||
@@ -55,6 +58,7 @@ int mtk_lpm_sysfs_entry_root_get(struct mtk_lp_sysfs_handle **handle)
 	return 0;
 }
 EXPORT_SYMBOL(mtk_lpm_sysfs_entry_root_get);
+#endif /* mtk_lpm_sysfs_entry_root_get */
 
 int mtk_lpm_sysfs_sub_entry_add(const char *name, int mode,
 					struct mtk_lp_sysfs_handle *parent,
@@ -89,8 +93,10 @@ int mtk_lpm_sysfs_sub_entry_node_add(const char *name
 }
 EXPORT_SYMBOL(mtk_lpm_sysfs_sub_entry_node_add);
 
+#if 0 /* camellia: unused: mtk_lpm_sysfs_remove */
 int mtk_lpm_sysfs_remove(void)
 {
 	return mtk_lp_sysfs_entry_func_node_remove(&mtk_lpm_fs_root);
 }
 EXPORT_SYMBOL(mtk_lpm_sysfs_remove);
+#endif /* mtk_lpm_sysfs_remove */

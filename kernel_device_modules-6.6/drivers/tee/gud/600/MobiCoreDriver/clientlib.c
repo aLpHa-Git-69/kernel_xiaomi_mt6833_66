@@ -213,6 +213,7 @@ enum mc_result mc_open_session(struct mc_session_handle *session,
 }
 EXPORT_SYMBOL(mc_open_session);
 
+#if 0 /* camellia: unused: mc_open_trustlet */
 enum mc_result mc_open_trustlet(struct mc_session_handle *session,
 				u8 *ta_va, u32 ta_len, u8 *tci_va, u32 tci_len)
 {
@@ -240,7 +241,9 @@ enum mc_result mc_open_trustlet(struct mc_session_handle *session,
 	return ret;
 }
 EXPORT_SYMBOL(mc_open_trustlet);
+#endif /* mc_open_trustlet */
 
+#if 0 /* camellia: unused: mc_close_session */
 enum mc_result mc_close_session(struct mc_session_handle *session)
 {
 	enum mc_result ret;
@@ -264,6 +267,7 @@ enum mc_result mc_close_session(struct mc_session_handle *session)
 	return ret;
 }
 EXPORT_SYMBOL(mc_close_session);
+#endif /* mc_close_session */
 
 enum mc_result mc_notify(struct mc_session_handle *session)
 {
@@ -372,6 +376,7 @@ enum mc_result mc_free_wsm(u32 device_id, u8 *wsm)
 }
 EXPORT_SYMBOL(mc_free_wsm);
 
+#if 0 /* camellia: unused: mc_map */
 enum mc_result mc_map(struct mc_session_handle *session, void *address,
 		      u32 length, struct mc_bulk_map *map_info)
 {
@@ -409,7 +414,9 @@ enum mc_result mc_map(struct mc_session_handle *session, void *address,
 	return ret;
 }
 EXPORT_SYMBOL(mc_map);
+#endif /* mc_map */
 
+#if 0 /* camellia: unused: mc_unmap */
 enum mc_result mc_unmap(struct mc_session_handle *session, void *address,
 			struct mc_bulk_map *map_info)
 {
@@ -444,7 +451,9 @@ enum mc_result mc_unmap(struct mc_session_handle *session, void *address,
 	return ret;
 }
 EXPORT_SYMBOL(mc_unmap);
+#endif /* mc_unmap */
 
+#if 0 /* camellia: unused: mc_get_session_error_code */
 enum mc_result mc_get_session_error_code(struct mc_session_handle *session,
 					 s32 *exit_code)
 {
@@ -473,3 +482,4 @@ enum mc_result mc_get_session_error_code(struct mc_session_handle *session,
 	return ret;
 }
 EXPORT_SYMBOL(mc_get_session_error_code);
+#endif /* mc_get_session_error_code */

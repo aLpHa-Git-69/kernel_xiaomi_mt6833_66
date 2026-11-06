@@ -31345,6 +31345,7 @@ void mtk_disp_mutex_put(struct mtk_disp_mutex *mutex)
 	mutex->claimed = false;
 }
 
+#if 0 /* camellia: unused: mtk_disp_mutex_prepare */
 int mtk_disp_mutex_prepare(struct mtk_disp_mutex *mutex)
 {
 	struct mtk_ddp *ddp =
@@ -31361,7 +31362,9 @@ int mtk_disp_mutex_prepare(struct mtk_disp_mutex *mutex)
 
 	return clk_prepare_enable(ddp->clk);
 }
+#endif /* mtk_disp_mutex_prepare */
 
+#if 0 /* camellia: unused: mtk_disp_mutex_unprepare */
 void mtk_disp_mutex_unprepare(struct mtk_disp_mutex *mutex)
 {
 	struct mtk_ddp *ddp =
@@ -31378,6 +31381,7 @@ void mtk_disp_mutex_unprepare(struct mtk_disp_mutex *mutex)
 
 	clk_disable_unprepare(ddp->clk);
 }
+#endif /* mtk_disp_mutex_unprepare */
 
 void mtk_disp_mutex_add_comp(struct mtk_disp_mutex *mutex,
 			     enum mtk_ddp_comp_id id)

@@ -26,11 +26,14 @@ void ged_notification(GED_NOTIFICATION_TYPE eType)
 	}
 }
 EXPORT_SYMBOL(ged_notification);
+#if 0 /* camellia: unused: ged_set_target_fps */
 int ged_set_target_fps(unsigned int target_fps, int mode)
 {
 	return 0;
 }
 EXPORT_SYMBOL(ged_set_target_fps);
+#endif /* ged_set_target_fps */
+#if 0 /* camellia: unused: ged_get_latest_perf_state */
 void ged_get_latest_perf_state(long long *t_cpu_remained,
 				long long *t_gpu_remained,
 				long *t_cpu_target,
@@ -39,10 +42,13 @@ void ged_get_latest_perf_state(long long *t_cpu_remained,
 	ged_kpi_get_latest_perf_state(t_cpu_remained,
 		t_gpu_remained, t_cpu_target, t_gpu_target);
 }
+#endif /* ged_get_latest_perf_state */
+#if 0 /* camellia: unused: ged_get_cur_fps */
 unsigned int ged_get_cur_fps(void)
 {
 	return ged_kpi_get_cur_fps();
 }
+#endif /* ged_get_cur_fps */
 
 #ifndef MTK_GPU_DVFS
 /*

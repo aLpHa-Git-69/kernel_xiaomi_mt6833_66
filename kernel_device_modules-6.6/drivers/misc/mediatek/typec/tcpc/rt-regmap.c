@@ -509,6 +509,7 @@ static int rt_cache_block_read(struct rt_regmap_device *rd, u32 reg,
 	return 0;
 }
 
+#if 0 /* camellia: unused: cpu_to_chip */
 static u32 cpu_to_chip(struct rt_regmap_device *rd, u32 cpu_data, int size)
 {
 	u32 chip_data = 0;
@@ -526,7 +527,9 @@ static u32 cpu_to_chip(struct rt_regmap_device *rd, u32 cpu_data, int size)
 
 	return chip_data;
 }
+#endif /* cpu_to_chip */
 
+#if 0 /* camellia: unused: chip_to_cpu */
 static u32 chip_to_cpu(struct rt_regmap_device *rd, u32 chip_data, int size)
 {
 	u32 cpu_data = 0;
@@ -544,12 +547,14 @@ static u32 chip_to_cpu(struct rt_regmap_device *rd, u32 chip_data, int size)
 
 	return cpu_data;
 }
+#endif /* chip_to_cpu */
 
 /* _rt_regmap_reg_write - write data to specific register map
  * only support 1, 2, 4 bytes regisetr map
  * @rd: rt_regmap_device pointer.
  * @rrd: rt_reg_data pointer.
  */
+#if 0 /* camellia: unused: _rt_regmap_reg_write */
 static int _rt_regmap_reg_write(struct rt_regmap_device *rd,
 				struct rt_reg_data *rrd, bool asyn)
 {
@@ -584,7 +589,9 @@ static int _rt_regmap_reg_write(struct rt_regmap_device *rd,
 				     __func__, ret, rrd->reg);
 	return (ret < 0) ? ret : 0;
 }
+#endif /* _rt_regmap_reg_write */
 
+#if 0 /* camellia: unused: rt_regmap_reg_write */
 int rt_regmap_reg_write(struct rt_regmap_device *rd, struct rt_reg_data *rrd,
 			u32 reg, const u32 data)
 {
@@ -593,7 +600,9 @@ int rt_regmap_reg_write(struct rt_regmap_device *rd, struct rt_reg_data *rrd,
 	return _rt_regmap_reg_write(rd, rrd, false);
 }
 EXPORT_SYMBOL(rt_regmap_reg_write);
+#endif /* rt_regmap_reg_write */
 
+#if 0 /* camellia: unused: rt_asyn_regmap_reg_write */
 int rt_asyn_regmap_reg_write(struct rt_regmap_device *rd,
 			     struct rt_reg_data *rrd, u32 reg, const u32 data)
 {
@@ -602,12 +611,14 @@ int rt_asyn_regmap_reg_write(struct rt_regmap_device *rd,
 	return _rt_regmap_reg_write(rd, rrd, true);
 }
 EXPORT_SYMBOL(rt_asyn_regmap_reg_write);
+#endif /* rt_asyn_regmap_reg_write */
 
 /* _rt_regmap_reg_read - register read for specific register map
  * only support 1, 2, 4 bytes register map.
  * @rd: rt_regmap_device pointer.
  * @rrd: rt_reg_data pointer.
  */
+#if 0 /* camellia: unused: _rt_regmap_reg_read */
 static int _rt_regmap_reg_read(struct rt_regmap_device *rd,
 			       struct rt_reg_data *rrd)
 {
@@ -642,7 +653,9 @@ static int _rt_regmap_reg_read(struct rt_regmap_device *rd,
 out:
 	return (ret < 0) ? ret : 0;
 }
+#endif /* _rt_regmap_reg_read */
 
+#if 0 /* camellia: unused: rt_regmap_reg_read */
 int rt_regmap_reg_read(struct rt_regmap_device *rd,
 			struct rt_reg_data *rrd, u32 reg)
 {
@@ -650,8 +663,10 @@ int rt_regmap_reg_read(struct rt_regmap_device *rd,
 	return _rt_regmap_reg_read(rd, rrd);
 }
 EXPORT_SYMBOL(rt_regmap_reg_read);
+#endif /* rt_regmap_reg_read */
 
 /* _rt_regmap_update_bits - assign bits specific register map */
+#if 0 /* camellia: unused: _rt_regmap_update_bits */
 static int _rt_regmap_update_bits(struct rt_regmap_device *rd,
 				  struct rt_reg_data *rrd)
 {
@@ -702,7 +717,9 @@ out:
 	up(&rd->semaphore);
 	return (ret < 0) ? ret : 0;
 }
+#endif /* _rt_regmap_update_bits */
 
+#if 0 /* camellia: unused: rt_regmap_update_bits */
 int rt_regmap_update_bits(struct rt_regmap_device *rd, struct rt_reg_data *rrd,
 			  u32 reg, u32 mask, u32 data)
 {
@@ -712,6 +729,7 @@ int rt_regmap_update_bits(struct rt_regmap_device *rd, struct rt_reg_data *rrd,
 	return _rt_regmap_update_bits(rd, rrd);
 }
 EXPORT_SYMBOL(rt_regmap_update_bits);
+#endif /* rt_regmap_update_bits */
 
 /* rt_regmap_block_write - block write data to register
  * @rd: rt_regmap_device pointer
@@ -732,6 +750,7 @@ int rt_regmap_block_write(struct rt_regmap_device *rd, u32 reg,
 EXPORT_SYMBOL(rt_regmap_block_write);
 
 /* rt_asyn_regmap_block_write - asyn block write */
+#if 0 /* camellia: unused: rt_asyn_regmap_block_write */
 int rt_asyn_regmap_block_write(struct rt_regmap_device *rd, u32 reg,
 			       int bytes, const void *src)
 {
@@ -743,6 +762,7 @@ int rt_asyn_regmap_block_write(struct rt_regmap_device *rd, u32 reg,
 	return (ret < 0) ? ret : 0;
 }
 EXPORT_SYMBOL(rt_asyn_regmap_block_write);
+#endif /* rt_asyn_regmap_block_write */
 
 /* rt_regmap_block_read - block read data form register
  * @rd: rt_regmap_device pointer
@@ -871,6 +891,7 @@ EXPORT_SYMBOL(rt_regmap_cache_reload);
  * @fops: a pointer to a struct file_operations that should be used for
  *        this file.
  */
+#if 0 /* camellia: unused: rt_regmap_add_debugfs */
 int rt_regmap_add_debugfs(struct rt_regmap_device *rd, const char *name,
 			  umode_t mode, void *data,
 			  const struct file_operations *fops)
@@ -885,6 +906,7 @@ int rt_regmap_add_debugfs(struct rt_regmap_device *rd, const char *name,
 	return 0;
 }
 EXPORT_SYMBOL(rt_regmap_add_debugfs);
+#endif /* rt_regmap_add_debugfs */
 
 static void rt_regmap_set_cache_mode(struct rt_regmap_device *rd,
 				     unsigned char mode)

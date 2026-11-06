@@ -434,6 +434,7 @@ err:
 	return iret;
 }
 
+#if 0 /* camellia: unused: wmt_gpio_deinit */
 INT32 wmt_gpio_deinit(VOID)
 {
 	INT32 iret = 0;
@@ -456,6 +457,7 @@ INT32 wmt_gpio_deinit(VOID)
 
 	return iret;
 }
+#endif /* wmt_gpio_deinit */
 
 VOID _wmt_dump_gpio_regs(INT32 idx)
 {

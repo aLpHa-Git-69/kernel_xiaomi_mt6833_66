@@ -736,6 +736,7 @@ void ccci_md_clear_smem(int first_boot)
 }
 
 /* maybe we can change it to hook function of MD FSM */
+#if 0 /* camellia: unused: smem_md_state_notification */
 int smem_md_state_notification(unsigned char state)
 {
 	static int init = 1; /*default is 0*/
@@ -761,4 +762,5 @@ int smem_md_state_notification(unsigned char state)
 	}
 	return ret;
 }
+#endif /* smem_md_state_notification */
 

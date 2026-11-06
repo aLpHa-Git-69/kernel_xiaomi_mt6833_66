@@ -1133,6 +1133,7 @@ bool mtk_drm_idlemgr_get_async_status(struct drm_crtc *crtc)
 	return false;
 }
 
+#if 0 /* camellia: unused: mtk_drm_idlemgr_get_sram_status */
 bool mtk_drm_idlemgr_get_sram_status(struct drm_crtc *crtc)
 {
 	struct mtk_drm_idlemgr *idlemgr;
@@ -1161,6 +1162,7 @@ bool mtk_drm_idlemgr_get_sram_status(struct drm_crtc *crtc)
 
 	return false;
 }
+#endif /* mtk_drm_idlemgr_get_sram_status */
 
 void mtk_drm_idlemgr_async_get(struct drm_crtc *crtc, unsigned int user_id)
 {

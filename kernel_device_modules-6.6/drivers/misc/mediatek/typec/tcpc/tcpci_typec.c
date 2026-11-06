@@ -1766,6 +1766,7 @@ int tcpc_typec_swap_role(struct tcpc_device *tcpc)
 }
 #endif /* CONFIG_TYPEC_CAP_ROLE_SWAP */
 
+#if 0 /* camellia: unused: tcpc_typec_set_rp_level */
 int tcpc_typec_set_rp_level(struct tcpc_device *tcpc, uint8_t rp_lvl)
 {
 	switch (rp_lvl) {
@@ -1782,6 +1783,7 @@ int tcpc_typec_set_rp_level(struct tcpc_device *tcpc, uint8_t rp_lvl)
 
 	return 0;
 }
+#endif /* tcpc_typec_set_rp_level */
 
 int tcpc_typec_error_recovery(struct tcpc_device *tcpc)
 {
@@ -1791,6 +1793,7 @@ int tcpc_typec_error_recovery(struct tcpc_device *tcpc)
 	return 0;
 }
 
+#if 0 /* camellia: unused: tcpc_typec_disable */
 int tcpc_typec_disable(struct tcpc_device *tcpc)
 {
 	if (tcpc->typec_state != typec_disabled)
@@ -1798,7 +1801,9 @@ int tcpc_typec_disable(struct tcpc_device *tcpc)
 
 	return 0;
 }
+#endif /* tcpc_typec_disable */
 
+#if 0 /* camellia: unused: tcpc_typec_enable */
 int tcpc_typec_enable(struct tcpc_device *tcpc)
 {
 	if (tcpc->typec_state == typec_disabled)
@@ -1806,6 +1811,7 @@ int tcpc_typec_enable(struct tcpc_device *tcpc)
 
 	return 0;
 }
+#endif /* tcpc_typec_enable */
 
 int tcpc_typec_change_role(
 	struct tcpc_device *tcpc, uint8_t typec_role, bool postpone)

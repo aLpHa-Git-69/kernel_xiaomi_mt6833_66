@@ -3086,6 +3086,7 @@ int mt6359p_accdet_init(struct snd_soc_component *component,
 }
 EXPORT_SYMBOL_GPL(mt6359p_accdet_init);
 
+#if 0 /* camellia: unused: mt6359p_accdet_set_drvdata */
 int mt6359p_accdet_set_drvdata(struct snd_soc_card *card)
 {
 	snd_soc_card_set_drvdata(card, accdet);
@@ -3093,6 +3094,7 @@ int mt6359p_accdet_set_drvdata(struct snd_soc_card *card)
 	return 0;
 }
 EXPORT_SYMBOL_GPL(mt6359p_accdet_set_drvdata);
+#endif /* mt6359p_accdet_set_drvdata */
 
 static int accdet_probe(struct platform_device *pdev)
 {
@@ -3381,10 +3383,12 @@ static const struct file_operations accdet_fops = {
 	.unlocked_ioctl = mt_accdet_unlocked_ioctl,
 };
 
+#if 0 /* camellia: unused: accdet_get_fops */
 const struct file_operations *accdet_get_fops(void)
 {
 	return &accdet_fops;
 }
+#endif /* accdet_get_fops */
 
 static struct platform_driver accdet_driver = {
 	.probe = accdet_probe,

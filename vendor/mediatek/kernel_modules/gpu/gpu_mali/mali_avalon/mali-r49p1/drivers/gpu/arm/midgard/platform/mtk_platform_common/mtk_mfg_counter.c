@@ -732,6 +732,7 @@ void mtk_mfg_counter_destroy(void)
 
 
 // init but don't enable met
+#if 0 /* camellia: unused: gator_gpu_pmu_init */
 int gator_gpu_pmu_init(void)
 {
 	int ret = PMU_OK;
@@ -757,6 +758,7 @@ int gator_gpu_pmu_init(void)
 	}
 	return ret;
 }
+#endif /* gator_gpu_pmu_init */
 
 int mtk_gpu_stall_create_subfs(void)
 {
@@ -768,6 +770,7 @@ int mtk_gpu_stall_create_subfs(void)
 	return 0;
 }
 
+#if 0 /* camellia: unused: mtk_gpu_stall_delete_subfs */
 void mtk_gpu_stall_delete_subfs(void)
 {
 	if (io_addr_gpu_stall) {
@@ -775,7 +778,9 @@ void mtk_gpu_stall_delete_subfs(void)
 		io_addr_gpu_stall = NULL;
 	}
 }
+#endif /* mtk_gpu_stall_delete_subfs */
 
+#if 0 /* camellia: unused: mtk_gpu_stall_start */
 void mtk_gpu_stall_start(void)
 {
 	unsigned int value = 0x00000001;
@@ -786,7 +791,9 @@ void mtk_gpu_stall_start(void)
 		writel(value, io_addr_gpu_stall + OFFSET_STALL_GPU_M1_RD_CNT);
 	}
 }
+#endif /* mtk_gpu_stall_start */
 
+#if 0 /* camellia: unused: mtk_gpu_stall_stop */
 void mtk_gpu_stall_stop(void)
 {
 	if (io_addr_gpu_stall) {
@@ -796,7 +803,9 @@ void mtk_gpu_stall_stop(void)
 		writel(0x00000000, io_addr_gpu_stall + OFFSET_STALL_GPU_M1_RD_CNT);
 	}
 }
+#endif /* mtk_gpu_stall_stop */
 
+#if 0 /* camellia: unused: mtk_GPU_STALL_RAW */
 void mtk_GPU_STALL_RAW(unsigned int *diff, int size)
 {
 	unsigned int stall_counters[4] = {0};
@@ -829,3 +838,4 @@ void mtk_GPU_STALL_RAW(unsigned int *diff, int size)
 	}
 #endif
 }
+#endif /* mtk_GPU_STALL_RAW */

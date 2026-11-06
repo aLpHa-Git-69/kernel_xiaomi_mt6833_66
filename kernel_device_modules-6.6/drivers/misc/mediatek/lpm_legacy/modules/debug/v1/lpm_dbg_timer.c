@@ -81,10 +81,12 @@ int lpm_timer_interval_update(struct lpm_timer *timer,
 	return 0;
 }
 
+#if 0 /* camellia: unused: lpm_timer_is_running */
 int lpm_timer_is_running(struct lpm_timer *timer)
 {
 	return __is_lpm_timer_running(timer);
 }
+#endif /* lpm_timer_is_running */
 
 unsigned long lpm_timer_interval(struct lpm_timer *timer)
 {

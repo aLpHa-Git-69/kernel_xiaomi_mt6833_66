@@ -87,6 +87,7 @@ static void ppm_userlimit_status_change_cb(bool enable)
 	FUNC_EXIT(FUNC_LV_POLICY);
 }
 
+#if 0 /* camellia: unused: mt_ppm_userlimit_cpu_core */
 unsigned int mt_ppm_userlimit_cpu_core(unsigned int cluster_num,
 	struct ppm_limit_data *data)
 {
@@ -94,6 +95,7 @@ unsigned int mt_ppm_userlimit_cpu_core(unsigned int cluster_num,
 
 	return 0;
 }
+#endif /* mt_ppm_userlimit_cpu_core */
 
 unsigned int mt_ppm_userlimit_cpu_freq(
 	unsigned int cluster_num, struct ppm_limit_data *data)
