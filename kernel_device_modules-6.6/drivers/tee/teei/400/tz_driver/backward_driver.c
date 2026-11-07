@@ -121,7 +121,8 @@ static int reetime_handle(struct NQ_entry *entry)
 	block_p = entry->block_p;
 
 	if (time_type == GET_UPTIME) {
-		getboottime64(&tp);
+		/* 4.14 get_monotonic_boottime(); getboottime64() is the constant boot instant */
+		ktime_get_boottime_ts64(&tp);
 		tv_sec = tp.tv_sec;
 		tv_usec = tp.tv_nsec / 1000;
 	} else {
