@@ -241,6 +241,9 @@ struct gf_device {
 /**********************function defination**********************/
 extern bool goodix_fp_exist;
 extern bool fpc1022_fp_exist;
+extern struct spi_device *spi_fingerprint;
+int fpc1022_init(void);
+void fpc1022_exit(void);
 #if !IS_ENABLED(CONFIG_DEVICE_MODULES_SPI_MT65XX)
 void gf_spi_setup_conf_ree(struct gf_device *gf_dev, u32 speed, enum spi_transfer_mode mode);
 #endif

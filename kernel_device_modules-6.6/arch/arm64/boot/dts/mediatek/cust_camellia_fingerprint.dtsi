@@ -29,6 +29,8 @@
 };
 
 &goodix_fp {
+	/* FPC1022 or Goodix behind the same node, as in stock mt6833.dts */
+	compatible = "mediatek,fpc1022_irq", "mediatek,goodix-fp";
 	fpc,gpio_irq = <&pio 22 0>;
 	interrupt-parent = <&pio>;
 	interrupts = <22 IRQ_TYPE_EDGE_FALLING>;
