@@ -1094,7 +1094,6 @@ static int bs_psy_get_property(struct power_supply *psy,
 	int curr_avg = 0;
 	int remain_ui = 0, remain_mah = 0;
 	int time_to_full = 0;
-	int q_max_uah = 0;
 	int volt_now = 0;
 	int count = 0;
 	int temp = 0;
@@ -1174,6 +1173,17 @@ static int bs_psy_get_property(struct power_supply *psy,
 		ret = 0;
 		break;
 	case POWER_SUPPLY_PROP_CHARGE_FULL:
+		/*
+		 * camellia: the aged capacity the gauge algorithm uses, as 4.14
+		 * reports it (algo_qmax * aging_factor); the fg_profile q_max
+		 * below is MediaTek's 2851 mAh reference table
+		 */
+		if (bm->gm1 != NULL && !bm->gm1->bat_plug_out &&
+		    bm->gm1->algo.quse_tb1 > 0) {
+			val->intval = bm->gm1->algo.quse_tb1 * 100;
+			ret = 0;
+			break;
+		}
 
 		if (bm->gm1 != NULL)
 			if(!bm->gm1->bat_plug_out)
@@ -1268,21 +1278,8 @@ static int bs_psy_get_property(struct power_supply *psy,
 			break;
 		}
 
-		if (bm->gm1 != NULL)
-			if(!bm->gm1->bat_plug_out)
-				qmax += bm_update_psy_property(bm->gm1, QMAX_DESIGN);
-		if (bm->gm2 != NULL)
-			if(!bm->gm2->bat_plug_out)
-				qmax += bm_update_psy_property(bm->gm2, QMAX_DESIGN);
-
-		q_max_uah = qmax * 100;
-		if (q_max_uah <= 100000) {
-			pr_debug("%s gm_no:%d, q_max:%d q_max_uah:%d\n",
-				__func__, bm->gm_no, qmax, q_max_uah);
-			q_max_uah = 100001;
-		}
-		val->intval = q_max_uah;
-
+		/* camellia: 5000 mAh cell, the constant 4.14 reports */
+		val->intval = 5000000;
 		break;
 	case POWER_SUPPLY_PROP_CONSTANT_CHARGE_VOLTAGE:
 		if (IS_ERR_OR_NULL(bs_data->chg_psy)) {
