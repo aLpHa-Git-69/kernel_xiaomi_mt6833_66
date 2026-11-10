@@ -2243,6 +2243,51 @@ void selinux_policy_commit(struct selinux_load_state *load_state)
  * This function will flush the access vector cache after
  * loading the new policy.
  */
+/*
+ * camellia: the MIUI vendor policy was written for 4.14, which has no watch
+ * permission. Add the watch rules Xiaomi's own policies for 5.15/6.6 phones
+ * (zircon, rodin) carry for the same thermal daemon and apps.
+ */
+static const struct {
+	const char *source, *target, *class, *perms[2];
+} camellia_watch_rules[] = {
+	{ "mi_thermald", "sysfs_therm", "file", { "watch" } },
+	{ "mi_thermald", "thermal_data_file", "dir", { "watch" } },
+	{ "system_app", "sysfs_therm", "file", { "watch", "watch_reads" } },
+};
+
+static void camellia_add_watch_rules(struct policydb *p)
+{
+	int i, j;
+
+	for (i = 0; i < ARRAY_SIZE(camellia_watch_rules); i++) {
+		struct type_datum *source, *target;
+		struct avtab_key key = { .specified = AVTAB_ALLOWED };
+		struct avtab_datum datum = {};
+		struct avtab_node *node;
+
+		source = symtab_search(&p->p_types, camellia_watch_rules[i].source);
+		target = symtab_search(&p->p_types, camellia_watch_rules[i].target);
+		key.target_class = string_to_security_class(p,
+						camellia_watch_rules[i].class);
+		if (!source || !target || !key.target_class)
+			continue;
+
+		key.source_type = source->value;
+		key.target_type = target->value;
+		for (j = 0; j < 2 && camellia_watch_rules[i].perms[j]; j++)
+			datum.u.data |= string_to_av_perm(p, key.target_class,
+						camellia_watch_rules[i].perms[j]);
+
+		node = avtab_search_node(&p->te_avtab, &key);
+		if (node)
+			node->datum.u.data |= datum.u.data;
+		else if (avtab_insert_nonunique(&p->te_avtab, &key, &datum))
+			/* one more avtab entry in /sys/fs/selinux/policy */
+			p->len += 4 * sizeof(u16) + sizeof(u32);
+	}
+}
+
 int security_load_policy(void *data, size_t len,
 			 struct selinux_load_state *load_state)
 {
@@ -2267,6 +2312,7 @@ int security_load_policy(void *data, size_t len,
 		goto err_sidtab;
 
 	newpolicy->policydb.len = len;
+	camellia_add_watch_rules(&newpolicy->policydb);
 	rc = selinux_set_mapping(&newpolicy->policydb, secclass_map,
 				&newpolicy->map);
 	if (rc)
