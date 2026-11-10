@@ -2487,7 +2487,16 @@ int mtk_cfg80211_vendor_llstats_get_info(struct wiphy *wiphy,
 #endif
 
 	if (!prAdapter->pucLinkStatsSrcBufAddr) {
-		DBGLOG(REQ, ERROR, "EMI mapping not done");
+		/*
+		 * camellia: MT6833's firmware never reports the LLS EMI
+		 * offsets and the Wi-Fi HAL asks about once a second
+		 */
+		static bool logged;
+
+		if (!logged) {
+			logged = true;
+			DBGLOG(REQ, ERROR, "EMI mapping not done");
+		}
 		return -EFAULT;
 	}
 
