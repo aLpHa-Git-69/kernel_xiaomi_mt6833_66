@@ -33,6 +33,13 @@
 
 	aliases {
 		serial0 = &apuart0;
+		/*
+		 * camellia: with apuart0 disabled, apuart1 took line 0, LK's
+		 * console=ttyS0 landed on it and its bus clock never gated, so
+		 * the ATF stayed out of the deep suspend state ("suspend
+		 * warning: CG: INFRA_0"). Keep it ttyS1 as on stock.
+		 */
+		serial1 = &apuart1;
 		i2c0 = &i2c0;
 		i2c1 = &i2c1;
 		i2c2 = &i2c2;
