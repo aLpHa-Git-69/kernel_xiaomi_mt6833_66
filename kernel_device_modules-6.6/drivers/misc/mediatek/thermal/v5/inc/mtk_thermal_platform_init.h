@@ -18,6 +18,8 @@ extern void mtk_cooler_kshutdown_exit(void);
 extern int mtk_cooler_kshutdown_init(void);
 extern void mtk_cooler_cam_exit(void);
 extern int mtk_cooler_cam_init(void);
+extern int mtk_cooler_camellia_init(void);
+extern void mtk_cooler_camellia_exit(void);
 extern void mtk_thermal_pm_exit(void);
 extern int mtk_thermal_pm_init(void);
 extern int mtktsbattery_init(void);

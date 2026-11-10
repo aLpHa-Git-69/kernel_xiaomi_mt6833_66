@@ -53,6 +53,7 @@ thermal_monitor-y += mtk_cooler_backlight.o
 endif
 thermal_monitor-y += mtk_cooler_kshutdown.o
 thermal_monitor-y += mtk_cooler_cam.o
+thermal_monitor-y += mtk_cooler_camellia.o
 
 #thermal zones
 thermal_monitor-y += common/thermal_zones/mtk_ts_battery.o
