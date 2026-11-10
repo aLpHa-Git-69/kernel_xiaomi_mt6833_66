@@ -217,6 +217,8 @@ static struct gpufreq_platform_fp platform_ap_fp = {
 	.get_fgpu_by_idx = __gpufreq_get_fgpu_by_idx,
 	.get_pgpu_by_idx = __gpufreq_get_pgpu_by_idx,
 	.get_idx_by_fgpu = __gpufreq_get_idx_by_fgpu,
+	/* camellia: thermal power limits (gpufreq_set_limit_by_power) need it */
+	.get_idx_by_pgpu = __gpufreq_get_idx_by_pgpu,
 	.get_lkg_pgpu = __gpufreq_get_lkg_pgpu,
 	.get_dyn_pgpu = __gpufreq_get_dyn_pgpu,
 	.power_control = __gpufreq_power_control,
@@ -3211,23 +3213,19 @@ EXPORT_SYMBOL(mt_gpufreq_set_gpu_wrap_fp);
 /*
  * API : get current segment max opp index
  */
-#if 0 /* camellia: unused: mt_gpufreq_get_seg_max_opp_index */
 unsigned int mt_gpufreq_get_seg_max_opp_index(void)
 {
 	return g_gpu.segment_upbound;
 }
 EXPORT_SYMBOL(mt_gpufreq_get_seg_max_opp_index);
-#endif /* mt_gpufreq_get_seg_max_opp_index */
 
 /* API : get OPP table index number */
 /* need to sub g_segment_max_opp_idx to map to real idx */
-#if 0 /* camellia: unused: mt_gpufreq_get_dvfs_table_num */
 unsigned int mt_gpufreq_get_dvfs_table_num(void)
 {
 	return g_gpu.segment_lowbound - g_gpu.segment_upbound + 1;
 }
 EXPORT_SYMBOL(mt_gpufreq_get_dvfs_table_num);
-#endif /* mt_gpufreq_get_dvfs_table_num */
 
 
 /* power calculation for power table */
@@ -3341,21 +3339,17 @@ static void __mt_update_gpufreqs_power_table(void)
 	mutex_unlock(&gpufreq_lock);
 }
 
-#if 0 /* camellia: unused: mt_gpufreq_get_power_table */
 struct mt_gpufreq_power_table_info *mt_gpufreq_get_power_table(void)
 {
 	return g_power_table;
 }
 EXPORT_SYMBOL(mt_gpufreq_get_power_table);
-#endif /* mt_gpufreq_get_power_table */
 
-#if 0 /* camellia: unused: mt_gpufreq_get_power_table_num */
 unsigned int mt_gpufreq_get_power_table_num(void)
 {
 	return g_gpu.signed_opp_num;
 }
 EXPORT_SYMBOL(mt_gpufreq_get_power_table_num);
-#endif /* mt_gpufreq_get_power_table_num */
 
 /*
  * 1. init working OPP range

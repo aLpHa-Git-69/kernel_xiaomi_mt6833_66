@@ -1065,7 +1065,6 @@ EXPORT_SYMBOL(gpufreq_set_limit);
  * Description        : Set ceiling and floor limit to GPU DVFS by specified limiter
  *                      It will immediately trigger DVFS if current OPP violates limit
  ***********************************************************************************/
-#if 0 /* camellia: unused: gpufreq_set_limit_by_power */
 int gpufreq_set_limit_by_power(enum gpufreq_target target,
 	enum gpuppm_limiter limiter, int ceiling_info, int floor_info)
 {
@@ -1106,7 +1105,6 @@ int gpufreq_set_limit_by_power(enum gpufreq_target target,
 	return ret;
 }
 EXPORT_SYMBOL(gpufreq_set_limit_by_power);
-#endif /* gpufreq_set_limit_by_power */
 
 /***********************************************************************************
  * Function Name      : gpufreq_get_cur_limit_idx

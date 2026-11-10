@@ -345,7 +345,8 @@ struct apthermolmt_user *handle, unsigned int limit)
 //		aee_rr_rec_thermal_ATM_status(ATM_GPULIMIT);
 //#endif
 		final_limit = (final_limit != 0x7FFFFFFF) ? final_limit : 0;
-#if IS_ENABLED(CONFIG_MTK_GPU_MT6768_SUPPORT)
+/* camellia: mt6833 too; 4.14 always applied it (mt_gpufreq_thermal_protect) */
+#if IS_ENABLED(CONFIG_MTK_GPU_MT6768_SUPPORT) || IS_ENABLED(CONFIG_MTK_GPU_MT6833_SUPPORT)
 		gpufreq_set_limit_by_power(TARGET_DEFAULT, LIMIT_THERMAL_AP,
 				final_limit, GPUPPM_KEEP_IDX);
 #endif
