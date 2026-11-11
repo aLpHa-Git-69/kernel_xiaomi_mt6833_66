@@ -726,6 +726,12 @@ static const struct of_device_id trusty_irq_of_match[] = {
 	{ .compatible = "android,trusty-irq-v1", },
 	{},
 };
+/*
+ * camellia: without an of: alias the module is never loaded, and tz-system
+ * (irq-supply) waits for the deferred-probe timeout, holding mtee, iommu_gz
+ * and the VCU back until ~29 s.
+ */
+MODULE_DEVICE_TABLE(of, trusty_irq_of_match);
 
 static struct platform_driver trusty_irq_driver = {
 	.probe = trusty_irq_probe,
