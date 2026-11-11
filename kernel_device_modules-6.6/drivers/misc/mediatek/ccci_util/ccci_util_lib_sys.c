@@ -259,9 +259,13 @@ static ssize_t kcfg_setting_show(char *buf)
 	} else if (actual_write >= 4096 - 16 - curr)
 		actual_write = 4096 - 16 - curr - 1;
 	curr += actual_write;
-	/* Reserve 16 byte to store size info */
+	/*
+	 * camellia: 4.14 format, one digit per modem slot. The MIUI vendor
+	 * ccci_mdinit reads four 0/1 digits; with a single "1" it parses stack
+	 * garbage, sometimes "enables" MD3 and loops on /dev/ccci_fs (EBUSY).
+	 */
 	actual_write = snprintf(&buf[curr], 4096 - 16 - curr,
-		"[modem en]:%c\n", md_en);
+		"[modem en]:%c-0-0-0-0\n", md_en);
 	if (actual_write < 0) {
 		CCCI_UTIL_ERR_MSG(
 			"%s-%d:snprintf fail,actual_write=%d\n",
