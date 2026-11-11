@@ -9382,6 +9382,8 @@ int wlanFuncOff(void)
 }
 
 #if CFG_MTK_ANDROID_WMT
+static bool wlan_kpoc_skipped;
+
 static int wlanGetBootMode(void)
 {
 	struct device_node *dnode = NULL;
@@ -9429,10 +9431,17 @@ static int initWlan(void)
 	DBGLOG(INIT, INFO, "initWlan\n");
 
 #if CFG_MTK_ANDROID_WMT
-	/* Skip module init if bootmode is KPOC */
+	/*
+	 * Skip module init if bootmode is KPOC.
+	 * camellia: load idle instead of failing; this module is in the boot
+	 * ramdisk, where a failed insmod makes first-stage init reboot to the
+	 * bootloader (no off-mode charging).
+	 */
 	bootmode = wlanGetBootMode();
-	if (bootmode == KERNEL_POWER_OFF_CHARGING_BOOT)
-		return -1;
+	if (bootmode == KERNEL_POWER_OFF_CHARGING_BOOT) {
+		wlan_kpoc_skipped = true;
+		return 0;
+	}
 #endif
 
 #if (CFG_CHIP_RESET_SUPPORT)
@@ -9643,6 +9652,11 @@ static void exitWlan(void)
 #if CFG_SUPPORT_PERSIST_NETDEV
 	uint32_t u4Idx = 0;
 	struct wiphy *wiphy = NULL;
+#endif
+
+#if CFG_MTK_ANDROID_WMT
+	if (wlan_kpoc_skipped)
+		return;
 #endif
 
 	DBGLOG(INIT, INFO, "exitWlan::Start\n");
