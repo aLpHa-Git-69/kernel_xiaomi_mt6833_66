@@ -1929,6 +1929,7 @@ static void vb2ops_venc_stop_streaming(struct vb2_queue *q)
 	struct mtk_vcodec_ctx *ctx = vb2_get_drv_priv(q);
 	struct vb2_buffer *src_buf, *dst_buf;
 	struct venc_done_result enc_result;
+	unsigned int i;
 	int ret;
 
 	mtk_v4l2_debug(2, "[%d]-> type=%d", ctx->id, q->type);
@@ -1959,6 +1960,19 @@ static void vb2ops_venc_stop_streaming(struct vb2_queue *q)
 		}
 		ctx->enc_flush_buf->lastframe = NON_EOS;
 	}
+
+	/*
+	 * camellia: in async mode, buffers already handed to vpud are never given
+	 * back if streaming stops before any frame is encoded (e.g. screenrecord
+	 * with the screen off). Return them here as stop_streaming must; vb2 did the
+	 * same, with a WARN, in __vb2_queue_cancel.
+	 */
+	mutex_lock(&ctx->buf_lock);
+	for (i = 0; i < q->num_buffers; ++i)
+		if (q->bufs[i]->state == VB2_BUF_STATE_ACTIVE)
+			v4l2_m2m_buf_done(to_vb2_v4l2_buffer(q->bufs[i]),
+					  VB2_BUF_STATE_ERROR);
+	mutex_unlock(&ctx->buf_lock);
 
 	if ((q->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE &&
 	     vb2_is_streaming(&ctx->m2m_ctx->out_q_ctx.q)) ||
