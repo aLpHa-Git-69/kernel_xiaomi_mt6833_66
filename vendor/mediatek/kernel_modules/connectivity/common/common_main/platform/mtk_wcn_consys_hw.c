@@ -409,15 +409,6 @@ static INT32 mtk_wmt_probe(struct platform_device *pdev)
 	if (wmt_allocate_connsys_emi(pdev) < 0)
 		wmt_allocate_connsys_emi_by_lk2(pdev);
 
-	/*
-	 * camellia: open the connsys EMI region before anything below wakes
-	 * connsys. Under the production bootloader connsys touches it during
-	 * probe while it is still forbidden, which raised ~1.5M EMI MPU
-	 * violations on CPU0 and stalled boot (TEE, keymaster) for ~30 s.
-	 */
-	if (gConEmiPhyBase && wmt_consys_ic_ops->consys_ic_emi_mpu_set_region_protection)
-		wmt_consys_ic_ops->consys_ic_emi_mpu_set_region_protection();
-
 	wmt_thermal_register(pdev);
 
 	if (wmt_consys_ic_ops->consys_ic_need_store_pdev) {
@@ -437,6 +428,20 @@ static INT32 mtk_wmt_probe(struct platform_device *pdev)
 	if (iRet)
 		return iRet;
 
+	/*
+	 * camellia: the production bootloader leaves the connsys CPU running.
+	 * Hold it in reset (needs the regs read above; power-on asserts this
+	 * again and releases it), then open its EMI region. Otherwise it hits
+	 * the still-forbidden region (~1.5M EMI MPU violations, ~30 s stall) or
+	 * reads DRAM base once the region opens and its EMI is cleared.
+	 */
+	if (gConEmiPhyBase) {
+		if (wmt_consys_ic_ops->consys_ic_hw_reset_bit_set)
+			wmt_consys_ic_ops->consys_ic_hw_reset_bit_set(ENABLE);
+		if (wmt_consys_ic_ops->consys_ic_emi_mpu_set_region_protection)
+			wmt_consys_ic_ops->consys_ic_emi_mpu_set_region_protection();
+	}
+
 	if (wmt_consys_ic_ops->consys_ic_clk_get_from_dts)
 		iRet = wmt_consys_ic_ops->consys_ic_clk_get_from_dts(pdev);
 	else
@@ -446,10 +451,7 @@ static INT32 mtk_wmt_probe(struct platform_device *pdev)
 		return iRet;
 
 	if (gConEmiPhyBase) {
-		/* set emi mpu permission before access it */
-		if (wmt_consys_ic_ops->consys_ic_emi_mpu_set_region_protection)
-			wmt_consys_ic_ops->consys_ic_emi_mpu_set_region_protection();
-
+		/* camellia: connsys held in reset and emi mpu permission set above */
 		pConnsysEmiStart = ioremap(gConEmiPhyBase, gConEmiSize);
 		WMT_PLAT_PR_INFO("Clearing Connsys EMI (virtual(0x%p) physical(0x%pa)) %llu bytes\n",
 				   pConnsysEmiStart, &gConEmiPhyBase, gConEmiSize);
