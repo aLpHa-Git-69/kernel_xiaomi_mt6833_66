@@ -394,8 +394,14 @@ static int __init mrdump_panic_init(void)
 	/* Get reserved memory */
 	rmem_node = of_find_compatible_node(NULL, NULL, DEBUG_COMPATIBLE);
 	if (!rmem_node) {
+		/*
+		 * camellia: the production LK enables mrdump, but only the
+		 * production preloader reserves aee_debug_kinfo. Failing the
+		 * module load makes first-stage init reboot to bootloader, so
+		 * leave mrdump off instead, as in the "disabled" case above.
+		 */
 		pr_info("[mrdump] no node for reserved memory\n");
-		return -EINVAL;
+		return 0;
 	}
 
 	rmem = of_reserved_mem_lookup(rmem_node);
