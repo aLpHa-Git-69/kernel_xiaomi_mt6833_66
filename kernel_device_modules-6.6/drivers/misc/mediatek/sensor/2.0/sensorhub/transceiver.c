@@ -155,7 +155,7 @@ static bool transceiver_wakeup_check(uint8_t action, uint8_t sensor_type)
 //#ifdef CAMELLIA_SENSOR_FEATURE add for camellia virtual sensor
 			sensor_type == SENSOR_TYPE_SENSOR_MONITOR ||
 			sensor_type == SENSOR_TYPE_LUX_AOD ||
-			sensor_type == SENSOR_TYPE_PICKUP_DETECT ||
+			/* camellia: no pickup detect; type 75 is the rear ALS (not a wakeup) */
 			sensor_type == SENSOR_TYPE_FP_DISPLAY ||
 			sensor_type == SENSOR_TYPE_HOLSTER_HALL ||
 			sensor_type == SENSOR_TYPE_PHONE_PROX ||

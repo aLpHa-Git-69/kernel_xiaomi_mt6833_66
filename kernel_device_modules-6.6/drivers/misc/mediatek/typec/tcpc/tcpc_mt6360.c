@@ -2250,8 +2250,11 @@ static int mt6360_i2c_probe(struct i2c_client *client)
 	}
 
 	/* camellia: probe deferred past tcpci_late_sync, enable ourselves */
-	if (tcpc_late_sync_done)
-		tcpc_device_irq_enable(chip->tcpc);
+	if (tcpc_late_sync_done) {
+		ret = tcpc_device_irq_enable(chip->tcpc);
+		if (ret < 0)
+			dev_err(chip->dev, "%s irq enable fail %d\n", __func__, ret);
+	}
 
 	dev_info(chip->dev, "%s successfully!\n", __func__);
 	return 0;

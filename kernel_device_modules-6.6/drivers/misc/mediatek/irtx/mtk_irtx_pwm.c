@@ -107,8 +107,13 @@ static ssize_t irtx_write(struct file *file, const char __user *buf,
 			((u8 *)wave)[i] = ~((u8 *)wave)[i];
 
 	/* cycle: whole carrier period, duty_cycle: high part, in PWM bits */
-	h_l_period = DIV_ROUND_CLOSEST(IRTX_PWM_CLOCK * irtx.duty_cycle,
-				       irtx.carrier * irtx.cycle);
+	/* 64-bit: 26 MHz * duty overflows u32 for duty >= 166; HDURATION is u16 */
+	h_l_period = DIV64_U64_ROUND_CLOSEST((u64)IRTX_PWM_CLOCK * irtx.duty_cycle,
+					     (u64)irtx.carrier * irtx.cycle);
+	if (h_l_period < 1 || h_l_period > 0x10000) {
+		ret = -EINVAL;
+		goto out;
+	}
 	irtx_pwm_config.PWM_MODE_MEMORY_REGS.HDURATION = h_l_period - 1;
 	irtx_pwm_config.PWM_MODE_MEMORY_REGS.LDURATION = h_l_period - 1;
 	irtx_pwm_config.PWM_MODE_MEMORY_REGS.BUF0_BASE_ADDR = wave_phy;
@@ -116,6 +121,11 @@ static ssize_t irtx_write(struct file *file, const char __user *buf,
 
 	switch_irtx_gpio(1);
 	ret = pwm_set_spec_config(&irtx_pwm_config);
+	if (ret < 0) {
+		dev_err(irtx.dev, "pwm config failed %zd\n", ret);
+		switch_irtx_gpio(0);
+		goto out;
+	}
 
 	total_time = wave[buf_size - 1];
 	if (total_time <= 0)

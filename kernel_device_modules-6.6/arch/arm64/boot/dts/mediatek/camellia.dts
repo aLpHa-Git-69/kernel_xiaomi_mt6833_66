@@ -678,6 +678,19 @@
  * leds-mtk-disp also drives the KTD3136/LM3697 IC LK reports in ":bklic=".
  */
 /*
+ * Charger limits as in camellia's stock dt. LK reads lk_charger for off-mode
+ * charging: the mt6833 default lets it draw 3.2 A from a DCP (stock 2.05 A).
+ * max_charger_voltage (6.5 V) and non_std (0.5 A) stay below stock's 14.5 V/1 A.
+ */
+&lk_charger {
+	ac_charger_input_current = <2050000>;
+};
+
+&mt6360_chg {
+	ieoc = <200000>;	/* stock end-of-charge current (6.6 default 150 mA) */
+};
+
+/*
  * Microtrust TEE (Beanpod keymaster, teei_daemon). The 6.6 isee driver only
  * starts uTos when the board marks it real ("MICROTRUST device is NOT enable"
  * otherwise; Camellia boards set the trustonic equivalent per project).

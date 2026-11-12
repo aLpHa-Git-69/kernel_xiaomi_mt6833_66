@@ -37,6 +37,7 @@
 static struct ti_lmu_bl_chip *bl_chip;
 /* camellia 6.6: brightness requested before probe (see ktd3136_bl.c) */
 static int lm3697_pending_brightness = -1;
+static DEFINE_MUTEX(lm3697_pending_lock);	/* orders the store against probe's read */
 
 int translate_value[2048] = {0, 50, 55, 171, 253, 317, 360, 414, 452, 486, 516, 543, 568, 591, 601, 611, 621, 631, 641, 651, 661, 671, 681,\
 				691, 700, 709, 718, 726, 734, 742, 750, 758, 765, 772, 779, 786, 793, 800, 807, 817, 824, 830, 836, 842, 848, 854, 860, 866, 872,\
@@ -385,10 +386,13 @@ int lm3697_set_brightness(int brightness)
 {
 	printk(KERN_INFO "[bkl][before]%s brightness = %d\n", __func__, brightness);
 	//return ti_lmu_backlight_update_brightness_register(bl_chip->lmu_bl, brightness);
+	mutex_lock(&lm3697_pending_lock);
 	if (!bl_chip || !bl_chip->lmu_bl) {
 		lm3697_pending_brightness = brightness;
+		mutex_unlock(&lm3697_pending_lock);
 		return 0;
 	}
+	mutex_unlock(&lm3697_pending_lock);
 
 	return ti_lmu_backlight_set_brightness(brightness);
 }
@@ -1023,7 +1027,7 @@ static int ti_lmu_backlight_probe(struct platform_device *pdev)
 	struct device *dev = &pdev->dev;
 	struct ti_lmu *lmu = dev_get_drvdata(dev->parent);
 	struct ti_lmu_bl_chip *chip;
-	int ret;
+	int ret, pending;
 
 	pr_err("[bkl] %s enter\n", __func__);
 
@@ -1051,8 +1055,11 @@ static int ti_lmu_backlight_probe(struct platform_device *pdev)
 	}
 
 	platform_set_drvdata(pdev, chip);
-	if (lm3697_pending_brightness >= 0)
-		ti_lmu_backlight_set_brightness(lm3697_pending_brightness);
+	mutex_lock(&lm3697_pending_lock);	/* bl_chip->lmu_bl is set by now */
+	pending = lm3697_pending_brightness;
+	mutex_unlock(&lm3697_pending_lock);
+	if (pending >= 0)
+		ti_lmu_backlight_set_brightness(pending);
 	pr_err("[bkl] %s finish\n", __func__);
 	return 0;
 }

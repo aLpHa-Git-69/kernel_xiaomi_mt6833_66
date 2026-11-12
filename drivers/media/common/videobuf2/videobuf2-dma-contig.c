@@ -23,6 +23,12 @@
 #include <media/videobuf2-dma-contig.h>
 #include <media/videobuf2-memops.h>
 
+/* Kernel working buffers need this state to outlive exported DMA-buf fds. */
+struct vb2_dc_alloc_context {
+	struct vb2_queue queue;
+	struct vb2_buffer buffer;
+};
+
 struct vb2_dc_buf {
 	struct device			*dev;
 	void				*vaddr;
@@ -43,6 +49,7 @@ struct vb2_dc_buf {
 	struct dma_buf_attachment	*db_attach;
 
 	struct vb2_buffer		*vb;
+	struct vb2_dc_alloc_context	*alloc_context;
 	bool				non_coherent_mem;
 };
 
@@ -185,6 +192,7 @@ static void vb2_dc_put(void *buf_priv)
 			       buf->dma_addr, buf->attrs);
 	}
 	put_device(buf->dev);
+	kfree(buf->alloc_context);
 	kfree(buf);
 }
 
@@ -258,6 +266,7 @@ static void *vb2_dc_alloc(struct vb2_buffer *vb,
 
 	if (ret) {
 		dev_err(dev, "dma alloc of size %lu failed\n", size);
+		put_device(buf->dev);
 		kfree(buf);
 		return ERR_PTR(-ENOMEM);
 	}
@@ -270,6 +279,36 @@ static void *vb2_dc_alloc(struct vb2_buffer *vb,
 
 	return buf;
 }
+
+/*
+ * camellia: 4.14's VCU allocated working buffers without a VB2 queue. Keep
+ * the 6.6 allocator's queue/buffer context with the allocation itself; its
+ * lifetime then follows mmap and DMA-buf references, not the VCU slot array.
+ */
+void *vb2_dma_contig_alloc_owned(struct device *dev, unsigned long size,
+			       enum dma_data_direction direction)
+{
+	struct vb2_dc_alloc_context *context;
+	struct vb2_dc_buf *buf;
+
+	if (!size || size > ULONG_MAX - (PAGE_SIZE - 1) ||
+	    (direction != DMA_BIDIRECTIONAL && direction != DMA_TO_DEVICE &&
+	     direction != DMA_FROM_DEVICE))
+		return ERR_PTR(-EINVAL);
+	context = kzalloc(sizeof(*context), GFP_KERNEL);
+	if (!context)
+		return ERR_PTR(-ENOMEM);
+	context->queue.dma_dir = direction;
+	context->buffer.vb2_queue = &context->queue;
+	buf = vb2_dc_alloc(&context->buffer, dev, PAGE_ALIGN(size));
+	if (IS_ERR(buf)) {
+		kfree(context);
+		return buf;
+	}
+	buf->alloc_context = context;
+	return buf;
+}
+EXPORT_SYMBOL_GPL(vb2_dma_contig_alloc_owned);
 
 static int vb2_dc_mmap(void *buf_priv, struct vm_area_struct *vma)
 {

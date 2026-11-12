@@ -29,4 +29,8 @@ static inline void vb2_dma_contig_clear_max_seg_size(struct device *dev) { }
 
 extern const struct vb2_mem_ops vb2_dma_contig_memops;
 
+/* Coherent working-buffer storage owns its VB2 context through final release. */
+void *vb2_dma_contig_alloc_owned(struct device *dev, unsigned long size,
+			       enum dma_data_direction direction);
+
 #endif

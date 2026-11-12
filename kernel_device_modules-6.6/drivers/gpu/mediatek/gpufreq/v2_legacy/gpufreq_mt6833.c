@@ -589,13 +589,18 @@ int __gpufreq_get_idx_by_pgpu(unsigned int power)
 	int oppidx = -1;
 	int i = 0;
 
-	/* find the smallest index that satisfy given power */
+	/*
+	 * camellia: power is a ceiling budget; pick the fastest OPP that stays
+	 * within it, as stock does (this rounded up to the next OPP above it).
+	 */
 	for (i = g_gpu.min_oppidx; i >= g_gpu.max_oppidx; i--) {
-		if (g_gpu.working_table[i].power >= power)
+		if (g_gpu.working_table[i].power > power)
 			break;
 	}
-	/* use max_oppidx if not found */
-	oppidx = (i > g_gpu.max_oppidx) ? i : g_gpu.max_oppidx;
+	oppidx = i + 1;
+	/* even the slowest OPP is over budget: use it */
+	if (oppidx > g_gpu.min_oppidx)
+		oppidx = g_gpu.min_oppidx;
 
 	return oppidx;
 }

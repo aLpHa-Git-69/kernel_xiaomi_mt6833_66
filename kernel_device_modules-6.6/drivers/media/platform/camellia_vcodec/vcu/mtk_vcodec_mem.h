@@ -51,7 +51,6 @@
  */
 struct mtk_vcu_mem {
 	void *mem_priv;
-	struct vb2_buffer vb;	/* 6.6 vb2 mem_ops take the vb2_buffer */
 	size_t size;
 	struct dma_buf *dbuf;
 	dma_addr_t iova;
@@ -184,4 +183,3 @@ int vcu_buffer_cache_sync(struct device *dev, struct mtk_vcu_queue *vcu_queue,
 	dma_addr_t dma_addr, size_t size, int op);
 
 #endif
-

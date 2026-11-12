@@ -242,6 +242,8 @@ void *dma_heap_get_drvdata(struct dma_heap *heap)
 }
 EXPORT_SYMBOL_GPL(dma_heap_get_drvdata);
 
+static bool dma_heap_no_devnode(const char *name);
+
 static void dma_heap_release(struct kref *ref)
 {
 	struct dma_heap *heap = container_of(ref, struct dma_heap, refcount);
@@ -250,7 +252,11 @@ static void dma_heap_release(struct kref *ref)
 	/* Note, we already holding the heap_list_lock here */
 	list_del(&heap->list);
 
-	device_destroy(dma_heap_class, heap->heap_devt);
+	/* devnode-less heaps were created with devt 0: device_destroy() can't find them */
+	if (dma_heap_no_devnode(heap->name))
+		device_unregister(heap->heap_dev);
+	else
+		device_destroy(dma_heap_class, heap->heap_devt);
 	cdev_del(&heap->heap_cdev);
 	xa_erase(&dma_heap_minors, minor);
 

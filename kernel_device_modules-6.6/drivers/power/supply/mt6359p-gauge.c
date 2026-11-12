@@ -3778,6 +3778,18 @@ static int mt6359_gauge_probe(struct platform_device *pdev)
 		return -EPROBE_DEFER;
 	}
 
+	/*
+	 * camellia: battery_init() reads the battery ID from the SoC auxadc,
+	 * which can bind after us; it can't defer, so wait for it here.
+	 */
+	if (of_property_present(pdev->dev.of_node, "camellia,bat-id-volt-ranges")) {
+		struct iio_channel *chan_bat_id =
+			devm_iio_channel_get(&pdev->dev, "batteryID-channel");
+
+		if (PTR_ERR_OR_ZERO(chan_bat_id) == -EPROBE_DEFER)
+			return -EPROBE_DEFER;
+	}
+
 	gauge = devm_kzalloc(&pdev->dev, sizeof(*gauge), GFP_KERNEL);
 	if (!gauge)
 		return -ENOMEM;

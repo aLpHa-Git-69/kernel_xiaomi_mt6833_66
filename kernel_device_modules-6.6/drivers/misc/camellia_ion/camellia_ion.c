@@ -486,12 +486,19 @@ static int cion_handle_iova(struct cion_handle *h, int module_id, dma_addr_t *io
 	return 0;
 }
 
-static void cion_sync(struct dma_buf *buf, bool clean, bool invalidate)
+static int cion_sync(struct dma_buf *buf, bool clean, bool invalidate)
 {
+	int ret;
+
+	/* Preserve dirty CPU data before a combined clean/invalidate operation. */
+	if (clean) {
+		ret = dma_buf_end_cpu_access(buf, DMA_TO_DEVICE);
+		if (ret)
+			return ret;
+	}
 	if (invalidate)
-		dma_buf_begin_cpu_access(buf, DMA_FROM_DEVICE);
-	if (clean)
-		dma_buf_end_cpu_access(buf, DMA_TO_DEVICE);
+		return dma_buf_begin_cpu_access(buf, DMA_FROM_DEVICE);
+	return 0;
 }
 
 /* ---- legacy ioctls (client lock held) ---- */
@@ -587,12 +594,14 @@ static long cion_import(struct cion_client *c, struct ion_fd_data *d)
 static long cion_sync_fd(int fd)
 {
 	struct dma_buf *buf = dma_buf_get(fd);
+	int ret;
 
 	if (IS_ERR(buf))
 		return PTR_ERR(buf);
-	cion_sync(buf, true, true);
+	/* Legacy ION_IOC_SYNC prepares the buffer for DMA, not for CPU reads. */
+	ret = dma_buf_end_cpu_access(buf, DMA_BIDIRECTIONAL);
 	dma_buf_put(buf);
-	return 0;
+	return ret;
 }
 
 /* ---- MediaTek custom ioctls ---- */
@@ -719,16 +728,12 @@ static long cion_sys(struct cion_client *c, void __user *uarg, bool compat)
 			return -EINVAL;
 		switch (type % 3) {	/* clean / invalid / flush, by range or all */
 		case 0:
-			cion_sync(h->buf, true, false);
-			break;
+			return cion_sync(h->buf, true, false);
 		case 1:
-			cion_sync(h->buf, false, true);
-			break;
+			return cion_sync(h->buf, false, true);
 		default:
-			cion_sync(h->buf, true, true);
-			break;
+			return cion_sync(h->buf, true, true);
 		}
-		return 0;
 	case ION_SYS_DMA_OP:
 		handle = compat ? u.d32.dma.handle : u.d64.dma.handle;
 		type = compat ? u.d32.dma.dma_type : u.d64.dma.dma_type;
@@ -736,12 +741,11 @@ static long cion_sys(struct cion_client *c, void __user *uarg, bool compat)
 		if (!h)
 			return -EINVAL;
 		if (type == ION_DMA_MAP_AREA || type == ION_DMA_MAP_AREA_VA)
-			cion_sync(h->buf, true, false);
+			return cion_sync(h->buf, true, false);
 		else if (type == ION_DMA_UNMAP_AREA || type == ION_DMA_UNMAP_AREA_VA)
-			cion_sync(h->buf, false, true);
+			return cion_sync(h->buf, false, true);
 		else
-			cion_sync(h->buf, true, true);
-		return 0;
+			return cion_sync(h->buf, true, true);
 	default:
 		pr_info("camellia_ion: %s: unsupported sys cmd %u\n", c->name, cmd);
 		return -EINVAL;

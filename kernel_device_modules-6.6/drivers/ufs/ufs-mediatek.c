@@ -1627,11 +1627,14 @@ static int ufs_mtk_init(struct ufs_hba *hba)
 	 * camellia: the stock Android 13 vendor (4.14/4.19 era) expects the boot
 	 * storage at /dev/block/platform/bootdevice (ro.frp.pst, nvcfg/rescue
 	 * mounts, /sys/devices/platform/bootdevice). MediaTek's older UFS driver
-	 * renamed the device for that; do the same. This node has no pinctrl
-	 * state, and DT platform devices keep pdev->name in their own buffer.
+	 * renamed the device for that; do the same. OF platform registration
+	 * aliases pdev->name to the kobject name, so refresh it after a successful
+	 * rename instead of leaving it pointing at the freed old string.
 	 */
 	if (device_rename(dev, "bootdevice"))
 		dev_info(dev, "%s: rename to bootdevice failed\n", __func__);
+	else
+		to_platform_device(dev)->name = dev_name(dev);
 
 	atag = (struct tag_ufs *)ufs_mtk_get_boot_property(dev->of_node,
 			"atag,ufs", NULL);

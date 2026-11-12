@@ -26,9 +26,8 @@ struct mtk_vcu_queue *mtk_vcu_mem_init(struct device *dev,
 
 	pr_debug("Allocate new vcu queue !\n");
 	/*
-	 * camellia: bufs[] embeds a vb2_buffer per slot on 6.6, ~350 KB; a
-	 * physically contiguous allocation fails once memory is fragmented and
-	 * every later /dev/vcu open (vpud) failed.
+	 * Keep the buffer registry virtually allocated so fragmentation does not
+	 * prevent a later /dev/vcu open. Working allocations own their VB2 state.
 	 */
 	vcu_queue = kvzalloc(sizeof(struct mtk_vcu_queue), GFP_KERNEL);
 	if (vcu_queue == NULL) {
@@ -102,15 +101,18 @@ void *mtk_vcu_set_buffer(struct mtk_vcu_queue *vcu_queue,
 		__func__, vcu_queue->num_buffers, mem_buff_data->iova,
 		src_vb, dst_vb);
 
-	num_buffers = vcu_queue->num_buffers;
 	if (mem_buff_data->len > CODEC_ALLOCATE_MAX_BUFFER_SIZE ||
-		mem_buff_data->len == 0U || num_buffers >= CODEC_MAX_BUFFER) {
-		pr_info("Set buffer fail: buffer len = %u num_buffers = %d !!\n",
-			   mem_buff_data->len, num_buffers);
+		mem_buff_data->len == 0U) {
+		pr_info("Set buffer fail: buffer len = %u !!\n", mem_buff_data->len);
 		return ERR_PTR(-EINVAL);
 	}
 
 	mutex_lock(&vcu_queue->mmap_lock);
+	num_buffers = vcu_queue->num_buffers;
+	if (num_buffers >= CODEC_MAX_BUFFER) {
+		mutex_unlock(&vcu_queue->mmap_lock);
+		return ERR_PTR(-EINVAL);
+	}
 	for (buffer = 0; buffer < num_buffers; buffer++) {
 		vcu_buffer = &vcu_queue->bufs[buffer];
 		if (mem_buff_data->iova == (u64)vcu_buffer->iova) {
@@ -178,35 +180,41 @@ void *mtk_vcu_get_buffer(struct mtk_vcu_queue *vcu_queue,
 	struct mtk_vcu_mem *vcu_buffer;
 	unsigned int buffers;
 
-	buffers = vcu_queue->num_buffers;
 	if (mem_buff_data->len > CODEC_ALLOCATE_MAX_BUFFER_SIZE ||
-		mem_buff_data->len == 0U || buffers >= CODEC_MAX_BUFFER) {
-		pr_info("Get buffer fail: buffer len = %u num_buffers = %d !!\n",
-			   mem_buff_data->len, buffers);
+		mem_buff_data->len == 0U) {
+		pr_info("Get buffer fail: buffer len = %u !!\n", mem_buff_data->len);
 		return ERR_PTR(-EINVAL);
 	}
 
 	mutex_lock(&vcu_queue->mmap_lock);
+	buffers = vcu_queue->num_buffers;
+	if (buffers >= CODEC_MAX_BUFFER) {
+		mutex_unlock(&vcu_queue->mmap_lock);
+		return ERR_PTR(-EINVAL);
+	}
 	vcu_buffer = &vcu_queue->bufs[buffers];
-	vcu_buffer->mem_priv = vcu_queue->mem_ops->alloc(&vcu_buffer->vb,
-		vcu_queue->dev, mem_buff_data->len);
+	vcu_buffer->mem_priv = vb2_dma_contig_alloc_owned(vcu_queue->dev,
+		mem_buff_data->len, DMA_BIDIRECTIONAL);
 	vcu_buffer->size = mem_buff_data->len;
 	vcu_buffer->dbuf = NULL;
 	if (IS_ERR_OR_NULL(vcu_buffer->mem_priv)) {
+		int ret = vcu_buffer->mem_priv ? PTR_ERR(vcu_buffer->mem_priv) : -ENOMEM;
+
+		vcu_buffer->mem_priv = NULL;
 		mutex_unlock(&vcu_queue->mmap_lock);
-		return ERR_PTR(-ENOMEM);
+		return ERR_PTR(ret);
 	}
 
-	cook = vcu_queue->mem_ops->vaddr(&vcu_buffer->vb, vcu_buffer->mem_priv);
-	dma_addr = vcu_queue->mem_ops->cookie(&vcu_buffer->vb, vcu_buffer->mem_priv);
+	cook = vcu_queue->mem_ops->vaddr(NULL, vcu_buffer->mem_priv);
+	dma_addr = vcu_queue->mem_ops->cookie(NULL, vcu_buffer->mem_priv);
 
 	mem_buff_data->iova = *(dma_addr_t *)dma_addr;
 	vcu_buffer->iova = *(dma_addr_t *)dma_addr;
 	mem_buff_data->va = CODEC_MSK((unsigned long)cook);
 	mem_buff_data->pa = 0;
+	atomic_set(&vcu_buffer->ref_cnt, 1);
 	vcu_queue->num_buffers++;
 	mutex_unlock(&vcu_queue->mmap_lock);
-	atomic_set(&vcu_buffer->ref_cnt, 1);
 
 	pr_debug("[%s] Num_buffers = %d iova = %llx va = %llx size = %d mem_priv = %lx\n",
 		__func__, vcu_queue->num_buffers, mem_buff_data->iova,
@@ -257,9 +265,9 @@ int mtk_vcu_free_buffer(struct mtk_vcu_queue *vcu_queue,
 			vcu_buffer = &vcu_queue->bufs[buffer];
 			if (vcu_buffer->dbuf != NULL)
 				continue;
-			cook = vcu_queue->mem_ops->vaddr(&vcu_buffer->vb, vcu_buffer->mem_priv);
+			cook = vcu_queue->mem_ops->vaddr(NULL, vcu_buffer->mem_priv);
 			dma_addr =
-				vcu_queue->mem_ops->cookie(&vcu_buffer->vb,
+				vcu_queue->mem_ops->cookie(NULL,
 				    vcu_buffer->mem_priv);
 
 			if (mem_buff_data->va == CODEC_MSK((unsigned long)cook) &&
@@ -385,7 +393,7 @@ static void vcu_working_or_io_cache_sync(struct device *dev,
 	}
 	if (!vcu_queue->mem_ops->get_dmabuf)
 		return;
-	dbuf = vcu_queue->mem_ops->get_dmabuf(&vcu_buffer->vb,
+	dbuf = vcu_queue->mem_ops->get_dmabuf(NULL,
 		vcu_buffer->mem_priv, 0);
 	if (IS_ERR_OR_NULL(dbuf))
 		return;
@@ -455,4 +463,3 @@ int vcu_buffer_cache_sync(struct device *dev, struct mtk_vcu_queue *vcu_queue,
 
 	return -1;
 }
-
