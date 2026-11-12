@@ -15,9 +15,14 @@
  * maps to a charger input current limit through Xiaomi's camellia table, as
  * 4.14 charger_manager_set_system_temp_level() did; mi_thermald also needs
  * thermal_message (camellia_thermal_message.c) to pick stock's levels.
+ *
+ * usb also carries 4.14's real_type, quick_charge_type and VBUS/IBUS
+ * (mt_usb_get_property): the micharge HAL reads them and MIUI shows "quick
+ * charging" from the POWER_SUPPLY_QUICK_CHARGE_TYPE uevent.
  */
 
 #include <linux/module.h>
+#include <linux/mutex.h>
 #include <linux/of.h>
 #include <linux/platform_device.h>
 #include <linux/power_supply.h>
@@ -25,6 +30,7 @@
 #include <linux/workqueue.h>
 
 #include "camellia_thermal_message.h"
+#include "charger_class.h"
 
 #define CAMELLIA_CHG_PSY	"primary_chg"
 #define CAMELLIA_MASTER_PSY	"mtk-master-charger"
@@ -40,15 +46,28 @@ static const int camellia_thermal_icl[] = {
 	2000000, 2000000, 0, 0, 0,
 };
 
+/* 4.14 thermal_mitigation for a QC2 adapter at 9 V (chr_type HVDCP_CHARGER) */
+static const int camellia_thermal_icl_hvdcp[] = {
+	2000000, 1800000, 1400000, 1200000, 1000000,
+	1000000, 800000, 800000, 600000, 500000,
+	400000, 2000000, 1700000, 1500000, 1400000,
+	1300000, 1300000, 1200000, 1200000, 1200000,
+	1100000, 1100000, 0, 0, 0,
+};
+static_assert(ARRAY_SIZE(camellia_thermal_icl_hvdcp) == ARRAY_SIZE(camellia_thermal_icl));
+
 struct camellia_mt_charger {
 	struct device *dev;
 	struct power_supply *ac;
 	struct power_supply *usb;
 	struct power_supply *chg;
+	struct charger_device *chg_dev;
 	struct notifier_block nb;
 	struct work_struct changed_work;
 	struct thermal_cooling_device *cdev;
+	struct mutex lock;	/* temp_level, thermal_hvdcp */
 	unsigned long temp_level;
+	bool thermal_hvdcp;	/* table temp_level was applied with */
 };
 
 static struct power_supply *camellia_chg_psy(struct camellia_mt_charger *mc)
@@ -86,6 +105,44 @@ static int camellia_chg_prop(struct camellia_mt_charger *mc,
 	return val.intval;
 }
 
+/* 4.14 real_type, from primary_chg's BC1.2 result and its QC2 handshake */
+static int camellia_real_type(struct camellia_mt_charger *mc)
+{
+	if (!camellia_chg_prop(mc, POWER_SUPPLY_PROP_ONLINE, 0))
+		return POWER_SUPPLY_REAL_TYPE_UNKNOWN;
+	if (camellia_chg_prop(mc, POWER_SUPPLY_PROP_QUICK_CHARGE_TYPE, 0) > 0)
+		return POWER_SUPPLY_REAL_TYPE_HVDCP;
+	switch (camellia_chg_prop(mc, POWER_SUPPLY_PROP_USB_TYPE, POWER_SUPPLY_USB_TYPE_UNKNOWN)) {
+	case POWER_SUPPLY_USB_TYPE_SDP:
+		return POWER_SUPPLY_REAL_TYPE_USB;
+	case POWER_SUPPLY_USB_TYPE_CDP:
+		return POWER_SUPPLY_REAL_TYPE_USB_CDP;
+	case POWER_SUPPLY_USB_TYPE_DCP:
+		/* mt6360 reports a non-standard charger as type USB, usb_type DCP */
+		return camellia_chg_prop(mc, POWER_SUPPLY_PROP_TYPE, 0) == POWER_SUPPLY_TYPE_USB_DCP ?
+		       POWER_SUPPLY_REAL_TYPE_USB_DCP : POWER_SUPPLY_REAL_TYPE_USB_FLOAT;
+	default:
+		return POWER_SUPPLY_REAL_TYPE_UNKNOWN;
+	}
+}
+
+/* 4.14 mt_usb_get_property: charger VBUS in mV, IBUS in mA */
+static int camellia_adc_now(struct camellia_mt_charger *mc, enum power_supply_property psp)
+{
+	u32 v = 0;
+	int ret;
+
+	if (!mc->chg_dev)
+		mc->chg_dev = get_charger_by_name(CAMELLIA_CHG_PSY);
+	if (!mc->chg_dev)
+		return 0;
+	if (psp == POWER_SUPPLY_PROP_VOLTAGE_NOW)
+		ret = charger_dev_get_vbus(mc->chg_dev, &v);
+	else
+		ret = charger_dev_get_ibus(mc->chg_dev, &v);
+	return ret < 0 ? 0 : v / 1000;
+}
+
 static int camellia_mt_get_property(struct power_supply *psy,
 				    enum power_supply_property psp,
 				    union power_supply_propval *val)
@@ -104,6 +161,16 @@ static int camellia_mt_get_property(struct power_supply *psy,
 	case POWER_SUPPLY_PROP_VOLTAGE_MAX:
 		val->intval = online ? 5000000 : 0;
 		break;
+	case POWER_SUPPLY_PROP_REAL_TYPE:
+		val->intval = camellia_real_type(mc);
+		break;
+	case POWER_SUPPLY_PROP_QUICK_CHARGE_TYPE:
+		val->intval = camellia_real_type(mc) == POWER_SUPPLY_REAL_TYPE_HVDCP;
+		break;
+	case POWER_SUPPLY_PROP_VOLTAGE_NOW:
+	case POWER_SUPPLY_PROP_CURRENT_NOW:
+		val->intval = camellia_adc_now(mc, psp);
+		break;
 	default:
 		return -EINVAL;
 	}
@@ -114,6 +181,16 @@ static enum power_supply_property camellia_mt_props[] = {
 	POWER_SUPPLY_PROP_ONLINE,
 	POWER_SUPPLY_PROP_CURRENT_MAX,
 	POWER_SUPPLY_PROP_VOLTAGE_MAX,
+};
+
+static enum power_supply_property camellia_usb_props[] = {
+	POWER_SUPPLY_PROP_ONLINE,
+	POWER_SUPPLY_PROP_CURRENT_MAX,
+	POWER_SUPPLY_PROP_VOLTAGE_MAX,
+	POWER_SUPPLY_PROP_VOLTAGE_NOW,
+	POWER_SUPPLY_PROP_CURRENT_NOW,
+	POWER_SUPPLY_PROP_REAL_TYPE,
+	POWER_SUPPLY_PROP_QUICK_CHARGE_TYPE,
 };
 
 static const struct power_supply_desc camellia_ac_desc = {
@@ -127,18 +204,33 @@ static const struct power_supply_desc camellia_ac_desc = {
 static const struct power_supply_desc camellia_usb_desc = {
 	.name = "usb",
 	.type = POWER_SUPPLY_TYPE_USB,
-	.properties = camellia_mt_props,
-	.num_properties = ARRAY_SIZE(camellia_mt_props),
+	.properties = camellia_usb_props,
+	.num_properties = ARRAY_SIZE(camellia_usb_props),
 	.get_property = camellia_mt_get_property,
 };
+
+static bool camellia_hvdcp(struct camellia_mt_charger *mc)
+{
+	return camellia_real_type(mc) == POWER_SUPPLY_REAL_TYPE_HVDCP;
+}
+
+static int camellia_apply_temp_level(struct camellia_mt_charger *mc,
+				     unsigned long state, bool hvdcp);
 
 static void camellia_mt_changed_work(struct work_struct *work)
 {
 	struct camellia_mt_charger *mc =
 		container_of(work, struct camellia_mt_charger, changed_work);
+	bool hvdcp = camellia_hvdcp(mc);
 
 	power_supply_changed(mc->ac);
 	power_supply_changed(mc->usb);
+
+	/* 4.14 picked the table by charger type: re-apply when 9 V comes or goes */
+	mutex_lock(&mc->lock);
+	if (mc->temp_level && hvdcp != mc->thermal_hvdcp)
+		camellia_apply_temp_level(mc, mc->temp_level, hvdcp);
+	mutex_unlock(&mc->lock);
 }
 
 static int camellia_mt_psy_notifier(struct notifier_block *nb,
@@ -169,30 +261,45 @@ static int camellia_cdev_get_cur_state(struct thermal_cooling_device *cdev,
 	return 0;
 }
 
-static int camellia_cdev_set_cur_state(struct thermal_cooling_device *cdev,
-				       unsigned long state)
+/* Called with mc->lock held */
+static int camellia_apply_temp_level(struct camellia_mt_charger *mc,
+				     unsigned long state, bool hvdcp)
 {
-	struct camellia_mt_charger *mc = cdev->devdata;
+	const int *icl = hvdcp ? camellia_thermal_icl_hvdcp : camellia_thermal_icl;
 	union power_supply_propval val;
 	struct power_supply *master;
 	int ret;
 
-	if (state >= ARRAY_SIZE(camellia_thermal_icl))
-		state = ARRAY_SIZE(camellia_thermal_icl) - 1;
-
 	master = power_supply_get_by_name(CAMELLIA_MASTER_PSY);
 	if (!master)
 		return -ENODEV;
-	val.intval = state ? camellia_thermal_icl[state] : CAMELLIA_UNLIMIT_CURRENT;
+	val.intval = state ? icl[state] : CAMELLIA_UNLIMIT_CURRENT;
 	ret = power_supply_set_property(master, POWER_SUPPLY_PROP_INPUT_CURRENT_LIMIT, &val);
 	power_supply_put(master);
 	if (ret)
 		return ret;
 
 	mc->temp_level = state;
-	dev_info(mc->dev, "system_temp_level:%lu thermal_icl_ua:%d\n", state,
-		 state ? camellia_thermal_icl[state] : -1);
+	mc->thermal_hvdcp = hvdcp;
+	dev_info(mc->dev, "system_temp_level:%lu thermal_icl_ua:%d hvdcp:%d\n", state,
+		 state ? icl[state] : -1, hvdcp);
 	return 0;
+}
+
+static int camellia_cdev_set_cur_state(struct thermal_cooling_device *cdev,
+				       unsigned long state)
+{
+	struct camellia_mt_charger *mc = cdev->devdata;
+	bool hvdcp = camellia_hvdcp(mc);
+	int ret;
+
+	if (state >= ARRAY_SIZE(camellia_thermal_icl))
+		state = ARRAY_SIZE(camellia_thermal_icl) - 1;
+
+	mutex_lock(&mc->lock);
+	ret = camellia_apply_temp_level(mc, state, hvdcp);
+	mutex_unlock(&mc->lock);
+	return ret;
 }
 
 static const struct thermal_cooling_device_ops camellia_cdev_ops = {
@@ -211,6 +318,7 @@ static int camellia_mt_charger_probe(struct platform_device *pdev)
 	if (!mc)
 		return -ENOMEM;
 	mc->dev = &pdev->dev;
+	mutex_init(&mc->lock);
 	INIT_WORK(&mc->changed_work, camellia_mt_changed_work);
 	platform_set_drvdata(pdev, mc);
 
@@ -251,6 +359,8 @@ static void camellia_mt_charger_remove(struct platform_device *pdev)
 	cancel_work_sync(&mc->changed_work);
 	if (mc->chg)
 		power_supply_put(mc->chg);
+	if (mc->chg_dev)
+		put_device(&mc->chg_dev->dev);
 }
 
 static const struct of_device_id camellia_mt_charger_of_match[] = {

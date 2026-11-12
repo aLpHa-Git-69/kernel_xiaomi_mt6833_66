@@ -335,6 +335,7 @@ struct mt6360_chg_info {
 
 	struct work_struct chgdet_work;
 	struct delayed_work hvdcp_work;
+	bool hvdcp;	/* QC2 adapter at 9 V */
 	/* power supply */
 	struct power_supply_desc psy_desc;
 
@@ -909,6 +910,7 @@ static int mt6360_chgdet_post_process(struct mt6360_chg_info *mci)
 out:
 	if (!attach) {
 		cancel_delayed_work(&mci->hvdcp_work);
+		mci->hvdcp = false;
 		regmap_write(mci->regmap, MT6360_PMU_DPDM_CTRL, 0);
 		ret = __mt6360_enable_usbchgen(mci, false);
 		if (ret < 0)
@@ -944,6 +946,7 @@ static void mt6360_hvdcp_work_handler(struct work_struct *work)
 		msleep(30);
 	}
 	if (vbus > 7200000) {
+		mci->hvdcp = true;
 		dev_info(mci->dev, "%s: QC2 9V\n", __func__);
 	} else if (vbus < 3000000) {
 		regmap_write(mci->regmap, MT6360_PMU_DPDM_CTRL, 0);
@@ -2993,6 +2996,9 @@ static int mt6360_charger_get_property(struct power_supply *psy,
 	case POWER_SUPPLY_PROP_USB_TYPE:
 		val->intval = mci->psy_usb_type;
 		break;
+	case POWER_SUPPLY_PROP_QUICK_CHARGE_TYPE:
+		val->intval = mci->hvdcp;
+		break;
 	case POWER_SUPPLY_PROP_CURRENT_MAX:
 		if (mci->psy_desc.type == POWER_SUPPLY_TYPE_USB)
 			val->intval = 500000;
@@ -3068,6 +3074,7 @@ static enum power_supply_property mt6360_charger_properties[] = {
 	POWER_SUPPLY_PROP_TYPE,
 	POWER_SUPPLY_PROP_USB_TYPE,
 	POWER_SUPPLY_PROP_CURRENT_MAX,
+	POWER_SUPPLY_PROP_QUICK_CHARGE_TYPE,
 };
 
 static const struct power_supply_desc mt6360_charger_desc = {

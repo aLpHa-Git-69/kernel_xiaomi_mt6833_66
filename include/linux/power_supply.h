@@ -181,6 +181,22 @@ enum power_supply_property {
 	POWER_SUPPLY_PROP_MODEL_NAME,
 	POWER_SUPPLY_PROP_MANUFACTURER,
 	POWER_SUPPLY_PROP_SERIAL_NUMBER,
+	/*
+	 * camellia: Xiaomi 4.14 usb supply properties read by stock MIUI (micharge
+	 * HAL, POWER_SUPPLY_QUICK_CHARGE_TYPE uevent). Appended so no value moves.
+	 */
+	POWER_SUPPLY_PROP_REAL_TYPE,
+	POWER_SUPPLY_PROP_QUICK_CHARGE_TYPE,
+};
+
+/* camellia: values of POWER_SUPPLY_PROP_REAL_TYPE (4.14 sysfs text) */
+enum power_supply_real_type {
+	POWER_SUPPLY_REAL_TYPE_UNKNOWN = 0,
+	POWER_SUPPLY_REAL_TYPE_USB,
+	POWER_SUPPLY_REAL_TYPE_USB_FLOAT,
+	POWER_SUPPLY_REAL_TYPE_USB_DCP,
+	POWER_SUPPLY_REAL_TYPE_USB_CDP,
+	POWER_SUPPLY_REAL_TYPE_HVDCP,
 };
 
 enum power_supply_type {
