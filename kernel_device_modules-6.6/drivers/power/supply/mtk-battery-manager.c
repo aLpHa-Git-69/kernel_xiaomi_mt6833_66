@@ -1157,7 +1157,12 @@ static int bs_psy_get_property(struct power_supply *psy,
 			if(!bm->gm2->bat_plug_out)
 				curr_now += bm_update_psy_property(bm->gm2, CURRENT_NOW);
 
-		val->intval = curr_now * 100;
+		/*
+		 * camellia: 4.14's battery_get_property reported discharge as
+		 * positive (negated the gauge current while charging), and the
+		 * stock MIUI userspace reads it that way. The charger uses mtk-gauge.
+		 */
+		val->intval = -curr_now * 100;
 		ret = 0;
 		break;
 	case POWER_SUPPLY_PROP_CURRENT_AVG:
