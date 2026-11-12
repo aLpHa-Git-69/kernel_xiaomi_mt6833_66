@@ -62,6 +62,10 @@ module_param(dbg_log_en, bool, 0644);
 #define MT6360_PMU_CHG_AICC_RESULT	0x321
 #define MT6360_PMU_DEVICE_TYPE		0x322
 #define MT6360_PMU_USB_STATUS1		0x327
+/* stock 4.14 CONFIG_MTK_SOFT_HVDCP_2 "DP_DM_CTRL": 0x18 asks QC2 for 9 V, 0x16 stays DCP */
+#define MT6360_PMU_DPDM_CTRL		0x328
+#define MT6360_DPDM_QC2_9V		0x18
+#define MT6360_DPDM_DCP			0x16
 #define MT6360_PMU_CHG_CTRL17		0x32B
 #define MT6360_PMU_CHG_CTRL18		0x32C
 #define MT6360_PMU_CHG_HIDDEN_CTRL1	0x330
@@ -330,6 +334,7 @@ struct mt6360_chg_info {
 	struct notifier_block pd_nb;
 
 	struct work_struct chgdet_work;
+	struct delayed_work hvdcp_work;
 	/* power supply */
 	struct power_supply_desc psy_desc;
 
@@ -897,10 +902,14 @@ static int mt6360_chgdet_post_process(struct mt6360_chg_info *mci)
 			  "%s: Charger Type: STANDARD_CHARGER\n", __func__);
 		mci->psy_desc.type = POWER_SUPPLY_TYPE_USB_DCP;
 		mci->psy_usb_type = POWER_SUPPLY_USB_TYPE_DCP;
+		/* stock: QC2 needs D+ at 0.6 V for 1.25 s before the request */
+		schedule_delayed_work(&mci->hvdcp_work, msecs_to_jiffies(1500));
 		break;
 	}
 out:
 	if (!attach) {
+		cancel_delayed_work(&mci->hvdcp_work);
+		regmap_write(mci->regmap, MT6360_PMU_DPDM_CTRL, 0);
 		ret = __mt6360_enable_usbchgen(mci, false);
 		if (ret < 0)
 			dev_notice(mci->dev, "%s: disable chgdet fail\n",
@@ -911,6 +920,41 @@ out:
 		return ret;
 	power_supply_changed(mci->psy);
 	return ret;
+}
+
+/* Stock mt6360_get_hvdcp_work: ask a DCP for 9 V and keep it only if VBUS follows. */
+static void mt6360_hvdcp_work_handler(struct work_struct *work)
+{
+	struct mt6360_chg_info *mci = container_of(to_delayed_work(work),
+					struct mt6360_chg_info, hvdcp_work);
+	int i, vbus = 0;
+
+	mutex_lock(&mci->chgdet_lock);
+	if (!mci->attach || mci->psy_desc.type != POWER_SUPPLY_TYPE_USB_DCP)
+		goto out;
+	regmap_write(mci->regmap, MT6360_PMU_DPDM_CTRL, MT6360_DPDM_QC2_9V);
+	msleep(300);
+	for (i = 0; i < 3; i++) {
+		if (iio_read_channel_processed(mci->channels[MT6360_ADC_VBUSDIV5],
+					       &vbus) < 0)
+			vbus = 0;
+		dev_info(mci->dev, "%s: %d vbus = %d uV\n", __func__, i, vbus);
+		if (vbus > 7200000)
+			break;
+		msleep(30);
+	}
+	if (vbus > 7200000) {
+		dev_info(mci->dev, "%s: QC2 9V\n", __func__);
+	} else if (vbus < 3000000) {
+		regmap_write(mci->regmap, MT6360_PMU_DPDM_CTRL, 0);
+		dev_info(mci->dev, "%s: no vbus, plug out\n", __func__);
+	} else {
+		regmap_write(mci->regmap, MT6360_PMU_DPDM_CTRL, MT6360_DPDM_DCP);
+		dev_info(mci->dev, "%s: no QC2, DCP\n", __func__);
+	}
+	power_supply_changed(mci->psy);
+out:
+	mutex_unlock(&mci->chgdet_lock);
 }
 
 
@@ -3218,6 +3262,7 @@ static int mt6360_pmu_chg_probe(struct platform_device *pdev)
 	atomic_set(&mci->mivr_cnt, 0);
 	atomic_set(&mci->tcpc_attach, 0);
 	init_waitqueue_head(&mci->mivr_wq);
+	INIT_DELAYED_WORK(&mci->hvdcp_work, mt6360_hvdcp_work_handler);
 	if (!IS_ENABLED(CONFIG_TCPC_CLASS) && pdata->bc12_sel == 0)
 		INIT_WORK(&mci->chgdet_work, mt6360_chgdet_work_handler);
 	platform_set_drvdata(pdev, mci);
@@ -3350,6 +3395,7 @@ static int mt6360_pmu_chg_remove(struct platform_device *pdev)
 	struct mt6360_chg_info *mci = platform_get_drvdata(pdev);
 
 	dev_dbg(mci->dev, "%s\n", __func__);
+	cancel_delayed_work_sync(&mci->hvdcp_work);
 	flush_workqueue(mci->pe_wq);
 	destroy_workqueue(mci->pe_wq);
 	if (mci->mivr_task) {

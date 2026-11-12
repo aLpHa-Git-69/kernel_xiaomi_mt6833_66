@@ -215,6 +215,17 @@ static bool select_charging_current_limit(struct mtk_charger *info,
 			info->data.ac_charger_input_current;
 		pdata->charging_current_limit =
 			info->data.ac_charger_current;
+		/*
+		 * camellia: mt6360 got 9 V from a QC2 adapter. Stock SwitchCharging2
+		 * HVDCP: input ac_charger_current, charge up to the sw JEITA cc.
+		 */
+		if (get_vbus(info) > 7000) {
+			pdata->input_current_limit =
+				info->data.ac_charger_current;
+			if (info->sw_jeita.cc > 0)
+				pdata->charging_current_limit =
+					info->sw_jeita.cc;
+		}
 		if (info->config == DUAL_CHARGERS_IN_SERIES) {
 			pdata2->input_current_limit =
 				pdata->input_current_limit;

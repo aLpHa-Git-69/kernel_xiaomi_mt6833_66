@@ -57,6 +57,9 @@
 	 * PC's DRP port see the phone as a source first, so USB device mode and
 	 * BC1.2 only come up if the PC happens to swap roles back */
 	mt-tcpc,role-def = <5>;
+	/* camellia 4.14 has no USB PD (CONFIG_USB_POWER_DELIVERY off): Type-C only.
+	 * A 5 V PD contract also makes QC bricks ignore the QC2 9 V request */
+	mt-tcpc,disable-pe;
 };
 
 /* camellia 4.14: touch is NT36672C on CS0 / pad 0 or FT8722 on CS1 / pad 1
