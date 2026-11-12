@@ -54,6 +54,7 @@ module_param(dbg_log_en, bool, 0644);
 #define MT6360_PMU_CHG_CTRL7		0x317
 #define MT6360_PMU_CHG_CTRL9		0x319
 #define MT6360_PMU_CHG_CTRL10		0x31A
+#define MT6360_PMU_CHG_CTRL11		0x31B
 #define MT6360_PMU_CHG_CTRL12		0x31C
 #define MT6360_PMU_CHG_CTRL13		0x31D
 #define MT6360_PMU_CHG_CTRL14		0x31E
@@ -279,6 +280,7 @@ struct mt6360_chg_platform_data {
 	u32 mivr;
 	u32 cv;
 	u32 ieoc;
+	u32 vrechg;
 	u32 safety_timer;
 	u32 ircmp_resistor;
 	u32 ircmp_vclamp;
@@ -405,6 +407,7 @@ static const struct mt6360_chg_platform_data def_platform_data = {
 	.mivr = 4400000,		/* uV */
 	.cv = 4350000,			/* uA */
 	.ieoc = 250000,			/* uA */
+	.vrechg = 100000,		/* uV, hardware default */
 	.safety_timer = 12,		/* hour */
 #ifdef CONFIG_MTK_BIF_SUPPORT
 	.ircmp_resistor = 0,		/* uohm */
@@ -459,6 +462,14 @@ static u32 mt6360_trans_cv_sel(u32 uV)
 	linear_range_get_selector_within(&mt6360_chg_range[MT6360_RANGE_VOREG],
 					 uV, &data);
 	return data;
+}
+
+/* camellia: from 4.14 (CHG_CTRL11[1:0]: 100/150/200/250 mV below CV) */
+static u32 mt6360_trans_vrechg_sel(u32 uV)
+{
+	if (uV < 100000)
+		return 0;
+	return min_t(u32, (uV - 100000) / 50000, 3);
 }
 
 static u32 mt6360_trans_ieoc_sel(u32 uA)
@@ -2667,6 +2678,9 @@ static const struct mt6360_pdata_prop mt6360_pdata_props[] = {
 	MT6360_PDATA_VALPROP(ieoc, struct mt6360_chg_platform_data,
 			     MT6360_PMU_CHG_CTRL9, 4, 0xF0,
 			     mt6360_trans_ieoc_sel, 0),
+	MT6360_PDATA_VALPROP(vrechg, struct mt6360_chg_platform_data,
+			     MT6360_PMU_CHG_CTRL11, 0, 0x03,
+			     mt6360_trans_vrechg_sel, 0),
 	MT6360_PDATA_VALPROP(safety_timer, struct mt6360_chg_platform_data,
 			     MT6360_PMU_CHG_CTRL12, 5, 0xE0,
 			     mt6360_trans_safety_timer_sel, 0),
@@ -2684,6 +2698,7 @@ static const struct mt6360_val_prop mt6360_val_props[] = {
 	MT6360_DT_VALPROP(mivr, struct mt6360_chg_platform_data),
 	MT6360_DT_VALPROP(cv, struct mt6360_chg_platform_data),
 	MT6360_DT_VALPROP(ieoc, struct mt6360_chg_platform_data),
+	MT6360_DT_VALPROP(vrechg, struct mt6360_chg_platform_data),
 	MT6360_DT_VALPROP(safety_timer, struct mt6360_chg_platform_data),
 	MT6360_DT_VALPROP(ircmp_resistor, struct mt6360_chg_platform_data),
 	MT6360_DT_VALPROP(ircmp_vclamp, struct mt6360_chg_platform_data),

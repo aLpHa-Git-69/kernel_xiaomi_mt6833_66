@@ -688,6 +688,7 @@
 
 &mt6360_chg {
 	ieoc = <200000>;	/* stock end-of-charge current (6.6 default 150 mA) */
+	vrechg = <200000>;	/* stock: recharge 200 mV below CV (hw default 100 mV) */
 };
 
 /*
