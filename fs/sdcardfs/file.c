@@ -190,7 +190,9 @@ static int sdcardfs_mmap(struct file *file, struct vm_area_struct *vma)
 	 * generic_file_readonly_mmap returns in that case).
 	 */
 	lower_file = sdcardfs_lower_file(file);
-	if (willwrite && !lower_file->f_mapping->a_ops->writepage) {
+	/* camellia: 6.6 ext4 writes back through ->writepages only */
+	if (willwrite && !lower_file->f_mapping->a_ops->writepage &&
+	    !lower_file->f_mapping->a_ops->writepages) {
 		err = -EINVAL;
 		pr_err("sdcardfs: lower file system does not support writeable mmap\n");
 		goto out;

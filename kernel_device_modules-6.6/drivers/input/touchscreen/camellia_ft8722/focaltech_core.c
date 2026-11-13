@@ -83,6 +83,22 @@ char fts_lockdown[17] = {0};
 * Global variable or extern global variabls/functions
 *****************************************************************************/
 struct fts_ts_data *fts_data;
+/* camellia: serializes the panel's calls into this driver against remove */
+static DEFINE_MUTEX(fts_entry_lock);
+
+bool fts_entry_get(void)
+{
+	mutex_lock(&fts_entry_lock);
+	if (fts_data && !fts_data->removing)
+		return true;
+	mutex_unlock(&fts_entry_lock);
+	return false;
+}
+
+void fts_entry_put(void)
+{
+	mutex_unlock(&fts_entry_lock);
+}
 extern int32_t fts_extra_proc_init(void);
 extern int32_t fts_extra_proc_deinit(void);
 #ifdef FTS_TP_DATA_DUMP_EN
@@ -1960,9 +1976,31 @@ err_fts_tp_data_dump_proc_init_failed:
 #endif
 }
 
+#ifdef CONFIG_TOUCHSCREEN_XIAOMI_TOUCHFEATURE
+static struct xiaomi_touch_interface xiaomi_touch_interfaces;
+#endif
+
 static int fts_ts_remove_entry(struct fts_ts_data *ts_data)
 {
 	FTS_FUNC_ENTER();
+
+	/*
+	 * camellia: stop every way in before tearing down: the panel's calls
+	 * (waits for one in flight), the display notifier that queues
+	 * resume_work, the Xiaomi touch callbacks, then the IRQ, whose handler
+	 * uses the bus buffers and input devices freed below. The *_exit calls
+	 * then cancel their own works while ts_data still lives.
+	 */
+	mutex_lock(&fts_entry_lock);
+	ts_data->removing = true;
+	mutex_unlock(&fts_entry_lock);
+	mtk_disp_notifier_unregister(&ts_data->fb_notif);
+#ifdef CONFIG_TOUCHSCREEN_XIAOMI_TOUCHFEATURE
+	xiaomitouch_unregister_modedata(&xiaomi_touch_interfaces);
+#endif
+	free_irq(ts_data->irq, ts_data);
+	if (ts_data->ts_workqueue)
+		cancel_work_sync(&ts_data->resume_work);
 
 #if FTS_POINT_REPORT_CHECK_EN
 	fts_point_report_check_exit(ts_data);
@@ -1985,7 +2023,6 @@ static int fts_ts_remove_entry(struct fts_ts_data *ts_data)
 	fts_gesture_exit(ts_data);
 	fts_bus_exit(ts_data);
 
-	free_irq(ts_data->irq, ts_data);
 	input_unregister_device(ts_data->input_dev);
 #if FTS_PEN_EN
 	input_unregister_device(ts_data->pen_dev);
@@ -1994,7 +2031,6 @@ static int fts_ts_remove_entry(struct fts_ts_data *ts_data)
 	if (ts_data->ts_workqueue)
 		destroy_workqueue(ts_data->ts_workqueue);
 
-	mtk_disp_notifier_unregister(&ts_data->fb_notif);
 
 #if 0
 	if (fb_unregister_client(&ts_data->fb_notif))
@@ -2024,6 +2060,9 @@ static int fts_ts_remove_entry(struct fts_ts_data *ts_data)
 	kfree_safe(ts_data->point_buf);
 	kfree_safe(ts_data->events);
 
+	mutex_lock(&fts_entry_lock);
+	fts_data = NULL;
+	mutex_unlock(&fts_entry_lock);
 	kfree_safe(ts_data->pdata);
 	kfree_safe(ts_data);
 
@@ -2084,7 +2123,7 @@ static int __maybe_unused fts_ts_suspend(struct device *dev)
 	return 0;
 }
 
-int fts_ts_tp_suspend(void)
+static int __fts_ts_tp_suspend(void)
 {
 	int ret = 0;
 	struct fts_ts_data *ts_data = fts_data;
@@ -2128,6 +2167,16 @@ int fts_ts_tp_suspend(void)
 	ts_data->suspended = true;
 	FTS_FUNC_EXIT();
 	return 0;
+}
+int fts_ts_tp_suspend(void)
+{
+	int ret = 0;
+
+	if (fts_entry_get()) {
+		ret = __fts_ts_tp_suspend();
+		fts_entry_put();
+	}
+	return ret;
 }
 EXPORT_SYMBOL_GPL(fts_ts_tp_suspend);
 
@@ -2173,7 +2222,7 @@ static int __maybe_unused fts_ts_resume(struct device *dev)
 	return 0;
 }
 
-int fts_ts_tp_resume(void)
+static int __fts_ts_tp_resume(void)
 {
 	struct fts_ts_data *ts_data = fts_data;
 	FTS_FUNC_ENTER();
@@ -2206,6 +2255,16 @@ int fts_ts_tp_resume(void)
 #endif
 	FTS_FUNC_EXIT();
 	return 0;
+}
+int fts_ts_tp_resume(void)
+{
+	int ret = 0;
+
+	if (fts_entry_get()) {
+		ret = __fts_ts_tp_resume();
+		fts_entry_put();
+	}
+	return ret;
 }
 EXPORT_SYMBOL_GPL(fts_ts_tp_resume);
 

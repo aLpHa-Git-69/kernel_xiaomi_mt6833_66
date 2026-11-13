@@ -210,6 +210,7 @@ struct fts_ts_data {
 	char fts_lockdowninfo[17];
 #endif
 	bool suspended;
+	bool removing;	/* camellia: remove has started, entry points bail */
 	bool fw_loading;
 	bool irq_disabled;
 	bool power_disabled;
@@ -317,6 +318,9 @@ int fts_fw_recovery(void);
 int fts_enter_gesture_fw(void);
 int fts_enter_normal_fw(void);
 void fts_fwresume_work(void);
+/* camellia: hold while using fts_data from outside the driver (panel, LCD hooks) */
+bool fts_entry_get(void);
+void fts_entry_put(void);
 int fts_upgrade_bin(char *fw_name, bool force);
 int fts_enter_test_environment(bool test_state);
 

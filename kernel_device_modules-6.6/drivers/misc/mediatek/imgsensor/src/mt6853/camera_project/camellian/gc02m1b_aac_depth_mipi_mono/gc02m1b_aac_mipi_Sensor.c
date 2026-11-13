@@ -800,32 +800,9 @@ static kal_int8 gc02m1b_read_general_info(int *addr, kal_uint16 addr_len, kal_ui
 	return 0;
 }
 
-/* camellia: cam_cal reads the depth OTP through this (camera_eeprom module) */
-extern void camellia_cam_cal_set_gc02m1b_reader(unsigned int sensor_id,
-	unsigned int (*reader)(struct i2c_client *, unsigned int,
-			       unsigned char *, unsigned int));
-
-unsigned int
-gc02m1b_aac_read_otp_info(struct i2c_client *client,
-		 unsigned int addr, unsigned char *data, unsigned int size)
-{
-	int i = 0;
-	unsigned int actual_size = 0;
-
-	if (addr >= sizeof(otp_data))
-		return 0;
-	else if (addr + size >= sizeof(otp_data))
-		actual_size = sizeof(otp_data) - addr;
-	else
-		actual_size = size;
-	LOG_INF("gc02m1b_aac_otp addr %d,size %d", addr, size);
-	for (i = 0; i < actual_size; i++) {
-		data[i] = otp_data[addr + i];
-		LOG_INF("gc02m1b_aac_otp_info %x,data %x", data[i],
-				otp_data[addr + i]);
-	}
-	return  actual_size;
-}
+/* camellia: the depth OTP goes to cam_cal (camera_eeprom module) by value */
+extern void camellia_cam_cal_set_gc02m1b_otp(unsigned int sensor_id,
+	const unsigned char *otp, unsigned int len);
 
 #define GROUP1_FLAG_ADDR 0x78
 #define GROUP1_VENDOR_ADDR 0x80
@@ -889,7 +866,7 @@ static kal_uint32 get_imgsensor_id(UINT32 *sensor_id)
 		*sensor_id = 0xFFFFFFFF;
 		return ERROR_SENSOR_CONNECT_FAIL;
 	}
-	camellia_cam_cal_set_gc02m1b_reader(GC02M1B_AAC_DEPTH_SENSOR_ID, gc02m1b_aac_read_otp_info);
+	camellia_cam_cal_set_gc02m1b_otp(GC02M1B_AAC_DEPTH_SENSOR_ID, (const unsigned char *)otp_data, sizeof(otp_data));
 
 	while (imgsensor_info.i2c_addr_table[i] != 0xff) {
 		spin_lock(&imgsensor_drv_lock);

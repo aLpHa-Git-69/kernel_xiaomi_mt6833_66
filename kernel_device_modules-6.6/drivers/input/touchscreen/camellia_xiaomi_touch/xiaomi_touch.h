@@ -108,5 +108,6 @@ extern int update_palm_sensor_value(int value);
 extern int update_p_sensor_value(int value);
 
 int xiaomitouch_register_modedata(struct xiaomi_touch_interface *data);
+void xiaomitouch_unregister_modedata(struct xiaomi_touch_interface *data);
 
 #endif

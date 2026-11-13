@@ -2099,6 +2099,8 @@ static int gf_probe(struct spi_device *spi)
 	gf_debug(INFO_LOG, "%s probe finished\n", __func__);
 	pr_err("%s %d now disable spi clk API", __func__, __LINE__);
 	gf_spi_clk_enable(gf_dev, 0);
+	/* publish ownership so gf_remove tears this sensor down (NULL = FPC fallback) */
+	spi_set_drvdata(spi, gf_dev);
 
 #ifdef CONFIG_HQ_SYSFS_SUPPORT
 	gf_debug(ERR_LOG, "%s hq_regiser_hw_info\n", __func__);
@@ -2164,13 +2166,13 @@ static void gf_remove(struct spi_device *spi)
 		return;
 
 
-	wakeup_source_unregister(fp_wakesrc);
-	/* make sure ops on existing fds can abort cleanly */
+	/* make sure ops on existing fds can abort cleanly; the IRQ uses fp_wakesrc */
 	if (gf_dev->irq) {
 		free_irq(gf_dev->irq, gf_dev);
 		gf_dev->irq_count = 0;
 		gf_dev->irq = 0;
 	}
+	wakeup_source_unregister(fp_wakesrc);
 
 #ifdef CONFIG_HAS_EARLYSUSPEND
 	if (gf_dev->early_suspend.suspend)
@@ -2180,14 +2182,10 @@ static void gf_remove(struct spi_device *spi)
 #endif
 
 	mutex_lock(&gf_dev->release_lock);
-	if (gf_dev->input == NULL) {
-		kfree(gf_dev);
-		mutex_unlock(&gf_dev->release_lock);
-		FUNC_EXIT();
-		return;
+	if (gf_dev->input) {
+		input_unregister_device(gf_dev->input);
+		gf_dev->input = NULL;
 	}
-	input_unregister_device(gf_dev->input);
-	gf_dev->input = NULL;
 	mutex_unlock(&gf_dev->release_lock);
 
 	mutex_lock(&gf_dev->release_lock);

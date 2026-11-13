@@ -1004,6 +1004,8 @@ static const struct of_device_id trusty_gz_of_match[] = {
 	{ .compatible = "android,trusty-gz-log-v1", },
 	{},
 };
+/* camellia: modalias, so the ramdisk selector loads it for the trusty node (as trusty-irq) */
+MODULE_DEVICE_TABLE(of, trusty_gz_of_match);
 
 static struct platform_driver trusty_gz_log_driver = {
 	.probe = trusty_gz_log_probe,

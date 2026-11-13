@@ -806,7 +806,8 @@ static inline int Register_AF_CharDrv(void)
 	/* Add to system */
 	if (cdev_add(g_pAF_CharDrv, g_AF_devno, 1)) {
 		LOG_INF("Attatch file operation failed\n");
-
+		/* camellia: not added yet, so drop the cdev_alloc reference */
+		kobject_put(&g_pAF_CharDrv->kobj);
 		unregister_chrdev_region(g_AF_devno, 1);
 
 		return -EAGAIN;
@@ -817,31 +818,38 @@ static inline int Register_AF_CharDrv(void)
 		int ret = PTR_ERR(actuator_class);
 
 		LOG_INF("Unable to create class, err = %d\n", ret);
-		return ret;
+		goto err_class;
 	}
 
 	lens_device = device_create(actuator_class, NULL, g_AF_devno, NULL,
 				    AF_DRVNAME);
+	if (IS_ERR(lens_device)) {
+		int ret = PTR_ERR(lens_device);
 
-	if (lens_device == NULL)
-		return -EIO;
+		class_destroy(actuator_class);
+		cdev_del(g_pAF_CharDrv);
+		unregister_chrdev_region(g_AF_devno, 1);
+		return ret;
+	}
 
 	LOG_INF("End\n");
 	return 0;
+
+err_class:
+	cdev_del(g_pAF_CharDrv);
+	unregister_chrdev_region(g_AF_devno, 1);
+	return PTR_ERR(actuator_class);
 }
 
 static inline void Unregister_AF_CharDrv(void)
 {
 	LOG_INF("Start\n");
 
-	/* Release char driver */
-	cdev_del(g_pAF_CharDrv);
-
-	unregister_chrdev_region(g_AF_devno, 1);
-
+	/* camellia: reverse of Register_AF_CharDrv: the node first, the region last */
 	device_destroy(actuator_class, g_AF_devno);
-
 	class_destroy(actuator_class);
+	cdev_del(g_pAF_CharDrv);
+	unregister_chrdev_region(g_AF_devno, 1);
 
 	LOG_INF("End\n");
 }
@@ -872,6 +880,9 @@ static struct i2c_driver AF_i2c_driver = {
 
 static void AF_i2c_remove(struct i2c_client *client)
 {
+	/* camellia: the char device belongs to this client (made in AF_i2c_probe) */
+	Unregister_AF_CharDrv();
+	g_pstAF_I2Cclient = NULL;
 }
 
 /* Kirby: add new-style driver {*/
@@ -946,8 +957,8 @@ static struct platform_driver g_stAF_Driver = {
 #endif
 	} };
 
-static struct platform_device g_stAF_device = {
-	.name = PLATFORM_DRIVER_NAME, .id = 0, .dev = {} };
+/* camellia: core-owned (proper release), unregistered on exit */
+static struct platform_device *g_stAF_device;
 
 static int __init MAINAF_i2C_init(void)
 {
@@ -955,13 +966,15 @@ static int __init MAINAF_i2C_init(void)
 	i2c_register_board_info(LENS_I2C_BUSNUM, &kd_lens_dev, 1);
 #endif
 
-	if (platform_device_register(&g_stAF_device)) {
+	g_stAF_device = platform_device_register_simple(PLATFORM_DRIVER_NAME, 0, NULL, 0);
+	if (IS_ERR(g_stAF_device)) {
 		LOG_INF("failed to register AF driver\n");
 		return -ENODEV;
 	}
 
 	if (platform_driver_register(&g_stAF_Driver)) {
 		LOG_INF("Failed to register AF driver\n");
+		platform_device_unregister(g_stAF_device);
 		return -ENODEV;
 	}
 
@@ -971,6 +984,7 @@ static int __init MAINAF_i2C_init(void)
 static void __exit MAINAF_i2C_exit(void)
 {
 	platform_driver_unregister(&g_stAF_Driver);
+	platform_device_unregister(g_stAF_device);
 }
 module_init(MAINAF_i2C_init);
 module_exit(MAINAF_i2C_exit);

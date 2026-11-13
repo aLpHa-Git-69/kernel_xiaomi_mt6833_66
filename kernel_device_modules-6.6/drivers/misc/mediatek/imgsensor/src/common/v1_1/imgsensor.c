@@ -2604,9 +2604,16 @@ static int __init imgsensor_init(void)
 	return 0;
 }
 
+#ifdef CAMELLIA_SMARTLDO
+void imgsensor_hw_smartldo_close(void);
+#endif
+
 static void __exit imgsensor_exit(void)
 {
 	platform_driver_unregister(&gimgsensor_platform_driver);
+#ifdef CAMELLIA_SMARTLDO
+	imgsensor_hw_smartldo_close();
+#endif
 
 #ifdef SENINF_N3D_SUPPORT
 	n3d_exit();

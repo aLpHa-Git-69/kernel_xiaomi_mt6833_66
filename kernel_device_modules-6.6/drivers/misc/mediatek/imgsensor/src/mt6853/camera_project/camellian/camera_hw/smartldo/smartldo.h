@@ -55,5 +55,6 @@ struct SMARTLDO {
 
 enum IMGSENSOR_RETURN imgsensor_hw_smartldo_open(
 	struct IMGSENSOR_HW_DEVICE **pdevice);
+void imgsensor_hw_smartldo_close(void);
 
 #endif

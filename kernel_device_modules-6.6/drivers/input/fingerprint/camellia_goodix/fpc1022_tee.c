@@ -347,7 +347,7 @@ static int fpc1022_platform_probe(struct platform_device *pldev)
 	ret = sysfs_create_group(&dev->kobj, &attribute_group);
 	if (ret) {
 		dev_err(dev, "could not create sysfs\n");
-		goto err_request_irq;
+		goto err_sysfs;
 	}
 
 	hw_reset(fpc1022);
@@ -355,6 +355,10 @@ static int fpc1022_platform_probe(struct platform_device *pldev)
 
 	return 0;
 
+err_sysfs:
+	/* the handler takes ttw_wl: free the IRQ (waits for it) before the wake source */
+	disable_irq_wake(fpc1022->irq_num);
+	devm_free_irq(dev, fpc1022->irq_num, fpc1022);
 err_request_irq:
 	wakeup_source_unregister(fpc1022->ttw_wl);
 	mutex_destroy(&fpc1022->lock);
@@ -367,9 +371,13 @@ static int fpc1022_platform_remove(struct platform_device *pldev)
 	struct fpc1022_data *fpc1022 = dev_get_drvdata(dev);
 
 	sysfs_remove_group(&dev->kobj, &attribute_group);
+	/* the handler takes ttw_wl: free the IRQ (waits for it) before the wake source */
+	disable_irq_wake(fpc1022->irq_num);
+	devm_free_irq(dev, fpc1022->irq_num, fpc1022);
+	device_init_wakeup(dev, 0);
 
-	mutex_destroy(&fpc1022->lock);
 	wakeup_source_unregister(fpc1022->ttw_wl);
+	mutex_destroy(&fpc1022->lock);
 
 	return 0;
 }

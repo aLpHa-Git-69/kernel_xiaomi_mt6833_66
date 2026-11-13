@@ -181,6 +181,36 @@ int xiaomitouch_register_modedata(struct xiaomi_touch_interface *data)
 }
 EXPORT_SYMBOL(xiaomitouch_register_modedata);
 
+/*
+ * camellia: the touch driver is going away. Clear its callbacks under the mutex
+ * the ioctl and sysfs paths call them under, so none runs after this returns.
+ */
+void xiaomitouch_unregister_modedata(struct xiaomi_touch_interface *data)
+{
+	struct xiaomi_touch_interface *touch_data;
+
+	if (!touch_pdata)
+		return;
+	touch_data = touch_pdata->touch_data;
+	mutex_lock(&xiaomi_touch_dev.mutex);
+	touch_data->setModeValue = NULL;
+	touch_data->getModeValue = NULL;
+	touch_data->resetMode = NULL;
+	touch_data->getModeAll = NULL;
+	touch_data->getModeCurValue = NULL;
+	touch_data->palm_sensor_read = NULL;
+	touch_data->palm_sensor_write = NULL;
+	touch_data->p_sensor_read = NULL;
+	touch_data->p_sensor_write = NULL;
+	touch_data->panel_vendor_read = NULL;
+	touch_data->panel_color_read = NULL;
+	touch_data->panel_display_read = NULL;
+	touch_data->touch_vendor_read = NULL;
+	touch_data->setModeLongValue = NULL;
+	mutex_unlock(&xiaomi_touch_dev.mutex);
+}
+EXPORT_SYMBOL(xiaomitouch_unregister_modedata);
+
 int update_palm_sensor_value(int value)
 {
 	struct xiaomi_touch *dev = NULL;
@@ -227,10 +257,12 @@ struct device_attribute *attr, const char *buf, size_t count)
 			return -EINVAL;
 
 	
+	mutex_lock(&xiaomi_touch_dev.mutex);
 	if (pdata->touch_data->palm_sensor_write)
 		pdata->touch_data->palm_sensor_write(!!input);
 	else
 		pr_err("%s has not implement\n", __func__);
+	mutex_unlock(&xiaomi_touch_dev.mutex);
 	pr_info("%s value:%d\n", __func__, !!input);
 	return count;
 }
@@ -281,11 +313,13 @@ struct device_attribute *attr, const char *buf, size_t count)
 	if (sscanf(buf, "%d", &input) < 0)
 			return -EINVAL;
 
+	mutex_lock(&xiaomi_touch_dev.mutex);
 	if (pdata->touch_data->p_sensor_write)
 		pdata->touch_data->p_sensor_write(!!input);
 	else {
 		pr_err("%s has not implement\n", __func__);
 	}
+	mutex_unlock(&xiaomi_touch_dev.mutex);
 	pr_info("%s value:%d\n", __func__, !!input);
 
 	return count;
@@ -296,10 +330,13 @@ struct device_attribute *attr, char *buf)
 {
 	struct xiaomi_touch_pdata *pdata = dev_get_drvdata(dev);
 
+	ssize_t ret = 0;
+
+	mutex_lock(&xiaomi_touch_dev.mutex);
 	if (pdata->touch_data->panel_vendor_read)
-		return snprintf(buf, PAGE_SIZE, "%c", pdata->touch_data->panel_vendor_read());
-	else
-		return 0;
+		ret = snprintf(buf, PAGE_SIZE, "%c", pdata->touch_data->panel_vendor_read());
+	mutex_unlock(&xiaomi_touch_dev.mutex);
+	return ret;
 }
 
 static ssize_t panel_color_show(struct device *dev,
@@ -307,10 +344,13 @@ struct device_attribute *attr, char *buf)
 {
 	struct xiaomi_touch_pdata *pdata = dev_get_drvdata(dev);
 
+	ssize_t ret = 0;
+
+	mutex_lock(&xiaomi_touch_dev.mutex);
 	if (pdata->touch_data->panel_color_read)
-		return snprintf(buf, PAGE_SIZE, "%c", pdata->touch_data->panel_color_read());
-	else
-		return 0;
+		ret = snprintf(buf, PAGE_SIZE, "%c", pdata->touch_data->panel_color_read());
+	mutex_unlock(&xiaomi_touch_dev.mutex);
+	return ret;
 }
 
 static ssize_t panel_display_show(struct device *dev,
@@ -318,10 +358,13 @@ struct device_attribute *attr, char *buf)
 {
 	struct xiaomi_touch_pdata *pdata = dev_get_drvdata(dev);
 
+	ssize_t ret = 0;
+
+	mutex_lock(&xiaomi_touch_dev.mutex);
 	if (pdata->touch_data->panel_display_read)
-		return snprintf(buf, PAGE_SIZE, "%c", pdata->touch_data->panel_display_read());
-	else
-		return 0;
+		ret = snprintf(buf, PAGE_SIZE, "%c", pdata->touch_data->panel_display_read());
+	mutex_unlock(&xiaomi_touch_dev.mutex);
+	return ret;
 }
 
 static ssize_t touch_vendor_show(struct device *dev,
@@ -329,10 +372,13 @@ struct device_attribute *attr, char *buf)
 {
 	struct xiaomi_touch_pdata *pdata = dev_get_drvdata(dev);
 
+	ssize_t ret = 0;
+
+	mutex_lock(&xiaomi_touch_dev.mutex);
 	if (pdata->touch_data->touch_vendor_read)
-		return snprintf(buf, PAGE_SIZE, "%c", pdata->touch_data->touch_vendor_read());
-	else
-		return 0;
+		ret = snprintf(buf, PAGE_SIZE, "%c", pdata->touch_data->touch_vendor_read());
+	mutex_unlock(&xiaomi_touch_dev.mutex);
+	return ret;
 }
 
 static DEVICE_ATTR(palm_sensor, (S_IRUGO | S_IWUSR | S_IWGRP),

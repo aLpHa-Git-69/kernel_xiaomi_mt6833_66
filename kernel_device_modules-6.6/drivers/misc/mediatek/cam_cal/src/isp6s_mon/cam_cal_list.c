@@ -5,6 +5,7 @@
 
 #include <linux/kernel.h>
 #include <linux/module.h>
+#include <linux/mutex.h>
 #include "cam_cal_list.h"
 #include "eeprom_i2c_common_driver.h"
 #include "eeprom_i2c_custom_driver.h"
@@ -16,32 +17,51 @@
 
 /*
  * camellia: the GC02M1B depth sensor has no EEPROM; its imgsensor driver reads
- * the OTP (vendor + fuse id) at probe and registers a reader here, since that
- * module loads after this one.
+ * the OTP (vendor + fuse id) at probe and publishes the bytes here, since that
+ * module loads after this one. A copy, not a callback into imgsensor, so either
+ * module can go away without leaving the other a dangling pointer.
  */
-static cam_cal_cmd_func camellia_gc02m1b_reader[2]; /* [0] QTech, [1] AAC */
+#define CAMELLIA_GC02M1B_OTP_SIZE 10
+static DEFINE_MUTEX(camellia_gc02m1b_lock);
+static unsigned char camellia_gc02m1b_otp[2][CAMELLIA_GC02M1B_OTP_SIZE]; /* [0] QTech, [1] AAC */
+static bool camellia_gc02m1b_valid[2];
 
-void camellia_cam_cal_set_gc02m1b_reader(unsigned int sensor_id,
-					 cam_cal_cmd_func reader)
+void camellia_cam_cal_set_gc02m1b_otp(unsigned int sensor_id,
+				      const unsigned char *otp, unsigned int len)
 {
-	camellia_gc02m1b_reader[sensor_id == GC02M1B_AAC_DEPTH_SENSOR_ID] = reader;
+	int i = sensor_id == GC02M1B_AAC_DEPTH_SENSOR_ID;
+
+	mutex_lock(&camellia_gc02m1b_lock);
+	memcpy(camellia_gc02m1b_otp[i], otp, min_t(unsigned int, len, CAMELLIA_GC02M1B_OTP_SIZE));
+	camellia_gc02m1b_valid[i] = true;
+	mutex_unlock(&camellia_gc02m1b_lock);
 }
-EXPORT_SYMBOL(camellia_cam_cal_set_gc02m1b_reader);
+EXPORT_SYMBOL(camellia_cam_cal_set_gc02m1b_otp);
+
+static unsigned int camellia_gc02m1b_read(int i, unsigned int addr,
+					  unsigned char *data, unsigned int size)
+{
+	unsigned int n = 0;
+
+	mutex_lock(&camellia_gc02m1b_lock);
+	if (camellia_gc02m1b_valid[i] && addr < CAMELLIA_GC02M1B_OTP_SIZE) {
+		n = min_t(unsigned int, size, CAMELLIA_GC02M1B_OTP_SIZE - addr);
+		memcpy(data, camellia_gc02m1b_otp[i] + addr, n);
+	}
+	mutex_unlock(&camellia_gc02m1b_lock);
+	return n;
+}
 
 static unsigned int camellia_gc02m1b_qtech_read(struct i2c_client *client,
 	unsigned int addr, unsigned char *data, unsigned int size)
 {
-	cam_cal_cmd_func reader = camellia_gc02m1b_reader[0];
-
-	return reader ? reader(client, addr, data, size) : 0;
+	return camellia_gc02m1b_read(0, addr, data, size);
 }
 
 static unsigned int camellia_gc02m1b_aac_read(struct i2c_client *client,
 	unsigned int addr, unsigned char *data, unsigned int size)
 {
-	cam_cal_cmd_func reader = camellia_gc02m1b_reader[1];
-
-	return reader ? reader(client, addr, data, size) : 0;
+	return camellia_gc02m1b_read(1, addr, data, size);
 }
 
 struct stCAM_CAL_LIST_STRUCT g_camCalList[] = {

@@ -455,6 +455,8 @@ int fts_esdcheck_init(struct fts_ts_data *ts_data)
 
 int fts_esdcheck_exit(struct fts_ts_data *ts_data)
 {
+	if (ts_data->ts_workqueue)	/* self-requeueing; sync cancel stops that */
+		cancel_delayed_work_sync(&ts_data->esdcheck_work);
 	sysfs_remove_group(&ts_data->dev->kobj, &fts_esd_group);
 	return 0;
 }

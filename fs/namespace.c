@@ -2874,10 +2874,25 @@ static int do_remount(struct path *path, int ms_flags, int sb_flags,
 		down_write(&sb->s_umount);
 		err = -EPERM;
 		if (ns_capable(sb->s_user_ns, CAP_SYS_ADMIN)) {
-			err = sb->s_op->remount_mnt(path->mnt, data);
+			/*
+			 * camellia (sdcardfs): as do_reconfigure_mnt(), go read-only
+			 * only without writers, and before the filesystem commits its
+			 * new view; restore the old state if that then fails.
+			 */
+			bool was_ro = mnt->mnt.mnt_flags & MNT_READONLY;
+
+			lock_mount_hash();
+			err = change_mount_ro_state(mnt, mnt_flags);
+			unlock_mount_hash();
 			if (!err) {
+				err = sb->s_op->remount_mnt(path->mnt, data);
 				lock_mount_hash();
-				set_mount_attributes(mnt, mnt_flags);
+				if (!err)
+					set_mount_attributes(mnt, mnt_flags);
+				else if (was_ro)
+					mnt->mnt.mnt_flags |= MNT_READONLY;
+				else
+					mnt->mnt.mnt_flags &= ~MNT_READONLY;
 				unlock_mount_hash();
 			}
 		}
