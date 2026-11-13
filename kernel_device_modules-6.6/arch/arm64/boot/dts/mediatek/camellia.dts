@@ -689,6 +689,17 @@
 	ac_charger_input_current = <2050000>;
 };
 
+/*
+ * Display SMI common votes VCORE (and so the DRAM level) for its bandwidth, as
+ * stock 4.14's mmdvfs_pmqos did (vcore-supply, comm_freq = "disp_freq", steps
+ * 208/312/416/546 MHz = opp_table_disp). Without the supply mmqos logs
+ * "get common(0) reg fail" and then "comm_reg not existed" on every change,
+ * and display/camera bandwidth never raises VCORE.
+ */
+&smi_disp_common {
+	mmdvfs-dvfsrc-vcore-supply = <&dvfsrc_vcore>;
+};
+
 &mt6360_chg {
 	ieoc = <200000>;	/* stock end-of-charge current (6.6 default 150 mA) */
 	vrechg = <200000>;	/* stock: recharge 200 mV below CV (hw default 100 mV) */
