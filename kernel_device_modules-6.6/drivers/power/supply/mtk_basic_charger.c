@@ -295,7 +295,10 @@ static bool select_charging_current_limit(struct mtk_charger *info,
 			&& info->chr_type == POWER_SUPPLY_TYPE_USB)
 			chr_debug("USBIF & STAND_HOST skip current check\n");
 		else {
-			if (info->sw_jeita.sm == TEMP_T0_TO_T1) {
+			/* camellia: stock SwitchCharging2 has no cold override;
+			 * its own 0-5 C band (980 mA) applies via sw_jeita.cc */
+			if (info->sw_jeita.sm == TEMP_T0_TO_T1 &&
+			    !info->data.camellia_jeita) {
 				pdata->input_current_limit = 500000;
 				pdata->charging_current_limit = 350000;
 			}
