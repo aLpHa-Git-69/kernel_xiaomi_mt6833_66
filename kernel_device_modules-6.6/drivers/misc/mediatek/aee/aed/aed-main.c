@@ -2406,5 +2406,7 @@ module_init(aed_init);
 module_exit(aed_exit);
 
 MODULE_LICENSE("GPL");
+/* camellia: mrdump's mboot_params creates /proc/aed; without it every aed/ entry fails (4.14: both built in) */
+MODULE_SOFTDEP("pre: mrdump");
 MODULE_DESCRIPTION("MediaTek AED Driver");
 MODULE_AUTHOR("MediaTek Inc.");

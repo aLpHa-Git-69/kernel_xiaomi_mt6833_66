@@ -49,6 +49,8 @@
 #define DW_CFA_GNU_negative_offset_extended 0x2f
 #define DW_CFA_hi_user                      0x3f
 
+#define DW_EH_PE_sdata8                     0x0c
+
 extern const u8 __eh_frame_start[], __eh_frame_end[];
 
 enum {
@@ -125,17 +127,30 @@ struct eh_frame {
 			s32	range;
 			u8	opcodes[];
 		};
+
+		struct { // FDE with 64-bit pc-relative fields (DW_EH_PE_sdata8)
+			s64	initial_loc64;
+			s64	range64;
+			u8	opcodes64[];
+		};
 	};
 };
 
 static int noinstr scs_handle_fde_frame(const struct eh_frame *frame,
 					bool fde_has_augmentation_data,
 					int code_alignment_factor,
+					bool use_sdata8,
 					bool dry_run)
 {
 	int size = frame->size - offsetof(struct eh_frame, opcodes) + 4;
 	u64 loc = (u64)offset_to_ptr(&frame->initial_loc);
 	const u8 *opcode = frame->opcodes;
+
+	if (use_sdata8) {
+		loc = (u64)&frame->initial_loc64 + frame->initial_loc64;
+		opcode = frame->opcodes64;
+		size -= 8;
+	}
 
 	if (fde_has_augmentation_data) {
 		int l;
@@ -207,12 +222,19 @@ static int noinstr scs_handle_fde_frame(const struct eh_frame *frame,
 
 int noinstr scs_patch(const u8 eh_frame[], int size)
 {
+	/*
+	 * camellia: backports of upstream 6.13 (stable) "arm64/scs: Fix handling
+	 * of DWARF augmentation data in CIE/FDE frames" (keep the CIE's values for
+	 * the FDEs that follow it) and "Deal with 64-bit relative offsets in FDE
+	 * frames" (scp.ko's CIE is "zR" with pcrel|sdata8 pointers).
+	 */
+	bool fde_has_augmentation_data = true;
+	bool fde_use_sdata8 = false;
+	int code_alignment_factor = 1;
 	const u8 *p = eh_frame;
 
 	while (size > 4) {
 		const struct eh_frame *frame = (const void *)p;
-		bool fde_has_augmentation_data = true;
-		int code_alignment_factor = 1;
 		int ret;
 
 		if (frame->size == 0 ||
@@ -231,18 +253,30 @@ int noinstr scs_patch(const u8 eh_frame[], int size)
 			 * but given that the only sensible values are 1 or 4,
 			 * there is no point in decoding the whole thing.
 			 */
+			const char *aug = (const char *)p;
+
 			p += strlen(p) + 1;
 			if (!WARN_ON(*p & BIT(7)))
 				code_alignment_factor = *p;
+
+			/*
+			 * "zR": code alignment, data alignment, return address
+			 * register and augmentation size (one byte each for the
+			 * values arm64 uses), then the FDE pointer encoding.
+			 */
+			fde_use_sdata8 = !strcmp(aug, "zR") &&
+					 !((p[0] | p[1] | p[2] | p[3]) & BIT(7)) &&
+					 (p[4] & 0x0f) == DW_EH_PE_sdata8;
 		} else {
 			ret = scs_handle_fde_frame(frame,
 						   fde_has_augmentation_data,
 						   code_alignment_factor,
-						   true);
+						   fde_use_sdata8, true);
 			if (ret)
 				return ret;
 			scs_handle_fde_frame(frame, fde_has_augmentation_data,
-					     code_alignment_factor, false);
+					     code_alignment_factor,
+					     fde_use_sdata8, false);
 		}
 
 		p += sizeof(frame->size) + frame->size;
