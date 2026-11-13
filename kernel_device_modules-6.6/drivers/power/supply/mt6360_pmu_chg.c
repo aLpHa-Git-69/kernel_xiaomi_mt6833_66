@@ -31,7 +31,7 @@
 
 #include <linux/mfd/mt6360-private.h>
 
-static bool dbg_log_en = true;
+static bool dbg_log_en;	/* camellia: off as 4.14 (healthd/charger poll these ~1/s) */
 module_param(dbg_log_en, bool, 0644);
 #define mt_dbg(dev, fmt, ...) \
 	do { \
@@ -2952,7 +2952,7 @@ static int mt6360_charger_get_online(struct mt6360_chg_info *mci,
 			return ret;
 		}
 	}
-	dev_info(mci->dev, "%s: online = %d\n", __func__, pwr_rdy);
+	dev_dbg(mci->dev, "%s: online = %d\n", __func__, pwr_rdy);
 	*val = pwr_rdy;
 	return 0;
 }

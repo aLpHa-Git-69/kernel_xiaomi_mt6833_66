@@ -1016,7 +1016,11 @@ static enum power_supply_property battery_props[] = {
 	POWER_SUPPLY_PROP_CAPACITY_LEVEL,
 	POWER_SUPPLY_PROP_TIME_TO_FULL_NOW,
 	POWER_SUPPLY_PROP_CHARGE_FULL_DESIGN,
-	POWER_SUPPLY_PROP_CONSTANT_CHARGE_VOLTAGE,
+	/*
+	 * camellia: no CONSTANT_CHARGE_VOLTAGE, as 4.14's battery: mt6360's charger
+	 * psy has none to forward, so every read failed (and logged). The charger's
+	 * dynamic-CV set_property still reaches bm_set_property.
+	 */
 };
 
 static int bm_update_psy_property(struct mtk_battery *gm, enum bm_psy_prop prop)

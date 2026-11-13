@@ -133,6 +133,8 @@ ccflags-y += -DCFG_SUPPORT_AGPS_ASSIST=0
 ifneq ($(CONFIG_BUILD_NONE_STA), y)
 ccflags-y += -DWLAN_INCLUDE_PROC
 ccflags-y += -DCFG_SUPPORT_TSF_USING_BOOTTIME=1
+# camellia: ERROR|WARN|STATE|EVENT, no INFO class spam (the 4.14 gen4m default was ERROR only)
+ccflags-y += -DCFG_DEFAULT_DBG_LEVEL=0x0F
 ccflags-y += -DARP_MONITER_ENABLE=1
 ccflags-y += -DCFG_SUPPORT_PASSPOINT=1
 ccflags-y += -DCFG_HS20_DEBUG=1
