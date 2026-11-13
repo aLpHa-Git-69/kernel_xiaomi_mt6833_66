@@ -117,6 +117,9 @@ int mtk_cooler_camellia_init(void)
 #if IS_ENABLED(CONFIG_LEDS_MTK)
 	cl_backlight_dev = mtk_thermal_cooling_device_register("mtk-cl-backlight",
 		(void *)&g_backlight_id, &mtk_cl_backlight_ops);
+	/* stock mi_thermald releases the cap with def_target 2047 (> max_state) */
+	if (!IS_ERR_OR_NULL(cl_backlight_dev))
+		cl_backlight_dev->clamp_cur_state = true;
 #endif
 	if (apthermolmt_register_user(&ap_cl_gpu, ap_cl_gpu_log) < 0)
 		mtk_cooler_camellia_dprintk("no apthermolmt slot for gpu\n");

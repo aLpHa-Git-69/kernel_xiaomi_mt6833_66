@@ -627,8 +627,15 @@ cur_state_store(struct device *dev, struct device_attribute *attr,
 		return -EINVAL;
 
 	/* Requested state should be less than max_state + 1 */
-	if (state > cdev->max_state)
-		return -EINVAL;
+	if (state > cdev->max_state) {
+		/*
+		 * camellia: 4.14 passed any value to the driver; Xiaomi's
+		 * mi_thermald lifts the mtk-cl-backlight cap by writing 2047
+		 */
+		if (!cdev->clamp_cur_state)
+			return -EINVAL;
+		state = cdev->max_state;
+	}
 
 	mutex_lock(&cdev->lock);
 
