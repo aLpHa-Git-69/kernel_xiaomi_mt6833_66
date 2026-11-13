@@ -25,7 +25,7 @@
 
 #define PFX "hi259aac_camera_sensor"
 #define LOG_INF(format, args...)    \
-	pr_info(PFX "[%s] " format, __func__, ##args)
+	pr_debug(PFX "[%s] " format, __func__, ##args)
 
 static DEFINE_SPINLOCK(imgsensor_drv_lock);
 

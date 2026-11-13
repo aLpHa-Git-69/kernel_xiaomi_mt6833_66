@@ -39,7 +39,7 @@
 #define PFX "gc02m1b_camera_sensor"
 /****************************   Modify end    *******************************************/
 
-#define LOG_INF(format, args...)    pr_info(PFX "[%s] " format, __func__, ##args)
+#define LOG_INF(format, args...)    pr_debug(PFX "[%s] " format, __func__, ##args)
 
 #define MULTI_WRITE    1
 

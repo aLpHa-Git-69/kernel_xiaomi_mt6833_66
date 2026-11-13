@@ -2709,6 +2709,6 @@ extern int iBurstWriteReg_multi(u8 *pData, u32 bytes, u16 i2cId,
 static kal_uint16 read_cmos_sensor(kal_uint32 addr);
 static void write_cmos_sensor(kal_uint32 addr, kal_uint32 para);
  #define PFX "OV48B_AAC"
- #define LOG_INF(format, args...)    pr_info(PFX "[%s] " format, __FUNCTION__, ##args)
+ #define LOG_INF(format, args...)    pr_debug(PFX "[%s] " format, __FUNCTION__, ##args)
 #endif
 

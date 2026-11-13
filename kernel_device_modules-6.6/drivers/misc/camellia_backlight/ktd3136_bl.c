@@ -35,7 +35,7 @@ int ktd_hbm_mode;
 #define KTD_DEBUG
 
  #ifdef KTD_DEBUG
-#define LOG_DBG(fmt, args...) printk(KERN_INFO "[ktd]"fmt"\n", ##args)
+#define LOG_DBG(fmt, args...) pr_debug("[ktd]" fmt "\n", ##args)
 #endif
 
 int ktd_Exponential[2048] = {0, 10, 12, 14, 16, 20, 55, 80, 105, 131, 144, 150, 162, 171, 180, 198, 224, 252, 278, 304,  330, 356, 397,\
@@ -680,13 +680,13 @@ void ktd3137_brightness_set_workfunc(struct ktd3137_chip *chip, int brightness)
 	} else {
 		if (ktd_hbm_mode == 3) {
 			ktd3137_write_reg(chip->client, REG_MODE, 0xE1);//27.4mA
-			LOG_DBG(KERN_INFO "[%s]: ktd_hbm_mode = %d\n", __func__, ktd_hbm_mode);
+			LOG_DBG("[%s]: ktd_hbm_mode = %d\n", __func__, ktd_hbm_mode);
 		} else if (ktd_hbm_mode == 2) {
 			ktd3137_write_reg(chip->client, REG_MODE, 0xC9);//25mA
-			LOG_DBG(KERN_INFO "[%s]: ktd_hbm_mode = %d\n", __func__, ktd_hbm_mode);
+			LOG_DBG("[%s]: ktd_hbm_mode = %d\n", __func__, ktd_hbm_mode);
 		} else {
 			ktd3137_write_reg(chip->client, REG_MODE, 0xA9);//21.8mA
-			LOG_DBG(KERN_INFO "[%s]: ktd_hbm_mode = %d\n", __func__, ktd_hbm_mode);
+			LOG_DBG("[%s]: ktd_hbm_mode = %d\n", __func__, ktd_hbm_mode);
 		}
 	}
 
@@ -1269,7 +1269,7 @@ static int __init ktd3137_init(void)
 
 	err = i2c_add_driver(&ktd3137_driver);
 	if (err) {
-		LOG_DBG("ktd3137 driver failed,(errno = %d)\n", err);
+		pr_err("[ktd]ktd3137 driver failed,(errno = %d)\n", err);
 	} else {
 		LOG_DBG("Successfully added driver %s\n",
 			ktd3137_driver.driver.name);

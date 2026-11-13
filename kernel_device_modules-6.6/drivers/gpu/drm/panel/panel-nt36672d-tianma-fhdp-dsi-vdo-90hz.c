@@ -525,6 +525,7 @@ static struct mtk_panel_params ext_params = {
 	},
 	.is_cphy = 1,
 	.data_rate = 1076,
+	.change_fps_by_vfp_send_cmd = 1,
 	.dyn_fps = {
 		.switch_en = 1,
 #if HFP_SUPPORT
@@ -536,6 +537,14 @@ static struct mtk_panel_params ext_params = {
 		.dfps_cmd_table[4] = {0, 2, {0xFB, 0x01} },
 #else
 		.vact_timing_fps = 90,
+		/* camellia: 4.14's mode_switch sent this on every 60/90 Hz switch; 6.6's
+		 * VFP switch sends dfps_cmd_table (change_fps_by_vfp_send_cmd) instead.
+		 * Ends back on the user page for the ESD register reads. */
+		.dfps_cmd_table[0] = {0, 2, {0xFF, 0x25} },
+		.dfps_cmd_table[1] = {0, 2, {0xFB, 0x01} },
+		.dfps_cmd_table[2] = {0, 2, {0x18, 0x21} },
+		.dfps_cmd_table[3] = {0, 2, {0xFF, 0x10} },
+		.dfps_cmd_table[4] = {0, 2, {0xFB, 0x01} },
 #endif
 	},
 	.physical_width_um = LCM_PHYSICAL_WIDTH,
@@ -559,6 +568,7 @@ static struct mtk_panel_params ext_params_90hz = {
 	},
 	.is_cphy = 1,
 	.data_rate = 1076,
+	.change_fps_by_vfp_send_cmd = 1,
 	.dyn_fps = {
 		.switch_en = 1,
 #if HFP_SUPPORT
@@ -569,7 +579,15 @@ static struct mtk_panel_params ext_params_90hz = {
 		.dfps_cmd_table[3] = {0, 2, {0xFF, 0x10} },
 		.dfps_cmd_table[4] = {0, 2, {0xFB, 0x01} },
 #else
-	.vact_timing_fps = 90,
+		.vact_timing_fps = 90,
+		/* camellia: 4.14's mode_switch sent this on every 60/90 Hz switch; 6.6's
+		 * VFP switch sends dfps_cmd_table (change_fps_by_vfp_send_cmd) instead.
+		 * Ends back on the user page for the ESD register reads. */
+		.dfps_cmd_table[0] = {0, 2, {0xFF, 0x25} },
+		.dfps_cmd_table[1] = {0, 2, {0xFB, 0x01} },
+		.dfps_cmd_table[2] = {0, 2, {0x18, 0x20} },
+		.dfps_cmd_table[3] = {0, 2, {0xFF, 0x10} },
+		.dfps_cmd_table[4] = {0, 2, {0xFB, 0x01} },
 #endif
 	},
 	.physical_width_um = LCM_PHYSICAL_WIDTH,
@@ -659,7 +677,7 @@ static int nova_tianma_setbacklight_cmdq(void *dsi, dcs_write_gce cb, void *hand
 
 	if (level > 255)
 		level = 255;
-	pr_info("%s backlight = -%d\n", __func__, level);
+	pr_debug("%s backlight = -%d\n", __func__, level);
 	bl_tb0[1] = (u8)level;
 #if 0
 	char bl_tb0[] = {0x51, 0xf, 0xff};
@@ -771,13 +789,15 @@ static int nova_mode_switch(struct drm_panel *panel, struct drm_connector *conne
 		unsigned int dst_mode, enum MTK_PANEL_MODE_SWITCH_STAGE stage)
 {
 	int ret = 0;
-	//struct drm_display_mode *m = get_mode_by_id(panel, dst_mode);
+	/* 6.6 passes a mode index (4.14 passed the refresh rate) */
+	struct drm_display_mode *m = nova_get_mode_by_id_hfp(connector, dst_mode);
+	int fps = m ? drm_mode_vrefresh(m) : 0;
 
 	pr_info("%s cur_mode = %d dst_mode %d\n", __func__, cur_mode, dst_mode);
 
-	if (dst_mode == 60) { /* 60 switch to 120 */
+	if (fps == 60) { /* 60 switch to 120 */
 		nova_mode_switch_to_60(panel);
-	} else if (dst_mode == 90) { /* 1200 switch to 60 */
+	} else if (fps == 90) { /* 1200 switch to 60 */
 		nova_mode_switch_to_90(panel);
 	} else
 		ret = 1;
