@@ -195,7 +195,7 @@ static inline int moveAF(unsigned long a_u4Position)
 	spin_lock(g_pAF_SpinLock);
 	g_u4TargetPosition = a_u4Position;
 	spin_unlock(g_pAF_SpinLock);
-    LOG_INF("g_u4TargetPosition %6d\n", g_u4TargetPosition);
+    LOG_INF("g_u4TargetPosition %6lu\n", g_u4TargetPosition);
 
 	if (s4AF_WriteReg((unsigned short)g_u4TargetPosition) == 0) {
         //spin_lock(g_pAF_SpinLock);
@@ -213,11 +213,11 @@ static inline int moveAF(unsigned long a_u4Position)
 	if (RegPos != g_u4TargetPosition) {
 		mdelay(5);
 		while (retry < 3) {
-			LOG_INF("Reg Pos %6d != %6d,start retry=%d\n", RegPos, g_u4TargetPosition, retry);
+			LOG_INF("Reg Pos %6d != %6lu,start retry=%d\n", RegPos, g_u4TargetPosition, retry);
 			if (s4AF_WriteReg((unsigned short)g_u4TargetPosition) == 0) {
 				s4DW9800WAF_ReadReg(&RegPos);
 				if (RegPos == g_u4TargetPosition) {
-					LOG_INF("Reg Pos %6d == %6d,retry=%d\n", RegPos, g_u4TargetPosition, retry);
+					LOG_INF("Reg Pos %6d == %6lu,retry=%d\n", RegPos, g_u4TargetPosition, retry);
 					spin_lock(g_pAF_SpinLock);
 					g_u4CurrPosition = (unsigned long)g_u4TargetPosition;
 					spin_unlock(g_pAF_SpinLock);
@@ -232,7 +232,7 @@ static inline int moveAF(unsigned long a_u4Position)
 			}
 		}
 		if (retry == 3) {
-			LOG_INF("Reg Pos %6d != %6d,start retry=%d > 3 error\n", RegPos, g_u4TargetPosition, retry);
+			LOG_INF("Reg Pos %6d != %6lu,start retry=%d > 3 error\n", RegPos, g_u4TargetPosition, retry);
 			ret = -1;
 			return ret;
 		}

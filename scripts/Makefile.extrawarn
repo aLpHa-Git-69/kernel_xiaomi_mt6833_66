@@ -18,6 +18,14 @@ KBUILD_CFLAGS += -Wno-trigraphs
 KBUILD_CFLAGS += $(call cc-disable-warning,frame-address,)
 KBUILD_CFLAGS += $(call cc-disable-warning, address-of-packed-member)
 
+# Clang may emit a warning when a const variable, such as the dummy variables
+# in typecheck(), or const member of an aggregate type are not initialized,
+# which can result in unexpected behavior. However, in many audited cases of
+# the "field" variant of the warning, this is a false positive. If it does
+# result in unexpected behavior, CONFIG_INIT_STACK_ZERO is enabled. Disable this
+# warning by default. (camellia: as upstream 6.6-stable, for clang >= 21)
+KBUILD_CFLAGS += $(call cc-disable-warning, default-const-init-unsafe)
+
 ifneq ($(CONFIG_FRAME_WARN),0)
 KBUILD_CFLAGS += -Wframe-larger-than=$(CONFIG_FRAME_WARN)
 endif

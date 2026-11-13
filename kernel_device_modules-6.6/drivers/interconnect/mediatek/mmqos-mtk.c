@@ -1971,6 +1971,8 @@ int mtk_mmqos_probe(struct platform_device *pdev)
 		ret = -ENOMEM;
 		goto err;
 	}
+	/* __counted_by(num_nodes): set before data->nodes[] is written */
+	data->num_nodes = mmqos_desc->num_nodes;
 	for (i = 0; i < mmqos_desc->num_nodes; i++) {
 		node_desc = &mmqos_desc->nodes[i];
 		node = mtk_icc_node_create(node_desc->id);
@@ -2140,7 +2142,6 @@ int mtk_mmqos_probe(struct platform_device *pdev)
 		}
 		data->nodes[i] = node;
 	}
-	data->num_nodes = mmqos_desc->num_nodes;
 	mmqos->prov.data = data;
 
 
