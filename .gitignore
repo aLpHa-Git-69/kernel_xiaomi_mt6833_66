@@ -173,3 +173,6 @@ sphinx_*/
 
 # camellia
 out/
+
+# camellia: local build paths (CLANG_BIN, STOCK_BOOT, STOCK_VENDOR, MKBOOTIMG)
+/camellia/local.env
