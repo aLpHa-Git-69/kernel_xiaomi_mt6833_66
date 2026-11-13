@@ -179,23 +179,6 @@ void mtk_dmabuf_page_pool_destroy(struct mtk_dmabuf_page_pool *pool)
 }
 EXPORT_SYMBOL_GPL(mtk_dmabuf_page_pool_destroy);
 
-#if 0 /* camellia: unused: mtk_dmabuf_page_pool_get_size */
-unsigned long mtk_dmabuf_page_pool_get_size(struct mtk_dmabuf_page_pool *pool)
-{
-	int i;
-	unsigned long num_pages = 0;
-
-	spin_lock(&pool->lock);
-	for (i = 0; i < POOL_TYPE_SIZE; ++i)
-		num_pages += pool->count[i];
-	spin_unlock(&pool->lock);
-	num_pages <<= pool->order; /* pool order is immutable */
-
-	return num_pages * PAGE_SIZE;
-}
-EXPORT_SYMBOL_GPL(mtk_dmabuf_page_pool_get_size);
-#endif /* mtk_dmabuf_page_pool_get_size */
-
 int mtk_dmabuf_page_pool_do_shrink(struct mtk_dmabuf_page_pool *pool, gfp_t gfp_mask,
 				      int nr_to_scan)
 {

@@ -116,42 +116,6 @@ static bool jd_run_atom(struct kbase_jd_atom *katom)
 	return kbasep_js_add_job(kctx, katom);
 }
 
-#if 0 /* camellia: unused: kbase_jd_dep_clear_locked */
-void kbase_jd_dep_clear_locked(struct kbase_jd_atom *katom)
-{
-	struct kbase_device *kbdev;
-
-	KBASE_DEBUG_ASSERT(katom);
-	kbdev = katom->kctx->kbdev;
-	KBASE_DEBUG_ASSERT(kbdev);
-
-	/* Check whether the atom's other dependencies were already met. If
-	 * katom is a GPU atom then the job scheduler may be able to represent
-	 * the dependencies, hence we may attempt to submit it before they are
-	 * met. Other atoms must have had both dependencies resolved.
-	 */
-	if (IS_GPU_ATOM(katom) || (!kbase_jd_katom_dep_atom(&katom->dep[0]) &&
-				   !kbase_jd_katom_dep_atom(&katom->dep[1]))) {
-		/* katom dep complete, attempt to run it */
-		bool resched = false;
-
-		KBASE_TLSTREAM_TL_RUN_ATOM_START(katom->kctx->kbdev, katom,
-						 kbase_jd_atom_id(katom->kctx, katom));
-		resched = jd_run_atom(katom);
-		KBASE_TLSTREAM_TL_RUN_ATOM_END(katom->kctx->kbdev, katom,
-					       kbase_jd_atom_id(katom->kctx, katom));
-
-		if (katom->status == KBASE_JD_ATOM_STATE_COMPLETED) {
-			/* The atom has already finished */
-			resched |= kbase_jd_done_nolock(katom, true);
-		}
-
-		if (resched)
-			kbase_js_sched_all(kbdev);
-	}
-}
-#endif /* kbase_jd_dep_clear_locked */
-
 void kbase_jd_free_external_resources(struct kbase_jd_atom *katom)
 {
 	CSTD_UNUSED(katom);

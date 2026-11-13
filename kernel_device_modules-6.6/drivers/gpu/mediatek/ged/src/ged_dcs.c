@@ -168,13 +168,6 @@ struct gpufreq_core_mask_info *dcs_get_avail_mask_table(void)
 	return g_avail_mask_table;
 }
 
-#if 0 /* camellia: unused: dcs_get_dcs_opp_setting */
-int dcs_get_dcs_opp_setting(void)
-{
-	return g_dcs_opp_setting;
-}
-#endif /* dcs_get_dcs_opp_setting */
-
 int dcs_get_cur_core_num(void)
 {
 	return g_cur_core_num;
@@ -274,19 +267,6 @@ void dcs_fix_reset(void)
 	pr_info("g_debug timer reset  %X", g_fix_core_num);
 }
 
-#if 0 /* camellia: unused: dcs_get_fix_num */
-unsigned int dcs_get_fix_num(void)
-{
-	return g_fix_core_num;
-}
-#endif /* dcs_get_fix_num */
-#if 0 /* camellia: unused: dcs_get_fix_mask */
-unsigned int dcs_get_fix_mask(void)
-{
-	return g_fix_core_mask;
-}
-#endif /* dcs_get_fix_mask */
-
 bool dcs_get_setting_dirty(void)
 {
 	return g_setting_dirty;
@@ -378,16 +358,6 @@ void dcs_set_adjust_support(unsigned int val)
 }
 EXPORT_SYMBOL(dcs_set_adjust_support);
 
-#if 0 /* camellia: unused: dcs_set_adjust_ratio_th */
-void dcs_set_adjust_ratio_th(unsigned int val)
-{
-	mutex_lock(&g_DCS_lock);
-	g_adjust_dcs_ratio_th = val;
-	mutex_unlock(&g_DCS_lock);
-}
-EXPORT_SYMBOL(dcs_set_adjust_ratio_th);
-#endif /* dcs_set_adjust_ratio_th */
-
 void dcs_set_adjust_fr_cnt(unsigned int val)
 {
 	mutex_lock(&g_DCS_lock);
@@ -395,16 +365,6 @@ void dcs_set_adjust_fr_cnt(unsigned int val)
 	mutex_unlock(&g_DCS_lock);
 }
 EXPORT_SYMBOL(dcs_set_adjust_fr_cnt);
-
-#if 0 /* camellia: unused: dcs_set_adjust_non_dcs_th */
-void dcs_set_adjust_non_dcs_th(unsigned int val)
-{
-	mutex_lock(&g_DCS_lock);
-	g_adjust_dcs_non_dcs_th = val;
-	mutex_unlock(&g_DCS_lock);
-}
-EXPORT_SYMBOL( dcs_set_adjust_non_dcs_th);
-#endif /* dcs_set_adjust_non_dcs_th */
 
 unsigned int dcs_get_adjust_support(void)
 {

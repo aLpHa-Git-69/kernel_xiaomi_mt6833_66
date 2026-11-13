@@ -2010,47 +2010,6 @@ static int clk_mt6833_top_probe(struct platform_device *pdev)
 }
 
 /* for suspend LDVT only */
-#if 0 /* camellia: unused: pll_force_off_internal */
-static void pll_force_off_internal(const struct mtk_pll_data *plls,
-		void __iomem *base)
-{
-	void __iomem *rst_reg, *en_reg, *pwr_reg;
-
-	for (; plls->name; plls++) {
-		/* do not pwrdn the AO PLLs */
-		if ((plls->flags & PLL_AO) == PLL_AO)
-			continue;
-
-		if ((plls->flags & HAVE_RST_BAR) == HAVE_RST_BAR) {
-			rst_reg = base + plls->en_reg;
-			writel(readl(rst_reg) & ~plls->rst_bar_mask,
-				rst_reg);
-		}
-
-		en_reg = base + plls->en_reg;
-
-		pwr_reg = base + plls->pwr_reg;
-
-		writel(readl(en_reg) & ~plls->en_mask,
-				en_reg);
-		writel(readl(pwr_reg) | (0x2),
-				pwr_reg);
-		writel(readl(pwr_reg) & ~(0x1),
-				pwr_reg);
-	}
-}
-#endif /* pll_force_off_internal */
-
-#if 0 /* camellia: unused: pll_force_off */
-void pll_force_off(void)
-{
-	int i;
-
-	for (i = 0; i < PLL_SYS_NUM; i++)
-		pll_force_off_internal(plls_data[i], plls_base[i]);
-}
-EXPORT_SYMBOL(pll_force_off);
-#endif /* pll_force_off */
 
 static const struct of_device_id of_match_clk_mt6833[] = {
 	{

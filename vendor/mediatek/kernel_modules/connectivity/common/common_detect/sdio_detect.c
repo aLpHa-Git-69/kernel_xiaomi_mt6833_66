@@ -148,29 +148,6 @@ int hif_sdio_match_chipid_by_dev_id(const struct sdio_device_id *id)
 	return chipId;
 }
 
-#if 0 /* camellia: unused: sdio_detect_query_chipid */
-int sdio_detect_query_chipid(int waitFlag)
-{
-	unsigned int timeSlotMs = 200;
-	unsigned int maxTimeSlot = 30;
-	unsigned int counter = 0;
-	/* gComboChipId = 0x6628; */
-	if (waitFlag == 0)
-		return gComboChipId;
-	if (hif_sdio_is_chipid_valid(gComboChipId) >= 0)
-		return gComboChipId;
-
-	while (counter < maxTimeSlot) {
-		if (hif_sdio_is_chipid_valid(gComboChipId) >= 0)
-			break;
-		msleep(timeSlotMs);
-		counter++;
-	}
-
-	return gComboChipId;
-}
-#endif /* sdio_detect_query_chipid */
-
 int sdio_detect_do_autok(int chipId)
 {
 	int i_ret = 0;

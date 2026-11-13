@@ -489,23 +489,6 @@ EXPORT_SYMBOL_GPL(of_mtk_icc_get);
  * This function allows consumers to append a tag to the requests associated
  * with a path, so that a different aggregation could be done based on this tag.
  */
-#if 0 /* camellia: unused: mtk_icc_set_tag */
-void mtk_icc_set_tag(struct icc_path *path, u32 tag)
-{
-	int i;
-
-	if (!path)
-		return;
-
-	mutex_lock(&icc_lock);
-
-	for (i = 0; i < path->num_nodes; i++)
-		path->reqs[i].tag = tag;
-
-	mutex_unlock(&icc_lock);
-}
-EXPORT_SYMBOL_GPL(mtk_icc_set_tag);
-#endif /* mtk_icc_set_tag */
 
 
 int mtk_icc_set_bw_not_update(struct icc_path *path, u32 avg_bw, u32 peak_bw)
@@ -842,44 +825,6 @@ EXPORT_SYMBOL_GPL(mtk_icc_link_create);
  *
  * Return: 0 on success, or an error code otherwise
  */
-#if 0 /* camellia: unused: mtk_icc_link_destroy */
-int mtk_icc_link_destroy(struct icc_node *src, struct icc_node *dst)
-{
-	struct icc_node **new;
-	size_t slot;
-	int ret = 0;
-
-	if (IS_ERR_OR_NULL(src))
-		return -EINVAL;
-
-	if (IS_ERR_OR_NULL(dst))
-		return -EINVAL;
-
-	mutex_lock(&icc_lock);
-
-	for (slot = 0; slot < src->num_links; slot++)
-		if (src->links[slot] == dst)
-			break;
-
-	if (WARN_ON(slot == src->num_links)) {
-		ret = -ENXIO;
-		goto out;
-	}
-
-	src->links[slot] = src->links[--src->num_links];
-
-	new = krealloc(src->links, src->num_links * sizeof(*src->links),
-		       GFP_KERNEL);
-	if (new)
-		src->links = new;
-
-out:
-	mutex_unlock(&icc_lock);
-
-	return ret;
-}
-EXPORT_SYMBOL_GPL(mtk_icc_link_destroy);
-#endif /* mtk_icc_link_destroy */
 
 /**
  * icc_node_add() - add interconnect node to interconnect provider

@@ -502,22 +502,6 @@ int ccu_unlock_user_mutex(void)
 	return 0;
 }
 
-#if 0 /* camellia: unused: ccu_lock_ion_client_mutex */
-int ccu_lock_ion_client_mutex(void)
-{
-	mutex_lock(&g_ccu_device->ion_client_mutex);
-	return 0;
-}
-#endif /* ccu_lock_ion_client_mutex */
-
-#if 0 /* camellia: unused: ccu_unlock_ion_client_mutex */
-int ccu_unlock_ion_client_mutex(void)
-{
-	mutex_unlock(&g_ccu_device->ion_client_mutex);
-	return 0;
-}
-#endif /* ccu_unlock_ion_client_mutex */
-
 /*---------------------------------------------------------------------------*/
 /* IOCTL: implementation                                                     */
 /*---------------------------------------------------------------------------*/

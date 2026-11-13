@@ -189,20 +189,3 @@ int mtk_lp_sysfs_entry_func_node_remove(
 	return bRet;
 }
 EXPORT_SYMBOL(mtk_lp_sysfs_entry_func_node_remove);
-
-#if 0 /* camellia: unused: mtk_lp_sysfs_entry_func_group_create */
-int mtk_lp_sysfs_entry_func_group_create(const char *name,
-		int mode, struct mtk_lp_sysfs_group *_group,
-		struct mtk_lp_sysfs_handle *parent,
-		struct mtk_lp_sysfs_handle *handle)
-{
-	int bRet;
-
-	mutex_lock(&mtk_lp_sysfs_locker);
-	bRet = mtk_lp_sysfs_entry_group_create_plat(name
-			, mode, _group, parent, handle);
-	mutex_unlock(&mtk_lp_sysfs_locker);
-	return bRet;
-}
-EXPORT_SYMBOL(mtk_lp_sysfs_entry_func_group_create);
-#endif /* mtk_lp_sysfs_entry_func_group_create */

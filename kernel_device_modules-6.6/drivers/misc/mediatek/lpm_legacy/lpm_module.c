@@ -265,14 +265,6 @@ int lpm_model_register(const char *name, struct lpm_model *lpm)
 }
 EXPORT_SYMBOL(lpm_model_register);
 
-#if 0 /* camellia: unused: lpm_model_unregister */
-int lpm_model_unregister(const char *name)
-{
-	return __lpm_model_register(name, NULL);
-}
-EXPORT_SYMBOL(lpm_model_unregister);
-#endif /* lpm_model_unregister */
-
 static int __lpm_issuer_register(struct lpm_issuer *issuer)
 {
 	struct lpm_module_reg reg = {
@@ -291,16 +283,6 @@ int lpm_issuer_register(struct lpm_issuer *issuer)
 	return __lpm_issuer_register(issuer);
 }
 EXPORT_SYMBOL(lpm_issuer_register);
-
-#if 0 /* camellia: unused: lpm_issuer_unregister */
-int lpm_issuer_unregister(struct lpm_issuer *issuer)
-{
-	if (issuer != lpm_system.issuer)
-		return -EINVAL;
-	return __lpm_issuer_register(NULL);
-}
-EXPORT_SYMBOL(lpm_issuer_unregister);
-#endif /* lpm_issuer_unregister */
 
 static int lpm_cpuidle_prepare(struct cpuidle_driver *drv, int index)
 {

@@ -621,16 +621,6 @@ int mcp_close_session(struct mcp_session *session)
 /*
  * Session is to be removed from NWd records as SWd has been wiped clean
  */
-#if 0 /* camellia: unused: mcp_cleanup_session */
-void mcp_cleanup_session(struct mcp_session *session)
-{
-	mutex_lock(&l_ctx.sessions_lock);
-	session->state = MCP_SESSION_CLOSED;
-	list_del(&session->list);
-	nq_session_exit(&session->nq_session);
-	mutex_unlock(&l_ctx.sessions_lock);
-}
-#endif /* mcp_cleanup_session */
 
 int mcp_map(u32 session_id, struct tee_mmu *mmu, u32 *sva)
 {

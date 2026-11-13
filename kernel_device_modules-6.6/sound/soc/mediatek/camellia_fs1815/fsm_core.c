@@ -335,26 +335,6 @@ struct fsm_dev *fsm_get_fsm_dev(uint8_t addr)
 	return NULL;
 }
 
-#if 0 /* camellia: unused: fsm_get_fsm_dev_by_id */
-struct fsm_dev *fsm_get_fsm_dev_by_id(int id)
-{
-	fsm_config_t *cfg = fsm_get_config();
-	fsm_dev_t *fsm_dev;
-
-	if (!cfg || cfg->dev_count <= 0) {
-		return NULL;
-	}
-
-	list_for_each_entry(fsm_dev, &fsm_dev_list, list) {
-		if (fsm_dev && id == fsm_dev->id) {
-			return fsm_dev;
-		}
-	}
-
-	return NULL;
-}
-#endif /* fsm_get_fsm_dev_by_id */
-
 int fsm_reg_write(fsm_dev_t *fsm_dev, uint8_t reg, uint16_t val)
 {
 	int ret;
@@ -853,27 +833,6 @@ int fsm_init_dev_list(fsm_dev_t *fsm_dev)
 	return 0;
 }
 
-#if 0 /* camellia: unused: fsm_get_list_by_idx */
-void *fsm_get_list_by_idx(fsm_dev_t *fsm_dev, int idx)
-{
-	dev_list_t *dev_list;
-	fsm_index_t *index;
-	uint8_t *pdata;
-
-	if (fsm_dev == NULL) {
-		return NULL;
-	}
-	dev_list = fsm_dev->dev_list;
-	if (dev_list == NULL) {
-		return NULL;
-	}
-	index = &dev_list->index[0];
-	pdata = (uint8_t *)index;
-
-	return (void *)(&pdata[index[idx].offset]);
-}
-#endif /* fsm_get_list_by_idx */
-
 void *fsm_get_data_list(fsm_dev_t *fsm_dev, int type)
 {
 	dev_list_t *dev_list;
@@ -1178,13 +1137,6 @@ int fsm_config_vol(fsm_dev_t *fsm_dev)
 	return fsm_reg_write(fsm_dev, volctrl, volume);
 }
 
-#if 0 /* camellia: unused: fsm_ops_dummy */
-int fsm_ops_dummy(fsm_dev_t *fsm_dev)
-{
-	return 0;
-}
-#endif /* fsm_ops_dummy */
-
 /*
  * fsm stub api
  */
@@ -1303,43 +1255,6 @@ int fsm_stub_dev_deinit(fsm_dev_t *fsm_dev)
 
 	return 0;
 }
-
-#if 0 /* camellia: unused: fsm_save_re25 */
-int fsm_save_re25(struct fsm_calib_v2 *data)
-{
-	int ret = 0;
-
-	if (!data) {
-		return -EINVAL;
-	}
-//#if defined(CONFIG_FSM_I2C)
-//	ret |= fsm_write_efsdata(data);
-//#elif defined(FSM_HAL_SUPPORT)
-//	ret |= fsm_hal_save_re25(data);
-//#endif
-	return ret;
-}
-#endif /* fsm_save_re25 */
-
-#if 0 /* camellia: unused: fsm_get_re25 */
-int fsm_get_re25(struct fsm_calib_v2 *data)
-{
-	if (!data) {
-		return -EINVAL;
-	}
-	if (data->dev_count > 0) {
-		// already loaded
-		return 0;
-	}
-//#if defined(CONFIG_FSM_I2C)
-//	return fsm_read_efsdata(data);
-//#elif defined(FSM_HAL_SUPPORT)
-//	return fsm_hal_get_re25(data);
-//#else
-	return -EINVAL;
-//#endif
-}
-#endif /* fsm_get_re25 */
 
 int fsm_dev_count(void)
 {
@@ -1708,30 +1623,3 @@ void fsm_stereo_rotation(int next_angle)
 	cfg->cur_angle = cfg->next_angle;
 	fsm_mutex_unlock();
 }
-
-#if 0 /* camellia: unused: fsm_dump */
-void fsm_dump(void)
-{
-	fsm_dev_t *fsm_dev = NULL;
-	fsm_mutex_lock();
-	fsm_list_func(fsm_dev, fsm_reg_dump);
-	fsm_mutex_unlock();
-}
-#endif /* fsm_dump */
-
-#if 0 /* camellia: unused: fsm_deinit */
-void fsm_deinit(void)
-{
-	fsm_dev_t *fsm_dev = NULL;
-
-	fsm_mutex_lock();
-	if (fsm_dev_count() <= 0) {
-		fsm_mutex_unlock();
-		return;
-	}
-	fsm_list_func(fsm_dev, fsm_stub_dev_deinit);
-	fsm_firmware_deinit();
-	fsm_mutex_unlock();
-	fsm_hal_close();
-}
-#endif /* fsm_deinit */

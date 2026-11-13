@@ -217,18 +217,6 @@ int glGetRstReason(void)
 	return eResetReason;
 }
 
-#if 0 /* camellia: unused: kalIsRstPreventFwOwn */
-u_int8_t kalIsRstPreventFwOwn(void)
-{
-#if CFG_CHIP_RESET_SUPPORT
-	return fgIsRstPreventFwOwn;
-#else
-	return FALSE;
-#endif
-
-}
-#endif /* kalIsRstPreventFwOwn */
-
 /*----------------------------------------------------------------------------*/
 /*!
  * @brief This routine is called for checking if connectivity chip is
@@ -290,17 +278,6 @@ void glResetCleanResetFlag(void)
 	g_IsWfsysBusHang = FALSE;
 #endif
 }
-
-#if 0 /* camellia: unused: glIsL0Resetting */
-u_int8_t glIsL0Resetting(void)
-{
-#if CFG_CHIP_RESET_SUPPORT
-	return fgIsL0Resetting;
-#else
-	return FALSE;
-#endif
-}
-#endif /* glIsL0Resetting */
 
 void glResetUpdateL0Flag(u_int8_t status)
 {
@@ -457,15 +434,6 @@ void glResetUninit(void)
  * @retval  None
  */
 /*----------------------------------------------------------------------------*/
-#if 0 /* camellia: unused: glSendResetRequest */
-void glSendResetRequest(void)
-{
-#if CFG_WMT_RESET_API_SUPPORT
-
-	/* WMT thread would trigger whole chip reset itself */
-#endif
-}
-#endif /* glSendResetRequest */
 
 #if CFG_WMT_RESET_API_SUPPORT
 #ifdef CONFIG_PM
@@ -1752,20 +1720,6 @@ static u_int8_t glResetMsgHandler(enum ENUM_RST_MSG MsgBody)
 	return TRUE;
 }
 
-#if 0 /* camellia: unused: glRstCheckRstCriteria */
-bool glRstCheckRstCriteria(void)
-{
-	/*
-	 * for those cases which need to trigger whole chip reset
-	 * when fgIsResetting = TRUE
-	 */
-	if (g_IsSubsysRstOverThreshold || g_IsWfsysBusHang)
-		return FALSE;
-	else
-		return TRUE;
-}
-#endif /* glRstCheckRstCriteria */
-
 void glRstWholeChipRstParamInit(void)
 {
 	g_IsSubsysRstOverThreshold = FALSE;
@@ -2109,17 +2063,6 @@ int wlan_post_whole_chip_rst_v2(void)
 	return 0;
 }
 #endif
-
-#if 0 /* camellia: unused: kalIsWholeChipResetting */
-u_int8_t kalIsWholeChipResetting(void)
-{
-#if CFG_CHIP_RESET_SUPPORT
-	return g_IsWholeChipRst;
-#else
-	return FALSE;
-#endif
-}
-#endif /* kalIsWholeChipResetting */
 
 void glReset_timeinit(struct timespec64 *rNowTs, struct timespec64 *rLastTs)
 {
@@ -2532,50 +2475,6 @@ void kalSetRstEvent(u_int8_t force_dump)
 	wake_up_interruptible(&g_waitq_rst);
 }
 
-#if 0 /* camellia: unused: kalSetRstFwNotifyL05Event */
-void kalSetRstFwNotifyL05Event(u_int8_t force_dump)
-{
-	struct RESET_STRUCT *rst = &wifi_rst;
-
-	KAL_WAKE_LOCK(NULL, g_IntrWakeLock);
-
-	rst->force_dump = force_dump;
-	set_bit(GLUE_FLAG_RST_FW_NOTIFY_L05_BIT, &rst->ulFlag);
-
-	/* when we got interrupt, we wake up servie thread */
-	wake_up_interruptible(&g_waitq_rst);
-}
-#endif /* kalSetRstFwNotifyL05Event */
-
-#if 0 /* camellia: unused: kalSetRstFwNotifyTriggerL0Event */
-void kalSetRstFwNotifyTriggerL0Event(u_int8_t force_dump)
-{
-	struct RESET_STRUCT *rst = &wifi_rst;
-
-	KAL_WAKE_LOCK(NULL, g_IntrWakeLock);
-
-	rst->force_dump = force_dump;
-	set_bit(GLUE_FLAG_RST_FW_NOTIFY_L0_BIT, &rst->ulFlag);
-
-	/* when we got interrupt, we wake up servie thread */
-	wake_up_interruptible(&g_waitq_rst);
-}
-#endif /* kalSetRstFwNotifyTriggerL0Event */
-
-#if 0 /* camellia: unused: glRstSetRstEndEvent */
-void glRstSetRstEndEvent(void)
-{
-	struct RESET_STRUCT *rst = &wifi_rst;
-
-	KAL_WAKE_LOCK(NULL, g_IntrWakeLock);
-
-	set_bit(GLUE_FLAG_RST_END_BIT, &rst->ulFlag);
-
-	/* when we got interrupt, we wake up servie thread */
-	wake_up_interruptible(&g_waitq_rst);
-}
-#endif /* glRstSetRstEndEvent */
-
 int reset_wait_for_trigger_completion(void)
 {
 	uint32_t waitRet = 0;
@@ -2595,12 +2494,6 @@ int reset_wait_for_trigger_completion(void)
 	return waitRet > 0 ? 0 : -ETIMEDOUT;
 }
 
-#if 0 /* camellia: unused: reset_done_trigger_completion */
-void reset_done_trigger_completion(void)
-{
-	complete(&g_triggerComp);
-}
-#endif /* reset_done_trigger_completion */
 #else
 #if (CFG_CHIP_RESET_KO_SUPPORT == 0)
 static u_int8_t is_bt_exist(void)

@@ -721,25 +721,6 @@ err:
 }
 EXPORT_SYMBOL_GPL(ssusb_offload_register);
 
-#if 0 /* camellia: unused: ssusb_offload_unregister */
-int ssusb_offload_unregister(struct ssusb_offload *offload)
-{
-	struct ssusb_mtk *ssusb = offload->ssusb;
-	int ret = 0;
-
-	if (IS_ERR_OR_NULL(offload) || IS_ERR_OR_NULL(offload->ssusb)) {
-		ret = -EINVAL;
-		goto err;
-	}
-
-	offload->ssusb = NULL;
-	ssusb->offload = NULL;
-err:
-	return ret;
-}
-EXPORT_SYMBOL_GPL(ssusb_offload_unregister);
-#endif /* ssusb_offload_unregister */
-
 void ssusb_toggle_vbus(struct ssusb_mtk *ssusb)
 {
 	u32 misc;

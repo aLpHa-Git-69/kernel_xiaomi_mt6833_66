@@ -62,34 +62,6 @@ int lpm_pwr_gs_compare(int comparer, int user)
 }
 EXPORT_SYMBOL(lpm_pwr_gs_compare);
 
-#if 0 /* camellia: unused: lpm_pwr_gs_compare_by_type */
-int lpm_pwr_gs_compare_by_type(int comparer, int user,
-						      unsigned int type)
-{
-	int ret = 0;
-
-	if ((comparer < 0) || (comparer >= LPM_GS_CMP_MAX)
-	    || !lpm_gs_cmps[comparer])
-		return -EINVAL;
-
-	if ((user < 0) || (user >= LPM_PWR_GS_TYPE_MAX))
-		return -EINVAL;
-
-	spin_lock(&lpm_gs_locker);
-
-	if (lpm_gs_cmps[comparer]->cmp_by_type)
-		lpm_gs_cmps[comparer]->cmp_by_type(user, type);
-	else if (lpm_gs_cmps[comparer]->cmp)
-		lpm_gs_cmps[comparer]->cmp(user);
-	else
-		ret = -EACCES;
-
-	spin_unlock(&lpm_gs_locker);
-	return ret;
-}
-EXPORT_SYMBOL(lpm_pwr_gs_compare_by_type);
-#endif /* lpm_pwr_gs_compare_by_type */
-
 int lpm_pwr_gs_compare_init(int comparer, void *info)
 {
 	int ret = 0;

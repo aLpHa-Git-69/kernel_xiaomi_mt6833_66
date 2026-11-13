@@ -805,17 +805,6 @@ void p2pDeactivateAllLink(
 	}
 }
 
-#if 0 /* camellia: unused: p2pGetDefaultRoleFsmInfo */
-struct P2P_ROLE_FSM_INFO *p2pGetDefaultRoleFsmInfo(
-	struct ADAPTER *prAdapter,
-	enum ENUM_IFTYPE eIftype)
-
-{
-	return P2P_ROLE_INDEX_2_ROLE_FSM_INFO(prAdapter,
-		P2P_MAIN_ROLE_INDEX);
-}
-#endif /* p2pGetDefaultRoleFsmInfo */
-
 struct BSS_INFO *p2pGetDefaultLinkBssInfo(
 	struct ADAPTER *prAdapter,
 	struct BSS_INFO *prBssInfo)
@@ -1316,31 +1305,5 @@ p2pNeedAppendP2pIE(
 
 	return TRUE;
 }
-
-#if 0 /* camellia: unused: p2pNeedSkipProbeResp */
-u_int8_t
-p2pNeedSkipProbeResp(
-	struct ADAPTER *ad,
-	struct BSS_INFO *bss)
-{
-#if (CFG_SUPPORT_802_11BE_MLO == 1)
-	if (ad && ad->rWifiVar.fgSkipP2pProbeResp &&
-	    bss && IS_BSS_APGO(bss)) {
-		struct MLD_BSS_INFO *mld =
-			mldBssGetByBss(ad, bss);
-
-		if (IS_MLD_BSSINFO_MULTI(mld) &&
-		    bss->ucLinkIndex != P2P_MAIN_LINK_INDEX) {
-			DBGLOG(BSS, LOUD,
-				"Skip p2p ie for role%d\n",
-				bss->u4PrivateData);
-			return TRUE;
-		}
-	}
-#endif
-
-	return FALSE;
-}
-#endif /* p2pNeedSkipProbeResp */
 
 #endif /* CFG_ENABLE_WIFI_DIRECT */

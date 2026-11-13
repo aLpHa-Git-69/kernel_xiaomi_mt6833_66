@@ -179,33 +179,6 @@ void hs20FillProreqExtCapIE(struct ADAPTER *prAdapter, uint8_t *pucIE)
  * \return VOID
  */
 /*---------------------------------------------------------------------------*/
-#if 0 /* camellia: unused: hs20FillHS20IE */
-void hs20FillHS20IE(struct ADAPTER *prAdapter, uint8_t *pucIE)
-{
-	struct IE_HS20_INDICATION *prHS20IndicationIe;
-	/* P_HS20_INFO_T prHS20Info; */
-	uint8_t aucWfaOui[] = VENDOR_OUI_WFA_SPECIFIC;
-
-	/* prHS20Info = &(prAdapter->rWifiVar.rHS20Info); */
-
-	prHS20IndicationIe = (struct IE_HS20_INDICATION *) pucIE;
-
-	prHS20IndicationIe->ucId = ELEM_ID_VENDOR;
-	prHS20IndicationIe->ucLength =
-		sizeof(struct IE_HS20_INDICATION) - ELEM_HDR_LEN;
-	prHS20IndicationIe->aucOui[0] = aucWfaOui[0];
-	prHS20IndicationIe->aucOui[1] = aucWfaOui[1];
-	prHS20IndicationIe->aucOui[2] = aucWfaOui[2];
-	prHS20IndicationIe->ucType = VENDOR_OUI_TYPE_HS20;
-
-	/* For PASSPOINT_R1 */
-	/* prHS20IndicationIe->ucHotspotConfig = 0x00; */
-
-	/* For PASSPOINT_R2 */
-	prHS20IndicationIe->ucHotspotConfig = 0x10;
-
-}
-#endif /* hs20FillHS20IE */
 
 /*---------------------------------------------------------------------------*/
 /*!
@@ -218,27 +191,6 @@ void hs20FillHS20IE(struct ADAPTER *prAdapter, uint8_t *pucIE)
  * \return the length of composed HS20 IE
  */
 /*---------------------------------------------------------------------------*/
-#if 0 /* camellia: unused: hs20CalculateHS20RelatedIEForProbeReq */
-uint32_t hs20CalculateHS20RelatedIEForProbeReq(struct ADAPTER *prAdapter,
-		uint8_t *pucTargetBSSID)
-{
-	uint32_t u4IeLength;
-
-	if (0)			/* Todo:: Not HS20 STA */
-		return 0;
-
-	u4IeLength = sizeof(struct IE_HS20_INDICATION)
-		+ /* sizeof(IE_INTERWORKING_T) */ +
-		(ELEM_HDR_LEN + ELEM_MAX_LEN_EXT_CAP);
-
-	if (!pucTargetBSSID) {
-		/* Todo:: Nothing */
-		/* u4IeLength -= MAC_ADDR_LEN; */
-	}
-
-	return u4IeLength;
-}
-#endif /* hs20CalculateHS20RelatedIEForProbeReq */
 
 /*---------------------------------------------------------------------------*/
 /*!
@@ -252,42 +204,6 @@ uint32_t hs20CalculateHS20RelatedIEForProbeReq(struct ADAPTER *prAdapter,
  * \return the wlan status
  */
 /*---------------------------------------------------------------------------*/
-#if 0 /* camellia: unused: hs20GenerateHS20RelatedIEForProbeReq */
-uint32_t hs20GenerateHS20RelatedIEForProbeReq(struct ADAPTER *prAdapter,
-		uint8_t *pucTargetBSSID, uint8_t *prIE)
-{
-	if (0)			/* Todo:: Not HS20 STA */
-		return 0;
-#if 0
-	struct HS20_INFO *prHS20Info;
-
-	prHS20Info = &(prAdapter->rWifiVar.rHS20Info);
-
-	/*
-	 * Generate 802.11u Interworking IE (107)
-	 */
-	hs20FillInterworkingIE(prAdapter,
-		prHS20Info->ucAccessNetworkOptions,
-		prHS20Info->ucVenueGroup,
-		prHS20Info->ucVenueType,
-		pucTargetBSSID, prIE);
-	prIE += IE_SIZE(prIE);
-#endif
-	/*
-	 * Generate Ext Cap IE (127)
-	 */
-	hs20FillProreqExtCapIE(prAdapter, prIE);
-	prIE += IE_SIZE(prIE);
-
-	/*
-	 * Generate HS2.0 Indication IE (221)
-	 */
-	hs20FillHS20IE(prAdapter, prIE);
-	prIE += IE_SIZE(prIE);
-
-	return WLAN_STATUS_SUCCESS;
-}
-#endif /* hs20GenerateHS20RelatedIEForProbeReq */
 
 u_int8_t hs20IsGratuitousArp(struct ADAPTER *prAdapter,
 		struct SW_RFB *prCurrSwRfb)

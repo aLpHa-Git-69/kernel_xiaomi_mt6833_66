@@ -147,17 +147,6 @@ int mtk_lp_proc_root_get(void)
 	return ret;
 }
 
-#if 0 /* camellia: unused: mtk_lp_proc_root_put */
-int mtk_lp_proc_root_put(void)
-{
-	if (!IS_MTK_LP_SYS_HANDLE_VALID(&mtk_lp_proc_root)) {
-		proc_remove((struct proc_dir_entry *)
-			     mtk_lp_proc_root._current);
-		mtk_lp_proc_root._current = NULL;
-	}
-	return 0;
-}
-#endif /* mtk_lp_proc_root_put */
 #endif
 
 int mtk_lp_sysfs_entry_create_plat(const char *name,

@@ -98,12 +98,6 @@ void rrmParamInit(struct ADAPTER *prAdapter, uint8_t ucBssIndex)
  * \return none
  */
 /*----------------------------------------------------------------------------*/
-#if 0 /* camellia: unused: rrmParamUninit */
-void rrmParamUninit(struct ADAPTER *prAdapter, uint8_t ucBssIndex)
-{
-	rrmFreeMeasurementResources(prAdapter, ucBssIndex);
-}
-#endif /* rrmParamUninit */
 
 void rrmProcessNeighborReportResonse(struct ADAPTER *prAdapter,
 				     struct WLAN_ACTION_FRAME *prAction,

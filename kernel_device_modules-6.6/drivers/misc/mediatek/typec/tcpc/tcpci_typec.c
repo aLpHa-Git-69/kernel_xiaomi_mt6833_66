@@ -1766,25 +1766,6 @@ int tcpc_typec_swap_role(struct tcpc_device *tcpc)
 }
 #endif /* CONFIG_TYPEC_CAP_ROLE_SWAP */
 
-#if 0 /* camellia: unused: tcpc_typec_set_rp_level */
-int tcpc_typec_set_rp_level(struct tcpc_device *tcpc, uint8_t rp_lvl)
-{
-	switch (rp_lvl) {
-	case TYPEC_RP_DFT:
-	case TYPEC_RP_1_5:
-	case TYPEC_RP_3_0:
-		TYPEC_INFO("TypeC-Rp: %d\n", rp_lvl);
-		tcpc->typec_local_rp_level = rp_lvl;
-		break;
-	default:
-		TYPEC_INFO("TypeC-Unknown-Rp (%d)\n", rp_lvl);
-		return -EINVAL;
-	}
-
-	return 0;
-}
-#endif /* tcpc_typec_set_rp_level */
-
 int tcpc_typec_error_recovery(struct tcpc_device *tcpc)
 {
 	if (tcpc->typec_state != typec_errorrecovery)
@@ -1792,26 +1773,6 @@ int tcpc_typec_error_recovery(struct tcpc_device *tcpc)
 
 	return 0;
 }
-
-#if 0 /* camellia: unused: tcpc_typec_disable */
-int tcpc_typec_disable(struct tcpc_device *tcpc)
-{
-	if (tcpc->typec_state != typec_disabled)
-		typec_disable_entry(tcpc);
-
-	return 0;
-}
-#endif /* tcpc_typec_disable */
-
-#if 0 /* camellia: unused: tcpc_typec_enable */
-int tcpc_typec_enable(struct tcpc_device *tcpc)
-{
-	if (tcpc->typec_state == typec_disabled)
-		typec_unattached_entry(tcpc);
-
-	return 0;
-}
-#endif /* tcpc_typec_enable */
 
 int tcpc_typec_change_role(
 	struct tcpc_device *tcpc, uint8_t typec_role, bool postpone)

@@ -2047,22 +2047,6 @@ static int mtk_spi_runtime_resume(struct device *dev)
 	return 0;
 }
 
-#if 0 /* camellia: unused: mtk_spi_set_autosuspend_delay */
-void mtk_spi_set_autosuspend_delay(struct spi_device *spi, int delay_ms)
-{
-	struct mtk_spi *mdata = spi_master_get_devdata(spi->master);
-
-	/*delay time longer than 10 seconds, WARNING ON*/
-	WARN(delay_ms > 10000, "SPI auto suspend delay too long, pls review it!\n");
-
-	if (!(delay_ms == mdata->auto_suspend_delay)) {
-		mdata->auto_suspend_delay = delay_ms;
-		mdata->suspend_delay_update = true;
-	}
-}
-EXPORT_SYMBOL(mtk_spi_set_autosuspend_delay);
-#endif /* mtk_spi_set_autosuspend_delay */
-
 static int mtk_spi_suspend(struct device *dev)
 {
 	struct spi_master *master = dev_get_drvdata(dev);

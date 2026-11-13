@@ -465,12 +465,6 @@ static unsigned long get_tx_bytes(unsigned long pre_tx_bytes)
 	return tx_bytes;
 }
 
-#if 0 /* camellia: unused: tswmt_get_WiFi_tx_tput */
-int tswmt_get_WiFi_tx_tput(void)
-{
-	return tx_throughput;
-}
-#endif /* tswmt_get_WiFi_tx_tput */
 static void wmt_cal_stats(struct timer_list *t)
 {
 	struct wmt_stats *stats_info = &wmt_stats_info;

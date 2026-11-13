@@ -780,30 +780,10 @@ void glBusFreeIrq(void *pvData, void *pvCookie)
 #endif
 }
 
-#if 0 /* camellia: unused: glIsReadClearReg */
-u_int8_t glIsReadClearReg(uint32_t u4Address)
-{
-	return TRUE;
-}
-#endif /* glIsReadClearReg */
-
-#if 0 /* camellia: unused: glSetPowerState */
-void glSetPowerState(struct GLUE_INFO *prGlueInfo, uint32_t ePowerMode)
-{
-}
-#endif /* glSetPowerState */
-
 void glGetDev(void *ctx, void **dev)
 {
 	*dev = &((struct platform_device *)ctx)->dev;
 }
-
-#if 0 /* camellia: unused: glGetHifDev */
-void glGetHifDev(struct GL_HIF_INFO *prHif, struct device **dev)
-{
-	*dev = &(prHif->pdev->dev);
-}
-#endif /* glGetHifDev */
 
 void glGetChipInfo(void **prChipInfo)
 {

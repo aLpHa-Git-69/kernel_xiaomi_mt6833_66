@@ -1636,13 +1636,6 @@ INT32 mtk_wcn_stp_deinit(VOID)
 *   0: Success Negative Value: Fail
 *****************************************************************************/
 
-#if 0 /* camellia: unused: mtk_wcn_stp_btm_get_dmp */
-INT32 mtk_wcn_stp_btm_get_dmp(PINT8 buf, PINT32 len)
-{
-	return stp_dbg_dmp_out(g_mtkstp_dbg, buf, len);
-}
-#endif /* mtk_wcn_stp_btm_get_dmp */
-
 /*****************************************************************************
 * FUNCTION
 *  mtk_wcn_stp_psm_notify_stp
@@ -1657,13 +1650,6 @@ INT32 mtk_wcn_stp_psm_notify_stp(const MTKSTP_PSM_ACTION_T action)
 {
 	return stp_psm_notify_stp(STP_PSM_CORE(stp_core_ctx), action);
 }
-
-#if 0 /* camellia: unused: mtk_wcn_stp_set_psm_state */
-INT32 mtk_wcn_stp_set_psm_state(MTKSTP_PSM_STATE_T state)
-{
-	return stp_psm_set_state(STP_PSM_CORE(stp_core_ctx), state);
-}
-#endif /* mtk_wcn_stp_set_psm_state */
 
 
 /*****************************************************************************
@@ -3135,12 +3121,6 @@ VOID mtk_wcn_stp_inband_reset(VOID)
 	stp_ctx_unlock(&stp_core_ctx);
 }
 
-#if 0 /* camellia: unused: mtk_wcn_stp_debug_ctrl */
-void mtk_wcn_stp_debug_ctrl(INT32 op, INT32 filter, INT32 filter_param)
-{
-}
-#endif /* mtk_wcn_stp_debug_ctrl */
-
 void mtk_wcn_stp_test_cmd(INT32 cmd_no)
 {
 	UINT8 test_packet[64];
@@ -3292,12 +3272,6 @@ EXPORT_SYMBOL(mtk_wcn_stp_set_bluez);
 * RETURNS
 *  void
 *****************************************************************************/
-#if 0 /* camellia: unused: mtk_wcn_stp_set_dbg_mode */
-VOID mtk_wcn_stp_set_dbg_mode(MTK_WCN_BOOL dbg_mode)
-{
-	STP_SET_ENABLE_DBG(stp_core_ctx, dbg_mode);
-}
-#endif /* mtk_wcn_stp_set_dbg_mode */
 
 /*****************************************************************************
 * FUNCTION
@@ -3370,15 +3344,6 @@ INT32 mtk_wcn_stp_rxcb_register(MTK_WCN_BTIF_RX_CB rx_cb)
 * RETURNS
 *  INT32 package length-success,other fail.
 *****************************************************************************/
-#if 0 /* camellia: unused: mtk_wcn_stp_tx */
-INT32 mtk_wcn_stp_tx(UINT8 *pBuf, UINT32 len, UINT32 *written_len)
-{
-	INT32 iRet = -1;
-
-	iRet = mtk_wcn_consys_stp_btif_tx(pBuf, len, written_len);
-	return iRet;
-}
-#endif /* mtk_wcn_stp_tx */
 
 /*****************************************************************************
 * FUNCTION
@@ -3407,14 +3372,6 @@ INT32 mtk_wcn_stp_wakeup_consys(VOID)
 * RETURNS
 *  always 0
 *****************************************************************************/
-#if 0 /* camellia: unused: mtk_wcn_stp_dpidle_ctrl */
-INT32 mtk_wcn_stp_dpidle_ctrl(UINT32 en_flag)
-{
-	mtk_wcn_consys_stp_btif_dpidle_ctrl(en_flag);
-
-	return 0;
-}
-#endif /* mtk_wcn_stp_dpidle_ctrl */
 
 INT32 mtk_wcn_stp_notify_sleep_for_thermal(VOID)
 {
@@ -3442,12 +3399,6 @@ UINT32 mtk_wcn_stp_get_wmt_trg_assert(VOID)
 * RETURNS
 *  INT32 0-success,other fail.
 *****************************************************************************/
-#if 0 /* camellia: unused: mtk_wcn_stp_lpbk_ctrl */
-INT32 mtk_wcn_stp_lpbk_ctrl(enum _ENUM_BTIF_LPBK_MODE_ mode)
-{
-	return mtk_wcn_consys_stp_btif_lpbk_ctrl(mode);
-}
-#endif /* mtk_wcn_stp_lpbk_ctrl */
 
 /*****************************************************************************
 * FUNCTION
@@ -3459,12 +3410,6 @@ INT32 mtk_wcn_stp_lpbk_ctrl(enum _ENUM_BTIF_LPBK_MODE_ mode)
 * RETURNS
 *  INT32 0-success,other fail.
 *****************************************************************************/
-#if 0 /* camellia: unused: mtk_wcn_stp_logger_ctrl */
-INT32 mtk_wcn_stp_logger_ctrl(enum _ENUM_BTIF_DBG_ID_ flag)
-{
-	return mtk_wcn_consys_stp_btif_logger_ctrl(flag);
-}
-#endif /* mtk_wcn_stp_logger_ctrl */
 
 VOID mtk_wcn_stp_ctx_save(void)
 {

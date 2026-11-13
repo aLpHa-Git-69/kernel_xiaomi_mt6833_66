@@ -76,16 +76,6 @@ bool kbase_reg_is_size64(struct kbase_device *kbdev, u32 reg_enum)
 	return kbdev->regmap.flags[reg_enum] & KBASE_REGMAP_WIDTH_64_BIT;
 }
 
-#if 0 /* camellia: unused: kbase_reg_is_size32 */
-bool kbase_reg_is_size32(struct kbase_device *kbdev, u32 reg_enum)
-{
-	if (WARN_ON(reg_enum >= kbdev->regmap.size))
-		return false;
-
-	return kbdev->regmap.flags[reg_enum] & KBASE_REGMAP_WIDTH_32_BIT;
-}
-#endif /* kbase_reg_is_size32 */
-
 bool kbase_reg_is_valid(struct kbase_device *kbdev, u32 reg_enum)
 {
 	return reg_enum < kbdev->regmap.size && kbdev->regmap.flags[reg_enum] != 0;
@@ -123,23 +113,6 @@ int kbase_reg_get_offset(struct kbase_device *kbdev, u32 reg_enum, u32 *offset)
 	*offset = kbdev->regmap.regs[reg_enum] - kbdev->reg;
 	return 0;
 }
-
-#if 0 /* camellia: unused: kbase_reg_get_enum */
-int kbase_reg_get_enum(struct kbase_device *kbdev, u32 offset, u32 *reg_enum)
-{
-	size_t i = 0;
-	void __iomem *ptr = kbdev->reg + offset;
-
-	for (i = 0; i < kbdev->regmap.size; i++) {
-		if (kbdev->regmap.regs[i] == ptr) {
-			*reg_enum = (u32)i;
-			return 0;
-		}
-	}
-
-	return -EINVAL;
-}
-#endif /* kbase_reg_get_enum */
 
 int kbase_regmap_init(struct kbase_device *kbdev)
 {

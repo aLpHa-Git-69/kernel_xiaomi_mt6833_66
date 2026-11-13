@@ -854,37 +854,6 @@ void dmabuf_log_allocate(struct dma_heap *heap, u64 tm, u32 nent, u64 size)
 	dmabuf_log_add(log_info, data1, pid);
 }
 
-#if 0 /* camellia: unused: dmabuf_log_refill */
-void dmabuf_log_refill(struct mtk_dmabuf_page_pool *pool, u64 tm, int ret, u32 pages_refill)
-{
-	u64 log_info = 0, data1 = 0, data2;
-	long mem_avail, mem_free;
-	u32 order, pages_new;
-
-	if (!monitor_globals.enable || !monitor_globals.log_refill)
-		return;
-
-	mem_free = P2M(global_zone_page_state(NR_FREE_PAGES));
-	mem_avail = P2M(si_mem_available());
-	order = pool->order;
-	pages_new = mtk_dmabuf_page_pool_total(pool, true);
-
-	MONITOR_LOG_TYPE_SET(log_info, DMABUF_LOG_REFILL);
-	MONITOR_LOG_HEAP_SET(log_info, pool->heap_tag);
-	MONITOR_LOG_TIME_SET(log_info, tm);
-
-	ret *= -1;
-	MONITOR_FILL_RET_SET(data1, ret);
-	MONITOR_FILL_ORD_SET(data1, order);
-	MONITOR_FILL_MEMFREE_SET(data1, mem_free);
-	MONITOR_FILL_MEMAVAIL_SET(data1, mem_avail);
-
-	data2 = ((u64)pages_refill << 32) | pages_new;
-	dmabuf_log_add(log_info, data1, data2);
-}
-EXPORT_SYMBOL_GPL(dmabuf_log_refill);
-#endif /* dmabuf_log_refill */
-
 void dmabuf_log_prefill(struct dma_heap *heap, u64 tm, int ret, u32 size)
 {
 	u64 log_info = 0, data1 = 0, data2;
@@ -908,38 +877,6 @@ void dmabuf_log_prefill(struct dma_heap *heap, u64 tm, int ret, u32 size)
 	data2 = ((u64)mem_free << 32) | (u32)mem_avail;
 	dmabuf_log_add(log_info, data1, data2);
 }
-
-#if 0 /* camellia: unused: dmabuf_log_recycle */
-void dmabuf_log_recycle(struct mtk_dmabuf_page_pool *pool, u64 tm, u32 pages_recycle)
-{
-	u64 log_info = 0, data2;
-	u32 pages_new;
-
-	if (!monitor_globals.enable || !monitor_globals.log_recycle)
-		return;
-
-	MONITOR_LOG_TYPE_SET(log_info, DMABUF_LOG_RECYCLE);
-	MONITOR_LOG_HEAP_SET(log_info, pool->heap_tag);
-	MONITOR_LOG_TIME_SET(log_info, tm);
-
-	pages_new = mtk_dmabuf_page_pool_total(pool, true);
-	data2 = ((u64)pages_recycle << 32) | pages_new;
-	dmabuf_log_add(log_info, pool->order, data2);
-}
-EXPORT_SYMBOL_GPL(dmabuf_log_recycle);
-#endif /* dmabuf_log_recycle */
-
-#if 0 /* camellia: unused: mtk_register_refill_order_callback */
-int mtk_register_refill_order_callback(mtk_refill_order_cb cb)
-{
-	if (refill_order_callback)
-		return 0;
-
-	refill_order_callback = cb;
-	return 1;
-}
-EXPORT_SYMBOL_GPL(mtk_register_refill_order_callback);
-#endif /* mtk_register_refill_order_callback */
 
 static inline void dmabuf_log_size_nent(struct dma_buf *dmabuf, u32 log_type,
 					struct monitor_size_nents *size_nents, u32 size)

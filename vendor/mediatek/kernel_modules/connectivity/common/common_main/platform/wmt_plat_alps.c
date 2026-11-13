@@ -418,13 +418,6 @@ INT32 wmt_plat_sdio_ctrl(WMT_SDIO_SLOT_NUM sdioPortType, ENUM_FUNC_STATE on)
 	return board_sdio_ctrl(sdioPortType, (on == FUNC_OFF) ? 0 : 1);
 }
 
-#if 0 /* camellia: unused: wmt_plat_irq_ctrl */
-INT32 wmt_plat_irq_ctrl(ENUM_FUNC_STATE state)
-{
-	return -1;
-}
-#endif /* wmt_plat_irq_ctrl */
-
 static INT32 wmt_plat_dump_pin_conf(VOID)
 {
 	WMT_DBG_FUNC("[WMT-PLAT]=>dump wmt pin configuration start<=\n");
@@ -593,13 +586,6 @@ INT32 wmt_plat_pwr_ctrl(ENUM_FUNC_STATE state)
 
 	return ret;
 }
-
-#if 0 /* camellia: unused: wmt_plat_ps_ctrl */
-INT32 wmt_plat_ps_ctrl(ENUM_FUNC_STATE state)
-{
-	return -1;
-}
-#endif /* wmt_plat_ps_ctrl */
 
 INT32 wmt_plat_eirq_ctrl(ENUM_PIN_ID id, ENUM_PIN_STATE state)
 {
@@ -1687,29 +1673,6 @@ UINT32 wmt_plat_read_cpupcr(VOID)
 	return mtk_wcn_consys_read_cpupcr();
 }
 EXPORT_SYMBOL(wmt_plat_read_cpupcr);
-
-#if 0 /* camellia: unused: wmt_plat_read_dmaregs */
-UINT32 wmt_plat_read_dmaregs(UINT32 type)
-{
-	return 0;
-#if 0
-	switch (type) {
-	case CONNSYS_CLK_GATE_STATUS:
-		return CONSYS_REG_READ(CONNSYS_CLK_GATE_STATUS_REG);
-	case CONSYS_EMI_STATUS:
-		return CONSYS_REG_READ(CONSYS_EMI_STATUS_REG);
-	case SYSRAM1:
-		return CONSYS_REG_READ(SYSRAM1_REG);
-	case SYSRAM2:
-		return CONSYS_REG_READ(SYSRAM2_REG);
-	case SYSRAM3:
-		return CONSYS_REG_READ(SYSRAM3_REG);
-	default:
-		return 0;
-	}
-#endif
-}
-#endif /* wmt_plat_read_dmaregs */
 
 INT32 wmt_plat_set_host_dump_state(ENUM_HOST_DUMP_STATE state)
 {

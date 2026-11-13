@@ -1494,19 +1494,6 @@ int hal_dma_rx_has_pending(struct _MTK_DMA_INFO_STR_ *p_dma_info)
  * RETURNS
  *  0 means success
  *****************************************************************************/
-#if 0 /* camellia: unused: hal_rx_dma_lock */
-int hal_rx_dma_lock(bool enable)
-{
-	static unsigned long flag;
-
-	if (enable) {
-		if (!spin_trylock_irqsave(&g_clk_cg_spinlock, flag))
-			return E_BTIF_FAIL;
-	} else
-		spin_unlock_irqrestore(&g_clk_cg_spinlock, flag);
-	return 0;
-}
-#endif /* hal_rx_dma_lock */
 
 int hal_btif_dma_check_status(struct _MTK_DMA_INFO_STR_ *p_dma_info)
 {

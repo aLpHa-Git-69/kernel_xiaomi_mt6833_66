@@ -56,12 +56,6 @@ do { \
 struct iio_channel *thermistor_ch2_bts;
 #endif
 
-#if 0 /* camellia: unused: uid */
-static kuid_t uid = KUIDT_INIT(0);
-#endif /* uid */
-#if 0 /* camellia: unused: gid */
-static kgid_t gid = KGIDT_INIT(1000);
-#endif /* gid */
 static DEFINE_SEMAPHORE(sem_mutex, 1);
 
 static int kernelmode;
@@ -89,9 +83,6 @@ static char *g_bind_a[10] = {&g_bind0[0], &g_bind1[0], &g_bind2[0]
 	, &g_bind8[0], &g_bind9[0]};
 static struct thermal_zone_device *thz_dev;
 
-#if 0 /* camellia: unused: cl_dev_sysrst_state */
-static unsigned int cl_dev_sysrst_state;
-#endif /* cl_dev_sysrst_state */
 static struct thermal_cooling_device *cl_dev_sysrst;
 
 static int mtktscharger_debug_log;
@@ -803,63 +794,6 @@ static void mtktscharger_unregister_thermal(void)
 	}
 }
 
-#if 0 /* camellia: unused: mtktscharger_sysrst_get_max_state */
-static int mtktscharger_sysrst_get_max_state(
-struct thermal_cooling_device *cdev, unsigned long *state)
-{
-	*state = 1;
-	return 0;
-}
-#endif /* mtktscharger_sysrst_get_max_state */
-
-#if 0 /* camellia: unused: mtktscharger_sysrst_get_cur_state */
-static int mtktscharger_sysrst_get_cur_state(
-struct thermal_cooling_device *cdev, unsigned long *state)
-{
-	*state = cl_dev_sysrst_state;
-	return 0;
-}
-#endif /* mtktscharger_sysrst_get_cur_state */
-
-#if 0 /* camellia: unused: mtktscharger_sysrst_set_cur_state */
-static int mtktscharger_sysrst_set_cur_state(
-struct thermal_cooling_device *cdev, unsigned long state)
-{
-	cl_dev_sysrst_state = state;
-	if (cl_dev_sysrst_state == 1) {
-		pr_notice("[Thermal/mtktscharger_sysrst] reset, reset, reset!!!\n");
-		pr_notice("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
-		pr_notice("*****************************************\n");
-		pr_notice("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n");
-
-		/* To trigger data abort to reset the system
-		 * for thermal protection.
-		 */
-		BUG_ON(1);
-	}
-
-	return 0;
-}
-#endif /* mtktscharger_sysrst_set_cur_state */
-
-#if 0 /* camellia: unused: mtktscharger_cooling_sysrst_ops */
-static struct thermal_cooling_device_ops mtktscharger_cooling_sysrst_ops = {
-	.get_max_state = mtktscharger_sysrst_get_max_state,
-	.get_cur_state = mtktscharger_sysrst_get_cur_state,
-	.set_cur_state = mtktscharger_sysrst_set_cur_state,
-};
-#endif /* mtktscharger_cooling_sysrst_ops */
-
-#if 0 /* camellia: unused: mtk_tscharger_register_cooler */
-int mtk_tscharger_register_cooler(void)
-{
-	cl_dev_sysrst = mtk_thermal_cooling_device_register(
-				"mtktscharger-sysrst", NULL,
-					&mtktscharger_cooling_sysrst_ops);
-	return 0;
-}
-#endif /* mtk_tscharger_register_cooler */
-
 void mtk_tscharger_unregister_cooler(void)
 {
 	if (cl_dev_sysrst) {
@@ -1257,72 +1191,6 @@ static const struct proc_ops mtkts_btscharger_param_fops = {
 
 
 #if IS_ENABLED(CONFIG_DEVICE_MODULES_MEDIATEK_MT6577_AUXADC)
-#if 0 /* camellia: unused: mtktscharger_pdrv_probe */
-static int mtktscharger_pdrv_probe(struct platform_device *pdev)
-{
-	int err = 0;
-	int ret = 0;
-	struct proc_dir_entry *entry = NULL;
-	struct proc_dir_entry *mtktscharger_dir = NULL;
-
-	mtktscharger_dprintk_always("%s\n", __func__);
-
-	if (!pdev->dev.of_node) {
-		mtktscharger_dprintk_always("[%s] Only DT based supported\n",
-			__func__);
-		return -ENODEV;
-	}
-
-	thermistor_ch2_bts = devm_kzalloc(&pdev->dev, sizeof(*thermistor_ch2_bts),
-		GFP_KERNEL);
-	if (!thermistor_ch2_bts)
-		return -ENOMEM;
-
-
-	thermistor_ch2_bts = iio_channel_get(&pdev->dev, "thermistor-ch3");
-	ret = IS_ERR(thermistor_ch2_bts);
-	if (ret) {
-		mtktscharger_dprintk_always(
-			"[%s] fail to get auxadc iio ch3: %d\n",
-			__func__, ret);
-		return ret;
-	}
-
-	err = mtktscharger_register_thermal();
-	if (err)
-		goto err_unreg;
-
-	mtktscharger_dir = mtk_thermal_get_proc_drv_therm_dir_entry();
-	if (!mtktscharger_dir) {
-		mtktscharger_pr_notice("%s get /proc/driver/thermal failed\n",
-								__func__);
-	} else {
-		entry = proc_create("tzcharger", 0664, mtktscharger_dir,
-							&mtktscharger_fops);
-		if (entry)
-			proc_set_user(entry, uid, gid);
-
-		entry = proc_create("tzcharger_param", 0664, mtktscharger_dir,
-					&mtkts_btscharger_param_fops);
-		if (entry)
-			proc_set_user(entry, uid, gid);
-	}
-
-	return 0;
-
-err_unreg:
-	mtk_tscharger_unregister_cooler();
-
-	return 0;
-}
-#endif /* mtktscharger_pdrv_probe */
-
-#if 0 /* camellia: unused: mtktscharger_pdrv_remove */
-static int mtktscharger_pdrv_remove(struct platform_device *pdev)
-{
-	return 0;
-}
-#endif /* mtktscharger_pdrv_remove */
 
 
 #if IS_ENABLED(CONFIG_OF)
@@ -1333,87 +1201,9 @@ const struct of_device_id mt_thermistor_of_match3_bts[2] = {
 #endif
 
 #define THERMAL_THERMISTOR_NAME    "mtboard-thermistor6_hawaii"
-#if 0 /* camellia: unused: mtktscharger_driver */
-static struct platform_driver mtktscharger_driver = {
-	.probe = mtktscharger_pdrv_probe,
-	.remove = mtktscharger_pdrv_remove,
-	.driver = {
-		.name = THERMAL_THERMISTOR_NAME,
-#if IS_ENABLED(CONFIG_OF)
-		.of_match_table = mt_thermistor_of_match3_bts,
-#endif
-	},
-};
-#endif /* mtktscharger_driver */
 
 #endif /*CONFIG_DEVICE_MODULES_MEDIATEK_MT6577_AUXADC*/
 
-#if 0 /* camellia: unused: mtk_tscharger_init */
-int  mtk_tscharger_init(void)
-{
-	int err = 0;
-#if IS_ENABLED(CONFIG_DEVICE_MODULES_MEDIATEK_MT6577_AUXADC)
-	/* Move this segment to probe function
-	 * in case mtktscharger reads temperature
-	 * before mtk_charger allows it.
-	 */
-#else
-	struct proc_dir_entry *entry = NULL;
-	struct proc_dir_entry *mtktscharger_dir = NULL;
-#endif
-
-	mtk_ts_btscharger_prepare_table(g_RAP_ntc_table);
-	err = mtk_tscharger_register_cooler();
-	if (err)
-		return err;
-
-#if IS_ENABLED(CONFIG_DEVICE_MODULES_MEDIATEK_MT6577_AUXADC)
-	err = platform_driver_register(&mtktscharger_driver);
-	if (err) {
-		mtktscharger_dprintk("%s fail to reg driver\n", __func__);
-		goto err_unreg;
-	}
-#else
-	err = mtktscharger_register_thermal();
-	if (err)
-		goto err_unreg;
-
-	mtktscharger_dir = mtk_thermal_get_proc_drv_therm_dir_entry();
-	if (!mtktscharger_dir) {
-		mtktscharger_dprintk("%s get /proc/driver/thermal failed\n",
-								__func__);
-	} else {
-		entry = proc_create("tzcharger", 0664, mtktscharger_dir,
-							&mtktscharger_fops);
-		if (entry)
-			proc_set_user(entry, uid, gid);
-
-		entry = proc_create("tzcharger_param", 0664, mtktscharger_dir,
-					&mtkts_btscharger_param_fops);
-		if (entry)
-			proc_set_user(entry, uid, gid);
-	}
-#endif
-
-	return 0;
-
-err_unreg:
-
-	mtk_tscharger_unregister_cooler();
-
-	return err;
-}
-#endif /* mtk_tscharger_init */
-
-
-#if 0 /* camellia: unused: mtk_tscharger_exit */
-void  mtk_tscharger_exit(void)
-{
-	mtktscharger_dprintk("%s\n", __func__);
-	mtktscharger_unregister_thermal();
-	mtk_tscharger_unregister_cooler();
-}
-#endif /* mtk_tscharger_exit */
 
 // late_initcall(mtktscharger_init);
 // module_exit(mtktscharger_exit);

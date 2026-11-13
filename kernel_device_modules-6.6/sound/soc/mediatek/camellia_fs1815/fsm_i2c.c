@@ -252,62 +252,6 @@ int fsm_get_amb_tempr(void)
 	return tempr;
 }
 
-#if 0 /* camellia: unused: fsm_devm_kstrdup */
-void *fsm_devm_kstrdup(struct device *dev, void *buf, size_t size)
-{
-	char *devm_buf = devm_kzalloc(dev, size + 1, GFP_KERNEL);
-
-	if (!devm_buf) {
-		return devm_buf;
-	}
-	memcpy(devm_buf, buf, size);
-
-	return devm_buf;
-}
-#endif /* fsm_devm_kstrdup */
-
-#if 0 /* camellia: unused: fsm_set_irq */
-static int fsm_set_irq(fsm_dev_t *fsm_dev, bool enable)
-{
-	if (!fsm_dev || fsm_dev->irq_id <= 0) {
-		return -EINVAL;
-	}
-	if (enable)
-		enable_irq(fsm_dev->irq_id);
-	else
-		disable_irq(fsm_dev->irq_id);
-
-	return 0;
-}
-#endif /* fsm_set_irq */
-
-#if 0 /* camellia: unused: fsm_set_monitor */
-int fsm_set_monitor(fsm_dev_t *fsm_dev, bool enable)
-{
-	fsm_config_t *cfg = fsm_get_config();
-
-	if (!cfg || !fsm_dev || !fsm_dev->fsm_wq) {
-		return -EINVAL;
-	}
-	if (!cfg->use_monitor) {
-		return 0;
-	}
-	if (fsm_dev->use_irq) {
-		return fsm_set_irq(fsm_dev, enable);
-	}
-	if (enable) {
-		queue_delayed_work(fsm_dev->fsm_wq,
-				&fsm_dev->monitor_work, 5*HZ);
-	} else {
-		if (delayed_work_pending(&fsm_dev->monitor_work)) {
-			cancel_delayed_work_sync(&fsm_dev->monitor_work);
-		}
-	}
-
-	return 0;
-}
-#endif /* fsm_set_monitor */
-
 static int fsm_ext_reset(fsm_dev_t *fsm_dev)
 {
 	fsm_config_t *cfg = fsm_get_config();

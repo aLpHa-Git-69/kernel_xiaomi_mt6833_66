@@ -732,33 +732,6 @@ void mtk_mfg_counter_destroy(void)
 
 
 // init but don't enable met
-#if 0 /* camellia: unused: gator_gpu_pmu_init */
-int gator_gpu_pmu_init(void)
-{
-	int ret = PMU_OK;
-	int i, j, cnt, block_type;
-	int nr_hwc_blocks, name_offset, data_offset;
-	if (!binited)
-		_mtk_mfg_init_counter();
-
-	cnt = block_type = 0;
-	nr_hwc_blocks = info.nr_hwc_blocks - info.nr_cores + 1;
-	for (i = 0; i < info.nr_hwc_blocks; i++) {
-		block_type = info.hwc_layout[i];
-		if (block_type == RESERVED_BLOCK)
-			continue;
-		name_offset = name_offset_table[block_type] * MALI_COUNTERS_PER_BLOCK;
-		data_offset = i * MALI_COUNTERS_PER_BLOCK;
-		for (j = 0; j < MALI_COUNTERS_PER_BLOCK; j++) {
-			const char *name = hardware_counter_names[name_offset + j];
-			if (name[0] == '\0')
-				continue;
-			cnt++;
-		}
-	}
-	return ret;
-}
-#endif /* gator_gpu_pmu_init */
 
 int mtk_gpu_stall_create_subfs(void)
 {
@@ -769,73 +742,3 @@ int mtk_gpu_stall_create_subfs(void)
 	}
 	return 0;
 }
-
-#if 0 /* camellia: unused: mtk_gpu_stall_delete_subfs */
-void mtk_gpu_stall_delete_subfs(void)
-{
-	if (io_addr_gpu_stall) {
-		iounmap(io_addr_gpu_stall);
-		io_addr_gpu_stall = NULL;
-	}
-}
-#endif /* mtk_gpu_stall_delete_subfs */
-
-#if 0 /* camellia: unused: mtk_gpu_stall_start */
-void mtk_gpu_stall_start(void)
-{
-	unsigned int value = 0x00000001;
-	if (io_addr_gpu_stall) {
-		writel(value, io_addr_gpu_stall + OFFSET_STALL_GPU_M0_WR_CNT);
-		writel(value, io_addr_gpu_stall + OFFSET_STALL_GPU_M0_RD_CNT);
-		writel(value, io_addr_gpu_stall + OFFSET_STALL_GPU_M1_WR_CNT);
-		writel(value, io_addr_gpu_stall + OFFSET_STALL_GPU_M1_RD_CNT);
-	}
-}
-#endif /* mtk_gpu_stall_start */
-
-#if 0 /* camellia: unused: mtk_gpu_stall_stop */
-void mtk_gpu_stall_stop(void)
-{
-	if (io_addr_gpu_stall) {
-		writel(0x00000000, io_addr_gpu_stall + OFFSET_STALL_GPU_M0_WR_CNT);
-		writel(0x00000000, io_addr_gpu_stall + OFFSET_STALL_GPU_M0_RD_CNT);
-		writel(0x00000000, io_addr_gpu_stall + OFFSET_STALL_GPU_M1_WR_CNT);
-		writel(0x00000000, io_addr_gpu_stall + OFFSET_STALL_GPU_M1_RD_CNT);
-	}
-}
-#endif /* mtk_gpu_stall_stop */
-
-#if 0 /* camellia: unused: mtk_GPU_STALL_RAW */
-void mtk_GPU_STALL_RAW(unsigned int *diff, int size)
-{
-	unsigned int stall_counters[4] = {0};
-	int i;
-#if IS_ENABLED(CONFIG_MACH_MT6877)
-	for (i = 0; i < size; i++) {
-			diff[i] = stall_counters[i];
-	}
-	for(i = 0; i < size; i++) {
-			pre_stall_counters[i] = stall_counters[i];
-	}
-#else
-	if (io_addr_gpu_stall) {
-		stall_counters[0] = ((unsigned int)readl(io_addr_gpu_stall + OFFSET_STALL_GPU_M0_WR_CNT)) >> 1;
-		stall_counters[1] = ((unsigned int)readl(io_addr_gpu_stall + OFFSET_STALL_GPU_M0_RD_CNT)) >> 1;
-		stall_counters[2] = ((unsigned int)readl(io_addr_gpu_stall + OFFSET_STALL_GPU_M1_WR_CNT)) >> 1;
-		stall_counters[3] = ((unsigned int)readl(io_addr_gpu_stall + OFFSET_STALL_GPU_M1_RD_CNT)) >> 1;
-
-		for (i = 0; i < size; i++) {
-			if(pre_stall_counters[i] > stall_counters[i]) {
-				diff[i] = stall_counters[i] + (0xFFFFFFFF - pre_stall_counters[i]);
-			}
-			else {
-				diff[i] = stall_counters[i] - pre_stall_counters[i];
-			}
-		}
-		for(i = 0; i < size; i++) {
-			pre_stall_counters[i] = stall_counters[i];
-		}
-	}
-#endif
-}
-#endif /* mtk_GPU_STALL_RAW */

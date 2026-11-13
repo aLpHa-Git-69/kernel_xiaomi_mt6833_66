@@ -1667,25 +1667,6 @@ static void mtk_rdma_layer_config(struct mtk_ddp_comp *comp, unsigned int idx,
 	cfg_info->fmt = fmt;
 }
 
-#if 0 /* camellia: unused: MMPathTraceRDMA */
-int MMPathTraceRDMA(struct mtk_ddp_comp *ddp_comp, char *str,
-	unsigned int strlen, unsigned int n)
-{
-	struct mtk_disp_rdma *rdma = comp_to_rdma(ddp_comp);
-	struct mtk_rdma_cfg_info *cfg_info = &rdma->cfg_info;
-
-	n += scnprintf(str + n, strlen - n,
-		"in=0x%lx, in_width=%d, in_height=%d, in_fmt=%s, in_bpp=%d, ",
-		(unsigned long)cfg_info->addr,
-		cfg_info->width,
-		cfg_info->height,
-		mtk_get_format_name(cfg_info->fmt),
-		mtk_get_format_bpp(cfg_info->fmt));
-
-	return n;
-}
-#endif /* MMPathTraceRDMA */
-
 static const struct mtk_ddp_comp_funcs mtk_disp_rdma_funcs = {
 	.config = mtk_rdma_config,
 	.start = mtk_rdma_start,

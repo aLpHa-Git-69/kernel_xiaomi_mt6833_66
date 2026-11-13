@@ -29,14 +29,6 @@ unsigned int get_PCB_Version(void)
 }
 EXPORT_SYMBOL(get_PCB_Version);
 
-#if 0 /* camellia: unused: register_device_proc_for_emmc */
-int register_device_proc_for_emmc(char *emmc, char *emmc_fw, void *mmc)
-{
-	return 0;
-}
-EXPORT_SYMBOL(register_device_proc_for_emmc);
-#endif /* register_device_proc_for_emmc */
-
 /* camera (imgsensor ISP6S_MON): external camera LDOs, charger and devinfo hooks */
 int register_device_proc(char *name, char *version, char *vendor)
 {

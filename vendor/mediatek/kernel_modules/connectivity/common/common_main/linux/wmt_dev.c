@@ -513,12 +513,6 @@ MTK_WCN_BOOL wmt_dev_is_file_exist(PUINT8 pFileName)
 }
 
 static ULONG count_last_access_sdio;
-#if 0 /* camellia: unused: count_last_access_btif */
-static ULONG count_last_access_btif;
-#endif /* count_last_access_btif */
-#if 0 /* camellia: unused: count_last_access_uart */
-static ULONG count_last_access_uart;
-#endif /* count_last_access_uart */
 static ULONG jiffies_last_poll;
 
 static INT32 wmt_dev_tra_sdio_update(VOID)
@@ -528,26 +522,6 @@ static INT32 wmt_dev_tra_sdio_update(VOID)
 
 	return 0;
 }
-
-#if 0 /* camellia: unused: wmt_dev_tra_bitf_update */
-extern INT32 wmt_dev_tra_bitf_update(VOID)
-{
-	count_last_access_btif += 1;
-	/* WMT_INFO_FUNC("jiffies_last_access_btif: jiffies = %ul\n", jiffies); */
-
-	return 0;
-}
-#endif /* wmt_dev_tra_bitf_update */
-
-#if 0 /* camellia: unused: wmt_dev_tra_uart_update */
-extern INT32 wmt_dev_tra_uart_update(VOID)
-{
-	count_last_access_uart += 1;
-	/* WMT_INFO_FUNC("jiffies_last_access_btif: jiffies = %ul\n", jiffies); */
-
-	return 0;
-}
-#endif /* wmt_dev_tra_uart_update */
 
 static UINT32 wmt_dev_tra_poll(VOID)
 {

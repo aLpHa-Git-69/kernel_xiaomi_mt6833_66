@@ -427,38 +427,6 @@ int mtk_common_ged_dvfs_get_last_commit_idx(void)
 #endif
 }
 
-#if 0 /* camellia: unused: mtk_common_ged_dvfs_get_last_commit_top_idx */
-int mtk_common_ged_dvfs_get_last_commit_top_idx(void)
-{
-#if IS_ENABLED(CONFIG_MALI_MIDGARD_DVFS) && IS_ENABLED(CONFIG_MALI_MTK_DVFS_POLICY)
-	return (int)ged_dvfs_get_last_commit_top_idx();
-#else
-	return -1;
-#endif
-}
-#endif /* mtk_common_ged_dvfs_get_last_commit_top_idx */
-
-#if 0 /* camellia: unused: mtk_common_ged_dvfs_get_last_commit_stack_idx */
-int mtk_common_ged_dvfs_get_last_commit_stack_idx(void)
-{
-#if IS_ENABLED(CONFIG_MALI_MIDGARD_DVFS) && IS_ENABLED(CONFIG_MALI_MTK_DVFS_POLICY)
-	return (int)ged_dvfs_get_last_commit_stack_idx();
-#else
-	return -1;
-#endif
-}
-#endif /* mtk_common_ged_dvfs_get_last_commit_stack_idx */
-#if 0 /* camellia: unused: mtk_common_ged_dvfs_write_sysram_last_commit_idx */
-unsigned long mtk_common_ged_dvfs_write_sysram_last_commit_idx(void)
-{
-#if IS_ENABLED(CONFIG_MALI_MIDGARD_DVFS) && IS_ENABLED(CONFIG_MALI_MTK_DVFS_POLICY)
-	return (unsigned long)ged_dvfs_write_sysram_last_commit_idx();
-#else
-	return -1;
-#endif
-}
-#endif /* mtk_common_ged_dvfs_write_sysram_last_commit_idx */
-
 unsigned long mtk_common_ged_dvfs_write_sysram_last_commit_top_idx(void)
 {
 #if IS_ENABLED(CONFIG_MALI_MIDGARD_DVFS) && IS_ENABLED(CONFIG_MALI_MTK_DVFS_POLICY)
@@ -468,17 +436,6 @@ unsigned long mtk_common_ged_dvfs_write_sysram_last_commit_top_idx(void)
 #endif
 }
 
-#if 0 /* camellia: unused: mtk_common_ged_dvfs_write_sysram_last_commit_stack_idx */
-unsigned long mtk_common_ged_dvfs_write_sysram_last_commit_stack_idx(void)
-{
-#if IS_ENABLED(CONFIG_MALI_MIDGARD_DVFS) && IS_ENABLED(CONFIG_MALI_MTK_DVFS_POLICY)
-	return (unsigned long)ged_dvfs_write_sysram_last_commit_stack_idx();
-#else
-	return -1;
-#endif
-}
-#endif /* mtk_common_ged_dvfs_write_sysram_last_commit_stack_idx */
-
 unsigned long mtk_common_ged_dvfs_write_sysram_last_commit_dual(void) {
 #if IS_ENABLED(CONFIG_MALI_MIDGARD_DVFS) && IS_ENABLED(CONFIG_MALI_MTK_DVFS_POLICY)
 		return (unsigned long)ged_dvfs_write_sysram_last_commit_dual();
@@ -486,97 +443,6 @@ unsigned long mtk_common_ged_dvfs_write_sysram_last_commit_dual(void) {
 		return -1;
 #endif
 }
-
-#if 0 /* camellia: unused: mtk_common_ged_dvfs_write_sysram_last_commit_idx_test */
-unsigned long mtk_common_ged_dvfs_write_sysram_last_commit_idx_test(int commit_idx) {
-#if IS_ENABLED(CONFIG_MALI_MIDGARD_DVFS) && IS_ENABLED(CONFIG_MALI_MTK_DVFS_POLICY)
-	return (unsigned long)ged_dvfs_write_sysram_last_commit_idx_test(commit_idx);
-#else
-	return -1;
-#endif
-}
-#endif /* mtk_common_ged_dvfs_write_sysram_last_commit_idx_test */
-
-#if 0 /* camellia: unused: mtk_common_ged_dvfs_write_sysram_last_commit_top_idx_test */
-unsigned long mtk_common_ged_dvfs_write_sysram_last_commit_top_idx_test(int commit_idx)
-{
-#if IS_ENABLED(CONFIG_MALI_MIDGARD_DVFS) && IS_ENABLED(CONFIG_MALI_MTK_DVFS_POLICY)
-	return (unsigned long)ged_dvfs_write_sysram_last_commit_top_idx_test(commit_idx);
-#else
-	return -1;
-#endif
-}
-#endif /* mtk_common_ged_dvfs_write_sysram_last_commit_top_idx_test */
-
-#if 0 /* camellia: unused: mtk_common_ged_dvfs_write_sysram_last_commit_stack_idx_test */
-unsigned long mtk_common_ged_dvfs_write_sysram_last_commit_stack_idx_test(int commit_idx)
-{
-#if IS_ENABLED(CONFIG_MALI_MIDGARD_DVFS) && IS_ENABLED(CONFIG_MALI_MTK_DVFS_POLICY)
-	return (unsigned long)ged_dvfs_write_sysram_last_commit_stack_idx_test(commit_idx);
-#else
-	return -1;
-#endif
-}
-#endif /* mtk_common_ged_dvfs_write_sysram_last_commit_stack_idx_test */
-
-#if 0 /* camellia: unused: mtk_common_ged_dvfs_write_sysram_last_commit_dual_test */
-unsigned long mtk_common_ged_dvfs_write_sysram_last_commit_dual_test(int top_idx, int stack_idx)
-{
-#if IS_ENABLED(CONFIG_MALI_MIDGARD_DVFS) && IS_ENABLED(CONFIG_MALI_MTK_DVFS_POLICY)
-	return (unsigned long)ged_dvfs_write_sysram_last_commit_dual_test(top_idx, stack_idx);
-#else
-	return -1;
-#endif
-}
-#endif /* mtk_common_ged_dvfs_write_sysram_last_commit_dual_test */
-
-#if 0 /* camellia: unused: mtk_common_ged_dvfs_update_step_size */
-int mtk_common_ged_dvfs_update_step_size(int low_step, int med_step, int high_step)
-{
-#if IS_ENABLED(CONFIG_MALI_MIDGARD_DVFS) && IS_ENABLED(CONFIG_MALI_MTK_DVFS_POLICY)
-	return ged_dvfs_update_step_size(low_step, med_step, high_step);
-#else
-	return -1;
-#endif
-}
-#endif /* mtk_common_ged_dvfs_update_step_size */
-
-#if 0 /* camellia: unused: mtk_common_get_system_timer_and_record */
-void mtk_common_get_system_timer_and_record(struct kbase_device *kbdev)
-{
-#if IS_ENABLED(CONFIG_MALI_MIDGARD_DVFS) && \
-	IS_ENABLED(CONFIG_MALI_MTK_DVFS_POLICY) && \
-	IS_ENABLED(CONFIG_MALI_MTK_GPU_DVFS_READ_SOC_TIMER)
-	u64 system_time_tmp = 0;
-	bool gpu_ready;
-
-	lockdep_assert_held(&kbdev->hwaccess_lock);
-
-	gpu_ready = kbdev->pm.backend.gpu_ready;
-
-	if (gpu_ready) {
-		kbase_backend_get_gpu_time_norequest(kbdev, NULL, &system_time_tmp, NULL);
-		ged_dvfs_record_soc_timer(system_time_tmp);
-	}
-
-	return;
-#else
-	return;
-#endif
-
-}
-#endif /* mtk_common_get_system_timer_and_record */
-
-#if 0 /* camellia: unused: mtk_common_ged_pwr_hint */
-int mtk_common_ged_pwr_hint(int pwr_hint)
-{
-#if IS_ENABLED(CONFIG_MALI_MTK_PWR_HINT)
-	return (int)ged_write_sysram_pwr_hint(pwr_hint);
-#else
-	return 0;
-#endif
-}
-#endif /* mtk_common_ged_pwr_hint */
 
 #if IS_ENABLED(CONFIG_PROC_FS)
 static void mtk_common_procfs_init(struct kbase_device *kbdev)

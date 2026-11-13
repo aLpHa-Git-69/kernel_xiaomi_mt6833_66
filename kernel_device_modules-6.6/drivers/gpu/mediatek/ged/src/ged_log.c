@@ -677,54 +677,6 @@ GED_ERROR ged_log_buf_resize(
 	return GED_OK;
 }
 
-#if 0 /* camellia: unused: ged_log_buf_ignore_lines */
-GED_ERROR ged_log_buf_ignore_lines(GED_LOG_BUF_HANDLE hLogBuf, int n)
-{
-	struct GED_LOG_BUF *psGEDLogBuf = ged_log_buf_from_handle(hLogBuf);
-
-	if (psGEDLogBuf && n > 0) {
-		if (psGEDLogBuf->attrs & GED_LOG_ATTR_QUEUEBUFFER) {
-			if (n >= psGEDLogBuf->i32LineCurrent) {
-				/* reset all buffer */
-				ged_log_buf_reset(hLogBuf);
-			} else {
-				int i;
-				int buf_offset;
-				int buf_size;
-
-				spin_lock_irqsave(&psGEDLogBuf->sSpinLock,
-					psGEDLogBuf->ulIRQFlags);
-
-				buf_offset = psGEDLogBuf->psLine[n].offset;
-				buf_size = psGEDLogBuf->i32BufferCurrent
-					- buf_offset;
-
-				/* Move lines, update offset and current */
-				for (i = 0; n + i < psGEDLogBuf->i32LineCount;
-					++i) {
-					psGEDLogBuf->psLine[i] =
-						psGEDLogBuf->psLine[n + i];
-					psGEDLogBuf->psLine[i].offset -=
-						buf_offset;
-				}
-				psGEDLogBuf->i32LineCurrent -= n;
-
-				/* Move buffers and update current */
-				for (i = 0; i < buf_size; ++i)
-					psGEDLogBuf->pcBuffer[i] =
-					psGEDLogBuf->pcBuffer[buf_offset + i];
-				psGEDLogBuf->i32BufferCurrent = buf_size;
-
-				spin_unlock_irqrestore(&psGEDLogBuf->sSpinLock,
-					psGEDLogBuf->ulIRQFlags);
-			}
-		}
-	}
-
-	return GED_OK;
-}
-#endif /* ged_log_buf_ignore_lines */
-
 GED_LOG_BUF_HANDLE ged_log_buf_get(const char *pszName)
 {
 	struct list_head *psListEntry, *psListEntryTemp, *psList;
@@ -752,76 +704,6 @@ GED_LOG_BUF_HANDLE ged_log_buf_get(const char *pszName)
 	return (GED_LOG_BUF_HANDLE)psFound->ulHashNodeID;
 }
 EXPORT_SYMBOL(ged_log_buf_get);
-
-#if 0 /* camellia: unused: ged_log_buf_get_early */
-int ged_log_buf_get_early(const char *pszName,
-	GED_LOG_BUF_HANDLE *callback_set_handle)
-{
-	int err = 0;
-	int cx;
-
-	if (pszName == NULL)
-		return GED_ERROR_INVALID_PARAMS;
-
-	*callback_set_handle = ged_log_buf_get(pszName);
-
-	if (*callback_set_handle == 0) {
-		struct GED_LOG_LISTEN *psGEDLogListen;
-
-		write_lock_bh(&gsGEDLogBufList.sLock);
-
-		/* search again */
-		{
-			struct list_head *psListEntry;
-			struct list_head *psListEntryTemp, *psList;
-			struct GED_LOG_BUF *psFound = NULL, *psLogBuf;
-
-			psList = &gsGEDLogBufList.sList_buf;
-			list_for_each_safe(psListEntry,
-				psListEntryTemp, psList) {
-				psLogBuf = list_entry(psListEntry,
-					struct GED_LOG_BUF, sList);
-				if (!strcmp(psLogBuf->acName, pszName)) {
-					psFound = psLogBuf;
-					break;
-				}
-			}
-
-			if (psFound) {
-				*callback_set_handle =
-					(GED_LOG_BUF_HANDLE)
-					psFound->ulHashNodeID;
-				goto exit_unlock;
-			}
-		}
-
-		/* add to listen list */
-		psGEDLogListen =
-			(struct GED_LOG_LISTEN *)ged_alloc(
-				sizeof(struct GED_LOG_LISTEN));
-		if (psGEDLogListen == NULL) {
-			err = GED_ERROR_OOM;
-			goto exit_unlock;
-		}
-		psGEDLogListen->pCBHnd = callback_set_handle;
-		cx = snprintf(psGEDLogListen->acName,
-			GED_LOG_BUF_NAME_LENGTH, "%s", pszName);
-		if (cx < 0 || cx >= GED_LOG_BUF_NAME_LENGTH) {
-			ged_free(psGEDLogListen, sizeof(struct GED_LOG_LISTEN));
-			return GED_ERROR_INVALID_PARAMS;
-		}
-
-		INIT_LIST_HEAD(&psGEDLogListen->sList);
-		list_add(&psGEDLogListen->sList, &gsGEDLogBufList.sList_listen);
-
-exit_unlock:
-		write_unlock_bh(&gsGEDLogBufList.sLock);
-	}
-
-	return err;
-}
-EXPORT_SYMBOL(ged_log_buf_get_early);
-#endif /* ged_log_buf_get_early */
 
 //-----------------------------------------------------------------------------
 void ged_log_buf_free(GED_LOG_BUF_HANDLE hLogBuf)
@@ -1012,13 +894,6 @@ static const struct seq_operations gsGEDLogReadOps = {
 #endif /* GED_DEBUG_FS */
 
 //-----------------------------------------------------------------------------
-#if 0 /* camellia: unused: is_gpu_ged_log_enable */
-unsigned int is_gpu_ged_log_enable(void)
-{
-	return gpu_debug_log_enable;
-}
-EXPORT_SYMBOL(is_gpu_ged_log_enable);
-#endif /* is_gpu_ged_log_enable */
 
 static ssize_t gpu_debug_log_store(struct kobject *kobj, struct kobj_attribute *attr,
 		const char *buf, size_t count)
@@ -1119,15 +994,6 @@ void ged_log_system_exit(void)
 	ged_sysfs_remove_dir(&gpu_debug_kobj);
 }
 //-----------------------------------------------------------------------------
-#if 0 /* camellia: unused: ged_log_buf_write */
-int ged_log_buf_write(GED_LOG_BUF_HANDLE hLogBuf,
-	const char __user *pszBuffer, int i32Count)
-{
-	struct GED_LOG_BUF *psGEDLogBuf = ged_log_buf_from_handle(hLogBuf);
-
-	return __ged_log_buf_write(psGEDLogBuf, pszBuffer, i32Count);
-}
-#endif /* ged_log_buf_write */
 
 static int ged_log_buf_dump(struct GED_LOG_BUF *psGEDLogBuf, int i)
 {

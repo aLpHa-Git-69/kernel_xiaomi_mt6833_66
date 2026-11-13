@@ -23,14 +23,6 @@ static const struct dfs_ops *mux_dfs_ops;
 
 void (*mux_qs_chk_cb)(void) = NULL;
 
-#if 0 /* camellia: unused: mtk_mux_set_quick_switch_chk_cb */
-void mtk_mux_set_quick_switch_chk_cb(void (*callback)(void))
-{
-	mux_qs_chk_cb = callback;
-}
-EXPORT_SYMBOL(mtk_mux_set_quick_switch_chk_cb);
-#endif /* mtk_mux_set_quick_switch_chk_cb */
-
 static inline struct mtk_clk_mux *to_mtk_clk_mux(struct clk_hw *hw)
 {
 	return container_of(hw, struct mtk_clk_mux, hw);
@@ -40,14 +32,6 @@ static inline struct mtk_clk_user *to_mtk_clk_user(struct clk_hw *hw)
 {
 	return container_of(hw, struct mtk_clk_user, hw);
 }
-
-#if 0 /* camellia: unused: mtk_clk_mux_register_callback */
-void mtk_clk_mux_register_callback(const struct dfs_ops *ops)
-{
-	mux_dfs_ops = ops;
-}
-EXPORT_SYMBOL_GPL(mtk_clk_mux_register_callback);
-#endif /* mtk_clk_mux_register_callback */
 
 static int mtk_clk_mux_enable(struct clk_hw *hw)
 {

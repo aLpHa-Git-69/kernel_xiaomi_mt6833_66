@@ -37,39 +37,6 @@
 
 static struct kobject *hal_kobj;
 
-#if 0 /* camellia: unused: tokenizer */
-int tokenizer(char *pcSrc, int i32len, int *pi32IndexArray, int i32NumToken)
-{
-	int i = 0;
-	int j = 0;
-	int head = -1;
-
-	for ( ; i < i32len; i++) {
-		if (pcSrc[i] != ' ') {
-			if (head == -1)
-				head = i;
-		} else {
-			if (head != -1) {
-				pi32IndexArray[j] = head;
-				j++;
-				if (j == i32NumToken)
-					return j;
-				head = -1;
-			}
-			pcSrc[i] = 0;
-		}
-	}
-
-	if (head != -1) {
-		pi32IndexArray[j] = head;
-		j++;
-		return j;
-	}
-
-	return -1;
-}
-#endif /* tokenizer */
-
 /* MBrain */
 static ssize_t opp_logs_show(struct kobject *kobj,
 		struct kobj_attribute *attr, char *buf)
@@ -882,59 +849,6 @@ static struct {
 	.lock     = __MUTEX_INITIALIZER(g_ged_event_change.lock),
 	.listen   = LIST_HEAD_INIT(g_ged_event_change.listen),
 };
-
-#if 0 /* camellia: unused: mtk_register_ged_event_change */
-bool mtk_register_ged_event_change(const char *name,
-	ged_event_change_fp callback, void *private_data)
-{
-	struct ged_event_change_entry_t *entry = NULL;
-
-	entry = kmalloc(sizeof(struct ged_event_change_entry_t), GFP_KERNEL);
-	if (entry == NULL)
-		return false;
-
-	entry->callback = callback;
-	entry->private_data = private_data;
-	strncpy(entry->name, name, sizeof(entry->name) - 1);
-	entry->name[sizeof(entry->name) - 1] = 0;
-	INIT_LIST_HEAD(&entry->sList);
-
-	mutex_lock(&g_ged_event_change.lock);
-
-	list_add(&entry->sList, &g_ged_event_change.listen);
-
-	mutex_unlock(&g_ged_event_change.lock);
-
-	return true;
-}
-#endif /* mtk_register_ged_event_change */
-
-#if 0 /* camellia: unused: mtk_unregister_ged_event_change */
-bool mtk_unregister_ged_event_change(const char *name)
-{
-	struct list_head *pos, *head;
-	struct ged_event_change_entry_t *entry = NULL;
-
-	mutex_lock(&g_ged_event_change.lock);
-
-	head = &g_ged_event_change.listen;
-	list_for_each(pos, head) {
-		entry = list_entry(pos, struct ged_event_change_entry_t, sList);
-		if (strncmp(entry->name, name, sizeof(entry->name) - 1) == 0)
-			break;
-		entry = NULL;
-	}
-
-	if (entry) {
-		list_del(&entry->sList);
-		kfree(entry);
-	}
-
-	mutex_unlock(&g_ged_event_change.lock);
-
-	return true;
-}
-#endif /* mtk_unregister_ged_event_change */
 
 void mtk_ged_event_notify(int events)
 {

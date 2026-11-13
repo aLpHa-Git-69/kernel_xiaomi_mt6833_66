@@ -25,15 +25,6 @@ int mtk_suspend_sysfs_entry_node_add(const char *name,
 }
 EXPORT_SYMBOL(mtk_suspend_sysfs_entry_node_add);
 
-#if 0 /* camellia: unused: mtk_suspend_sysfs_entry_node_remove */
-int mtk_suspend_sysfs_entry_node_remove(
-		struct mtk_lp_sysfs_handle *handle)
-{
-	return mtk_lp_sysfs_entry_func_node_remove(handle);
-}
-EXPORT_SYMBOL(mtk_suspend_sysfs_entry_node_remove);
-#endif /* mtk_suspend_sysfs_entry_node_remove */
-
 int mtk_suspend_sysfs_root_entry_create(void)
 {
 	int bRet = 0;
@@ -46,16 +37,3 @@ int mtk_suspend_sysfs_root_entry_create(void)
 	return bRet;
 }
 EXPORT_SYMBOL(mtk_suspend_sysfs_root_entry_create);
-
-#if 0 /* camellia: unused: mtk_suspend_sysfs_entry_root_get */
-int mtk_suspend_sysfs_entry_root_get(struct mtk_lp_sysfs_handle **handle)
-{
-	if (!handle ||
-		!IS_MTK_LP_SYS_HANDLE_VALID(&mtk_suspend_fs_root)
-	)
-		return -1;
-	*handle = &mtk_suspend_fs_root;
-	return 0;
-}
-EXPORT_SYMBOL(mtk_suspend_sysfs_entry_root_get);
-#endif /* mtk_suspend_sysfs_entry_root_get */

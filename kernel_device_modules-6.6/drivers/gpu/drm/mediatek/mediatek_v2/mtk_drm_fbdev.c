@@ -399,20 +399,3 @@ fini:
 
 	return ret;
 }
-
-#if 0 /* camellia: unused: mtk_fbdev_fini */
-void mtk_fbdev_fini(struct drm_device *dev)
-{
-	struct mtk_drm_private *priv = dev->dev_private;
-	struct drm_fb_helper *helper = &priv->fb_helper;
-
-	drm_fb_helper_unregister_info(helper);
-
-	if (helper->fb) {
-		drm_framebuffer_unregister_private(helper->fb);
-		drm_framebuffer_remove(helper->fb);
-	}
-
-	drm_fb_helper_fini(helper);
-}
-#endif /* mtk_fbdev_fini */

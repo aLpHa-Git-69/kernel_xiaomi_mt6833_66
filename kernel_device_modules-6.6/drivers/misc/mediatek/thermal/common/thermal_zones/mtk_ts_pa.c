@@ -124,12 +124,6 @@ static unsigned long get_tx_bytes(unsigned long pre_tx_bytes)
 	return tx_bytes;
 }
 
-#if 0 /* camellia: unused: tspa_get_MD_tx_tput */
-int tspa_get_MD_tx_tput(void)
-{
-	return tx_throughput;
-}
-#endif /* tspa_get_MD_tx_tput */
 static void pa_cal_stats(struct timer_list *t)
 {
 	struct pa_stats *stats_info = &pa_stats_info;

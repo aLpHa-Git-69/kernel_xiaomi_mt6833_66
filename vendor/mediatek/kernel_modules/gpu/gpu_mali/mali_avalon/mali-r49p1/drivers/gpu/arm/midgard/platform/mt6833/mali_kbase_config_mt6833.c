@@ -423,13 +423,6 @@ static struct kbase_platform_config versatile_platform_config = {
 #endif
 };
 
-#if 0 /* camellia: unused: kbase_get_platform_config */
-struct kbase_platform_config *kbase_get_platform_config(void)
-{
-    return &versatile_platform_config;
-}
-#endif /* kbase_get_platform_config */
-
 
 static int kbase_device_runtime_init(struct kbase_device *kbdev)
 {

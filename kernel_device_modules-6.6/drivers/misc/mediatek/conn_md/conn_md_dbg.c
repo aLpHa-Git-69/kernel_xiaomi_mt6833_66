@@ -147,23 +147,3 @@ int conn_md_dbg_init(void)
 	return 0;
 
 }
-
-#if 0 /* camellia: unused: conn_md_dbg_deinit */
-int conn_md_dbg_deinit(void)
-{
-
-#if USE_NEW_PROC_FS_FLAG
-	if (gConnMdDbgEntry != NULL)
-		proc_remove(gConnMdDbgEntry);
-#else
-
-	if (gConnMdDbgEntry != NULL) {
-		remove_proc_entry(CONN_MD_DBG_PROCNAME, NULL);
-		return -1;
-	}
-#endif
-
-	return 0;
-
-}
-#endif /* conn_md_dbg_deinit */

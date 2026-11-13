@@ -13,76 +13,6 @@
 #include "xhci.h"
 
 /* sideband internal helpers */
-#if 0 /* camellia: unused: xhci_ring_to_sgtable */
-static struct sg_table *
-xhci_ring_to_sgtable(struct xhci_sideband *sb, struct xhci_ring *ring)
-{
-	struct xhci_segment *seg;
-	struct sg_table	*sgt;
-	unsigned int n_pages;
-	struct page **pages;
-	struct device *dev;
-	size_t sz;
-	int i;
-
-	dev = xhci_to_hcd(sb->xhci)->self.sysdev;
-	sz = ring->num_segs * TRB_SEGMENT_SIZE;
-	n_pages = PAGE_ALIGN(sz) >> PAGE_SHIFT;
-	pages = kvmalloc_array(n_pages, sizeof(struct page *), GFP_KERNEL);
-	if (!pages)
-		return NULL;
-
-	sgt = kzalloc(sizeof(struct sg_table), GFP_KERNEL);
-	if (!sgt) {
-		kvfree(pages);
-		return NULL;
-	}
-
-	seg = ring->first_seg;
-	/*
-	 * Rings can potentially have multiple segments, create an array that
-	 * carries page references to allocated segments.  Utilize the
-	 * sg_alloc_table_from_pages() to create the sg table, and to ensure
-	 * that page links are created.
-	 */
-	for (i = 0; i < ring->num_segs; i++) {
-		dma_get_sgtable(dev, sgt, seg->trbs, seg->dma,
-					TRB_SEGMENT_SIZE);
-		pages[i] = sg_page(sgt->sgl);
-		sg_free_table(sgt);
-		seg = seg->next;
-	}
-
-	if (sg_alloc_table_from_pages(sgt, pages, n_pages, 0, sz, GFP_KERNEL)) {
-		kvfree(pages);
-		kfree(sgt);
-
-		return NULL;
-	}
-	/*
-	 * Save first segment dma address to sg dma_address field for the sideband
-	 * client to have access to the IOVA of the ring.
-	 */
-	sg_dma_address(sgt->sgl) = ring->first_seg->dma;
-
-	return sgt;
-}
-#endif /* xhci_ring_to_sgtable */
-
-#if 0 /* camellia: unused: __xhci_sideband_remove_endpoint */
-static void
-__xhci_sideband_remove_endpoint(struct xhci_sideband *sb, struct xhci_virt_ep *ep)
-{
-	/*
-	 * Issue a stop endpoint command when an endpoint is removed.
-	 * The stop ep cmd handler will handle the ring cleanup.
-	 */
-	xhci_stop_endpoint_sync_(sb->xhci, ep, 0, GFP_KERNEL);
-
-	ep->sideband = NULL;
-	sb->eps[ep->ep_index] = NULL;
-}
-#endif /* __xhci_sideband_remove_endpoint */
 
 /* sideband api functions */
 
@@ -98,44 +28,6 @@ __xhci_sideband_remove_endpoint(struct xhci_sideband *sb, struct xhci_virt_ep *e
  *
  * Return: 0 on success, negative error otherwise.
  */
-#if 0 /* camellia: unused: xhci_sideband_add_endpoint_ */
-int
-xhci_sideband_add_endpoint_(struct xhci_sideband *sb,
-			   struct usb_host_endpoint *host_ep)
-{
-	struct xhci_virt_ep *ep;
-	unsigned int ep_index;
-
-	mutex_lock(&sb->mutex);
-	ep_index = xhci_get_endpoint_index_(&host_ep->desc);
-	ep = &sb->vdev->eps[ep_index];
-
-	if (ep->ep_state & EP_HAS_STREAMS) {
-		mutex_unlock(&sb->mutex);
-		return -EINVAL;
-	}
-
-	/*
-	 * Note, we don't know the DMA mask of the audio DSP device, if its
-	 * smaller than for xhci it won't be able to access the endpoint ring
-	 * buffer. This could be solved by not allowing the audio class driver
-	 * to add the endpoint the normal way, but instead offload it immediately,
-	 * and let this function add the endpoint and allocate the ring buffer
-	 * with the smallest common DMA mask
-	 */
-	if (sb->eps[ep_index] || ep->sideband) {
-		mutex_unlock(&sb->mutex);
-		return -EBUSY;
-	}
-
-	ep->sideband = sb;
-	sb->eps[ep_index] = ep;
-	mutex_unlock(&sb->mutex);
-
-	return 0;
-}
-EXPORT_SYMBOL_GPL(xhci_sideband_add_endpoint_);
-#endif /* xhci_sideband_add_endpoint_ */
 
 /**
  * xhci_sideband_remove_endpoint - remove endpoint from sideband access list
@@ -149,50 +41,6 @@ EXPORT_SYMBOL_GPL(xhci_sideband_add_endpoint_);
  *
  * Return: 0 on success, negative error otherwise.
  */
-#if 0 /* camellia: unused: xhci_sideband_remove_endpoint_ */
-int
-xhci_sideband_remove_endpoint_(struct xhci_sideband *sb,
-			      struct usb_host_endpoint *host_ep)
-{
-	struct xhci_virt_ep *ep;
-	unsigned int ep_index;
-
-	mutex_lock(&sb->mutex);
-	ep_index = xhci_get_endpoint_index_(&host_ep->desc);
-	ep = sb->eps[ep_index];
-
-	if (!ep || !ep->sideband) {
-		mutex_unlock(&sb->mutex);
-		return -ENODEV;
-	}
-
-	__xhci_sideband_remove_endpoint(sb, ep);
-	xhci_initialize_ring_info_(ep->ring, 1);
-	mutex_unlock(&sb->mutex);
-
-	return 0;
-}
-EXPORT_SYMBOL_GPL(xhci_sideband_remove_endpoint_);
-#endif /* xhci_sideband_remove_endpoint_ */
-
-#if 0 /* camellia: unused: xhci_sideband_stop_endpoint_ */
-int
-xhci_sideband_stop_endpoint_(struct xhci_sideband *sb,
-			    struct usb_host_endpoint *host_ep)
-{
-	struct xhci_virt_ep *ep;
-	unsigned int ep_index;
-
-	ep_index = xhci_get_endpoint_index_(&host_ep->desc);
-	ep = sb->eps[ep_index];
-
-	if (!ep || ep->sideband != sb)
-		return -EINVAL;
-
-	return xhci_stop_endpoint_sync_(sb->xhci, ep, 0, GFP_KERNEL);
-}
-EXPORT_SYMBOL_GPL(xhci_sideband_stop_endpoint_);
-#endif /* xhci_sideband_stop_endpoint_ */
 
 /**
  * xhci_sideband_get_endpoint_buffer - gets the endpoint transfer buffer address
@@ -207,24 +55,6 @@ EXPORT_SYMBOL_GPL(xhci_sideband_stop_endpoint_);
  *
  * Return: struct sg_table * if successful. NULL otherwise.
  */
-#if 0 /* camellia: unused: xhci_sideband_get_endpoint_buffer_ */
-struct sg_table *
-xhci_sideband_get_endpoint_buffer_(struct xhci_sideband *sb,
-			      struct usb_host_endpoint *host_ep)
-{
-	struct xhci_virt_ep *ep;
-	unsigned int ep_index;
-
-	ep_index = xhci_get_endpoint_index_(&host_ep->desc);
-	ep = sb->eps[ep_index];
-
-	if (!ep)
-		return NULL;
-
-	return xhci_ring_to_sgtable(sb, ep->ring);
-}
-EXPORT_SYMBOL_GPL(xhci_sideband_get_endpoint_buffer_);
-#endif /* xhci_sideband_get_endpoint_buffer_ */
 
 /**
  * xhci_sideband_get_event_buffer - return the event buffer for this device
@@ -238,17 +68,6 @@ EXPORT_SYMBOL_GPL(xhci_sideband_get_endpoint_buffer_);
  *
  * Return: struct sg_table * if successful. NULL otherwise.
  */
-#if 0 /* camellia: unused: xhci_sideband_get_event_buffer_ */
-struct sg_table *
-xhci_sideband_get_event_buffer_(struct xhci_sideband *sb)
-{
-	if (!sb || !sb->ir)
-		return NULL;
-
-	return xhci_ring_to_sgtable(sb, sb->ir->event_ring);
-}
-EXPORT_SYMBOL_GPL(xhci_sideband_get_event_buffer_);
-#endif /* xhci_sideband_get_event_buffer_ */
 
 /**
  * xhci_sideband_enable_interrupt - enable interrupt for secondary interrupter
@@ -261,20 +80,6 @@ EXPORT_SYMBOL_GPL(xhci_sideband_get_event_buffer_);
  *
  * Returns 0 on success, negative error otherwise
  */
-#if 0 /* camellia: unused: xhci_sideband_enable_interrupt_ */
-int xhci_sideband_enable_interrupt_(struct xhci_sideband *sb, u32 imod_interval)
-{
-	if (!sb || !sb->ir)
-		return -ENODEV;
-
-	xhci_set_interrupter_moderation_(sb->ir, imod_interval);
-	sb->ir->skip_events = false;
-	xhci_enable_interrupter_(sb->ir);
-
-	return 0;
-}
-EXPORT_SYMBOL_GPL(xhci_sideband_enable_interrupt_);
-#endif /* xhci_sideband_enable_interrupt_ */
 
 /**
  * xhci_sideband_create_interrupter - creates a new interrupter for this sideband
@@ -291,40 +96,6 @@ EXPORT_SYMBOL_GPL(xhci_sideband_enable_interrupt_);
  *
  * Returns 0 on success, negative error otherwise
  */
-#if 0 /* camellia: unused: xhci_sideband_create_interrupter_ */
-int
-xhci_sideband_create_interrupter_(struct xhci_sideband *sb, int num_seg,
-				 int intr_num, bool ip_autoclear)
-{
-	int ret = 0;
-
-	if (!sb)
-		return -ENODEV;
-
-	mutex_lock(&sb->mutex);
-	if (sb->ir) {
-		ret = -EBUSY;
-		goto out;
-	}
-
-	sb->ir = xhci_create_secondary_interrupter_(xhci_to_hcd(sb->xhci),
-			num_seg, intr_num);
-	if (!sb->ir) {
-		ret = -ENOMEM;
-		goto out;
-	}
-
-	sb->ir->ip_autoclear = ip_autoclear;
-	/* skip events for secondary interrupters by default */
-	sb->ir->skip_events = true;
-
-out:
-	mutex_unlock(&sb->mutex);
-
-	return ret;
-}
-EXPORT_SYMBOL_GPL(xhci_sideband_create_interrupter_);
-#endif /* xhci_sideband_create_interrupter_ */
 
 /**
  * xhci_sideband_remove_interrupter - remove the interrupter from a sideband
@@ -333,23 +104,6 @@ EXPORT_SYMBOL_GPL(xhci_sideband_create_interrupter_);
  * Removes a registered interrupt for a sideband.  This would allow for other
  * sideband users to utilize this interrupter.
  */
-#if 0 /* camellia: unused: xhci_sideband_remove_interrupter_ */
-void
-xhci_sideband_remove_interrupter_(struct xhci_sideband *sb)
-{
-	if (!sb || !sb->ir)
-		return;
-
-	mutex_lock(&sb->mutex);
-	if (!sb->ir->skip_events)
-		xhci_disable_interrupter_(sb->ir);
-	xhci_remove_secondary_interrupter_(xhci_to_hcd(sb->xhci), sb->ir);
-
-	sb->ir = NULL;
-	mutex_unlock(&sb->mutex);
-}
-EXPORT_SYMBOL_GPL(xhci_sideband_remove_interrupter_);
-#endif /* xhci_sideband_remove_interrupter_ */
 
 /**
  * xhci_sideband_interrupter_id - return the interrupter target id
@@ -363,17 +117,6 @@ EXPORT_SYMBOL_GPL(xhci_sideband_remove_interrupter_);
  *
  * Returns interrupter id on success, negative error othgerwise
  */
-#if 0 /* camellia: unused: xhci_sideband_interrupter_id_ */
-int
-xhci_sideband_interrupter_id_(struct xhci_sideband *sb)
-{
-	if (!sb || !sb->ir)
-		return -ENODEV;
-
-	return sb->ir->intr_num;
-}
-EXPORT_SYMBOL_GPL(xhci_sideband_interrupter_id_);
-#endif /* xhci_sideband_interrupter_id_ */
 
 /**
  * xhci_sideband_register - register a sideband for a usb device
@@ -435,28 +178,4 @@ EXPORT_SYMBOL_GPL(xhci_sideband_register_);
  * be accessed via sideband. The xhci driver can now take over handling
  * the buffers.
  */
-#if 0 /* camellia: unused: xhci_sideband_unregister_ */
-void
-xhci_sideband_unregister_(struct xhci_sideband *sb)
-{
-	struct xhci_hcd *xhci = sb->xhci;
-	int i;
-
-	mutex_lock(&sb->mutex);
-	for (i = 0; i < EP_CTX_PER_DEV; i++)
-		if (sb->eps[i])
-			__xhci_sideband_remove_endpoint(sb, sb->eps[i]);
-	mutex_unlock(&sb->mutex);
-
-	xhci_sideband_remove_interrupter_(sb);
-
-	spin_lock_irq(&xhci->lock);
-	sb->xhci = NULL;
-	sb->vdev->sideband = NULL;
-	spin_unlock_irq(&xhci->lock);
-
-	kfree(sb);
-}
-EXPORT_SYMBOL_GPL(xhci_sideband_unregister_);
-#endif /* xhci_sideband_unregister_ */
 MODULE_LICENSE("GPL");

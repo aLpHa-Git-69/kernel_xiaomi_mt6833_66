@@ -1124,22 +1124,6 @@ int mtk_disp_set_hrt_bw(struct mtk_drm_crtc *mtk_crtc, unsigned int bw)
 	return ret;
 }
 
-#if 0 /* camellia: unused: mtk_aod_scp_set_BW */
-void mtk_aod_scp_set_BW(void)
-{
-	mtk_ovl_set_aod_scp_hrt();
-	mtk_vidle_hrt_bw_set(7000);
-	mtk_vidle_srt_bw_set(7000);
-	mtk_vidle_dvfs_set(5);
-	mtk_vidle_dvfs_bw_set(7000);
-	mtk_vidle_channel_bw_set(7000, 0);
-	mtk_vidle_channel_bw_set(7000, 1);
-	mtk_vidle_channel_bw_set(7000, 2);
-	mtk_vidle_channel_bw_set(7000, 3);
-}
-EXPORT_SYMBOL(mtk_aod_scp_set_BW);
-#endif /* mtk_aod_scp_set_BW */
-
 void mtk_disp_get_channel_hrt_bw_by_scope(struct mtk_drm_crtc *mtk_crtc,
 		unsigned int scope, unsigned int *result, unsigned int size)
 {
@@ -1704,13 +1688,6 @@ void mtk_drm_set_mmclk_by_pixclk(struct drm_crtc *crtc,
 		}
 	}
 }
-
-#if 0 /* camellia: unused: mtk_drm_get_freq */
-unsigned long mtk_drm_get_freq(struct drm_crtc *crtc, const char *caller)
-{
-	return g_freq;
-}
-#endif /* mtk_drm_get_freq */
 
 unsigned long mtk_drm_get_mmclk(struct drm_crtc *crtc, const char *caller)
 {

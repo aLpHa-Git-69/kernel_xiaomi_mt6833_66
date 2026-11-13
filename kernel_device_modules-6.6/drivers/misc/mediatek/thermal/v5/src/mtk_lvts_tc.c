@@ -422,23 +422,6 @@ static void read_controller_reg_when_error(void)
 	}
 }
 
-#if 0 /* camellia: unused: read_controller_reg_when_error_by_ctrl_num */
-static void read_controller_reg_when_error_by_ctrl_num(int ctrl_num)
-{
-	int j, offset, temp;
-
-	//for (i = 0; i < ARRAY_SIZE(lvts_tscpu_g_tc); i++) {
-		offset = lvts_tscpu_g_tc[ctrl_num].tc_offset; //tc offset
-
-		for (j = 0; j < NUM_LVTS_CONTROLLER_REG; j++) {
-			temp = readl(LVTSMONCTL0_0 + g_lvts_controller_addrs[j]
-				+ offset);
-			g_lvts_controller_value_e[ctrl_num][j] = temp;
-		}
-	//}
-}
-#endif /* read_controller_reg_when_error_by_ctrl_num */
-
 static void read_device_reg_before_active(void)
 {
 	int i, j;
@@ -487,42 +470,6 @@ static void read_device_reg_when_error(void)
 	}
 }
 
-#if 0 /* camellia: unused: read_device_reg_when_error_by_ctrl_num */
-static void read_device_reg_when_error_by_ctrl_num(int ctrl_num)
-{
-	int j, offset, cnt;
-	unsigned int addr;
-
-	//for (i = 0; i < ARRAY_SIZE(lvts_tscpu_g_tc); i++) {
-
-		offset = lvts_tscpu_g_tc[ctrl_num].tc_offset; //tc offset
-
-		for (j = 0; j < NUM_LVTS_DEVICE_REG; j++) {
-			addr = g_lvts_device_addrs[j];
-			lvts_write_device(0x81020000, addr, 0x00, ctrl_num);
-			/* wait 2us + 3us buffer*/
-			udelay(5);
-			/* Check ASIF bus status for transaction finished
-			 * Wait until DEVICE_ACCESS_START = 0
-			 */
-			cnt = 0;
-			while ((readl(LVTS_CONFIG_0 + offset) & _BIT_(24))) {
-				cnt++;
-
-				if (cnt == 100) {
-					lvts_printk("Error: DEVICE_ACCESS_START didn't ready\n");
-					break;
-				}
-				udelay(2);
-			}
-
-			g_lvts_device_value_e[ctrl_num][j] = (readl(LVTSRDATA0_0
-				+ offset));
-		}
-	//}
-}
-#endif /* read_device_reg_when_error_by_ctrl_num */
-
 
 void clear_lvts_register_value_array(void)
 {
@@ -540,60 +487,6 @@ void clear_lvts_register_value_array(void)
 		}
 	}
 }
-
-#if 0 /* camellia: unused: dump_lvts_register_value_by_ctrl_num */
-static void dump_lvts_register_value_by_ctrl_num(int ctrl_num)
-{
-	int j, offset, tc_offset;
-	char buffer[512];
-
-	//for (i = 0; i < ARRAY_SIZE(lvts_tscpu_g_tc); i++) {
-		lvts_printk("[LVTS_ERROR][BEFROE][CONTROLLER_%d][DUMP]\n", ctrl_num);
-		tc_offset = lvts_tscpu_g_tc[ctrl_num].tc_offset; //tc offset
-
-		offset = sprintf(buffer, "[LVTS_ERROR][BEFORE][TC][DUMP] ");
-		for (j = 0; j < NUM_LVTS_CONTROLLER_REG; j++)
-			offset += sprintf(buffer + offset, "0x%x:%x ",
-					tc_offset + g_lvts_controller_addrs[j],
-					g_lvts_controller_value_b[ctrl_num][j]);
-
-		buffer[offset] = '\0';
-		lvts_printk("%s\n", buffer);
-
-		offset = sprintf(buffer, "[LVTS_ERROR][BEFORE][DEVICE][DUMP] ");
-		for (j = 0; j < NUM_LVTS_DEVICE_REG; j++)
-			offset += sprintf(buffer + offset, "0x%x:%x ",
-					g_lvts_device_addrs[j],
-					g_lvts_device_value_b[ctrl_num][j]);
-
-		buffer[offset] = '\0';
-		lvts_printk("%s\n", buffer);
-	//}
-
-	//for (i = 0; i < ARRAY_SIZE(lvts_tscpu_g_tc); i++) {
-		lvts_printk("[LVTS_ERROR][AFTER][CONTROLLER_%d][DUMP]\n", ctrl_num);
-		tc_offset = lvts_tscpu_g_tc[ctrl_num].tc_offset; //tc offset
-
-		offset = sprintf(buffer, "[LVTS_ERROR][AFTER][TC][DUMP] ");
-		for (j = 0; j < NUM_LVTS_CONTROLLER_REG; j++)
-			offset += sprintf(buffer + offset, "0x%x:%x ",
-					tc_offset + g_lvts_controller_addrs[j],
-					g_lvts_controller_value_e[ctrl_num][j]);
-
-		buffer[offset] = '\0';
-		lvts_printk("%s\n", buffer);
-
-		offset = sprintf(buffer, "[LVTS_ERROR][AFTER][DEVICE][DUMP] ");
-		for (j = 0; j < NUM_LVTS_DEVICE_REG; j++)
-			offset += sprintf(buffer + offset, "0x%x:%x ",
-					g_lvts_device_addrs[j],
-					g_lvts_device_value_e[ctrl_num][j]);
-
-		buffer[offset] = '\0';
-		lvts_printk("%s\n", buffer);
-	//}
-}
-#endif /* dump_lvts_register_value_by_ctrl_num */
 
 static void dump_lvts_register_value(void)
 {
@@ -657,19 +550,6 @@ void dump_lvts_error_info(void)
 	read_device_reg_when_error();
 	dump_lvts_register_value();
 }
-
-#if 0 /* camellia: unused: dump_lvts_error_info_by_ctrl_num */
-void dump_lvts_error_info_by_ctrl_num(int crtl_num)
-{
-	read_controller_reg_when_error_by_ctrl_num(crtl_num);
-
-	lvts_disable_all_sensing_points();
-	lvts_wait_for_all_sensing_point_idle();
-
-	read_device_reg_when_error_by_ctrl_num(crtl_num);
-	dump_lvts_register_value_by_ctrl_num(crtl_num);
-}
-#endif /* dump_lvts_error_info_by_ctrl_num */
 
 #endif
 
@@ -885,18 +765,6 @@ void lvts_device_read_count_RC_N(void)
 	read_device_reg_before_active();
 #endif
 }
-
-#if 0 /* camellia: unused: lvts_device_enable_auto_rck */
-void lvts_device_enable_auto_rck(void)
-{
-	int i;
-
-	for (i = 0; i < ARRAY_SIZE(lvts_tscpu_g_tc); i++) {
-		/* Set LVTS AUTO-RCK operation */
-		lvts_write_device(0xC1030000, 0x0E, 0x01, i);
-	}
-}
-#endif /* lvts_device_enable_auto_rck */
 
 void lvts_efuse_setting(void)
 {
@@ -1723,20 +1591,6 @@ void read_all_tc_lvts_temperature(void)
 }
 
 /* pause ALL periodoc temperature sensing point */
-#if 0 /* camellia: unused: lvts_pause_all_sensing_points */
-void lvts_pause_all_sensing_points(void)
-{
-	int i, temp, offset;
-
-	for (i = 0; i < ARRAY_SIZE(lvts_tscpu_g_tc); i++) {
-		offset = lvts_tscpu_g_tc[i].tc_offset;
-		temp = readl(offset + LVTSMSRCTL1_0);
-		/* set bit8=bit1=bit2=bit3=1 to pause sensing point 0,1,2,3 */
-		mt_reg_sync_writel_print((temp | 0x10E),
-					offset + LVTSMSRCTL1_0);
-	}
-}
-#endif /* lvts_pause_all_sensing_points */
 
 /*
  * lvts_thermal_check_all_sensing_point_idle -

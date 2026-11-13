@@ -594,13 +594,6 @@ void ssheap_dump_mem_info(void)
 		total_allocated_size, ssheap_phys_size - total_allocated_size);
 }
 
-#if 0 /* camellia: unused: ssheap_get_used_size */
-long long ssheap_get_used_size(void)
-{
-	return atomic64_read(&total_alloced_size);
-}
-#endif /* ssheap_get_used_size */
-
 void ssheap_enable_buddy_system(bool enable)
 {
 	pr_info("enable buddy system allocation\n");

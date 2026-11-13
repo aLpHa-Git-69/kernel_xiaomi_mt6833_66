@@ -3336,14 +3336,6 @@ static void pwrap_sw_monitor_clr(void)
 	}
 }
 
-#if 0 /* camellia: unused: pwrap_dump_and_recovery */
-void pwrap_dump_and_recovery(void)
-{
-	pwrap_dump_ap_register();
-	pwrap_dump_pmic_register();
-}
-#endif /* pwrap_dump_and_recovery */
-
 static u32 pwrap_readl(struct pmic_wrapper *wrp, enum pwrap_regs reg)
 {
 	return readl(wrp->base + wrp->master->regs[reg]);
@@ -3561,13 +3553,6 @@ static int pwrap_read32(struct pmic_wrapper *wrp, u32 adr, u32 *rdata)
 	return 0;
 }
 
-#if 0 /* camellia: unused: pwrap_read_hal */
-int pwrap_read_hal(struct pmic_wrapper *wrp, u32 adr, u32 *rdata)
-{
-	return wrp->slave->pwrap_read(wrp, adr, rdata);
-}
-#endif /* pwrap_read_hal */
-
 static int pwrap_read(struct pmic_wrapper *wrp, u32 adr, u32 *rdata)
 {
 	return wrp->slave->pwrap_read(wrp, adr, rdata);
@@ -3622,13 +3607,6 @@ static int pwrap_write32(struct pmic_wrapper *wrp, u32 adr, u32 wdata)
 
 	return 0;
 }
-
-#if 0 /* camellia: unused: pwrap_write_hal */
-int pwrap_write_hal(struct pmic_wrapper *wrp, u32 adr, u32 wdata)
-{
-	return wrp->slave->pwrap_write(wrp, adr, wdata);
-}
-#endif /* pwrap_write_hal */
 
 static int pwrap_write(struct pmic_wrapper *wrp, u32 adr, u32 wdata)
 {
@@ -4995,24 +4973,6 @@ static const struct of_device_id of_pwrap_match_tbl[] = {
 	}
 };
 MODULE_DEVICE_TABLE(of, of_pwrap_match_tbl);
-
-#if 0 /* camellia: unused: pwrap_node_to_regmap */
-struct regmap *pwrap_node_to_regmap(struct device_node *np)
-{
-	struct platform_device *pdev;
-	struct pmic_wrapper *wrp;
-
-	pdev = of_find_device_by_node(np);
-
-	if (!pdev)
-		return ERR_PTR(-ENODEV);
-
-	wrp = platform_get_drvdata(pdev);
-
-	return wrp->regmap;
-}
-EXPORT_SYMBOL_GPL(pwrap_node_to_regmap);
-#endif /* pwrap_node_to_regmap */
 
 /********************************************************************/
 /* return value : EINT_STA: [0]: CPU IRQ status in PMIC1 */

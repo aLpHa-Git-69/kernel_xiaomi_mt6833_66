@@ -1412,39 +1412,6 @@ enum ENUM_CHNL_EXT rlmGetScoForAP(struct ADAPTER *prAdapter,
  * \return UINT_8 AP channel number of Channel Center Frequency Segment 0
  */
 /*----------------------------------------------------------------------------*/
-#if 0 /* camellia: unused: rlmGetVhtS1ForAP */
-uint8_t rlmGetVhtS1ForAP(struct ADAPTER *prAdapter,
-		struct BSS_INFO *prBssInfo)
-{
-	uint32_t ucFreq1Channel;
-
-	struct P2P_ROLE_FSM_INFO *prP2pRoleFsmInfo =
-		(struct P2P_ROLE_FSM_INFO *) NULL;
-	struct P2P_CONNECTION_REQ_INFO *prP2pConnReqInfo =
-		(struct P2P_CONNECTION_REQ_INFO *) NULL;
-
-	prP2pRoleFsmInfo =
-		p2pFuncGetRoleByBssIdx(prAdapter, prBssInfo->ucBssIndex);
-
-	if (prBssInfo->ucVhtChannelWidth == VHT_OP_CHANNEL_WIDTH_20_40)
-		return 0;
-
-	if (!prAdapter->rWifiVar.ucApChnlDefFromCfg && prP2pRoleFsmInfo) {
-		prP2pConnReqInfo = &(prP2pRoleFsmInfo->rConnReqInfo);
-		ucFreq1Channel =
-			nicFreq2ChannelNum(
-				prP2pConnReqInfo->u4CenterFreq1 * 1000);
-	} else {
-		ucFreq1Channel = nicGetS1(
-			prAdapter,
-			prBssInfo->eBand,
-			prBssInfo->ucPrimaryChannel,
-			prBssInfo->ucVhtChannelWidth);
-	}
-
-	return ucFreq1Channel;
-}
-#endif /* rlmGetVhtS1ForAP */
 
 void rlmGetChnlInfoForCSA(struct ADAPTER *prAdapter,
 	enum ENUM_BAND eBand,

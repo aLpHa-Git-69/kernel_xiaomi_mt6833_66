@@ -128,13 +128,6 @@ PINT8 osal_strncpy(PINT8 dst, const PINT8 src, UINT32 len)
 	return strncpy(dst, src, len);
 }
 
-#if 0 /* camellia: unused: osal_strcat */
-PINT8 osal_strcat(PINT8 dst, const PINT8 src)
-{
-	return strncat(dst, src, strlen(src));
-}
-#endif /* osal_strcat */
-
 PINT8 osal_strncat(PINT8 dst, const PINT8 src, UINT32 len)
 {
 	return strncat(dst, src, len);
@@ -541,18 +534,6 @@ INT32 osal_signal_init(P_OSAL_SIGNAL pSignal)
 	}
 }
 
-#if 0 /* camellia: unused: osal_wait_for_signal */
-INT32 osal_wait_for_signal(P_OSAL_SIGNAL pSignal)
-{
-	if (pSignal) {
-		wait_for_completion_interruptible(&pSignal->comp);
-		return 0;
-	} else {
-		return -1;
-	}
-}
-#endif /* osal_wait_for_signal */
-
 /*
  * osal_wait_for_signal_timeout
  *
@@ -629,16 +610,6 @@ INT32 osal_raise_signal(P_OSAL_SIGNAL pSignal)
 		return -1;
 }
 
-#if 0 /* camellia: unused: osal_signal_active_state */
-INT32 osal_signal_active_state(P_OSAL_SIGNAL pSignal)
-{
-	if (pSignal)
-		return pSignal->timeoutValue;
-	else
-		return -1;
-}
-#endif /* osal_signal_active_state */
-
 INT32 osal_signal_deinit(P_OSAL_SIGNAL pSignal)
 {
 	if (pSignal) {
@@ -701,45 +672,6 @@ INT32 osal_event_deinit(P_OSAL_EVENT pEvent)
 {
 	return 0;
 }
-
-#if 0 /* camellia: unused: osal_wait_for_event_bit_set */
-LONG osal_wait_for_event_bit_set(P_OSAL_EVENT pEvent, PULONG pState, UINT32 bitOffset)
-{
-	UINT32 ms = 0;
-
-	if (pEvent) {
-		ms = pEvent->timeoutValue;
-		if (ms != 0)
-			return wait_event_interruptible_timeout(pEvent->waitQueue,
-								test_bit(bitOffset, pState),
-								msecs_to_jiffies(ms));
-		else
-			return wait_event_interruptible(pEvent->waitQueue,
-							test_bit(bitOffset, pState));
-	} else
-		return -1;
-
-}
-#endif /* osal_wait_for_event_bit_set */
-
-#if 0 /* camellia: unused: osal_wait_for_event_bit_clr */
-LONG osal_wait_for_event_bit_clr(P_OSAL_EVENT pEvent, PULONG pState, UINT32 bitOffset)
-{
-	UINT32 ms = 0;
-
-	if (pEvent) {
-		ms = pEvent->timeoutValue;
-		if (ms != 0)
-			return wait_event_interruptible_timeout(pEvent->waitQueue,
-								!test_bit(bitOffset, pState),
-								msecs_to_jiffies(ms));
-		else
-			return wait_event_interruptible(pEvent->waitQueue,
-							!test_bit(bitOffset, pState));
-	} else
-		return -1;
-}
-#endif /* osal_wait_for_event_bit_clr */
 
 /*
   *bit test and set/clear operations APIs
@@ -1403,14 +1335,6 @@ INT32 osal_sleep_ms(UINT32 ms)
 	return 0;
 }
 
-#if 0 /* camellia: unused: osal_udelay */
-INT32 osal_udelay(UINT32 us)
-{
-	udelay(us);
-	return 0;
-}
-#endif /* osal_udelay */
-
 INT32 osal_usleep_range(ULONG min, ULONG max)
 {
 	usleep_range(min, max);
@@ -1574,15 +1498,6 @@ INT32 osal_ftrace_print_ctrl(INT32 flag)
 	return 0;
 }
 
-#if 0 /* camellia: unused: osal_set_op_result */
-VOID osal_set_op_result(P_OSAL_OP pOp, INT32 result)
-{
-	if (pOp)
-		pOp->result = result;
-
-}
-#endif /* osal_set_op_result */
-
 static VOID _osal_opq_dump(const char *qName, P_OSAL_OP_Q pOpQ)
 {
 	/* Line format:
@@ -1674,26 +1589,6 @@ VOID osal_opq_dump_locked(const char *qName, P_OSAL_OP_Q pOpQ)
 {
 	_osal_opq_dump(qName, pOpQ);
 }
-
-#if 0 /* camellia: unused: osal_opq_has_op */
-MTK_WCN_BOOL osal_opq_has_op(P_OSAL_OP_Q pOpQ, P_OSAL_OP pOp)
-{
-	UINT32 rd;
-	UINT32 wt;
-	P_OSAL_OP op;
-
-	rd = pOpQ->read;
-	wt = pOpQ->write;
-
-	while (rd != wt) {
-		op = pOpQ->queue[rd & RB_MASK(pOpQ)];
-		if (op == pOp)
-			return MTK_WCN_BOOL_TRUE;
-		rd++;
-	}
-	return MTK_WCN_BOOL_FALSE;
-}
-#endif /* osal_opq_has_op */
 
 static VOID osal_op_history_print_work(struct work_struct *work)
 {

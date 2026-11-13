@@ -94,13 +94,6 @@ EXPORT_SYMBOL(lvsys_register_notifier);
  *
  *	Return: 0 on success, negative error code on failure.
  */
-#if 0 /* camellia: unused: lvsys_unregister_notifier */
-int lvsys_unregister_notifier(struct notifier_block *nb)
-{
-	return blocking_notifier_chain_unregister(&lvsys_notifier_list, nb);
-}
-EXPORT_SYMBOL(lvsys_unregister_notifier);
-#endif /* lvsys_unregister_notifier */
 
 struct vio18_ctrl_t {
 	struct notifier_block nb;

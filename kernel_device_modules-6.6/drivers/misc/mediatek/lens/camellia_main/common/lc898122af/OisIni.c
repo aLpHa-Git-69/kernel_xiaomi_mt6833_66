@@ -1223,24 +1223,6 @@ void IniCmd(void)
 		sizeof(struct stAdjPar)); /* Adjust Parameter Clear */
 }
 
-#if 0 /* camellia: unused: BsyWit */
-void BsyWit(unsigned short UsTrgAdr, unsigned char UcTrgDat)
-{
-	unsigned char UcFlgVal;
-
-	RegWriteA_LC898122AF(UsTrgAdr,
-			     UcTrgDat); /* Trigger Register Setting */
-
-	UcFlgVal = 1;
-
-	while (UcFlgVal) {
-
-		RegReadA_LC898122AF(UsTrgAdr, &UcFlgVal);
-		UcFlgVal &= (UcTrgDat & 0x0F);
-	};
-}
-#endif /* BsyWit */
-
 void MemClr(unsigned char *NcTgtPtr, unsigned short UsClrSiz)
 {
 	unsigned short UsClrIdx;
@@ -1261,15 +1243,6 @@ void GyOutSignal(void)
 	RegWriteA_LC898122AF(GRSEL, 0x02);
 }
 
-#if 0 /* camellia: unused: GyOutSignalCont */
-void GyOutSignalCont(void)
-{
-
-	/*Start OIS Reading */
-	RegWriteA_LC898122AF(GRSEL, 0x04);
-}
-#endif /* GyOutSignalCont */
-
 #ifdef STANDBY_MODE
 
 void AccWit(unsigned char UcTrgDat)
@@ -1284,131 +1257,6 @@ void AccWit(unsigned char UcTrgDat)
 	};
 }
 
-#if 0 /* camellia: unused: SelectGySleep */
-void SelectGySleep(unsigned char UcSelMode)
-{
-#ifdef USE_INVENSENSE
-	unsigned char UcRamIni;
-	unsigned char UcGrini;
-
-	if (UcSelMode == ON) {
-		RegWriteA_LC898122AF(WC_EQON,
-				     0x00); /* 0x0101       Equalizer OFF */
-		RegWriteA_LC898122AF(GRSEL,
-				     0x01); /* 0x0280       Set Command Mode */
-
-		RegReadA_LC898122AF(GRINI, &UcGrini);
-
-		RegWriteA_LC898122AF(GRINI, (UcGrini | SLOWMODE));
-
-		RegWriteA_LC898122AF(
-			GRADR0, 0x6B); /* 0x0283       Set Write Command */
-		RegWriteA_LC898122AF(GRACC, 0x01);
-		AccWit(0x01); /* Digital Gyro busy wait */
-		RegReadA_LC898122AF(GRDAT0H, &UcRamIni); /* 0x0290 */
-
-		UcRamIni |= 0x40; /* Set Sleep bit */
-#ifdef GYROSTBY
-		UcRamIni &= ~0x01; /* Clear PLL bit(internal oscillator */
-#endif
-
-		RegWriteA_LC898122AF(
-			GRADR0, 0x6B); /* 0x0283       Set Write Command */
-		RegWriteA_LC898122AF(
-			GSETDT,
-			UcRamIni); /* 0x028A       Set Write Data(Sleep ON) */
-		RegWriteA_LC898122AF(GRACC,
-				     0x10); /* 0x0282       Set Trigger ON */
-		AccWit(0x10); /* Digital Gyro busy wait */
-
-#ifdef GYROSTBY
-		RegWriteA_LC898122AF(
-			GRADR0, 0x6C); /* 0x0283       Set Write Command */
-		RegWriteA_LC898122AF(
-			GSETDT,
-			0x07); /* 0x028A       Set Write Data(STBY ON) */
-		RegWriteA_LC898122AF(GRACC,
-				     0x10); /* 0x0282       Set Trigger ON */
-		AccWit(0x10); /* Digital Gyro busy wait */
-#endif
-	} else {
-#ifdef GYROSTBY
-		RegWriteA_LC898122AF(
-			GRADR0, 0x6C); /* 0x0283       Set Write Command */
-		RegWriteA_LC898122AF(
-			GSETDT,
-			0x00); /* 0x028A       Set Write Data(STBY OFF) */
-		RegWriteA_LC898122AF(GRACC,
-				     0x10); /* 0x0282       Set Trigger ON */
-		AccWit(0x10); /* Digital Gyro busy wait */
-#endif
-		RegWriteA_LC898122AF(GRADR0, 0x6B);
-		RegWriteA_LC898122AF(GRACC, 0x01);
-		AccWit(0x01); /* Digital Gyro busy wait */
-		RegReadA_LC898122AF(GRDAT0H, &UcRamIni); /* 0x0290 */
-
-		UcRamIni &= ~0x40; /* Clear Sleep bit */
-#ifdef GYROSTBY
-		UcRamIni |= 0x01; /* Set PLL bit */
-#endif
-
-		RegWriteA_LC898122AF(
-			GSETDT,
-			UcRamIni); /* 0x028A       Set Write Data(Sleep OFF) */
-		RegWriteA_LC898122AF(GRACC,
-				     0x10); /* 0x0282       Set Trigger ON */
-		AccWit(0x10); /* Digital Gyro busy wait */
-
-		RegReadA_LC898122AF(GRINI, &UcGrini);
-
-		RegWriteA_LC898122AF(GRINI, (UcGrini & ~SLOWMODE));
-
-		GyOutSignal(); /* Select Gyro output signal */
-
-		WitTim_LC898122AF(50); /* 50ms wait */
-
-		RegWriteA_LC898122AF(
-			WC_EQON, 0x01); /* 0x0101       GYRO Equalizer ON */
-
-		ClrGyr(0x007F, CLR_FRAM1); /* Gyro Delay RAM Clear */
-	}
-#else /* Panasonic */
-
-	/* unsigned char   UcRamIni ; */
-
-	if (UcSelMode == ON) {
-		RegWriteA_LC898122AF(
-			WC_EQON, 0x00); /* 0x0101       GYRO Equalizer OFF */
-		RegWriteA_LC898122AF(GRSEL,
-				     0x01); /* 0x0280       Set Command Mode */
-		RegWriteA_LC898122AF(
-			GRADR0, 0x4C); /* 0x0283       Set Write Command */
-		RegWriteA_LC898122AF(
-			GSETDT,
-			0x02); /* 0x028A       Set Write Data(Sleep ON) */
-		RegWriteA_LC898122AF(GRACC,
-				     0x10); /* 0x0282       Set Trigger ON */
-		AccWit(0x10); /* Digital Gyro busy wait */
-	} else {
-		RegWriteA_LC898122AF(
-			GRADR0, 0x4C); /* 0x0283       Set Write Command */
-		RegWriteA_LC898122AF(
-			GSETDT,
-			0x00); /* 0x028A       Set Write Data(Sleep OFF) */
-		RegWriteA_LC898122AF(GRACC,
-				     0x10); /* 0x0282       Set Trigger ON */
-		AccWit(0x10); /* Digital Gyro busy wait */
-		GyOutSignal(); /* Select Gyro output signal */
-
-		WitTim_LC898122AF(50); /* 50ms wait */
-
-		RegWriteA_LC898122AF(
-			WC_EQON, 0x01);    /* 0x0101       GYRO Equalizer ON */
-		ClrGyr(0x007F, CLR_FRAM1); /* Gyro Delay RAM Clear */
-	}
-#endif
-}
-#endif /* SelectGySleep */
 #endif
 
 #ifdef GAIN_CONT

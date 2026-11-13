@@ -79,14 +79,6 @@ module_param_named(pl_t, bf_pl_t, int, 0644);
 module_param_named(lk_t, bf_lk_t, int, 0644);
 module_param_named(logo_t, bf_logo_t, int, 0644);
 
-#if 0 /* camellia: unused: mt_boot_finish */
-bool mt_boot_finish(void)
-{
-	return boot_finish;
-}
-EXPORT_SYMBOL_GPL(mt_boot_finish);
-#endif /* mt_boot_finish */
-
 static long long msec_high(unsigned long long nsec)
 {
 	if ((long long)nsec < 0) {

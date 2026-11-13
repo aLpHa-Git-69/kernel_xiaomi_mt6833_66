@@ -2648,18 +2648,6 @@ void p2pFuncSetForceTrxConfig(struct ADAPTER *prAdapter,
 }
 #endif
 
-#if 0 /* camellia: unused: p2pFuncGetForceTrxConfig */
-uint8_t
-p2pFuncGetForceTrxConfig(struct ADAPTER *prAdapter)
-{
-#if (CFG_SUPPORT_TRX_LIMITED_CONFIG == 1)
-	return prAdapter->rWifiVar.ucForceTrxConfig;
-#else
-	return 0;
-#endif
-}
-#endif /* p2pFuncGetForceTrxConfig */
-
 #if (CFG_SUPPORT_DFS_MASTER == 1)
 void p2pFuncSetDfsChannelAvailable(struct ADAPTER *prAdapter,
 	uint8_t ucAvailable, uint8_t ucChannel,
@@ -2812,38 +2800,6 @@ void p2pFuncStopRdd(struct ADAPTER *prAdapter, uint8_t ucBssIdx)
 	cnmMemFree(prAdapter, prCmdRddOnOffCtrl);
 
 }				/* p2pFuncStopRdd */
-
-#if 0 /* camellia: unused: p2pFuncCsaUpdateGcStaRec */
-void p2pFuncCsaUpdateGcStaRec(struct BSS_INFO *prBssInfo)
-{
-	struct STA_RECORD *prStaRec = prBssInfo->prStaRecOfAP;
-
-	/* Update VHT op info of target AP */
-	prStaRec->ucVhtOpChannelWidth =
-		prBssInfo->ucVhtChannelWidth;
-	prStaRec->ucVhtOpChannelFrequencyS1 =
-		prBssInfo->ucVhtChannelFrequencyS1;
-	prStaRec->ucVhtOpChannelFrequencyS2 =
-		prBssInfo->ucVhtChannelFrequencyS2;
-
-	/* Update HT, VHT PhyType of StaRec when GC switch channel granted */
-	if (prBssInfo->ucPhyTypeSet & PHY_TYPE_SET_802_11N) {
-		prStaRec->ucPhyTypeSet |= PHY_TYPE_BIT_HT;
-		prStaRec->ucDesiredPhyTypeSet |= PHY_TYPE_BIT_HT;
-	} else {
-		prStaRec->ucPhyTypeSet &= ~(PHY_TYPE_BIT_HT);
-		prStaRec->ucDesiredPhyTypeSet &= ~(PHY_TYPE_BIT_HT);
-	}
-
-	if (prBssInfo->ucPhyTypeSet & PHY_TYPE_SET_802_11AC) {
-		prStaRec->ucPhyTypeSet |= PHY_TYPE_BIT_VHT;
-		prStaRec->ucDesiredPhyTypeSet |= PHY_TYPE_BIT_VHT;
-	} else {
-		prStaRec->ucPhyTypeSet &= ~(PHY_TYPE_BIT_VHT);
-		prStaRec->ucDesiredPhyTypeSet &= ~(PHY_TYPE_BIT_VHT);
-	}
-}
-#endif /* p2pFuncCsaUpdateGcStaRec */
 
 void p2pFuncDfsSwitchCh(struct ADAPTER *prAdapter,
 		struct BSS_INFO *prBssInfo,
@@ -3170,13 +3126,6 @@ void p2pFuncRadarInfoInit(void)
 {
 	kalMemZero(&g_rP2pRadarInfo, sizeof(g_rP2pRadarInfo));
 }
-
-#if 0 /* camellia: unused: p2pFuncGetRadarInfo */
-void p2pFuncGetRadarInfo(struct P2P_RADAR_INFO *prP2pRadarInfo)
-{
-	kalMemCopy(prP2pRadarInfo, &g_rP2pRadarInfo, sizeof(*prP2pRadarInfo));
-}
-#endif /* p2pFuncGetRadarInfo */
 
 void p2pFuncSetRadarDetectMode(uint8_t ucRadarDetectMode)
 {
@@ -5068,34 +5017,6 @@ u_int8_t p2pFuncIsDualAPMode(struct ADAPTER *prAdapter)
 	return TRUE;
 }
 
-#if 0 /* camellia: unused: p2pFuncIsDualAPActive */
-u_int8_t p2pFuncIsDualAPActive(struct ADAPTER *prAdapter)
-{
-	uint8_t ucActiveSapNum = 0;
-	uint8_t ucBssIndex = 0;
-	struct BSS_INFO *prBssInfo = NULL;
-
-	if (!prAdapter)
-		return FALSE;
-
-	if (!p2pFuncIsDualAPMode(prAdapter))
-		return FALSE;
-
-	for (ucBssIndex = 0;
-	     ucBssIndex < prAdapter->ucSwBssIdNum;
-	     ucBssIndex++) {
-		prBssInfo = prAdapter->aprBssInfo[ucBssIndex];
-		if (prBssInfo &&
-		    IS_BSS_APGO(prBssInfo) &&
-		    IS_BSS_ACTIVE(prBssInfo)) {
-			ucActiveSapNum += 1;
-		}
-	}
-
-	return ucActiveSapNum > 1 ? TRUE : FALSE;
-}
-#endif /* p2pFuncIsDualAPActive */
-
 u_int8_t p2pFuncIsAPMode(struct P2P_CONNECTION_SETTINGS *prP2pConnSettings)
 {
 	if (prP2pConnSettings) {
@@ -5811,42 +5732,6 @@ p2pFuncKeepOnConnection(struct ADAPTER *prAdapter,
 }				/* p2pFuncKeepOnConnection */
 
 /* Currently Only for ASSOC Response Frame. */
-#if 0 /* camellia: unused: p2pFuncStoreAssocRspIEBuffer */
-void p2pFuncStoreAssocRspIEBuffer(struct ADAPTER *prAdapter,
-		struct P2P_JOIN_INFO *prP2pJoinInfo,
-		struct SW_RFB *prSwRfb)
-{
-	struct WLAN_ASSOC_RSP_FRAME *prAssocRspFrame =
-		(struct WLAN_ASSOC_RSP_FRAME *) NULL;
-	int16_t i2IELen = 0;
-
-	do {
-		ASSERT_BREAK((prAdapter != NULL)
-			&& (prP2pJoinInfo != NULL) && (prSwRfb != NULL));
-
-		prAssocRspFrame =
-			(struct WLAN_ASSOC_RSP_FRAME *) prSwRfb->pvHeader;
-
-		if (prAssocRspFrame->u2FrameCtrl != MAC_FRAME_ASSOC_RSP)
-			break;
-
-		i2IELen = prSwRfb->u2PacketLen -
-			(WLAN_MAC_HEADER_LEN +
-			CAP_INFO_FIELD_LEN +
-			STATUS_CODE_FIELD_LEN + AID_FIELD_LEN);
-
-		if (i2IELen <= 0)
-			break;
-
-		prP2pJoinInfo->u4BufLength = (uint32_t) i2IELen;
-
-		kalMemCopy(prP2pJoinInfo->aucIEBuf,
-			prAssocRspFrame->aucInfoElem,
-			prP2pJoinInfo->u4BufLength);
-
-	} while (FALSE);
-}				/* p2pFuncStoreAssocRspIEBuffer */
-#endif /* p2pFuncStoreAssocRspIEBuffer */
 
 /*---------------------------------------------------------------------------*/
 /*!
@@ -8945,64 +8830,6 @@ void p2pAAChCandModify(struct ADAPTER *prAdapter,
 
 }
 #endif /* CFG_SUPPORT_CCM */
-
-#if 0 /* camellia: unused: p2pForbiddenChRemove */
-void p2pForbiddenChRemove(struct ADAPTER *prAdapter,
-		uint8_t *ucChSwitchCandNum,
-		struct P2P_CH_SWITCH_CANDIDATE *prSapSwitchCand,
-		struct P2P_HW_BAND_GROUP *prHwBandGroup)
-{
-	struct BSS_INFO *aliveNonSapBss[MAX_BSSID_NUM];
-	uint8_t ucNumAliveNonSapBss;
-	struct BSS_INFO *aliveSapBss[MAX_BSSID_NUM] = { 0 };
-	uint8_t ucNumAliveSapBss;
-	uint8_t i;
-
-	ucNumAliveNonSapBss = cnmGetAliveNonSapBssInfo(
-						prAdapter, aliveNonSapBss);
-	ucNumAliveSapBss = cnmGetAliveNonSapBssInfo(
-						prAdapter, aliveSapBss);
-
-	if (ENUM_BAND_NUM == (ENUM_BAND_1 + 1) &&
-		ucNumAliveNonSapBss == 1 &&
-		aliveNonSapBss[0]->eHwBandIdx ==
-		ENUM_BAND_1) {
-		for (i = *ucChSwitchCandNum; i > 0; i--) {
-			if (prSapSwitchCand[i-1].eHwBand ==
-				ENUM_BAND_NUM ||
-				(prSapSwitchCand[i-1].eHwBand ==
-				aliveNonSapBss[0]->eHwBandIdx &&
-				prSapSwitchCand[i-1].eRfBand !=
-				aliveNonSapBss[0]->eBand)) {
-				p2pSapSwitchCandidateRemove(
-					ucChSwitchCandNum,
-					prSapSwitchCand, i-1);
-			}
-		}
-#if (CFG_SUPPORT_CONNAC3X == 1 && CFG_SUPPORT_CCM)
-	} else if (ENUM_BAND_NUM == (ENUM_BAND_2 + 1)) {
-
-		if (prHwBandGroup[ENUM_BAND_1].ucUnitNum != 0 &&
-			prHwBandGroup[ENUM_BAND_2].ucUnitNum == 0) {
-			p2pAAChCandModify(prAdapter,
-				ucChSwitchCandNum,
-				prSapSwitchCand,
-				prHwBandGroup[ENUM_BAND_1]
-				.arP2pHwBandUnit);
-		}
-		if (prHwBandGroup[ENUM_BAND_1].ucUnitNum == 0 &&
-			prHwBandGroup[ENUM_BAND_2].ucUnitNum != 0) {
-			p2pAAChCandModify(prAdapter,
-				ucChSwitchCandNum,
-				prSapSwitchCand,
-				prHwBandGroup[ENUM_BAND_2]
-				.arP2pHwBandUnit);
-
-		}
-#endif
-	}
-}
-#endif /* p2pForbiddenChRemove */
 
 void p2pHwBandMccRemove(struct ADAPTER *prAdapter,
 		uint8_t *ucChSwitchCandNum,

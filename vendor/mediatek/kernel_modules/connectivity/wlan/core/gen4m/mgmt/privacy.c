@@ -293,22 +293,6 @@ u_int8_t secCheckClassError(struct ADAPTER *prAdapter,
  *
  */
 /*----------------------------------------------------------------------------*/
-#if 0 /* camellia: unused: secSetPortBlocked */
-void secSetPortBlocked(struct ADAPTER *prAdapter,
-		       struct STA_RECORD *prSta, u_int8_t fgPortBlock)
-{
-#if 0				/* Marked for MT6630 */
-	if (prSta == NULL)
-		return;
-
-	prSta->fgPortBlock = fgPortBlock;
-
-	DBGLOG(RSN, TRACE,
-	       "The STA " MACSTR " port %s\n", MAC2STR(prSta->aucMacAddr),
-	       fgPortBlock == TRUE ? "BLOCK" : " OPEN");
-#endif
-}
-#endif /* secSetPortBlocked */
 
 #if 0				/* Marked for MT6630 */
 
@@ -1242,22 +1226,6 @@ uint8_t secGetBssIdxByRfb(struct ADAPTER *prAdapter, struct SW_RFB *prSwRfb)
 
 	return aisGetDefaultLinkBssIndex(prAdapter);
 }
-
-#if 0 /* camellia: unused: secGetBssByRfb */
-struct BSS_INFO *secGetBssByRfb(struct ADAPTER *prAdapter,
-		struct SW_RFB *prSwRfb)
-{
-	if (prAdapter && prSwRfb) {
-		uint8_t ucBssIndex = secGetBssIdxByWlanIdx(prAdapter,
-			prSwRfb->ucWlanIdx);
-
-		if (ucBssIndex != WTBL_RESERVED_ENTRY)
-			return GET_BSS_INFO_BY_INDEX(prAdapter, ucBssIndex);
-	}
-
-	return NULL;
-}
-#endif /* secGetBssByRfb */
 
 /*----------------------------------------------------------------------------*/
 /*!

@@ -9,27 +9,6 @@
 static struct test_thread_cb g_test_thread[SERV_THREAD_NUM];
 #endif
 
-#if 0 /* camellia: unused: net_ad_wrap_service */
-struct service_test *net_ad_wrap_service(void *adapter)
-{
-	return (struct service_test *)adapter;
-}
-#endif /* net_ad_wrap_service */
-
-#if 0 /* camellia: unused: net_ad_thread_proceed_tx */
-void net_ad_thread_proceed_tx(
-	struct test_wlan_info *winfos, u_char band_idx)
-{
-}
-#endif /* net_ad_thread_proceed_tx */
-
-#if 0 /* camellia: unused: net_ad_thread_stop_tx */
-void net_ad_thread_stop_tx(
-	struct test_wlan_info *winfos)
-{
-}
-#endif /* net_ad_thread_stop_tx */
-
 s_int32 net_ad_init_thread(
 	struct test_wlan_info *winfos,
 	struct test_configuration *configs,
@@ -42,24 +21,6 @@ s_int32 net_ad_release_thread(u_char thread_idx)
 {
 	return SERV_STATUS_OSAL_NET_FAIL;
 }
-
-#if 0 /* camellia: unused: net_ad_backup_cr */
-s_int32 net_ad_backup_cr(
-	struct test_wlan_info *winfos, struct test_bk_cr *test_bkcr,
-	u_long offset, enum test_bk_cr_type type)
-{
-	return SERV_STATUS_OSAL_NET_FAIL;
-}
-#endif /* net_ad_backup_cr */
-
-#if 0 /* camellia: unused: net_ad_restore_cr */
-s_int32 net_ad_restore_cr(
-	struct test_wlan_info *winfos, struct test_bk_cr *test_bkcr,
-	u_long offset)
-{
-	return SERV_STATUS_OSAL_NET_FAIL;
-}
-#endif /* net_ad_restore_cr */
 
 s_int32 net_ad_cfg_queue(
 	struct test_wlan_info *winfos, boolean enable)
@@ -80,16 +41,6 @@ s_int32 net_ad_exit_normal(
 {
 	return SERV_STATUS_OSAL_NET_FAIL;
 }
-
-#if 0 /* camellia: unused: net_ad_update_wdev */
-s_int32 net_ad_update_wdev(
-	u_int8 band_idx,
-	struct test_wlan_info *winfos,
-	struct test_configuration *configs)
-{
-	return SERV_STATUS_OSAL_NET_FAIL;
-}
-#endif /* net_ad_update_wdev */
 
 s_int32 net_ad_init_wdev(
 	struct test_wlan_info *winfos,
@@ -233,48 +184,12 @@ s_int32 net_ad_trigger_tx(
 	return SERV_STATUS_OSAL_NET_FAIL;
 }
 
-#if 0 /* camellia: unused: net_ad_rx_done_handle */
-s_int32 net_ad_rx_done_handle(
-	struct test_wlan_info *winfos,
-	void *rx_blk)
-{
-	return SERV_STATUS_OSAL_NET_FAIL;
-}
-#endif /* net_ad_rx_done_handle */
-
 s_int32 net_ad_set_band_mode(
 	struct test_wlan_info *winfos,
 	struct test_band_state *band_state)
 {
 	return SERV_STATUS_OSAL_NET_FAIL;
 }
-
-#if 0 /* camellia: unused: net_ad_set_txpwr_power_drop */
-s_int32 net_ad_set_txpwr_power_drop(
-	struct test_wlan_info *winfos,
-	u_char power_drop, u_char band_idx)
-{
-	return SERV_STATUS_OSAL_NET_FAIL;
-}
-#endif /* net_ad_set_txpwr_power_drop */
-
-#if 0 /* camellia: unused: net_ad_set_txpwr_percentage */
-s_int32 net_ad_set_txpwr_percentage(
-	struct test_wlan_info *winfos,
-	u_char percentage_ctrl, u_char band_idx)
-{
-	return SERV_STATUS_OSAL_NET_FAIL;
-}
-#endif /* net_ad_set_txpwr_percentage */
-
-#if 0 /* camellia: unused: net_ad_set_txpwr_backoff */
-s_int32 net_ad_set_txpwr_backoff(
-	struct test_wlan_info *winfos,
-	u_char backoff_ctrl, u_char band_idx)
-{
-	return SERV_STATUS_OSAL_NET_FAIL;
-}
-#endif /* net_ad_set_txpwr_backoff */
 
 s_int32 net_ad_init_txpwr(
 	struct test_wlan_info *winfos,
@@ -408,16 +323,6 @@ s_int32 net_ad_set_tmr(
 {
 	return SERV_STATUS_OSAL_NET_FAIL;
 }
-
-#if 0 /* camellia: unused: net_ad_get_rxv_stat */
-s_int32 net_ad_get_rxv_stat(
-	struct test_wlan_info *winfos,
-	u_char ctrl_band_idx,
-	struct test_rx_stat *rx_stat)
-{
-	return SERV_STATUS_OSAL_NET_FAIL;
-}
-#endif /* net_ad_get_rxv_stat */
 
 s_int32 net_ad_get_rxv_cnt(
 	struct test_wlan_info *winfos,

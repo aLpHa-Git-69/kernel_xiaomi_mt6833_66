@@ -96,29 +96,9 @@ void wfsys_lock(void)
 	wfsys_lock_record_trace(current);
 }
 
-#if 0 /* camellia: unused: wfsys_trylock */
-int wfsys_trylock(void)
-{
-	int ret = 0;
-
-	ret = mutex_trylock(&wfsys_mutex);
-	if (ret)
-		wfsys_lock_record_trace(current);
-
-	return ret;
-}
-#endif /* wfsys_trylock */
-
 void wfsys_unlock(void)
 {
 	wfsys_lock_release_trace();
 	mutex_unlock(&wfsys_mutex);
 }
-
-#if 0 /* camellia: unused: wfsys_is_locked */
-int wfsys_is_locked(void)
-{
-	return mutex_is_locked(&wfsys_mutex);
-}
-#endif /* wfsys_is_locked */
 

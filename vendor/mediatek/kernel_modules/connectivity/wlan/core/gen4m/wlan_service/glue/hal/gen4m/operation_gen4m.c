@@ -3280,28 +3280,6 @@ s_int32 mt_op_get_tx_tone_pwr(
 	return SERV_STATUS_SUCCESS;
 }
 
-#if 0 /* camellia: unused: mt_op_reset_recal_cnt */
-s_int32 mt_op_reset_recal_cnt(
-	struct test_wlan_info *winfos
-)
-{
-	s_int32 ret = SERV_STATUS_SUCCESS;
-	wlan_oid_handler_t pr_oid_funcptr = winfos->oid_funcptr;
-
-	if (pr_oid_funcptr == NULL)
-		return SERV_STATUS_HAL_OP_INVALID_NULL_POINTER;
-
-	ret = pr_oid_funcptr(winfos, /*call back to ServiceWlanOid*/
-		OP_WLAN_OID_RESET_RECAL_COUNT,
-		NULL,
-		0,
-		0,
-		NULL);
-
-	return ret;
-}
-#endif /* mt_op_reset_recal_cnt */
-
 s_int32 mt_op_get_recal_cnt(
 	struct test_wlan_info *winfos,
 	u_int32 *recal_cnt,

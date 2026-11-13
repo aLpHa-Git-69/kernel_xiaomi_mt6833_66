@@ -202,13 +202,6 @@ INT32 mtk_wcn_consys_stp_btif_tx(const PUINT8 pBuf, const UINT32 len, PUINT32 wr
 	return -wr_count;
 }
 
-#if 0 /* camellia: unused: mtk_wcn_consys_stp_btif_rx */
-INT32 mtk_wcn_consys_stp_btif_rx(PUINT8 pBuf, UINT32 len)
-{
-	return 0;
-}
-#endif /* mtk_wcn_consys_stp_btif_rx */
-
 INT32 mtk_wcn_consys_stp_btif_wakeup(VOID)
 {
 	INT32 iRet = 0;

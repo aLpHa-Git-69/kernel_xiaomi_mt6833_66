@@ -291,17 +291,6 @@ EXPORT_SYMBOL(gpufreq_get_segment_id);
  * Returns            : -
  * Description        : Dump GPU related infra status
  ***********************************************************************************/
-#if 0 /* camellia: unused: gpufreq_dump_infra_status */
-void gpufreq_dump_infra_status(void)
-{
-	mutex_lock(&gpufreq_power_lock);
-
-	gpufreq_dump_infra_status_no_lock(NULL, NULL, 0);
-
-	mutex_unlock(&gpufreq_power_lock);
-}
-EXPORT_SYMBOL(gpufreq_dump_infra_status);
-#endif /* gpufreq_dump_infra_status */
 
 /***********************************************************************************
  * Function Name      : gpufreq_dump_infra_status_logbuffer
@@ -310,17 +299,6 @@ EXPORT_SYMBOL(gpufreq_dump_infra_status);
  * Returns            : -
  * Description        : Dump GPU related infra status and write to log buffer
  ***********************************************************************************/
-#if 0 /* camellia: unused: gpufreq_dump_infra_status_logbuffer */
-void gpufreq_dump_infra_status_logbuffer(char *log_buf, int *log_len, int log_size)
-{
-	mutex_lock(&gpufreq_power_lock);
-
-	gpufreq_dump_infra_status_no_lock(log_buf, log_len, log_size);
-
-	mutex_unlock(&gpufreq_power_lock);
-}
-EXPORT_SYMBOL(gpufreq_dump_infra_status_logbuffer);
-#endif /* gpufreq_dump_infra_status_logbuffer */
 
 /***********************************************************************************
  * Function Name      : gpufreq_get_cur_freq
@@ -904,15 +882,6 @@ EXPORT_SYMBOL(gpufreq_power_control);
  *                      GPUFREQ_ENOENT - Null implementation
  * Description        : Control runtime active-idle state of GPU
  ***********************************************************************************/
-#if 0 /* camellia: unused: gpufreq_active_sleep_control */
-int gpufreq_active_sleep_control(enum gpufreq_power_state power)
-{
-	int ret = GPUFREQ_SUCCESS;
-
-	return ret;
-}
-EXPORT_SYMBOL(gpufreq_active_sleep_control);
-#endif /* gpufreq_active_sleep_control */
 
 /***********************************************************************************
  * Function Name      : gpufreq_commit
@@ -1262,13 +1231,6 @@ EXPORT_SYMBOL(gpufreq_get_core_num);
  * Returns            : -
  * Description        : Manually control PDCA setting
  ***********************************************************************************/
-#if 0 /* camellia: unused: gpufreq_pdca_config */
-void gpufreq_pdca_config(enum gpufreq_power_state power)
-{
-
-}
-EXPORT_SYMBOL(gpufreq_pdca_config);
-#endif /* gpufreq_pdca_config */
 
 /***********************************************************************************
  * Function Name      : gpufreq_fake_mtcmos_control
@@ -1277,29 +1239,11 @@ EXPORT_SYMBOL(gpufreq_pdca_config);
  * Returns            : -
  * Description        : Fake PWR_CON value of SPM MFG register
  ***********************************************************************************/
-#if 0 /* camellia: unused: gpufreq_fake_mtcmos_control */
-void gpufreq_fake_mtcmos_control(enum gpufreq_power_state power)
-{
-	if (power == GPU_PWR_ON)
-		gpufreq_set_mfgsys_config(CONFIG_FAKE_MTCMOS_CTRL, FEAT_ENABLE);
-	else if (power == GPU_PWR_OFF)
-		gpufreq_set_mfgsys_config(CONFIG_FAKE_MTCMOS_CTRL, FEAT_DISABLE);
-}
-EXPORT_SYMBOL(gpufreq_fake_mtcmos_control);
-#endif /* gpufreq_fake_mtcmos_control */
 
 /***********************************************************************************
  * Function Name      : gpufreq_update_debug_opp_info
  * Description        : Only for GPUFREQ internal debug purpose
  ***********************************************************************************/
-#if 0 /* camellia: unused: gpufreq_update_debug_opp_info */
-int gpufreq_update_debug_opp_info(void)
-{
-	int ret = GPUFREQ_SUCCESS;
-
-	return ret;
-}
-#endif /* gpufreq_update_debug_opp_info */
 
 /***********************************************************************************
  * Function Name      : gpufreq_get_working_table
@@ -1553,14 +1497,6 @@ done:
  * Function Name      : gpufreq_fix_dual_target_oppidx
  * Description        : Only for GPUFREQ internal debug purpose
  ***********************************************************************************/
-#if 0 /* camellia: unused: gpufreq_fix_dual_target_oppidx */
-int gpufreq_fix_dual_target_oppidx(int gpu_oppidx, int stack_oppidx)
-{
-	int ret = GPUFREQ_SUCCESS;
-
-	return ret;
-}
-#endif /* gpufreq_fix_dual_target_oppidx */
 
 /***********************************************************************************
  * Function Name      : gpufreq_fix_custom_freq_volt
@@ -1618,15 +1554,6 @@ done:
  * Function Name      : gpufreq_fix_dual_custom_freq_volt
  * Description        : Only for GPUFREQ internal debug purpose
  ***********************************************************************************/
-#if 0 /* camellia: unused: gpufreq_fix_dual_custom_freq_volt */
-int gpufreq_fix_dual_custom_freq_volt(unsigned int fgpu, unsigned int vgpu,
-	unsigned int fstack, unsigned int vstack)
-{
-	int ret = GPUFREQ_SUCCESS;
-
-	return ret;
-}
-#endif /* gpufreq_fix_dual_custom_freq_volt */
 
 /***********************************************************************************
  * Function Name      : gpufreq_set_mfgsys_config
@@ -1644,44 +1571,6 @@ EXPORT_SYMBOL(gpufreq_set_mfgsys_config);
  * Function Name      : gpufreq_mssv_commit
  * Description        : Only for GPUFREQ MSSV test purpose
  ***********************************************************************************/
-#if 0 /* camellia: unused: gpufreq_mssv_commit */
-int gpufreq_mssv_commit(unsigned int target, unsigned int val)
-{
-#if GPUFREQ_MSSV_TEST_MODE
-	struct gpufreq_ipi_data send_msg = {};
-	int ret = GPUFREQ_SUCCESS;
-
-	/* implement only on EB */
-	if (g_gpueb_support) {
-		raw_spin_lock_irqsave(&gpufreq_ipi_lock, g_ipi_irq_flags);
-		send_msg.cmd_id = CMD_MSSV_COMMIT;
-		send_msg.u.mssv.target = target;
-		send_msg.u.mssv.val = val;
-
-		if (!gpufreq_ipi_to_gpueb(send_msg))
-			ret = g_recv_msg.u.return_value;
-		else
-			ret = GPUFREQ_EINVAL;
-		raw_spin_unlock_irqrestore(&gpufreq_ipi_lock, g_ipi_irq_flags);
-	/* implement on AP */
-	} else {
-		if (gpufreq_fp && gpufreq_fp->mssv_commit)
-			ret = gpufreq_fp->mssv_commit(target, val);
-		else {
-			ret = GPUFREQ_ENOENT;
-			GPUFREQ_LOGE("null gpufreq platform function pointer (ENOENT)");
-		}
-	}
-
-	return ret;
-#else
-	GPUFREQ_UNREFERENCED(target);
-	GPUFREQ_UNREFERENCED(val);
-
-	return GPUFREQ_EINVAL;
-#endif /* GPUFREQ_MSSV_TEST_MODE */
-}
-#endif /* gpufreq_mssv_commit */
 
 /***********************************************************************************
  * Function Name      : gpufreq_ipi_to_gpueb

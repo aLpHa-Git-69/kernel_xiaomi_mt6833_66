@@ -95,10 +95,3 @@ int qos_add_interface(struct device *dev)
 {
 	return sysfs_create_group(&dev->kobj, &qos_attr_group);
 }
-
-#if 0 /* camellia: unused: qos_remove_interface */
-void qos_remove_interface(struct device *dev)
-{
-	sysfs_remove_group(&dev->kobj, &qos_attr_group);
-}
-#endif /* qos_remove_interface */

@@ -1136,38 +1136,6 @@ unsigned long ged_dvfs_get_last_commit_dual_idx(void)
 }
 EXPORT_SYMBOL(ged_dvfs_get_last_commit_dual_idx);
 
-#if 0 /* camellia: unused: ged_dvfs_write_sysram_protm_enter */
-unsigned int ged_dvfs_write_sysram_protm_enter(void)
-{
-	if(protm_cnt == 0x7FFFFFFF)
-		protm_cnt = 0;
-
-	protm_cnt++;
-	protm_status = protm_cnt|0x80000000;
-	mtk_gpueb_sysram_write(SYSRAM_GPU_EB_P_MODE_STATUS, protm_status);
-	protm_enable = 1;
-	trace_tracing_mark_write(5566, "p-mode",protm_enable);
-
-	return protm_status;
-}
-EXPORT_SYMBOL(ged_dvfs_write_sysram_protm_enter);
-#endif /* ged_dvfs_write_sysram_protm_enter */
-
-#if 0 /* camellia: unused: ged_dvfs_write_sysram_protm_exit */
-unsigned int ged_dvfs_write_sysram_protm_exit(void)
-{
-	protm_status = protm_status&0x7FFFFFFF;
-	mtk_gpueb_sysram_write(SYSRAM_GPU_EB_P_MODE_STATUS, protm_status);
-	if (protm_enable) {
-		protm_enable = 0;
-		trace_tracing_mark_write(5566, "p-mode",protm_enable);
-	}
-
-	return protm_status;
-}
-EXPORT_SYMBOL(ged_dvfs_write_sysram_protm_exit);
-#endif /* ged_dvfs_write_sysram_protm_exit */
-
 int ged_write_sysram_pwr_hint(int pwr_hint)
 {
 	mtk_gpueb_sysram_write(SYSRAM_GPU_PWR_HINT, pwr_hint);
@@ -1176,14 +1144,6 @@ int ged_write_sysram_pwr_hint(int pwr_hint)
 }
 EXPORT_SYMBOL(ged_write_sysram_pwr_hint);
 
-
-#if 0 /* camellia: unused: ged_dvfs_record_soc_timer */
-void ged_dvfs_record_soc_timer(u64 soc_timer)
-{
-	mtk_gpueb_record_soc_timer(soc_timer);
-}
-EXPORT_SYMBOL(ged_dvfs_record_soc_timer);
-#endif /* ged_dvfs_record_soc_timer */
 
 static int ged_dvfs_decide_ultra_step(int step)
 {
@@ -1575,27 +1535,6 @@ unsigned long get_ns_period_from_fps(unsigned int ui32Fps)
 	return 1000000/ui32Fps;
 }
 
-#if 0 /* camellia: unused: ged_dvfs_set_tuning_mode */
-void ged_dvfs_set_tuning_mode(GED_DVFS_TUNING_MODE eMode)
-{
-	g_eTuningMode = eMode;
-}
-#endif /* ged_dvfs_set_tuning_mode */
-
-#if 0 /* camellia: unused: ged_dvfs_set_tuning_mode_wrap */
-void ged_dvfs_set_tuning_mode_wrap(int eMode)
-{
-	ged_dvfs_set_tuning_mode((GED_DVFS_TUNING_MODE)eMode);
-}
-#endif /* ged_dvfs_set_tuning_mode_wrap */
-
-#if 0 /* camellia: unused: ged_dvfs_get_tuning_mode */
-GED_DVFS_TUNING_MODE ged_dvfs_get_tuning_mode(void)
-{
-	return g_eTuningMode;
-}
-#endif /* ged_dvfs_get_tuning_mode */
-
 GED_ERROR ged_dvfs_vsync_offset_event_switch(
 	GED_DVFS_VSYNC_OFFSET_SWITCH_CMD eEvent, bool bSwitch)
 {
@@ -1699,13 +1638,6 @@ CHECK_OUT:
 	mutex_unlock(&gsVSyncOffsetLock);
 	return ret;
 }
-
-#if 0 /* camellia: unused: ged_dvfs_vsync_offset_level_set */
-void ged_dvfs_vsync_offset_level_set(int i32level)
-{
-	g_VsyncOffsetLevel = i32level;
-}
-#endif /* ged_dvfs_vsync_offset_level_set */
 
 int ged_dvfs_vsync_offset_level_get(void)
 {
@@ -2643,20 +2575,6 @@ void set_api_sync_flag(int flag)
 	}
 }
 
-#if 0 /* camellia: unused: ged_get_api_sync_ts */
-unsigned long long ged_get_api_sync_ts(void)
-{
-	return g_latest_api_sync_ts_ms;
-}
-#endif /* ged_get_api_sync_ts */
-
-#if 0 /* camellia: unused: ged_reset_api_sync_ts */
-void ged_reset_api_sync_ts(void)
-{
-	g_latest_api_sync_ts_ms = 0;
-}
-#endif /* ged_reset_api_sync_ts */
-
 static void ged_update_margin_by_fps(int gpu_target)
 {
 	if (g_tb_dvfs_margin_value_min_cmd)
@@ -3326,20 +3244,6 @@ unsigned int ged_dvfs_get_custom_boost_gpu_freq(void)
 	return g_cust_boost_freq_id;
 }
 
-#if 0 /* camellia: unused: ged_dvfs_get_custom_ceiling_gpu_freq_info */
-struct cmd_info ged_dvfs_get_custom_ceiling_gpu_freq_info(void)
-{
-	return g_cust_upbound_freq_id_info;
-}
-#endif /* ged_dvfs_get_custom_ceiling_gpu_freq_info */
-
-#if 0 /* camellia: unused: ged_dvfs_get_custom_boost_gpu_freq_info */
-struct cmd_info ged_dvfs_get_custom_boost_gpu_freq_info(void)
-{
-	return g_cust_boost_freq_id_info;
-}
-#endif /* ged_dvfs_get_custom_boost_gpu_freq_info */
-
 ssize_t ged_dvfs_get_custom_ceiling_gpu_freq_info_str(char *buf,                    int sz, ssize_t pos)
 {
 	return get_cmd_info_dump(buf, sz, pos, &g_cust_upbound_freq_id_info);
@@ -3556,20 +3460,6 @@ unsigned int ged_dvfs_get_tb_dvfs_margin_mode(void)
 	return g_tb_dvfs_margin_mode;
 }
 
-#if 0 /* camellia: unused: ged_dvfs_get_margin_value_min_cmd */
-int ged_dvfs_get_margin_value_min_cmd(void)
-{
-	return g_tb_dvfs_margin_value_min_cmd;
-}
-#endif /* ged_dvfs_get_margin_value_min_cmd */
-
-#if 0 /* camellia: unused: ged_dvfs_get_margin_step */
-int ged_dvfs_get_margin_step(void)
-{
-	return g_tb_dvfs_margin_step;
-}
-#endif /* ged_dvfs_get_margin_step */
-
 static void ged_dvfs_loading_mode(int i32MarginValue)
 {
 	/* -1: default: */
@@ -3773,49 +3663,6 @@ EXIT_ged_dvfs_run:
 	mutex_unlock(&gsDVFSLock);
 }
 
-#if 0 /* camellia: unused: ged_dvfs_sw_vsync_query_data */
-void ged_dvfs_sw_vsync_query_data(struct GED_DVFS_UM_QUERY_PACK *psQueryData)
-{
-	psQueryData->ui32GPULoading = gpu_loading;
-
-	psQueryData->ui32GPUFreqID = ged_get_cur_oppidx();
-	psQueryData->gpu_cur_freq =
-		ged_get_freq_by_idx(psQueryData->ui32GPUFreqID);
-	psQueryData->gpu_pre_freq = ged_get_freq_by_idx(g_ui32PreFreqID);
-
-	psQueryData->nsOffset = ged_dvfs_vsync_offset_level_get();
-
-	psQueryData->ulWorkingPeriod_us = gL_ulWorkingPeriod_us;
-	psQueryData->ulPreCalResetTS_us = gL_ulPreCalResetTS_us;
-
-	psQueryData->ui32TargetPeriod_us = g_ui32TargetPeriod_us;
-	psQueryData->ui32BoostValue = g_ui32BoostValue;
-}
-#endif /* ged_dvfs_sw_vsync_query_data */
-
-#if 0 /* camellia: unused: ged_dvfs_track_latest_record */
-void ged_dvfs_track_latest_record(enum MTK_GPU_DVFS_TYPE *peType,
-	unsigned long *pulFreq)
-{
-	*peType = g_CommitType;
-	*pulFreq = g_ulCommitFreq;
-}
-#endif /* ged_dvfs_track_latest_record */
-
-#if 0 /* camellia: unused: ged_dvfs_get_gpu_commit_freq */
-unsigned long ged_dvfs_get_gpu_commit_freq(void)
-{
-	return ged_commit_freq;
-}
-#endif /* ged_dvfs_get_gpu_commit_freq */
-
-#if 0 /* camellia: unused: ged_dvfs_get_gpu_commit_opp_freq */
-unsigned long ged_dvfs_get_gpu_commit_opp_freq(void)
-{
-	return ged_commit_opp_freq;
-}
-#endif /* ged_dvfs_get_gpu_commit_opp_freq */
-
 unsigned int ged_dvfs_get_gpu_loading(void)
 {
 	unsigned int loading = 0;
@@ -3848,14 +3695,6 @@ void ged_dvfs_get_gpu_pre_freq(struct GED_DVFS_FREQ_DATA *psData)
 	psData->ulFreq = ged_get_freq_by_idx(g_ui32PreFreqID);
 }
 
-#if 0 /* camellia: unused: ged_get_gpu_dvfs_cal_freq */
-void ged_get_gpu_dvfs_cal_freq(unsigned long *p_policy_tar_freq, int *pmode)
-{
-	*p_policy_tar_freq = g_policy_tar_freq;
-	*pmode = g_mode;
-}
-#endif /* ged_get_gpu_dvfs_cal_freq */
-
 GED_ERROR ged_dvfs_probe_signal(int signo)
 {
 	int cache_pid = GED_NO_UM_SERVICE;
@@ -3886,13 +3725,6 @@ GED_ERROR ged_dvfs_probe_signal(int signo)
 		return GED_ERROR_INVALID_PARAMS;
 	}
 }
-
-#if 0 /* camellia: unused: set_target_fps */
-void set_target_fps(int i32FPS)
-{
-	g_ulvsync_period = get_ns_period_from_fps(i32FPS);
-}
-#endif /* set_target_fps */
 
 /* MBrain */
 void ged_dvfs_reset_opp_cost(int oppsize)
@@ -3968,14 +3800,6 @@ int ged_dvfs_init_opp_cost(void)
 
 	return 0;
 }
-
-#if 0 /* camellia: unused: ged_dvfs_get_real_oppfreq_num */
-int ged_dvfs_get_real_oppfreq_num(void)
-{
-	return g_real_oppfreq_num;
-}
-EXPORT_SYMBOL(ged_dvfs_get_real_oppfreq_num);
-#endif /* ged_dvfs_get_real_oppfreq_num */
 
 int ged_dvfs_query_loading(u64 *sum_loading, u64 *sum_delta_time)
 {
@@ -4154,13 +3978,6 @@ void ged_dvfs_set_lb_async_perf_diff(int perfDiffTH)
 {
 	g_lb_async_perf_diff_th = 100 + perfDiffTH;
 }
-
-#if 0 /* camellia: unused: ged_dvfs_get_lb_win_size_cmd */
-int ged_dvfs_get_lb_win_size_cmd(void)
-{
-	return g_loading_slide_window_size_cmd;
-}
-#endif /* ged_dvfs_get_lb_win_size_cmd */
 
 static enum hrtimer_restart gpu_mewtwo_timer_cb(struct hrtimer *timer)
 {

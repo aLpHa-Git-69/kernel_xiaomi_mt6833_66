@@ -509,13 +509,6 @@ EXPORT_SYMBOL(ged_kpi_check_if_fallback_mode_fp);
 
 /* ------------------------------------------------------------------- */
 void (*ged_kpi_fastdvfs_update_dcs_fp)(void);
-#if 0 /* camellia: unused: ged_kpi_fastdvfs_update_dcs */
-void ged_kpi_fastdvfs_update_dcs(void)
-{
-	if (ged_kpi_fastdvfs_update_dcs_fp)
-		ged_kpi_fastdvfs_update_dcs_fp();
-}
-#endif /* ged_kpi_fastdvfs_update_dcs */
 EXPORT_SYMBOL(ged_kpi_fastdvfs_update_dcs_fp);
 
 /* ------------------------------------------------------------------- */
@@ -620,25 +613,6 @@ static inline void check_refresh_diff(struct GED_KPI_HEAD *psHead)
 
 	}
 }
-
-#if 0 /* camellia: unused: update_fb_timer_set_count */
-void update_fb_timer_set_count(void)
-{
-	fb_timer_set_count++;
-	if (fb_timer_set_count >= 0xFFFFFFFF)
-		fb_timer_set_count = 0;
-
-	mtk_gpueb_sysram_write(SYSRAM_GPU_FB_FALLBACK_RESET_COUNT, fb_timer_set_count);
-}
-#endif /* update_fb_timer_set_count */
-
-#if 0 /* camellia: unused: reset_fb_timer_set_count */
-void reset_fb_timer_set_count(void)
-{
-	fb_timer_set_count = 0;
-	mtk_gpueb_sysram_write(SYSRAM_GPU_FB_FALLBACK_RESET_COUNT, fb_timer_set_count);
-}
-#endif /* reset_fb_timer_set_count */
 
 void update_gpu_fps_table(int i32MarginValue)
 {
@@ -1283,15 +1257,6 @@ static GED_BOOL ged_kpi_find_and_delete_miss_tag(u64 ulID, int i32FrameID
 	return ret;
 }
 
-#if 0 /* camellia: unused: ged_kpi_get_taget_time */
-u64 ged_kpi_get_taget_time(void)
-{
-	//return t_gpu_target_now *2;
-	//100ms
-	return 100000000;
-}
-#endif /* ged_kpi_get_taget_time */
-
 // input argument unit: nanosecond
 static void set_lb_timeout(int t_gpu_target)
 {
@@ -1315,15 +1280,6 @@ static void set_lb_timeout(int t_gpu_target)
 		break;
 	}
 }
-
-#if 0 /* camellia: unused: ged_kpi_set_loading_mode */
-void ged_kpi_set_loading_mode(unsigned int mode, unsigned int stride_size)
-{
-	g_loading_target_mode = mode;
-	g_loading_stride_size = stride_size;
-	set_lb_timeout(t_gpu_target_now);
-}
-#endif /* ged_kpi_set_loading_mode */
 
 /* ------------------------------------------------------------------- */
 /* while producer */
@@ -2530,17 +2486,6 @@ void ged_kpi_get_latest_perf_state(long long *t_cpu_remained,
 #endif /* MTK_GED_KPI */
 }
 /* ------------------------------------------------------------------- */
-#if 0 /* camellia: unused: ged_kpi_get_uncompleted_count */
-int ged_kpi_get_uncompleted_count(void)
-{
-#ifdef MTK_GED_KPI
-	/* return gx_i32UncompletedCount; */
-	return 0; /* disabled function */
-#else
-	return 0;
-#endif /* MTK_GED_KPI */
-}
-#endif /* ged_kpi_get_uncompleted_count */
 /* ------------------------------------------------------------------- */
 unsigned int ged_kpi_get_cur_fps(void)
 {
@@ -2645,111 +2590,6 @@ static GED_BOOL ged_kpi_update_sysram_uncompleted_fcn(void *pvoid, void *pvParam
 
 	return GED_TRUE;
 }
-
-#if 0 /* camellia: unused: ged_kpi_update_sysram_uncompleted_tgpu */
-void ged_kpi_update_sysram_uncompleted_tgpu(struct ged_sysram_info *info)
-{
-#if defined(MTK_GPU_EB_SUPPORT)
-	unsigned long long t_gpu_uncomplete = 0;
-	unsigned long long soc_timer = 0;
-	unsigned long long cur_type = 0;
-	unsigned long ulIRQFlags;
-	int i;
-	struct GED_KPI_HEAD *psHead;
-	unsigned long long current_timestamp;
-
-	if (info == NULL) {
-		GED_LOGD("ged sysram is null pointer");
-		return;
-	}
-
-	memset(info, 0, sizeof(struct ged_sysram_info));
-	current_timestamp = ged_get_time();
-
-	spin_lock_irqsave(&gs_hashtableLock, ulIRQFlags);
-	for	(i = 0; i < g_ged_head_record.head_num; i++) {
-		psHead = (struct GED_KPI_HEAD *)ged_hashtable_find(gs_hashtable
-						, (unsigned long)g_ged_head_record.ulID[i]);
-		if (psHead) {
-			if (psHead->i32Gpu_uncompleted_queue > 0) {
-				unsigned long long ullTimeStampTemp;
-
-				// Default GPU completion start time is queue
-				ullTimeStampTemp = psHead->last_TimeStamp1;
-				cur_type = GED_TIMESTAMP_TYPE_1;
-				soc_timer = psHead->last_TimeStamp1_soc_timer;
-
-				// release fence is signaled after queue
-				if (g_ged_pre_fence_chk == 1 &&
-					psHead->last_TimeStampP > psHead->last_TimeStamp1) {
-					ullTimeStampTemp = psHead->last_TimeStampP;
-					cur_type = GED_TIMESTAMP_TYPE_P;
-					soc_timer = psHead->last_TimeStampP_soc_timer;
-				}
-
-				t_gpu_uncomplete = current_timestamp - ullTimeStampTemp;
-			} else {
-				t_gpu_uncomplete = 0 ;
-			}
-
-			psHead->t_gpu_latest_uncompleted = t_gpu_uncomplete;
-
-			if (GPU_SOC_TIMER_SUPPORT) {
-				unsigned long long info_soc_overdue = info->last_uncomplete_soc_timer;
-				unsigned long long psHead_soc_overdue = soc_timer;
-				/* compare overdue timer to check uncomplete */
-				/* info is no data at first time */
-				if (info->last_tgpu_uncompleted_target == 0 &&
-					psHead->t_gpu_latest_uncompleted > 0) {
-					info->last_tgpu_uncompleted = psHead->t_gpu_latest_uncompleted;
-					info->last_tgpu_uncompleted_target = psHead->t_gpu_target;
-					info->last_uncomplete_soc_timer = soc_timer;
-					g_ged_eb_uncomplete_info.last_uncomplete_type = cur_type;
-					g_ged_eb_uncomplete_info.last_uncomplete_soc_timer = soc_timer;
-					g_ged_eb_uncomplete_info.ulID = psHead->ullWnd;
-					g_ged_eb_uncomplete_info.last_uncomplete_target =
-						psHead->t_gpu_target;
-				} else if (psHead->t_gpu_latest_uncompleted > 0){
-					info_soc_overdue += (info->last_tgpu_uncompleted_target / 1000) * 13;
-					psHead_soc_overdue += (psHead->t_gpu_target / 1000) * 13;
-					if (psHead_soc_overdue < info_soc_overdue) {
-						info->last_tgpu_uncompleted = psHead->t_gpu_latest_uncompleted;
-						info->last_tgpu_uncompleted_target = psHead->t_gpu_target;
-						info->last_uncomplete_soc_timer = soc_timer;
-						g_ged_eb_uncomplete_info.last_uncomplete_type = cur_type;
-						g_ged_eb_uncomplete_info.last_uncomplete_soc_timer = soc_timer;
-						g_ged_eb_uncomplete_info.ulID = psHead->ullWnd;
-						g_ged_eb_uncomplete_info.last_uncomplete_target =
-							psHead->t_gpu_target;
-					}
-				}
-			} else {
-				if (info->last_tgpu_uncompleted <=  psHead->t_gpu_latest_uncompleted) {
-					info->last_tgpu_uncompleted = psHead->t_gpu_latest_uncompleted;
-					info->last_tgpu_uncompleted_target = psHead->t_gpu_target;
-					info->last_uncomplete_soc_timer = soc_timer;
-					g_ged_eb_uncomplete_info.last_uncomplete_type = cur_type;
-					g_ged_eb_uncomplete_info.last_uncomplete_soc_timer = soc_timer;
-					g_ged_eb_uncomplete_info.ulID = psHead->ullWnd;
-					g_ged_eb_uncomplete_info.last_uncomplete_target =
-							psHead->t_gpu_target;
-
-				}
-			}
-
-			info->uncompleted_count += psHead->i32Gpu_uncompleted_queue;
-		}
-	}
-
-
-	if (info->uncompleted_count == 0) {
-		memset(&g_ged_eb_uncomplete_info, 0, sizeof(struct ged_eb_dvfs_last_record));
-	}
-
-	spin_unlock_irqrestore(&gs_hashtableLock, ulIRQFlags);
-#endif
-}
-#endif /* ged_kpi_update_sysram_uncompleted_tgpu */
 
 
 /* ------------------------------------------------------------------- */
@@ -2864,16 +2704,6 @@ void ged_kpi_system_exit(void)
 void (*ged_kpi_set_gpu_dvfs_hint_fp)(int t_gpu_target, int boost_accum_gpu);
 EXPORT_SYMBOL(ged_kpi_set_gpu_dvfs_hint_fp);
 
-#if 0 /* camellia: unused: ged_kpi_set_gpu_dvfs_hint */
-bool ged_kpi_set_gpu_dvfs_hint(int t_gpu_target, int boost_accum_gpu)
-{
-	if (ged_kpi_set_gpu_dvfs_hint_fp != NULL) {
-		ged_kpi_set_gpu_dvfs_hint_fp(t_gpu_target, boost_accum_gpu);
-		return true;
-	}
-	return false;
-}
-#endif /* ged_kpi_set_gpu_dvfs_hint */
 /* ------------------------------------------------------------------- */
 void (*ged_kpi_set_cpu_remained_time_fp)(long long t_cpu_remained,
 	int QedBuffer_length);
@@ -2974,21 +2804,7 @@ void ged_kpi_enable_fw_idle_policy(unsigned int enable)
 EXPORT_SYMBOL(ged_kpi_enable_fw_idle_policy);
 #endif /* MTK_GPU_FW_IDLE */
 /* ------------------------------------------------------------------- */
-#if 0 /* camellia: unused: ged_kpi_get_panel_refresh_rate */
-int ged_kpi_get_panel_refresh_rate(void)
-{
-	return g_target_fps_default;
-}
-EXPORT_SYMBOL(ged_kpi_get_panel_refresh_rate);
-#endif /* ged_kpi_get_panel_refresh_rate */
 /* ------------------------------------------------------------------- */
-#if 0 /* camellia: unused: ged_kpi_get_target_fps */
-int ged_kpi_get_target_fps(void)
-{
-	return g_target_fps;
-}
-EXPORT_SYMBOL(ged_kpi_get_target_fps);
-#endif /* ged_kpi_get_target_fps */
 /* ------------------------------------------------------------------- */
 
 static GED_BOOL ged_kpi_find_riskyBQ_func(unsigned long ulID,
@@ -3098,55 +2914,6 @@ GED_ERROR ged_kpi_timer_based_pick_riskyBQ(struct ged_risky_bq_info *info)
 	 */
 	return ret;
 }
-
-#if 0 /* camellia: unused: ged_kpi_eb_dvfs_get_time */
-GED_ERROR ged_kpi_eb_dvfs_get_time(struct ged_risky_bq_info *info)
-{
-	GED_ERROR ret = GED_ERROR_FAIL;
-	unsigned long ulIRQFlags;
-	int i;
-	struct GED_KPI_HEAD *psHead;
-
-	memset(info, 0, sizeof(struct ged_risky_bq_info));
-	spin_lock_irqsave(&gs_hashtableLock, ulIRQFlags);
-	for (i = 0; i < g_ged_head_record.head_num; i++) {
-		psHead = (struct GED_KPI_HEAD *)ged_hashtable_find(gs_hashtable
-						, (unsigned long)g_ged_head_record.ulID[i]);
-		if (psHead) {
-			ged_kpi_find_riskyBQ_func((unsigned long)g_ged_head_record.ulID[i],
-				(void *) psHead, (void *) info);
-		}
-	}
-	spin_unlock_irqrestore(&gs_hashtableLock, ulIRQFlags);
-
-	if (info->completed_bq.ullWnd == 0 ||
-			info->completed_bq.t_gpu <= 0 ||
-			info->completed_bq.t_gpu_target <= 0)
-		// no BQ available yet or all BQ is skipped by FPSGO
-		// uncompleted BQ is optional, so no need to check
-		return ret;
-
-	// t_gpu unit: ns -> us
-	info->completed_bq.t_gpu = div_u64(info->completed_bq.t_gpu, 1000);
-	info->completed_bq.t_gpu_target = div_u64(info->completed_bq.t_gpu_target, 1000);
-	info->uncompleted_bq.t_gpu = div_u64(info->uncompleted_bq.t_gpu, 1000);
-	info->uncompleted_bq.t_gpu_target = div_u64(info->uncompleted_bq.t_gpu_target, 1000);
-
-	// if uncompleted gpu time is calculated by TimeStampD
-	// allow gpu freq to decrease in fallback mode
-	if (info->uncompleted_bq.useTimeStampD)
-		ged_dvfs_set_uncomplete_ts_type(GED_TIMESTAMP_TYPE_D);
-	else
-		ged_dvfs_set_uncomplete_ts_type(GED_TIMESTAMP_TYPE_1);
-
-	ret = GED_OK;
-
-	/* if return OK, completed BQ's t_gpu & t_gpu_target must be non-zero, but
-	 * uncompleted BQ's t_gpu & t_gpu_target may be zero
-	 */
-	return ret;
-}
-#endif /* ged_kpi_eb_dvfs_get_time */
 
 static GED_BOOL ged_kpi_update_t_gpu_latest_uncompleted_fcn(unsigned long ulID,
 	void *pvoid, void *pvParam)

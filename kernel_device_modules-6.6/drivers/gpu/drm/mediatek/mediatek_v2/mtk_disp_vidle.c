@@ -307,22 +307,6 @@ void mtk_vidle_pq_power_put(const char *caller)
 		DDPPR_ERR("%s  put invalid cnt %d\n", caller, ref);
 }
 
-#if 0 /* camellia: unused: mtk_vidle_sync_mmdvfsrc_status_rc */
-void mtk_vidle_sync_mmdvfsrc_status_rc(unsigned int rc_en)
-{
-	mtk_disp_vidle_flag.rc_en = rc_en;
-	/* TODO: action for mmdvfsrc_status_rc */
-}
-#endif /* mtk_vidle_sync_mmdvfsrc_status_rc */
-
-#if 0 /* camellia: unused: mtk_vidle_sync_mmdvfsrc_status_wdt */
-void mtk_vidle_sync_mmdvfsrc_status_wdt(unsigned int wdt_en)
-{
-	mtk_disp_vidle_flag.wdt_en = wdt_en;
-	/* TODO: action for mmdvfsrc_status_wdt */
-}
-#endif /* mtk_vidle_sync_mmdvfsrc_status_wdt */
-
 /* for debug only, DONT use in flow */
 void mtk_vidle_set_all_flag(unsigned int en, unsigned int stop)
 {
@@ -863,15 +847,6 @@ void mtk_vidle_register(const struct dpc_funcs *funcs, enum mtk_dpc_version vers
 }
 EXPORT_SYMBOL(mtk_vidle_register);
 
-#if 0 /* camellia: unused: mtk_vdisp_register */
-void mtk_vdisp_register(const struct mtk_vdisp_funcs *fp, enum mtk_vdisp_version version)
-{
-	vidle_data.vdisp_version = version;
-	vdisp_func = *fp;
-}
-EXPORT_SYMBOL(mtk_vdisp_register);
-#endif /* mtk_vdisp_register */
-
 int mtk_vidle_get_power_if_in_use(void)
 {
 	int ret = 0;
@@ -889,11 +864,3 @@ int mtk_vidle_get_power_if_in_use(void)
 	return 0;
 }
 EXPORT_SYMBOL(mtk_vidle_get_power_if_in_use);
-
-#if 0 /* camellia: unused: mtk_vidle_put_power */
-void mtk_vidle_put_power(void)
-{
-	mtk_drm_pm_ctrl(vidle_data.drm_priv, DISP_PM_PUT);
-}
-EXPORT_SYMBOL(mtk_vidle_put_power);
-#endif /* mtk_vidle_put_power */

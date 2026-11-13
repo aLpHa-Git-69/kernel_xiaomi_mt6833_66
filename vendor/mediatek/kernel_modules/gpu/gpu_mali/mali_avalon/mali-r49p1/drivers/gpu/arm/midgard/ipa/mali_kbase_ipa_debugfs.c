@@ -237,46 +237,6 @@ static int current_power_get(void *data, u64 *val)
 }
 DEFINE_DEBUGFS_ATTRIBUTE(current_power, current_power_get, NULL, "%llu\n");
 
-#if 0 /* camellia: unused: kbase_ipa_model_debugfs_init */
-static void kbase_ipa_model_debugfs_init(struct kbase_ipa_model *model)
-{
-	struct list_head *it;
-	struct dentry *dir;
-
-	lockdep_assert_held(&model->kbdev->ipa.lock);
-
-	dir = debugfs_create_dir(model->ops->name, model->kbdev->mali_debugfs_directory);
-
-	if (IS_ERR_OR_NULL(dir)) {
-		dev_err(model->kbdev->dev, "Couldn't create mali debugfs %s directory",
-			model->ops->name);
-		return;
-	}
-
-	list_for_each(it, &model->params) {
-		struct kbase_ipa_model_param *param =
-			list_entry(it, struct kbase_ipa_model_param, link);
-		const struct file_operations *fops = NULL;
-
-		switch (param->type) {
-		case PARAM_TYPE_S32:
-			fops = &fops_s32;
-			break;
-		case PARAM_TYPE_STRING:
-			fops = &fops_string;
-			break;
-		}
-
-		if (unlikely(!fops)) {
-			dev_err(model->kbdev->dev, "Type not set for %s parameter %s\n",
-				model->ops->name, param->name);
-		} else {
-			debugfs_create_file(param->name, 0644, dir, param, fops);
-		}
-	}
-}
-#endif /* kbase_ipa_model_debugfs_init */
-
 void kbase_ipa_model_param_set_s32(struct kbase_ipa_model *model, const char *name, s32 val)
 {
 	struct kbase_ipa_model_param *param;
@@ -298,21 +258,3 @@ void kbase_ipa_model_param_set_s32(struct kbase_ipa_model *model, const char *na
 	mutex_unlock(&model->kbdev->ipa.lock);
 }
 KBASE_EXPORT_TEST_API(kbase_ipa_model_param_set_s32);
-
-#if 0 /* camellia: unused: kbase_ipa_debugfs_init */
-void kbase_ipa_debugfs_init(struct kbase_device *kbdev)
-{
-	mutex_lock(&kbdev->ipa.lock);
-
-	if (kbdev->ipa.configured_model != kbdev->ipa.fallback_model)
-		kbase_ipa_model_debugfs_init(kbdev->ipa.configured_model);
-	kbase_ipa_model_debugfs_init(kbdev->ipa.fallback_model);
-
-	debugfs_create_file("ipa_current_power", 0444, kbdev->mali_debugfs_directory, kbdev,
-			    &current_power);
-	debugfs_create_file("ipa_force_fallback_model", 0644, kbdev->mali_debugfs_directory, kbdev,
-			    &force_fallback_model);
-
-	mutex_unlock(&kbdev->ipa.lock);
-}
-#endif /* kbase_ipa_debugfs_init */

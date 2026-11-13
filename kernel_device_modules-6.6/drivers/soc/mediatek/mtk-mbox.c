@@ -353,84 +353,16 @@ EXPORT_SYMBOL_GPL(mtk_mbox_read_recv_irq);
  * set mbox base address to init register
  *
  */
-#if 0 /* camellia: unused: mtk_mbox_set_base_reg */
-int mtk_mbox_set_base_reg(struct mtk_mbox_device *mbdev, unsigned int mbox,
-		unsigned int addr)
-{
-	struct mtk_mbox_info *minfo;
-
-	if (!mbdev)
-		return MBOX_PLT_ERR;
-
-	if (mbox >= mbdev->count)
-		return MBOX_PARA_ERR;
-
-	minfo = &(mbdev->info_table[mbox]);
-	writel(addr, minfo->init_base_reg);
-
-
-	return MBOX_DONE;
-}
-EXPORT_SYMBOL_GPL(mtk_mbox_set_base_reg);
-#endif /* mtk_mbox_set_base_reg */
 
 /*
  * set mbox base address, task context
  *
  */
-#if 0 /* camellia: unused: mtk_mbox_set_base_addr */
-int mtk_mbox_set_base_addr(struct mtk_mbox_device *mbdev, unsigned int mbox,
-		unsigned int addr)
-{
-	struct mtk_mbox_info *minfo;
-	unsigned long flags;
-	int ret;
-
-	if (!mbdev)
-		return MBOX_PLT_ERR;
-
-	if (mbox >= mbdev->count)
-		return MBOX_PARA_ERR;
-
-	spin_lock_irqsave(&mbdev->info_table[mbox].mbox_lock, flags);
-	ret = mtk_mbox_set_base_reg(mbdev, mbox, addr);
-
-	if (ret != MBOX_DONE) {
-		spin_unlock_irqrestore(
-			&mbdev->info_table[mbox].mbox_lock, flags);
-		return ret;
-	}
-
-	minfo = &(mbdev->info_table[mbox]);
-	writel(addr, minfo->base);
-	spin_unlock_irqrestore(&mbdev->info_table[mbox].mbox_lock, flags);
-
-	return MBOX_DONE;
-}
-EXPORT_SYMBOL_GPL(mtk_mbox_set_base_addr);
-#endif /* mtk_mbox_set_base_addr */
 
 /*
  * mtk_mbox_cb_register, register callback function
  *
  */
-#if 0 /* camellia: unused: mtk_mbox_cb_register */
-int mtk_mbox_cb_register(struct mtk_mbox_device *mbdev, unsigned int pin_offset,
-		mbox_pin_cb_t mbox_pin_cb, void *prdata)
-{
-	struct mtk_mbox_pin_recv *pin_recv;
-
-	if (!mbdev)
-		return MBOX_PLT_ERR;
-
-	pin_recv = &(mbdev->pin_recv_table[pin_offset]);
-	pin_recv->mbox_pin_cb = mbox_pin_cb;
-	pin_recv->prdata = prdata;
-
-	return MBOX_DONE;
-}
-EXPORT_SYMBOL_GPL(mtk_mbox_cb_register);
-#endif /* mtk_mbox_cb_register */
 
 /*
  * mbox polling, context is protected by mbox_lock
@@ -1009,53 +941,14 @@ EXPORT_SYMBOL_GPL(mtk_mbox_dump_recv_pin);
 /*
  *mbox single send pin information dump
  */
-#if 0 /* camellia: unused: mtk_mbox_dump_send */
-void mtk_mbox_dump_send(struct mtk_mbox_device *mbdev, unsigned int pin)
-{
-	struct mtk_mbox_pin_send *pin_send;
-
-	if (mbdev) {
-		if (pin < mbdev->send_count) {
-			pin_send = &(mbdev->pin_send_table[pin]);
-			mtk_mbox_print_send(mbdev, pin_send);
-		}
-	}
-}
-EXPORT_SYMBOL_GPL(mtk_mbox_dump_send);
-#endif /* mtk_mbox_dump_send */
 
 /*
  *mbox single mbox information dump
  */
-#if 0 /* camellia: unused: mtk_mbox_dump */
-void mtk_mbox_dump(struct mtk_mbox_device *mbdev, unsigned int mbox)
-{
-	struct mtk_mbox_info *minfo;
-
-	if (mbdev) {
-		if (mbox < mbdev->count) {
-			minfo = &(mbdev->info_table[mbox]);
-			mtk_mbox_print_minfo(mbdev, minfo);
-		}
-	}
-}
-EXPORT_SYMBOL_GPL(mtk_mbox_dump);
-#endif /* mtk_mbox_dump */
 
 /*
  *mbox log enable function
  */
-#if 0 /* camellia: unused: mtk_mbox_log_enable */
-int mtk_mbox_log_enable(struct mtk_mbox_device *mbdev, bool enable)
-{
-	if (!mbdev)
-		return MBOX_PLT_ERR;
-
-	mbdev->log_enable = enable;
-	return MBOX_DONE;
-}
-EXPORT_SYMBOL_GPL(mtk_mbox_log_enable);
-#endif /* mtk_mbox_log_enable */
 
 /*
  *mbox reset record

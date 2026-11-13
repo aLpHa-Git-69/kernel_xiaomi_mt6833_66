@@ -191,14 +191,6 @@ done:
 	return session_info;
 }
 
-#if 0 /* camellia: unused: disp_get_session_sync_info */
-struct mtk_fence_session_sync_info *
-disp_get_session_sync_info(unsigned int session_id)
-{
-	return _get_session_sync_info(session_id);
-}
-#endif /* disp_get_session_sync_info */
-
 struct mtk_fence_info *_disp_sync_get_sync_info(unsigned int session_id,
 						unsigned int timeline_id)
 {
@@ -651,13 +643,6 @@ void mtk_release_session_fence(unsigned int session_id)
 	for (i = 0; i < ARRAY_SIZE(session_sync_info->session_layer_info); i++)
 		mtk_release_layer_fence(session_id, i);
 }
-
-#if 0 /* camellia: unused: mtk_fence_get_ovl_timeline_id */
-int mtk_fence_get_ovl_timeline_id(int layer_id)
-{
-	return MTK_PLANE_OVL_TIMELINE_ID(layer_id);
-}
-#endif /* mtk_fence_get_ovl_timeline_id */
 
 int mtk_fence_get_present_timeline_id(unsigned int session_id)
 {

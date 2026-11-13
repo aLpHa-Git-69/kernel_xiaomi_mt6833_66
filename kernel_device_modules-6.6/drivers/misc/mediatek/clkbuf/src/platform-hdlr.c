@@ -131,20 +131,6 @@ int write_with_ofs(struct clkbuf_hw *hw, struct reg_t *reg, u32 val, u32 ofs)
 	return ret;
 }
 
-#if 0 /* camellia: unused: platform_read */
-int platform_read(struct clkbuf_hw *hw, struct reg_t *reg, u32 *val)
-{
-	return read_with_ofs(hw, reg, val, 0);
-}
-#endif /* platform_read */
-
-#if 0 /* camellia: unused: platform_write */
-int platform_write(struct clkbuf_hw *hw, struct reg_t *reg, u32 val)
-{
-	return write_with_ofs(hw, reg, val, 0);
-}
-#endif /* platform_write */
-
 /* example: */
 //static int __mtxxxx_get_pmrcen (void *data, u32 *out) {
 //
@@ -358,14 +344,6 @@ static struct match_platform *matches_platform[] = {
 	&mt8792_match,
 	NULL,
 };
-
-#if 0 /* camellia: unused: count_plat_hdlr_node */
-int count_plat_hdlr_node(struct device_node *clkbuf_node)
-{
-	/*create a node to represent platform handler management*/
-	return 1;
-}
-#endif /* count_plat_hdlr_node */
 
 int clkbuf_platform_init(struct clkbuf_dts *array, struct device *dev)
 {

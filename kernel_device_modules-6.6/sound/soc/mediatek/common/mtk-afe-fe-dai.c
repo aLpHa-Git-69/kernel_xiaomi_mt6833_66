@@ -59,23 +59,7 @@
 
 static unsigned int g_channel;
 
-#if 0 /* camellia: unused: mtk_get_channel_value */
-int mtk_get_channel_value(void)
-{
-	return g_channel;
-}
-EXPORT_SYMBOL(mtk_get_channel_value);
-#endif /* mtk_get_channel_value */
-
 static bool (*afe_is_vow_memif)(int);
-
-#if 0 /* camellia: unused: register_is_vow_bargein_memif_callback */
-void register_is_vow_bargein_memif_callback(bool (*callback)(int id))
-{
-	afe_is_vow_memif = callback;
-}
-EXPORT_SYMBOL(register_is_vow_bargein_memif_callback);
-#endif /* register_is_vow_bargein_memif_callback */
 
 static bool is_semaphore_control_need(bool is_scp_sema_support)
 {
@@ -864,33 +848,6 @@ int mtk_dynamic_irq_release(struct mtk_base_afe *afe, int irq_id)
 }
 EXPORT_SYMBOL_GPL(mtk_dynamic_irq_release);
 
-#if 0 /* camellia: unused: mtk_afe_suspend */
-int mtk_afe_suspend(struct snd_soc_component *component)
-{
-	struct mtk_base_afe *afe = snd_soc_component_get_drvdata(component);
-	struct device *dev = afe->dev;
-	struct regmap *regmap = afe->regmap;
-	int i;
-
-	if (pm_runtime_status_suspended(dev) || afe->suspended)
-		return 0;
-
-	if (!afe->reg_back_up)
-		afe->reg_back_up =
-			devm_kcalloc(dev, afe->reg_back_up_list_num,
-				     sizeof(unsigned int), GFP_KERNEL);
-
-	for (i = 0; i < afe->reg_back_up_list_num; i++)
-		regmap_read(regmap, afe->reg_back_up_list[i],
-			    &afe->reg_back_up[i]);
-
-	afe->suspended = true;
-	afe->runtime_suspend(dev);
-	return 0;
-}
-EXPORT_SYMBOL_GPL(mtk_afe_suspend);
-#endif /* mtk_afe_suspend */
-
 int mtk_afe_resume(struct snd_soc_component *component)
 {
 	struct mtk_base_afe *afe = snd_soc_component_get_drvdata(component);
@@ -1392,25 +1349,6 @@ int mtk_memif_set_pbuf_size(struct mtk_base_afe *afe,
 	return 0;
 }
 EXPORT_SYMBOL_GPL(mtk_memif_set_pbuf_size);
-
-#if 0 /* camellia: unused: mtk_memif_set_min_max_len */
-int mtk_memif_set_min_max_len(struct mtk_base_afe *afe, int id, int min_l, int max_l)
-{
-	const struct mtk_base_memif_data *memif_data = afe->memif[id].data;
-
-	if (memif_data->minlen_mask == 0 || memif_data->maxlen_mask == 0)
-		return 0;
-
-	mtk_regmap_update_bits(afe->regmap, memif_data->minlen_reg,
-			       memif_data->minlen_mask,
-			       min_l, memif_data->minlen_shift);
-	mtk_regmap_update_bits(afe->regmap, memif_data->maxlen_reg,
-			       memif_data->maxlen_mask,
-			       max_l, memif_data->maxlen_shift);
-	return 0;
-}
-EXPORT_SYMBOL_GPL(mtk_memif_set_min_max_len);
-#endif /* mtk_memif_set_min_max_len */
 
 MODULE_DESCRIPTION("Mediatek simple fe dai operator");
 MODULE_AUTHOR("Garlic Tseng <garlic.tseng@mediatek.com>");

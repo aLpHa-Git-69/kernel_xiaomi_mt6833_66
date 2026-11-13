@@ -2326,31 +2326,6 @@ int mtk_mmqos_remove(struct platform_device *pdev)
 	return 0;
 }
 
-#if 0 /* camellia: unused: clear_chnn_bw */
-void clear_chnn_bw(void)
-{
-	int i, j;
-
-	for (i = 0; i < MMQOS_MAX_COMM_NUM; i++) {
-		for (j = 0; j < MMQOS_COMM_CHANNEL_NUM; j++) {
-			chn_srt_r_bw[i][j] = 0;
-			chn_srt_w_bw[i][j] = 0;
-			chn_hrt_r_bw[i][j] = 0;
-			chn_hrt_w_bw[i][j] = 0;
-			v2_chn_srt_r_bw[i][j] = 0;
-			v2_chn_srt_w_bw[i][j] = 0;
-			v2_chn_hrt_r_bw[i][j] = 0;
-			v2_chn_hrt_w_bw[i][j] = 0;
-			disp_srt_r_bw[i][j] = 0;
-			disp_srt_w_bw[i][j] = 0;
-			disp_hrt_r_bw[i][j] = 0;
-			disp_hrt_w_bw[i][j] = 0;
-		}
-	}
-}
-EXPORT_SYMBOL_GPL(clear_chnn_bw);
-#endif /* clear_chnn_bw */
-
 void check_disp_chnn_bw(int i, int j, const int *ans)
 {
 	if (i >= 0 && j >= 0) {
@@ -2372,26 +2347,6 @@ void check_chnn_bw(int i, int j, int srt_r, int srt_w, int hrt_r, int hrt_w)
 	}
 }
 EXPORT_SYMBOL_GPL(check_chnn_bw);
-
-#if 0 /* camellia: unused: create_fake_comm_port_node */
-struct common_port_node *create_fake_comm_port_node(int hrt_type,
-	int srt_r, int srt_w, int hrt_r, int hrt_w)
-{
-	struct common_port_node *cpn;
-
-	cpn = devm_kzalloc(gmmqos->dev, sizeof(*cpn), GFP_KERNEL);
-	if (cpn != NULL) {
-		cpn->hrt_type = hrt_type;
-		cpn->old_avg_r_bw = srt_r;
-		cpn->old_avg_w_bw = srt_w;
-		cpn->old_peak_r_bw = hrt_r;
-		cpn->old_peak_w_bw = hrt_w;
-	}
-
-	return cpn;
-}
-EXPORT_SYMBOL_GPL(create_fake_comm_port_node);
-#endif /* create_fake_comm_port_node */
 
 static int mmqos_update_vdec_ostdl_trace(char *node_name, u32 larb_id, u32 value, u32 ostdl_set)
 {
@@ -2420,17 +2375,6 @@ static int mmqos_update_vdec_ostdl_trace(char *node_name, u32 larb_id, u32 value
 
 	return 0;
 }
-
-#if 0 /* camellia: unused: mmqos_set_met */
-void mmqos_set_met(bool enable)
-{
-	if (enable)
-		ftrace_ena |= (1 << MMQOS_PROFILE_MET);
-	else
-		ftrace_ena &= ~(1 << MMQOS_PROFILE_MET);
-}
-EXPORT_SYMBOL_GPL(mmqos_set_met);
-#endif /* mmqos_set_met */
 
 bool mmqos_met_enabled(void)
 {
@@ -2729,22 +2673,6 @@ EXPORT_SYMBOL_GPL(mmqos_debug_set_ftrace);
 
 module_param(log_level, uint, 0644);
 MODULE_PARM_DESC(log_level, "mmqos log level");
-
-#if 0 /* camellia: unused: set_mmqos_state */
-void set_mmqos_state(const u32 new_state)
-{
-	mmqos_state = new_state;
-}
-EXPORT_SYMBOL_GPL(set_mmqos_state);
-#endif /* set_mmqos_state */
-
-#if 0 /* camellia: unused: get_mmqos_state */
-int get_mmqos_state(void)
-{
-	return mmqos_state;
-}
-EXPORT_SYMBOL_GPL(get_mmqos_state);
-#endif /* get_mmqos_state */
 
 static int mmqos_set_state(const char *val, const struct kernel_param *kp)
 {

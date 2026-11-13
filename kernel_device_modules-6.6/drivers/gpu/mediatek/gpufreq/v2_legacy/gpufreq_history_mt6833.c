@@ -49,12 +49,3 @@ void gpufreq_set_history_target_opp(enum gpufreq_target target, int oppidx)
 }
 
 /* API: get target oppidx */
-#if 0 /* camellia: unused: gpufreq_get_history_target_opp */
-int gpufreq_get_history_target_opp(enum gpufreq_target target)
-{
-	if (target == TARGET_STACK)
-		return g_history_target_opp_stack;
-	else
-		return g_history_target_opp_top;
-}
-#endif /* gpufreq_get_history_target_opp */

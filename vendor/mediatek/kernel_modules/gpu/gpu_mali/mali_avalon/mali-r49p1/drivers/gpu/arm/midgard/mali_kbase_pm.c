@@ -37,20 +37,6 @@
 
 #include <backend/gpu/mali_kbase_clk_rate_trace_mgr.h>
 
-#if 0 /* camellia: unused: kbase_pm_powerup */
-int kbase_pm_powerup(struct kbase_device *kbdev, unsigned int flags)
-{
-	return kbase_hwaccess_pm_powerup(kbdev, flags);
-}
-#endif /* kbase_pm_powerup */
-
-#if 0 /* camellia: unused: kbase_pm_halt */
-void kbase_pm_halt(struct kbase_device *kbdev)
-{
-	kbase_hwaccess_pm_halt(kbdev);
-}
-#endif /* kbase_pm_halt */
-
 void kbase_pm_context_active(struct kbase_device *kbdev)
 {
 	(void)kbase_pm_context_active_handle_suspend(kbdev, KBASE_PM_SUSPEND_HANDLER_NOT_POSSIBLE);

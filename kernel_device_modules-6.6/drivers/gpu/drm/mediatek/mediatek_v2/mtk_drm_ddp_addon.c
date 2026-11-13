@@ -560,33 +560,6 @@ static void mtk_addon_path_stop(struct drm_crtc *crtc,
 	}
 }
 
-#if 0 /* camellia: unused: mtk_addon_path_config */
-void mtk_addon_path_config(struct drm_crtc *crtc,
-			const struct mtk_addon_module_data *module_data,
-			union mtk_addon_config *addon_config,
-			struct cmdq_pkt *cmdq_handle)
-{
-	int i;
-	struct mtk_ddp_comp *add_comp = NULL;
-	struct mtk_drm_private *priv = crtc->dev->dev_private;
-	enum mtk_ddp_comp_id prev_comp_id = -1, next_comp_id = -1;
-	const struct mtk_addon_path_data *path_data =
-		mtk_addon_module_get_path(module_data->module);
-
-	for (i = 0; i < path_data->path_len; i++) {
-		if (mtk_ddp_comp_get_type(path_data->path[i])
-			== MTK_DISP_VIRTUAL)
-			continue;
-
-		add_comp = priv->ddp_comp[path_data->path[i]];
-		prev_comp_id = (i > 0) ? path_data->path[(i - 1)] : -1;
-		next_comp_id = (i < path_data->path_len - 1) ? path_data->path[(i + 1)] : -1;
-		mtk_ddp_comp_addon_config(add_comp, prev_comp_id, next_comp_id,
-					  addon_config, cmdq_handle);
-	}
-}
-#endif /* mtk_addon_path_config */
-
 static void
 mtk_addon_path_connect_and_add_mutex(struct drm_crtc *crtc,
 				     unsigned int ddp_mode,

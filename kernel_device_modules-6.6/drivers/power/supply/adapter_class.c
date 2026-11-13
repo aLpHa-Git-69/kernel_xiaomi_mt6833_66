@@ -150,18 +150,6 @@ int adapter_dev_send_hardreset(struct adapter_device *adapter_dev)
 }
 EXPORT_SYMBOL(adapter_dev_send_hardreset);
 
-#if 0 /* camellia: unused: adapter_dev_exit_mode */
-int adapter_dev_exit_mode(struct adapter_device *adapter_dev)
-{
-	if (adapter_dev != NULL && adapter_dev->ops != NULL &&
-	    adapter_dev->ops->exit_mode)
-		return adapter_dev->ops->exit_mode(adapter_dev);
-
-	return -EOPNOTSUPP;
-}
-EXPORT_SYMBOL(adapter_dev_exit_mode);
-#endif /* adapter_dev_exit_mode */
-
 static DEVICE_ATTR_RO(name);
 
 static struct attribute *adapter_class_attrs[] = {
@@ -190,18 +178,6 @@ int register_adapter_device_notifier(struct adapter_device *adapter_dev,
 	return ret;
 }
 EXPORT_SYMBOL(register_adapter_device_notifier);
-
-#if 0 /* camellia: unused: unregister_adapter_device_notifier */
-int unregister_adapter_device_notifier(struct adapter_device *adapter_dev,
-				struct notifier_block *nb)
-{
-	if (!adapter_dev)
-		return -ENODEV;
-
-	return srcu_notifier_chain_unregister(&adapter_dev->evt_nh, nb);
-}
-EXPORT_SYMBOL(unregister_adapter_device_notifier);
-#endif /* unregister_adapter_device_notifier */
 
 /**
  * adapter_device_register - create and register a new object of

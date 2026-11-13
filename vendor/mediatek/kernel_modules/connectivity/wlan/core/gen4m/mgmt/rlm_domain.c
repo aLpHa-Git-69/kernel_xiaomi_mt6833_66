@@ -2500,17 +2500,6 @@ u_int8_t rlmDomainIsLegalChannel_V2(struct ADAPTER *prAdapter,
 #endif
 }
 
-#if 0 /* camellia: unused: rlmDomainIsStaSapIndoorConn */
-u_int8_t rlmDomainIsStaSapIndoorConn(struct ADAPTER *prAdapter)
-{
-#if CFG_CH_SELECT_ENHANCEMENT
-	return prAdapter->rWifiVar.ucStaSapIndoorConn;
-#else
-	return 0;
-#endif
-}
-#endif /* rlmDomainIsStaSapIndoorConn */
-
 u_int8_t rlmDomainIsIndoorChannel(struct ADAPTER *prAdapter,
 				 enum ENUM_BAND eBand, uint8_t ucChannel)
 {
@@ -5004,23 +4993,6 @@ rlmDomainBuildCmdByDefaultTable(struct ADAPTER *prAdapter,
 #endif /*#if (CFG_SUPPORT_PWR_LMT_EMI == 0)*/
 
 #if (CFG_SUPPORT_PWR_LMT_EMI == 0)
-#if 0 /* camellia: unused: rlmDomainCopyFromConfigTable */
-void rlmDomainCopyFromConfigTable(struct CMD_CHANNEL_POWER_LIMIT *prCmdPwrLimit,
-	struct COUNTRY_POWER_LIMIT_TABLE_CONFIGURATION *prPwrLimitConfig)
-{
-
-
-#if (CFG_SUPPORT_DYNA_TX_PWR_CTRL_11AC_V2_SETTING == 1)
-	kalMemCopy(&prCmdPwrLimit->cPwrLimitCCK_L,
-		   &prPwrLimitConfig->aucPwrLimit[0],
-		   PWR_LIMIT_NUM);
-#else
-	kalMemCopy(&prCmdPwrLimit->cPwrLimitCCK,
-		   &prPwrLimitConfig->aucPwrLimit[0],
-		   PWR_LIMIT_NUM);
-#endif /* CFG_SUPPORT_DYNA_TX_PWR_CTRL_11AC_V2_SETTING */
-}
-#endif /* rlmDomainCopyFromConfigTable */
 #endif /*#if (CFG_SUPPORT_PWR_LMT_EMI == 0)*/
 
 static void PwrLmtTblArbitrator(int8_t *target,
@@ -11556,23 +11528,6 @@ enum ENUM_MBMC_BN rlmDomainGetDfsDbdcBand(void)
 	return g_mtk_regd_control.eDBDCBand;
 }
 
-#if 0 /* camellia: unused: rlmDomainSetTempCountryCode */
-void rlmDomainSetTempCountryCode(char *alpha2, u8 size_of_alpha2)
-{
-	u8 idx, max;
-	u8 buf_size;
-
-	buf_size = sizeof(g_mtk_regd_control.tmp_alpha2);
-	max = (buf_size < size_of_alpha2) ? buf_size : size_of_alpha2;
-
-	g_mtk_regd_control.tmp_alpha2 = 0;
-
-	for (idx = 0; idx < max; idx++)
-		g_mtk_regd_control.tmp_alpha2 |= (alpha2[idx] << (idx * 8));
-
-}
-#endif /* rlmDomainSetTempCountryCode */
-
 enum regd_state rlmDomainStateTransition(
 				enum regd_state request_state)
 {
@@ -11769,13 +11724,6 @@ struct GLUE_INFO *rlmDomainGetGlueInfo(void)
 {
 	return g_mtk_regd_control.pGlueInfo;
 }
-
-#if 0 /* camellia: unused: rlmDomainIsEfuseUsed */
-bool rlmDomainIsEfuseUsed(void)
-{
-	return g_mtk_regd_control.isEfuseCountryCodeUsed;
-}
-#endif /* rlmDomainIsEfuseUsed */
 
 static const uint16_t g_u2SpecifyCountryGroup[] = {
 	COUNTRY_CODE_MA, COUNTRY_CODE_EG, COUNTRY_CODE_NG,

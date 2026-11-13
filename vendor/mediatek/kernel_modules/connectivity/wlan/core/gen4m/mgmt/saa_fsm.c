@@ -867,39 +867,6 @@ void saaFsmRunEventRxRespTimeOut(struct ADAPTER *prAdapter,
 			    (struct SW_RFB *) NULL);
 }				/* end of saaFsmRunEventRxRespTimeOut() */
 
-#if 0 /* camellia: unused: saaFsmFindStaRec */
-struct STA_RECORD *saaFsmFindStaRec(struct ADAPTER *prAdapter,
-		struct WLAN_MAC_MGMT_HEADER *mgmt)
-{
-	struct BSS_INFO *prBssInfo = (struct BSS_INFO *) NULL;
-	uint8_t ucBssIdx = 0;
-
-	do {
-		for (ucBssIdx = 0;
-			ucBssIdx < prAdapter->ucSwBssIdNum; ucBssIdx++) {
-			if (!IS_NET_ACTIVE(prAdapter, ucBssIdx))
-				continue;
-
-			prBssInfo = GET_BSS_INFO_BY_INDEX(prAdapter, ucBssIdx);
-
-			if (prBssInfo &&
-				EQUAL_MAC_ADDR(prBssInfo->aucOwnMacAddr,
-				mgmt->aucDestAddr))
-				break;
-
-			prBssInfo = NULL;
-		}
-
-	} while (FALSE);
-
-	if (!prBssInfo)
-		return NULL;
-
-	return cnmGetStaRecByAddress(prAdapter,
-		prBssInfo->ucBssIndex, mgmt->aucBSSID);
-}				/* p2pFuncBSSIDFindBssInfo */
-#endif /* saaFsmFindStaRec */
-
 
 /*----------------------------------------------------------------------------*/
 /*!

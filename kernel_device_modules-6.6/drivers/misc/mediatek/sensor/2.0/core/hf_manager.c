@@ -69,28 +69,6 @@ static void init_hf_core(struct hf_core *core)
 	INIT_LIST_HEAD(&core->device_list);
 }
 
-#if 0 /* camellia: unused: coordinate_map */
-void coordinate_map(unsigned char direction, int32_t *data)
-{
-	int32_t temp[3] = {0};
-
-	if (direction >= ARRAY_SIZE(coordinates))
-		return;
-
-	temp[coordinates[direction].map[0]] =
-		coordinates[direction].sign[0] * data[0];
-	temp[coordinates[direction].map[1]] =
-		coordinates[direction].sign[1] * data[1];
-	temp[coordinates[direction].map[2]] =
-		coordinates[direction].sign[2] * data[2];
-
-	data[0] = temp[0];
-	data[1] = temp[1];
-	data[2] = temp[2];
-}
-EXPORT_SYMBOL_GPL(coordinate_map);
-#endif /* coordinate_map */
-
 static bool filter_event_by_timestamp(struct hf_client_fifo *hf_fifo,
 		struct hf_manager_event *event)
 {
@@ -1260,31 +1238,6 @@ void hf_client_destroy(struct hf_client *client)
 }
 EXPORT_SYMBOL_GPL(hf_client_destroy);
 
-#if 0 /* camellia: unused: hf_client_find_sensor */
-int hf_client_find_sensor(struct hf_client *client, uint8_t sensor_type)
-{
-	if (unlikely(sensor_type >= SENSOR_TYPE_SENSOR_MAX))
-		return -EINVAL;
-	if (!test_bit(sensor_type, sensor_list_bitmap))
-		return -EINVAL;
-	return 0;
-}
-EXPORT_SYMBOL_GPL(hf_client_find_sensor);
-#endif /* hf_client_find_sensor */
-
-#if 0 /* camellia: unused: hf_client_get_sensor_info */
-int hf_client_get_sensor_info(struct hf_client *client,
-		uint8_t sensor_type, struct sensor_info *info)
-{
-	if (unlikely(sensor_type >= SENSOR_TYPE_SENSOR_MAX))
-		return -EINVAL;
-	if (!test_bit(sensor_type, sensor_list_bitmap))
-		return -EINVAL;
-	return hf_manager_device_info(client, sensor_type, info);
-}
-EXPORT_SYMBOL_GPL(hf_client_get_sensor_info);
-#endif /* hf_client_get_sensor_info */
-
 int hf_client_request_sensor_cali(struct hf_client *client,
 		uint8_t sensor_type, unsigned int cmd, bool status)
 {
@@ -1313,15 +1266,6 @@ int hf_client_request_sensor_cali(struct hf_client *client,
 }
 EXPORT_SYMBOL_GPL(hf_client_request_sensor_cali);
 
-#if 0 /* camellia: unused: hf_client_control_sensor */
-int hf_client_control_sensor(struct hf_client *client,
-		struct hf_manager_cmd *cmd)
-{
-	return hf_manager_drive_device(client, cmd);
-}
-EXPORT_SYMBOL_GPL(hf_client_control_sensor);
-#endif /* hf_client_control_sensor */
-
 static int fetch_next(struct hf_client_fifo *hf_fifo,
 				  struct hf_manager_event *event)
 {
@@ -1341,67 +1285,6 @@ static int fetch_next(struct hf_client_fifo *hf_fifo,
 }
 
 /* timeout: MAX_SCHEDULE_TIMEOUT or msecs_to_jiffies(ms) */
-#if 0 /* camellia: unused: hf_client_poll_sensor_timeout */
-int hf_client_poll_sensor_timeout(struct hf_client *client,
-		struct hf_manager_event *data, int count, long timeout)
-{
-	long ret = 0;
-	int read = 0;
-	struct hf_client_fifo *hf_fifo = &client->hf_fifo;
-
-	/* ret must be long to fill timeout(MAX_SCHEDULE_TIMEOUT) */
-	ret = wait_event_interruptible_timeout(hf_fifo->wait,
-		READ_ONCE(hf_fifo->head) != READ_ONCE(hf_fifo->tail), timeout);
-
-	if (!ret)
-		return -ETIMEDOUT;
-	if (ret < 0)
-		return ret;
-
-	for (;;) {
-		if (READ_ONCE(hf_fifo->head) == READ_ONCE(hf_fifo->tail))
-			return 0;
-		if (count == 0)
-			break;
-		while (read < count &&
-			fetch_next(hf_fifo, &data[read])) {
-			read++;
-		}
-		if (read)
-			break;
-	}
-	return read;
-}
-EXPORT_SYMBOL_GPL(hf_client_poll_sensor_timeout);
-#endif /* hf_client_poll_sensor_timeout */
-
-#if 0 /* camellia: unused: hf_client_custom_cmd */
-int hf_client_custom_cmd(struct hf_client *client,
-		uint8_t sensor_type, struct custom_cmd *cust_cmd)
-{
-	if (unlikely(sensor_type >= SENSOR_TYPE_SENSOR_MAX))
-		return -EINVAL;
-	if (!test_bit(sensor_type, sensor_list_bitmap))
-		return -EINVAL;
-	return hf_manager_custom_cmd(client, sensor_type, cust_cmd);
-}
-EXPORT_SYMBOL_GPL(hf_client_custom_cmd);
-#endif /* hf_client_custom_cmd */
-
-#if 0 /* camellia: unused: hf_client_debug */
-int hf_client_debug(struct hf_client *client, uint8_t sensor_type,
-		uint8_t *debug_buffer, unsigned int debug_len)
-{
-	if (unlikely(sensor_type >= SENSOR_TYPE_SENSOR_MAX))
-		return -EINVAL;
-	if (!test_bit(sensor_type, sensor_list_bitmap))
-		return -EINVAL;
-	if (!debug_buffer || !debug_len)
-		return -EINVAL;
-	return hf_manager_debug(client, sensor_type, debug_buffer, debug_len);
-}
-EXPORT_SYMBOL_GPL(hf_client_debug);
-#endif /* hf_client_debug */
 
 static int hf_manager_open(struct inode *inode, struct file *filp)
 {

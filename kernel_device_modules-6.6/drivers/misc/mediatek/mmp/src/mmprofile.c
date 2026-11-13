@@ -1110,23 +1110,6 @@ mmp_event mmprofile_register_event(mmp_event parent, const char *name)
 }
 EXPORT_SYMBOL(mmprofile_register_event);
 
-#if 0 /* camellia: unused: mmprofile_find_event */
-mmp_event mmprofile_find_event(mmp_event parent, const char *name)
-{
-	mmp_event event;
-
-	if (!mmprofile_globals.enable)
-		return 0;
-	if (in_interrupt())
-		return 0;
-	mutex_lock(&mmprofile_regtable_mutex);
-	event = mmprofile_find_event_int(parent, name);
-	mutex_unlock(&mmprofile_regtable_mutex);
-	return event;
-}
-EXPORT_SYMBOL(mmprofile_find_event);
-#endif /* mmprofile_find_event */
-
 void mmprofile_enable_ftrace_event(mmp_event event, long enable, long ftrace)
 {
 	unsigned int state;
@@ -1202,14 +1185,6 @@ void mmprofile_log_ex(mmp_event event, enum mmp_log_type type,
 }
 EXPORT_SYMBOL(mmprofile_log_ex);
 
-#if 0 /* camellia: unused: mmprofile_log */
-void mmprofile_log(mmp_event event, enum mmp_log_type type)
-{
-	mmprofile_log_ex(event, type, 0, 0);
-}
-EXPORT_SYMBOL(mmprofile_log);
-#endif /* mmprofile_log */
-
 long mmprofile_log_meta(mmp_event event, enum mmp_log_type type,
 	struct mmp_metadata_t *p_meta_data)
 {
@@ -1220,86 +1195,6 @@ long mmprofile_log_meta(mmp_event event, enum mmp_log_type type,
 	return mmprofile_log_meta_int(event, type, p_meta_data, 0);
 }
 EXPORT_SYMBOL(mmprofile_log_meta);
-
-#if 0 /* camellia: unused: mmprofile_log_meta_structure */
-long mmprofile_log_meta_structure(mmp_event event, enum mmp_log_type type,
-	struct mmp_metadata_structure_t *p_meta_data)
-{
-	int ret = 0;
-	struct mmp_metadata_t meta_data;
-
-	if (!mmprofile_globals.enable)
-		return 0;
-	if (event >= MMPROFILE_MAX_EVENT_COUNT)
-		return -3;
-	if (in_interrupt())
-		return 0;
-	if (event == MMP_INVALID_EVENT)
-		return 0;
-
-	if (!is_mmp_valid(event))
-		return 0;
-
-	meta_data.data1 = p_meta_data->data1;
-	meta_data.data2 = p_meta_data->data2;
-	meta_data.data_type = MMPROFILE_META_STRUCTURE;
-	meta_data.size = 32 + p_meta_data->struct_size;
-	meta_data.p_data = vmalloc(meta_data.size);
-	if (!meta_data.p_data)
-		return -1;
-	memcpy(meta_data.p_data, p_meta_data->struct_name, 32);
-	memcpy((void *)((unsigned long)(meta_data.p_data) + 32),
-		p_meta_data->p_data, p_meta_data->struct_size);
-	ret = mmprofile_log_meta(event, type, &meta_data);
-	vfree(meta_data.p_data);
-
-	return ret;
-}
-EXPORT_SYMBOL(mmprofile_log_meta_structure);
-#endif /* mmprofile_log_meta_structure */
-
-#if 0 /* camellia: unused: mmprofile_log_meta_string_ex */
-long mmprofile_log_meta_string_ex(mmp_event event, enum mmp_log_type type,
-	unsigned long data1, unsigned long data2, const char *str)
-{
-	long ret = 0;
-	struct mmp_metadata_t meta_data;
-
-	if (!mmprofile_globals.enable)
-		return 0;
-	if (event >= MMPROFILE_MAX_EVENT_COUNT)
-		return -3;
-	if (in_interrupt())
-		return 0;
-	if (event == MMP_INVALID_EVENT)
-		return 0;
-	if (!is_mmp_valid(event))
-		return 0;
-
-	meta_data.data1 = data1;
-	meta_data.data2 = data2;
-	meta_data.data_type = MMPROFILE_META_STRING_MBS;
-	meta_data.size = strlen(str) + 1;
-	meta_data.p_data = vmalloc(meta_data.size);
-	if (!meta_data.p_data)
-		return -1;
-	strncpy((char *)meta_data.p_data, str, strlen(str) + 1);
-	ret = mmprofile_log_meta(event, type, &meta_data);
-	vfree(meta_data.p_data);
-
-	return ret;
-}
-EXPORT_SYMBOL(mmprofile_log_meta_string_ex);
-#endif /* mmprofile_log_meta_string_ex */
-
-#if 0 /* camellia: unused: mmprofile_log_meta_string */
-long mmprofile_log_meta_string(mmp_event event, enum mmp_log_type type,
-	const char *str)
-{
-	return mmprofile_log_meta_string_ex(event, type, 0, 0, str);
-}
-EXPORT_SYMBOL(mmprofile_log_meta_string);
-#endif /* mmprofile_log_meta_string */
 
 long mmprofile_log_meta_bitmap(mmp_event event, enum mmp_log_type type,
 	struct mmp_metadata_bitmap_t *p_meta_data)

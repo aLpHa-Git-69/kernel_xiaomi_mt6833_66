@@ -1020,15 +1020,6 @@ int cpuhvfs_set_init_ptbl(void)
 	return 0;
 }
 
-#if 0 /* camellia: unused: cpuhvfs_set_turbo_scale */
-int cpuhvfs_set_turbo_scale(unsigned int turbo_f, unsigned int turbo_v)
-{
-	csram_write(OFFS_TURBO_FREQ, turbo_f);
-	csram_write(OFFS_TURBO_VOLT, turbo_v);
-
-	return 0;
-}
-#endif /* cpuhvfs_set_turbo_scale */
 #ifdef DFD_WORKAROUND
 int cpuhvfs_read_ack(void)
 {
@@ -1189,62 +1180,6 @@ int cpuhvfs_get_cur_volt(int cluster_id)
 	return csram_read(OFFS_CUR_VPROC_S + (p->Vproc_buck_id * 4));
 }
 
-#if 0 /* camellia: unused: cpuhvfs_get_volt */
-int cpuhvfs_get_volt(int buck_id)
-{
-#if IS_ENABLED(CONFIG_MTK_CPU_MSSV)
-	struct cdvfs_data cdvfs_d;
-	int ret = 0;
-
-	if (!cpumssv_get_state())
-		return csram_read(OFFS_CUR_VPROC_S + (buck_id * 4));
-
-	/* Cluster, Volt */
-	cdvfs_d.u.set_fv.arg[0] = buck_id;
-
-#if IS_ENABLED(CONFIG_MTK_TINYSYS_MCUPM_SUPPORT) || \
-	(IS_ENABLED(CONFIG_MTK_TINYSYS_SSPM_SUPPORT) && defined(USE_SSPM_VER_V2))
-	dvfs_to_mcupm_command(IPI_GET_VOLT, &cdvfs_d);
-#elif IS_ENABLED(CONFIG_MTK_TINYSYS_SSPM_SUPPORT) && defined(USE_SSPM_VER_V1)
-	dvfs_to_spm2_command(IPI_GET_VOLT, &cdvfs_d);
-#else
-#endif
-
-	return ret;
-#else
-	return csram_read(OFFS_CUR_VPROC_S + (buck_id * 4));
-#endif
-}
-#endif /* cpuhvfs_get_volt */
-
-#if 0 /* camellia: unused: cpuhvfs_get_freq */
-int cpuhvfs_get_freq(int pll_id)
-{
-#if IS_ENABLED(CONFIG_MTK_CPU_MSSV)
-	struct cdvfs_data cdvfs_d;
-	int ret = 0;
-
-	if (!cpumssv_get_state())
-		return 0;
-
-	/* Cluster, Freq */
-	cdvfs_d.u.set_fv.arg[0] = pll_id;
-
-#if IS_ENABLED(CONFIG_MTK_TINYSYS_MCUPM_SUPPORT) || \
-	(IS_ENABLED(CONFIG_MTK_TINYSYS_SSPM_SUPPORT) && defined(USE_SSPM_VER_V2))
-	dvfs_to_mcupm_command(IPI_GET_FREQ, &cdvfs_d);
-#elif IS_ENABLED(CONFIG_MTK_TINYSYS_SSPM_SUPPORT) && defined(USE_SSPM_VER_V1)
-	dvfs_to_spm2_command(IPI_GET_FREQ, &cdvfs_d);
-#else
-#endif
-
-	return ret;
-#else
-	return 0;
-#endif
-}
-#endif /* cpuhvfs_get_freq */
-
 int cpuhvfs_set_volt(int cluster_id, unsigned int volt)
 {
 #if IS_ENABLED(CONFIG_MTK_CPU_MSSV)
@@ -1400,15 +1335,6 @@ int cpuhvfs_set_cluster_load_freq(enum mt_cpu_dvfs_id id, unsigned int freq)
 	return 0;
 }
 
-#if 0 /* camellia: unused: cpuhvfs_set_set_cci_volt */
-int cpuhvfs_set_set_cci_volt(unsigned int volt)
-{
-	csram_write(OFFS_CCI_VOLT_CLAMP, volt);
-
-	return 0;
-}
-#endif /* cpuhvfs_set_set_cci_volt */
-
 u32 *recordRef;
 static unsigned int *recordTbl;
 
@@ -1518,57 +1444,7 @@ unsigned int cpuhvfs_get_cci_mode(void)
 }
 #endif
 
-#if 0 /* camellia: unused: cpuhvfs_update_volt */
-int cpuhvfs_update_volt(unsigned int cluster_id, unsigned int *volt_tbl,
-	char nr_volt_tbl)
-{
-#ifdef EEM_AP_SIDE
-	int i;
-	int index;
-	int checkFlag = 0;
-
-	for (i = 0; i < nr_volt_tbl; i++) {
-		if (volt_tbl[i] == 0)
-			checkFlag = 1;
-	}
-
-	if (checkFlag == 1)
-		return 0;
-
-	for (i = 0; i < nr_volt_tbl; i++) {
-		index = (cluster_id * 36) + i;
-		recordRef[index] = ((volt_tbl[i] & 0xFFF) << 16) |
-			(recordRef[index] & 0xFFFF);
-	}
-	csram_write((OFFS_EEM_S + (cluster_id * 4)), 1);
-#endif
-
-	return 0;
-}
-#endif /* cpuhvfs_update_volt */
-
 #ifdef READ_SRAM_VOLT
-#if 0 /* camellia: unused: get_sram_table_volt */
-unsigned int get_sram_table_volt(unsigned int cluster_id, int idx)
-{
-	unsigned int volt;
-	struct buck_ctrl_t *vproc_p;
-	struct mt_cpu_dvfs *p;
-
-	p = id_to_cpu_dvfs(cluster_id);
-	if (p == NULL)
-		return 0;
-
-	vproc_p = id_to_buck_ctrl(p->Vproc_buck_id);
-	if (vproc_p == NULL)
-		return 0;
-
-	volt = vproc_p->buck_ops->transfer2volt
-		((recordRef[idx + 36 * cluster_id] >> 16) & 0xFFF);
-
-	return volt;
-}
-#endif /* get_sram_table_volt */
 #endif
 
 #ifdef ENABLE_DOE

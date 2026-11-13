@@ -368,24 +368,6 @@ bool kbase_ctx_sched_inc_refcount(struct kbase_context *kctx)
 	return result;
 }
 
-#if 0 /* camellia: unused: kbase_ctx_sched_release_ctx_lock */
-void kbase_ctx_sched_release_ctx_lock(struct kbase_context *kctx)
-{
-	unsigned long flags;
-
-	if (WARN_ON(!kctx))
-		return;
-
-	spin_lock_irqsave(&kctx->kbdev->hwaccess_lock, flags);
-
-	if (!WARN_ON(kctx->as_nr == KBASEP_AS_NR_INVALID) &&
-	    !WARN_ON(atomic_read(&kctx->refcount) <= 0))
-		kbase_ctx_sched_release_ctx(kctx);
-
-	spin_unlock_irqrestore(&kctx->kbdev->hwaccess_lock, flags);
-}
-#endif /* kbase_ctx_sched_release_ctx_lock */
-
 #if MALI_USE_CSF
 bool kbase_ctx_sched_inc_refcount_if_as_valid(struct kbase_context *kctx)
 {

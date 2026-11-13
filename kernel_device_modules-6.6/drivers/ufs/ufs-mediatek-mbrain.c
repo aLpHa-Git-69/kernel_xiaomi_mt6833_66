@@ -31,21 +31,6 @@ static int ufs_mb_notify(struct ufs_hba *hba, struct ufs_mbrain_event *event)
 	return -EBADF;
 }
 
-#if 0 /* camellia: unused: ufs_mb_get_info */
-int ufs_mb_get_info(struct platform_device *pdev, struct ufs_mbrain_dev_info *mb_dev_info)
-{
-	struct ufs_hba *hba;
-
-	hba = dev_get_drvdata(&pdev->dev);
-	if (!hba || !hba->ufs_device_wlun)
-		return -EBADF;
-	mb_dev_info->model = hba->ufs_device_wlun->model;
-	mb_dev_info->rev = hba->ufs_device_wlun->rev;
-	return 0;
-}
-EXPORT_SYMBOL_GPL(ufs_mb_get_info);
-#endif /* ufs_mb_get_info */
-
 int ufs_mb_register(struct platform_device *pdev,  ufs_mb_event_notify notify)
 {
 	struct ufs_mtk_host *host;
@@ -63,21 +48,6 @@ int ufs_mb_register(struct platform_device *pdev,  ufs_mb_event_notify notify)
 	return 0;
 }
 EXPORT_SYMBOL_GPL(ufs_mb_register);
-
-#if 0 /* camellia: unused: ufs_mb_unregister */
-int ufs_mb_unregister(struct platform_device *pdev)
-{
-	struct ufs_hba *hba;
-	struct ufs_mtk_host *host;
-
-	hba = dev_get_drvdata(&pdev->dev);
-	host = ufshcd_get_variant(hba);
-	host->mb_notify = NULL;
-
-	return 0;
-}
-EXPORT_SYMBOL_GPL(ufs_mb_unregister);
-#endif /* ufs_mb_unregister */
 
 static void ufs_mb_work(struct work_struct *work)
 {

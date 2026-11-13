@@ -89,52 +89,6 @@ uint64_t StatsEnvTimeGet(void)
 	return (uint64_t) u8Clk;	/* sched_clock *//* jiffies size = 4B */
 }
 
-#if 0 /* camellia: unused: StatsEnvGetPktDelay */
-void StatsEnvGetPktDelay(uint8_t *pucTxRxFlag,
-	uint8_t *pucTxIpProto, uint16_t *pu2TxUdpPort,
-	uint32_t *pu4TxDelayThreshold, uint8_t *pucRxIpProto,
-	uint16_t *pu2RxUdpPort, uint32_t *pu4RxDelayThreshold)
-{
-	*pucTxRxFlag = g_ucTxRxFlag;
-	*pucTxIpProto = g_ucTxIpProto;
-	*pu2TxUdpPort = g_u2TxUdpPort;
-	*pu4TxDelayThreshold = g_u4TxDelayThreshold;
-	*pucRxIpProto = g_ucRxIpProto;
-	*pu2RxUdpPort = g_u2RxUdpPort;
-	*pu4RxDelayThreshold = g_u4RxDelayThreshold;
-}
-#endif /* StatsEnvGetPktDelay */
-
-#if 0 /* camellia: unused: StatsEnvSetPktDelay */
-void StatsEnvSetPktDelay(uint8_t ucTxOrRx, uint8_t ucIpProto,
-	uint16_t u2UdpPort, uint32_t u4DelayThreshold)
-{
-#define MODULE_RESET 0
-#define MODULE_TX 1
-#define MODULE_RX 2
-
-	if (ucTxOrRx == MODULE_TX) {
-		g_ucTxRxFlag |= BIT(0);
-		g_ucTxIpProto = ucIpProto;
-		g_u2TxUdpPort = u2UdpPort;
-		g_u4TxDelayThreshold = u4DelayThreshold;
-	} else if (ucTxOrRx == MODULE_RX) {
-		g_ucTxRxFlag |= BIT(1);
-		g_ucRxIpProto = ucIpProto;
-		g_u2RxUdpPort = u2UdpPort;
-		g_u4RxDelayThreshold = u4DelayThreshold;
-	} else if (ucTxOrRx == MODULE_RESET) {
-		g_ucTxRxFlag = 0;
-		g_ucTxIpProto = 0;
-		g_u2TxUdpPort = 0;
-		g_u4TxDelayThreshold = 0;
-		g_ucRxIpProto = 0;
-		g_u2RxUdpPort = 0;
-		g_u4RxDelayThreshold = 0;
-	}
-}
-#endif /* StatsEnvSetPktDelay */
-
 void StatsEnvRxTime2Host(struct ADAPTER *prAdapter, void *pvPacket)
 {
 	uint16_t u2EthType = 0;
@@ -1102,14 +1056,6 @@ void StatsTxPktInfoDisplay(void *pvPacket)
 	statsParsePktInfo(pPktBuf, pvPacket, 0, EVENT_TX, 0);
 #endif
 }
-
-#if 0 /* camellia: unused: statsGetTlvU4Len */
-uint32_t
-statsGetTlvU4Len(struct GLUE_INFO *prGlueInfo)
-{
-	return sizeof(uint32_t);
-}
-#endif /* statsGetTlvU4Len */
 
 uint32_t
 statsGetTlvU8Len(struct GLUE_INFO *prGlueInfo)

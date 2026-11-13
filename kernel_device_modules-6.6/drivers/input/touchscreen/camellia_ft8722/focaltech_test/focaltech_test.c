@@ -66,16 +66,6 @@ void sys_delay(int ms)
 	msleep(ms);
 }
 
-#if 0 /* camellia: unused: fts_abs */
-int fts_abs(int value)
-{
-	if (value < 0)
-		value = 0 - value;
-
-	return value;
-}
-#endif /* fts_abs */
-
 void *fts_malloc(size_t size)
 {
 	return kzalloc(size, GFP_KERNEL);
@@ -1176,25 +1166,6 @@ bool compare_mc_sc(bool tx_check, bool rx_check, int *data, int *min, int *max)
 	return result;
 }
 
-#if 0 /* camellia: unused: show_data_mc_sc */
-void show_data_mc_sc(int *data)
-{
-	int i = 0;
-	struct fts_test *tdata = fts_ftest;
-
-	FTS_TEST_SAVE_INFO("SCap Rx: ");
-	for (i = 0; i < tdata->sc_node.rx_num; i++) {
-		FTS_TEST_SAVE_INFO("%5d, ", data[i]);
-	}
-	FTS_TEST_SAVE_INFO("\n");
-
-	FTS_TEST_SAVE_INFO("SCap Tx: ");
-	for (i = tdata->sc_node.rx_num; i < tdata->sc_node.node_num; i++) {
-		FTS_TEST_SAVE_INFO("%5d, ", data[i]);
-	}
-	FTS_TEST_SAVE_INFO("\n");
-}
-#endif /* show_data_mc_sc */
 /* mc_sc end*/
 
 #if CSV_SUPPORT || TXT_SUPPORT

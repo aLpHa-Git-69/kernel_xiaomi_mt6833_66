@@ -31345,44 +31345,6 @@ void mtk_disp_mutex_put(struct mtk_disp_mutex *mutex)
 	mutex->claimed = false;
 }
 
-#if 0 /* camellia: unused: mtk_disp_mutex_prepare */
-int mtk_disp_mutex_prepare(struct mtk_disp_mutex *mutex)
-{
-	struct mtk_ddp *ddp =
-		container_of(mutex, struct mtk_ddp, mutex[mutex->id]);
-
-	if (ddp->dispsys_num > 1)
-		clk_prepare_enable(ddp->side_clk);
-
-	if (ddp->ovlsys1_clk)
-		clk_prepare_enable(ddp->ovlsys1_clk);
-
-	if (ddp->ovlsys0_clk)
-		clk_prepare_enable(ddp->ovlsys0_clk);
-
-	return clk_prepare_enable(ddp->clk);
-}
-#endif /* mtk_disp_mutex_prepare */
-
-#if 0 /* camellia: unused: mtk_disp_mutex_unprepare */
-void mtk_disp_mutex_unprepare(struct mtk_disp_mutex *mutex)
-{
-	struct mtk_ddp *ddp =
-		container_of(mutex, struct mtk_ddp, mutex[mutex->id]);
-
-	if (ddp->dispsys_num > 1)
-		clk_disable_unprepare(ddp->side_clk);
-
-	if (ddp->ovlsys1_clk)
-		clk_disable_unprepare(ddp->ovlsys1_clk);
-
-	if (ddp->ovlsys0_clk)
-		clk_disable_unprepare(ddp->ovlsys0_clk);
-
-	clk_disable_unprepare(ddp->clk);
-}
-#endif /* mtk_disp_mutex_unprepare */
-
 void mtk_disp_mutex_add_comp(struct mtk_disp_mutex *mutex,
 			     enum mtk_ddp_comp_id id)
 {

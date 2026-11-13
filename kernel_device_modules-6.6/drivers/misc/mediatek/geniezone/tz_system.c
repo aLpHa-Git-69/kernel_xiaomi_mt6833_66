@@ -1202,29 +1202,6 @@ EXPORT_SYMBOL(TZ_GetErrorString);
 
 /***** System Hareware Counter *****/
 
-#if 0 /* camellia: unused: KREE_GetSystemCnt */
-u64 KREE_GetSystemCnt(void)
-{
-	u64 cnt = 0;
-
-	/*cnt = arch_counter_get_cntvct();*/
-	cnt = __arch_counter_get_cntvct(); /*5.4*/
-	return cnt;
-}
-EXPORT_SYMBOL(KREE_GetSystemCnt);
-#endif /* KREE_GetSystemCnt */
-
-#if 0 /* camellia: unused: KREE_GetSystemCntFrq */
-u32 KREE_GetSystemCntFrq(void)
-{
-	u32 freq = 0;
-
-	freq = arch_timer_get_cntfrq();
-	return freq;
-}
-EXPORT_SYMBOL(KREE_GetSystemCntFrq);
-#endif /* KREE_GetSystemCntFrq */
-
 static int tz_system_probe(struct platform_device *pdev)
 {
 	int ret = 0;
@@ -1275,14 +1252,6 @@ struct platform_driver tz_system_driver = {
 		.of_match_table = tz_system_of_match,
 	},
 };
-
-#if 0 /* camellia: unused: tz_system_std_call32 */
-int tz_system_std_call32(u32 smcnr, u32 a0, u32 a1, u32 a2)
-{
-	return trusty_std_call32(tz_system_dev->dev.parent,
-				smcnr, a0, a1, a2);
-}
-#endif /* tz_system_std_call32 */
 
 static int __init tz_system_init(void)
 {

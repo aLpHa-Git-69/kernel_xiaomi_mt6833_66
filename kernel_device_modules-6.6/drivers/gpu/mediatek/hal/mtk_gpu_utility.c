@@ -165,36 +165,10 @@ EXPORT_SYMBOL(mtk_custom_upbound_gpu_freq);
 bool (*mtk_dump_gpu_memory_usage_fp)(void) = NULL;
 EXPORT_SYMBOL(mtk_dump_gpu_memory_usage_fp);
 
-#if 0 /* camellia: unused: mtk_dump_gpu_memory_usage */
-bool mtk_dump_gpu_memory_usage(void)
-{
-	if (mtk_dump_gpu_memory_usage_fp != NULL) {
-		mtk_dump_gpu_memory_usage_fp();
-		return true;
-	}
-	return false;
-}
-EXPORT_SYMBOL(mtk_dump_gpu_memory_usage);
-#endif /* mtk_dump_gpu_memory_usage */
-
 /* -------------------------------------------------------------------------- */
 
 unsigned long (*mtk_get_gpu_bottom_freq_fp)(void) = NULL;
 EXPORT_SYMBOL(mtk_get_gpu_bottom_freq_fp);
-
-#if 0 /* camellia: unused: mtk_get_gpu_bottom_freq */
-bool mtk_get_gpu_bottom_freq(unsigned long *pulFreq)
-{
-	if (mtk_get_gpu_bottom_freq_fp != NULL) {
-		if (pulFreq) {
-			*pulFreq = mtk_get_gpu_bottom_freq_fp();
-			return true;
-		}
-	}
-	return false;
-}
-EXPORT_SYMBOL(mtk_get_gpu_bottom_freq);
-#endif /* mtk_get_gpu_bottom_freq */
 
 /* -------------------------------------------------------------------------- */
 
@@ -341,32 +315,10 @@ EXPORT_SYMBOL(mtk_get_gpu_cur_oppidx);
 int (*mtk_get_gpu_pmu_init_fp)(struct GPU_PMU *pmus, int pmuSize, int *retSize);
 EXPORT_SYMBOL(mtk_get_gpu_pmu_init_fp);
 
-#if 0 /* camellia: unused: mtk_get_gpu_pmu_init */
-bool mtk_get_gpu_pmu_init(struct GPU_PMU *pmus, int pmu_size, int *ret_size)
-{
-	if (mtk_get_gpu_pmu_init_fp != NULL)
-		return mtk_get_gpu_pmu_init_fp(pmus, pmu_size, ret_size) == 0;
-	return false;
-}
-EXPORT_SYMBOL(mtk_get_gpu_pmu_init);
-#endif /* mtk_get_gpu_pmu_init */
-
 /* -------------------------------------------------------------------------- */
 
 int (*mtk_get_gpu_pmu_swapnreset_fp)(struct GPU_PMU *pmus, int pmu_size);
 EXPORT_SYMBOL(mtk_get_gpu_pmu_swapnreset_fp);
-
-#if 0 /* camellia: unused: mtk_get_gpu_pmu_swapnreset */
-bool mtk_get_gpu_pmu_swapnreset(struct GPU_PMU *pmus, int pmu_size)
-{
-	if (mtk_get_gpu_pmu_swapnreset_fp != NULL) {
-		gpu_pmu_flag = 1;
-		return mtk_get_gpu_pmu_swapnreset_fp(pmus, pmu_size) == 0;
-	}
-	return false;
-}
-EXPORT_SYMBOL(mtk_get_gpu_pmu_swapnreset);
-#endif /* mtk_get_gpu_pmu_swapnreset */
 
 /* -------------------------------------------------------------------------- */
 
@@ -408,34 +360,6 @@ bool mtk_register_gpu_power_change(const char *name,
 }
 EXPORT_SYMBOL(mtk_register_gpu_power_change);
 
-#if 0 /* camellia: unused: mtk_unregister_gpu_power_change */
-bool mtk_unregister_gpu_power_change(const char *name)
-{
-	struct list_head *pos, *head;
-	struct sGpuPowerChangeEntry *entry = NULL;
-
-	mutex_lock(&g_power_change.lock);
-
-	head = &g_power_change.listen;
-	list_for_each(pos, head) {
-		entry = list_entry(pos, struct sGpuPowerChangeEntry, sList);
-		if (strncmp(entry->name, name, sizeof(entry->name) - 1) == 0)
-			break;
-		entry = NULL;
-	}
-
-	if (entry) {
-		list_del(&entry->sList);
-		kfree(entry);
-	}
-
-	mutex_unlock(&g_power_change.lock);
-
-	return true;
-}
-EXPORT_SYMBOL(mtk_unregister_gpu_power_change);
-#endif /* mtk_unregister_gpu_power_change */
-
 void mtk_notify_gpu_power_change(int power_on)
 {
 	struct list_head *pos, *head;
@@ -459,30 +383,8 @@ EXPORT_SYMBOL(mtk_notify_gpu_power_change);
 int (*mtk_get_gpu_pmu_deinit_fp)(void);
 EXPORT_SYMBOL(mtk_get_gpu_pmu_deinit_fp);
 
-#if 0 /* camellia: unused: mtk_get_gpu_pmu_deinit */
-bool mtk_get_gpu_pmu_deinit(void)
-{
-	if (mtk_get_gpu_pmu_deinit_fp != NULL)
-		return mtk_get_gpu_pmu_deinit_fp() == 0;
-	return false;
-}
-EXPORT_SYMBOL(mtk_get_gpu_pmu_deinit);
-#endif /* mtk_get_gpu_pmu_deinit */
-
 int (*mtk_get_gpu_pmu_swapnreset_stop_fp)(void);
 EXPORT_SYMBOL(mtk_get_gpu_pmu_swapnreset_stop_fp);
-
-#if 0 /* camellia: unused: mtk_get_gpu_pmu_swapnreset_stop */
-bool mtk_get_gpu_pmu_swapnreset_stop(void)
-{
-	if (mtk_get_gpu_pmu_swapnreset_stop_fp != NULL) {
-		gpu_pmu_flag = 0;
-		return mtk_get_gpu_pmu_swapnreset_stop_fp() == 0;
-	}
-	return false;
-}
-EXPORT_SYMBOL(mtk_get_gpu_pmu_swapnreset_stop);
-#endif /* mtk_get_gpu_pmu_swapnreset_stop */
 
 /* ------------------------------------------------------------------------ */
 void (*mtk_dvfs_margin_value_fp)(int i32MarginValue) = NULL;
@@ -672,19 +574,6 @@ EXPORT_SYMBOL(mtk_ltr_gpu_pmu_start);
 void (*mtk_swpm_gpu_pm_start_fp)(void) = NULL;
 EXPORT_SYMBOL(mtk_swpm_gpu_pm_start_fp);
 
-#if 0 /* camellia: unused: mtk_swpm_gpu_pm_start */
-bool mtk_swpm_gpu_pm_start(void)
-{
-	if (mtk_swpm_gpu_pm_start_fp != NULL) {
-		mtk_swpm_gpu_pm_start_fp();
-		return true;
-	}
-	return false;
-
-}
-EXPORT_SYMBOL(mtk_swpm_gpu_pm_start);
-#endif /* mtk_swpm_gpu_pm_start */
-
 void (*mtk_ltr_gpu_pmu_stop_fp)(void) = NULL;
 EXPORT_SYMBOL(mtk_ltr_gpu_pmu_stop_fp);
 
@@ -720,35 +609,10 @@ EXPORT_SYMBOL(mtk_set_gpu_idle);
 u64 (*mtk_get_system_timer_fp)(void) = NULL;
 EXPORT_SYMBOL(mtk_get_system_timer_fp);
 
-#if 0 /* camellia: unused: mtk_get_system_timer */
-bool mtk_get_system_timer(u64 *psys_timer)
-{
-	if (mtk_get_system_timer_fp != NULL) {
-		if (psys_timer) {
-			*psys_timer = mtk_get_system_timer_fp();
-			return true;
-		}
-	}
-	return false;
-}
-EXPORT_SYMBOL(mtk_get_system_timer);
-#endif /* mtk_get_system_timer */
-
 /* -----------------------------adaptive power notify--------------------------------- */
 
 bool (*mtk_adaptive_power_notify_fp)(void) = NULL;
 EXPORT_SYMBOL(mtk_adaptive_power_notify_fp);
-
-#if 0 /* camellia: unused: mtk_adaptive_power_notify */
-bool mtk_adaptive_power_notify(void)
-{
-	if (mtk_adaptive_power_notify_fp != NULL)
-		return mtk_adaptive_power_notify_fp();
-	return false;
-
-}
-EXPORT_SYMBOL(mtk_adaptive_power_notify);
-#endif /* mtk_adaptive_power_notify */
 
 /* ----------------------gpufreq change notify fp-------------------------- */
 void (*mtk_notify_gpu_freq_change_fp)(u32 clk_idx, u32 gpufreq) = NULL;

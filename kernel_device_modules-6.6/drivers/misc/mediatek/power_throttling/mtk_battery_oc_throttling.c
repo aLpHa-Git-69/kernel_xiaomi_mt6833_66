@@ -216,19 +216,6 @@ static int __regmap_read(struct regmap *regmap, const struct reg_t *reg,
 	return regmap_bulk_read(regmap, reg->addr, val, reg->size);
 }
 
-#if 0 /* camellia: unused: register_battery_oc_mbrain_cb */
-int register_battery_oc_mbrain_cb(battery_oc_mbrain_callback cb)
-{
-	if (!cb)
-		return -EINVAL;
-
-	bat_oc_mbrain_cb = cb;
-
-	return 0;
-}
-EXPORT_SYMBOL(register_battery_oc_mbrain_cb);
-#endif /* register_battery_oc_mbrain_cb */
-
 void register_battery_oc_notify(battery_oc_callback oc_cb,
 				enum BATTERY_OC_PRIO_TAG prio_val, void *data)
 {

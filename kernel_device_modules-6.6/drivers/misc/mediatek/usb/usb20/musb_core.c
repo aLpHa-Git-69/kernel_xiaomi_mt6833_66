@@ -3025,15 +3025,6 @@ static void spm_resource_req_usb(unsigned int user, unsigned int req_mask)
 }
 #endif
 
-#if 0 /* camellia: unused: register_spm_resource_req_func */
-void register_spm_resource_req_func(bool (*spm_resource_req_func)(unsigned int user,
-								unsigned int req_mask))
-{
-	spm_resource_req_fptr = spm_resource_req_func;
-}
-EXPORT_SYMBOL(register_spm_resource_req_func);
-#endif /* register_spm_resource_req_func */
-
 #ifndef FPGA_PLATFORM
 static void usb_spm_dpidle_request(int mode)
 {
@@ -3925,15 +3916,6 @@ static bool musb_hal_is_vbus_exist(void)
 }
 
 /* be aware this could not be used in non-sleep context */
-#if 0 /* camellia: unused: usb_cable_connected */
-bool usb_cable_connected(struct musb *musb)
-{
-	if (musb->usb_connected)
-		return true;
-	else
-		return false;
-}
-#endif /* usb_cable_connected */
 
 static bool cmode_effect_on(void)
 {

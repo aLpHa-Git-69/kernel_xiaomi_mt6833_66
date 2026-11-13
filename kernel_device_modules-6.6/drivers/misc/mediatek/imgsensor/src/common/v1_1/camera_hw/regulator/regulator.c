@@ -47,16 +47,6 @@ struct regulator *regulator_get_regVCAMAF(void)
 	return regulator_get(&((pimgsensor->hw.common.pplatform_device)->dev), "vcamaf");
 }
 EXPORT_SYMBOL(regulator_get_regVCAMAF);
-#if 0 /* camellia: unused: regulator_get_regVCAMAF_Chaka */
-struct regulator *regulator_get_regVCAMAF_Chaka(int sensor_idx)
-{
-	struct IMGSENSOR *pimgsensor = &gimgsensor;
-	char str_regulator_name[LENGTH_FOR_SNPRINTF];
-	snprintf(str_regulator_name, sizeof(str_regulator_name), "cam%d_%s", sensor_idx, "vcamaf");
-	return regulator_get(&((pimgsensor->hw.common.pplatform_device)->dev), str_regulator_name);
-}
-EXPORT_SYMBOL(regulator_get_regVCAMAF_Chaka);
-#endif /* regulator_get_regVCAMAF_Chaka */
 
 static struct regulator *regVCAMAF = NULL;
 struct regulator *regulator_get_regVCAMAF_ALICE(void)

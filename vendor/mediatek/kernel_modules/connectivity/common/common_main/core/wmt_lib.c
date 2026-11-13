@@ -205,13 +205,6 @@ INT32 wmt_lib_psm_lock_trylock(VOID)
 	return osal_trylock_sleepable_lock(&gDevWmt.psm_lock);
 }
 
-#if 0 /* camellia: unused: wmt_lib_assert_lock_aquire */
-INT32 wmt_lib_assert_lock_aquire(VOID)
-{
-	return osal_lock_sleepable_lock(&gDevWmt.assert_lock);
-}
-#endif /* wmt_lib_assert_lock_aquire */
-
 VOID wmt_lib_assert_lock_release(VOID)
 {
 	osal_unlock_sleepable_lock(&gDevWmt.assert_lock);
@@ -241,13 +234,6 @@ VOID wmt_lib_power_lock_release(VOID)
 {
 	osal_unlock_sleepable_lock(&gDevWmt.power_lock);
 }
-
-#if 0 /* camellia: unused: wmt_lib_power_lock_trylock */
-INT32 wmt_lib_power_lock_trylock(VOID)
-{
-	return osal_trylock_sleepable_lock(&gDevWmt.power_lock);
-}
-#endif /* wmt_lib_power_lock_trylock */
 
 INT32 DISABLE_PSM_MONITOR(VOID)
 {
@@ -602,13 +588,6 @@ INT32 wmt_lib_deinit(VOID)
 	return iResult;
 }
 
-#if 0 /* camellia: unused: wmt_lib_flush_rx */
-VOID wmt_lib_flush_rx(VOID)
-{
-	mtk_wcn_stp_flush_rx_queue(WMT_TASK_INDX);
-}
-#endif /* wmt_lib_flush_rx */
-
 INT32 wmt_lib_trigger_cmd_signal(INT32 result)
 {
 	P_OSAL_SIGNAL pSignal = &gDevWmt.cmdResp;
@@ -707,13 +686,6 @@ MTK_WCN_BOOL wmt_lib_get_cmd_status(VOID)
 {
 	return osal_test_bit(WMT_STAT_CMD, &gDevWmt.state) ? MTK_WCN_BOOL_TRUE : MTK_WCN_BOOL_FALSE;
 }
-
-#if 0 /* camellia: unused: wmt_lib_stp_is_btif_fullset_mode */
-MTK_WCN_BOOL wmt_lib_stp_is_btif_fullset_mode(VOID)
-{
-	return mtk_wcn_stp_is_btif_fullset_mode();
-}
-#endif /* wmt_lib_stp_is_btif_fullset_mode */
 
 #if CFG_WMT_PS_SUPPORT
 INT32 wmt_lib_ps_set_idle_time(UINT32 psIdleTime)
@@ -2705,15 +2677,6 @@ INT32 wmt_lib_merge_if_flag_ctrl(UINT32 enable)
 }
 
 
-#if 0 /* camellia: unused: wmt_lib_merge_if_flag_get */
-INT32 wmt_lib_merge_if_flag_get(UINT32 enable)
-{
-#if WMT_PLAT_ALPS
-	return wmt_plat_merge_if_flag_get();
-#endif
-}
-#endif /* wmt_lib_merge_if_flag_get */
-
 
 PUINT8 wmt_lib_get_cpupcr_xml_format(PUINT32 pLen)
 {
@@ -2747,13 +2710,6 @@ INT32 wmt_lib_register_trigger_assert_cb(trigger_assert_cb trigger_assert)
 	wmt_plat_trigger_assert_cb_reg(trigger_assert);
 	return 0;
 }
-
-#if 0 /* camellia: unused: wmt_lib_get_host_assert_info */
-INT32 wmt_lib_get_host_assert_info(PUINT32 type, PUINT32 reason, PUINT32 en)
-{
-	return stp_dbg_get_host_assert_info(type, reason, en);
-}
-#endif /* wmt_lib_get_host_assert_info */
 
 UINT32 wmt_lib_set_host_assert_info(UINT32 type, UINT32 reason, UINT32 en)
 {
@@ -2835,13 +2791,6 @@ UINT32 wmt_lib_jtag_flag_set(UINT32 en)
 	return wmt_plat_jtag_flag_ctrl(en);
 }
 #endif
-
-#if 0 /* camellia: unused: wmt_lib_soc_set_wifiver */
-UINT32 wmt_lib_soc_set_wifiver(UINT32 wifiver)
-{
-	return stp_dbg_set_wifiver(wifiver);
-}
-#endif /* wmt_lib_soc_set_wifiver */
 
 UINT32 wmt_lib_co_clock_flag_get(VOID)
 {
@@ -2989,20 +2938,6 @@ INT32 wmt_lib_met_ctrl(INT32 met_ctrl, INT32 log_ctrl)
 
 	return 0;
 }
-
-#if 0 /* camellia: unused: wmt_lib_set_ext_ldo */
-VOID wmt_lib_set_ext_ldo(UINT32 flag)
-{
-	gDevWmt.ext_ldo_flag = flag;
-}
-#endif /* wmt_lib_set_ext_ldo */
-
-#if 0 /* camellia: unused: wmt_lib_get_ext_ldo */
-UINT32 wmt_lib_get_ext_ldo(VOID)
-{
-	return gDevWmt.ext_ldo_flag;
-}
-#endif /* wmt_lib_get_ext_ldo */
 
 static VOID wmt_lib_utc_sync_timeout_handler(timer_handler_arg arg)
 {
@@ -3284,13 +3219,6 @@ INT32 wmt_lib_set_need_update_patch_version(INT32 need)
 	return 0;
 }
 
-#if 0 /* camellia: unused: mtk_lib_set_mcif_mpu_protection */
-VOID mtk_lib_set_mcif_mpu_protection(MTK_WCN_BOOL enable)
-{
-	mtk_consys_set_mcif_mpu_protection(enable);
-}
-#endif /* mtk_lib_set_mcif_mpu_protection */
-
 static VOID wmt_lib_assert_work_cb(struct work_struct *work)
 {
 	struct assert_work_st *a = &wmt_assert_work;
@@ -3390,24 +3318,6 @@ err:
 	osal_unlock_sleepable_lock(&dmp_op->lock);
 	return bRet;
 }
-
-#if 0 /* camellia: unused: wmt_lib_reg_readable */
-INT32 wmt_lib_reg_readable(VOID)
-{
-	return wmt_lib_reg_readable_by_addr(0);
-}
-#endif /* wmt_lib_reg_readable */
-
-#if 0 /* camellia: unused: wmt_lib_reg_readable_by_addr */
-INT32 wmt_lib_reg_readable_by_addr(SIZE_T addr)
-{
-	if (wmt_lib_get_drv_status(WMTDRV_TYPE_WMT) == DRV_STS_POWER_OFF
-			|| osal_test_bit(WMT_STAT_PWR, &gDevWmt.state) == 0) {
-		return MTK_WCN_BOOL_FALSE;
-	}
-	return mtk_consys_check_reg_readable_by_addr(addr);
-}
-#endif /* wmt_lib_reg_readable_by_addr */
 
 INT32 wmt_lib_dump_cpupcr(UINT32 times, UINT32 sleep_ms)
 {

@@ -42,17 +42,6 @@ kal_uint16 Eeprom_1ByteDataRead(kal_uint16 addr, kal_uint16 slaveaddr)
     return get_byte;
 }
 
-#if 0 /* camellia: unused: Eeprom_DataRead */
-void Eeprom_DataRead(kal_uint8 *uData, kal_uint16 dataAddr,
-                            kal_uint16 dataLens, kal_uint16 slaveAddr)
-{
-    int dataCnt = 0;
-    for (dataCnt = 0; dataCnt < dataLens; dataCnt++) {
-        uData[dataCnt] = (u8)Eeprom_1ByteDataRead(dataAddr+dataCnt, slaveAddr);
-    }
-}
-#endif /* Eeprom_DataRead */
-
 #if 0
 static enum IMGSENSOR_RETURN Eeprom_QcomHeaderCheck(kal_uint8 *header)
 {

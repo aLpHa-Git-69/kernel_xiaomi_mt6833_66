@@ -106,13 +106,6 @@ static void mtk_r2y_config(struct mtk_ddp_comp *comp,
 			0, DISP_R2Y_RELAY_MODE);
 }
 
-#if 0 /* camellia: unused: mtk_r2y_analysis */
-int mtk_r2y_analysis(struct mtk_ddp_comp *comp)
-{
-	return 0;
-}
-#endif /* mtk_r2y_analysis */
-
 static void mtk_r2y_start(struct mtk_ddp_comp *comp, struct cmdq_pkt *handle)
 {
 	DDPDBG("%s, comp->regs_pa=0x%llx\n", __func__, comp->regs_pa);

@@ -22,15 +22,6 @@ int mtk_cpuidle_sysfs_entry_node_add(const char *name,
 }
 EXPORT_SYMBOL(mtk_cpuidle_sysfs_entry_node_add);
 
-#if 0 /* camellia: unused: mtk_cpuidle_sysfs_entry_node_remove */
-int mtk_cpuidle_sysfs_entry_node_remove(
-		struct mtk_lp_sysfs_handle *handle)
-{
-	return mtk_lp_sysfs_entry_func_node_remove(handle);
-}
-EXPORT_SYMBOL(mtk_cpuidle_sysfs_entry_node_remove);
-#endif /* mtk_cpuidle_sysfs_entry_node_remove */
-
 int mtk_cpuidle_sysfs_root_entry_create(void)
 {
 	int bRet = 0;
@@ -43,19 +34,6 @@ int mtk_cpuidle_sysfs_root_entry_create(void)
 	return bRet;
 }
 EXPORT_SYMBOL(mtk_cpuidle_sysfs_root_entry_create);
-
-#if 0 /* camellia: unused: mtk_cpuidle_sysfs_entry_root_get */
-int mtk_cpuidle_sysfs_entry_root_get(struct mtk_lp_sysfs_handle **handle)
-{
-	if (!handle ||
-		!IS_MTK_LP_SYS_HANDLE_VALID(&mtk_cpuidle_fs_root)
-	)
-		return -1;
-	*handle = &mtk_cpuidle_fs_root;
-	return 0;
-}
-EXPORT_SYMBOL(mtk_cpuidle_sysfs_entry_root_get);
-#endif /* mtk_cpuidle_sysfs_entry_root_get */
 
 int mtk_cpuidle_sysfs_sub_entry_add(const char *name, int mode,
 					struct mtk_lp_sysfs_handle *parent,
@@ -89,11 +67,3 @@ int mtk_cpuidle_sysfs_sub_entry_node_add(const char *name
 			, mode, op, parent, handle);
 }
 EXPORT_SYMBOL(mtk_cpuidle_sysfs_sub_entry_node_add);
-
-#if 0 /* camellia: unused: mtk_cpuidle_sysfs_remove */
-int mtk_cpuidle_sysfs_remove(void)
-{
-	return mtk_lp_sysfs_entry_func_node_remove(&mtk_cpuidle_fs_root);
-}
-EXPORT_SYMBOL(mtk_cpuidle_sysfs_remove);
-#endif /* mtk_cpuidle_sysfs_remove */

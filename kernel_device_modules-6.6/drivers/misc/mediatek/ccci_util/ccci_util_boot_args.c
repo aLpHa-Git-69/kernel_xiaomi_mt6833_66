@@ -226,35 +226,3 @@ int mtk_ccci_args_key_val_init(void)
 
 	return 0;
 }
-
-#if 0 /* camellia: unused: mtk_ccci_dump_args_info */
-void mtk_ccci_dump_args_info(void)
-{
-	unsigned int i;
-	unsigned int *ptr = NULL;
-	unsigned char *ch;
-
-	CCCI_UTIL_INF_MSG("------ Dump args: [key]:[val] --------\n");
-	for (i = 0; i < s_args_num; i++) {
-		if (strncmp(s_args_tbl[i].key, "err_trace", 9) == 0) {
-			s_args_tbl[i].pdata[s_args_tbl[i].val_size] = 0;
-			CCCI_UTIL_INF_MSG("<key>[err_trace(%u)]:[%s]\n", s_args_tbl[i].val_size,
-						s_args_tbl[i].pdata);
-		} else {
-			if (s_args_tbl[i].val_size >= 8) {
-				ptr = (unsigned int *)s_args_tbl[i].pdata;
-				CCCI_UTIL_INF_MSG("<key>[%s(%u)]:[%x:%x]\n", s_args_tbl[i].key,
-						s_args_tbl[i].val_size, ptr[0], ptr[1]);
-			} else if (s_args_tbl[i].val_size >= 4) {
-				ptr = (unsigned int *)s_args_tbl[i].pdata;
-				CCCI_UTIL_INF_MSG("<key>[%s(%u)]:[%x]\n", s_args_tbl[i].key,
-						s_args_tbl[i].val_size, ptr[0]);
-			} else {
-				ch = (unsigned char *)s_args_tbl[i].pdata;
-				CCCI_UTIL_INF_MSG("<key>[%s(%u)]:[%x]\n", s_args_tbl[i].key,
-						s_args_tbl[i].val_size, (unsigned int)(*ch));
-			}
-		}
-	}
-}
-#endif /* mtk_ccci_dump_args_info */

@@ -503,22 +503,6 @@ void MTKGPUQoS_setup(struct v1_data *v1, phys_addr_t phyaddr, size_t size)
 }
 EXPORT_SYMBOL(MTKGPUQoS_setup);
 
-#if 0 /* camellia: unused: MTKGPUQoS_is_inited */
-int MTKGPUQoS_is_inited(void)
-{
-	return gpu_bm_inited;
-}
-EXPORT_SYMBOL(MTKGPUQoS_is_inited);
-#endif /* MTKGPUQoS_is_inited */
-
-#if 0 /* camellia: unused: MTKGPUQoS_getBW */
-uint32_t MTKGPUQoS_getBW(uint32_t offset)
-{
-	return 0;
-}
-EXPORT_SYMBOL(MTKGPUQoS_getBW);
-#endif /* MTKGPUQoS_getBW */
-
 static int __init mtk_gpu_qos_init(void)
 {
 	/*Do Nothing*/

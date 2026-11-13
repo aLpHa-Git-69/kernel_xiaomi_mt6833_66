@@ -74,36 +74,6 @@ void MTK_LTR_gpu_pmu_start(unsigned int interval_ns) {
 }
 EXPORT_SYMBOL(MTK_LTR_gpu_pmu_start);
 
-#if 0 /* camellia: unused: MTK_LTR_gpu_pmu_start_swpm */
-void MTK_LTR_gpu_pmu_start_swpm(unsigned int interval_ns){
-	int pm_tool = MTK_get_mtk_pm();
-	mutex_lock(&gpu_pmu_info_lock);
-	//Get the first device - it doesn't matter in this case
-	kbdev = kbase_find_device(-1);
-	if (!kbdev) {
-		return;
-	}
-
-	if (init_flag == gpm_sspm_side) {
-		gpu_send_enable_ipi(GPU_PM_SWITCH, 0);
-		init_flag = gpm_off;
-	}
-
-	if (init_flag == gpm_off && pm_tool == pm_non) {
-		MTK_LTR_gpu_pmu_kbase_setup(pm_swpm, interval_ns);
-	}
-	else if(pm_tool != pm_non){
-		MTK_kbasep_vinstr_hwcnt_set_interval(0);
-		MTK_update_mtk_pm(pm_swpm);
-		MTK_kbasep_vinstr_hwcnt_set_interval(interval_ns);
-	}
-	gpu_send_enable_ipi(GPU_PM_SWITCH, 0);
-	init_flag = gpm_kernel_side;
-	mutex_unlock(&gpu_pmu_info_lock);
-}
-EXPORT_SYMBOL(MTK_LTR_gpu_pmu_start_swpm);
-#endif /* MTK_LTR_gpu_pmu_start_swpm */
-
 void MTK_LTR_gpu_pmu_stop(void){
 
 #if IS_ENABLED(CONFIG_MALI_MTK_GPU_LOW_POWER)

@@ -102,10 +102,3 @@ int sspm_sysfs_create_file(const struct device_attribute *attr)
 {
 	return device_create_file(sspm_log_device.this_device, attr);
 }
-
-#if 0 /* camellia: unused: sspm_sysfs_create_bin_file */
-int sspm_sysfs_create_bin_file(const struct bin_attribute *attr)
-{
-	return device_create_bin_file(sspm_log_device.this_device, attr);
-}
-#endif /* sspm_sysfs_create_bin_file */

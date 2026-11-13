@@ -184,13 +184,6 @@ void ccci_dpmaif_create_page_pool(unsigned int index)
 }
 
 
-#if 0 /* camellia: unused: ccci_dpmaif_destroy_page_pool */
-void ccci_dpmaif_destroy_page_pool(struct page_pool *g_page_pool)
-{
-	page_pool_destroy(g_page_pool);
-}
-#endif /* ccci_dpmaif_destroy_page_pool */
-
 unsigned int ccci_dpmaif_page_pool_empty_index(void)
 {
 	unsigned int i = 0;

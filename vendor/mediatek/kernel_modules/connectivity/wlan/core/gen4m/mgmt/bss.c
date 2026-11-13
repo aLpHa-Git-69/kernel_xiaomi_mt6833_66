@@ -2532,20 +2532,6 @@ void bssInitForAP(struct ADAPTER *prAdapter, struct BSS_INFO *prBssInfo,
 
 #endif /* CFG_SUPPORT_AAA */
 
-#if 0 /* camellia: unused: bssCreateStaRecFromAuth */
-void bssCreateStaRecFromAuth(struct ADAPTER *prAdapter)
-{
-
-}
-#endif /* bssCreateStaRecFromAuth */
-
-#if 0 /* camellia: unused: bssUpdateStaRecFromAssocReq */
-void bssUpdateStaRecFromAssocReq(struct ADAPTER *prAdapter)
-{
-
-}
-#endif /* bssUpdateStaRecFromAssocReq */
-
 void bssUpdateStaRecFromBssDesc(struct ADAPTER *prAdapter,
 				struct BSS_DESC *prBssDesc,
 				struct STA_RECORD *prStaRec)

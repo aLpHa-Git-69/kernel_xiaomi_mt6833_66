@@ -802,33 +802,6 @@ static int32_t HQA_FWPacketCMD_ClockSwitchDisable(
 	return i4Ret;
 }
 
-#if 0 /* camellia: unused: HQA_CMD_SET0 */
-static HQA_CMD_HANDLER HQA_CMD_SET0[] = {
-	/* cmd id start from 0x1000 */
-	HQA_OpenAdapter,	/* 0x1000 */
-	HQA_CloseAdapter,	/* 0x1001 */
-	HQA_StartTx,		/* 0x1002 */
-	HQA_StartTxExt,		/* 0x1003 */
-	HQA_StartTxContiTx,	/* 0x1004 */
-	HQA_StartTxCarrier,	/* 0x1005 */
-	HQA_StartRx,		/* 0x1006 */
-	HQA_StopTx,		/* 0x1007 */
-	HQA_StopContiTx,	/* 0x1008 */
-	HQA_StopTxCarrier,	/* 0x1009 */
-	HQA_StopRx,		/* 0x100A */
-	HQA_SetTxPath,		/* 0x100B */
-	HQA_SetRxPath,		/* 0x100C */
-	HQA_SetTxIPG,		/* 0x100D */
-	HQA_SetTxPower0,	/* 0x100E */
-	HAQ_SetTxPower1,	/* 0x100F */
-	ToDoFunction,		/* 0x1010 */
-	HQA_SetTxPowerExt,	/* 0x1011 */
-	HQA_SetOnOff,		/* 0x1012 */
-	HQA_AntennaSel,		/* 0x1013 */
-	HQA_FWPacketCMD_ClockSwitchDisable,	/* 0x1014 */
-};
-#endif /* HQA_CMD_SET0 */
-
 /*----------------------------------------------------------------------------*/
 /*!
  * \brief  QA Agent For Set Channel Frequency (Legacy Function).
@@ -1289,29 +1262,6 @@ static int32_t HQA_SetAntSwap(struct net_device *prNetDev,
 #endif
 
 
-#if 0 /* camellia: unused: HQA_CMD_SET1 */
-static HQA_CMD_HANDLER HQA_CMD_SET1[] = {
-	/* cmd id start from 0x1100 */
-	HQA_SetChannel,		/* 0x1100 */
-	HQA_SetPreamble,	/* 0x1101 */
-	HQA_SetRate,		/* 0x1102 */
-	HQA_SetNss,		/* 0x1103 */
-	HQA_SetSystemBW,	/* 0x1104 */
-	HQA_SetPerPktBW,	/* 0x1105 */
-	HQA_SetPrimaryBW,	/* 0x1106 */
-	HQA_SetFreqOffset,	/* 0x1107 */
-	HQA_SetAutoResponder,	/* 0x1108 */
-	HQA_SetTssiOnOff,	/* 0x1109 */
-	HQA_SetRxHighLowTemperatureCompensation,	/* 0x110A */
-	HQA_LowPower,		/* 0x110B */
-	NULL,			/* 0x110C */
-#if CFG_SUPPORT_ANT_SWAP
-	HQA_GetAntSwapCapability,	/* 0x110D */
-	HQA_SetAntSwap,		/* 0x110E */
-#endif
-};
-#endif /* HQA_CMD_SET1 */
-
 /*----------------------------------------------------------------------------*/
 /*!
  * \brief  QA Agent For Reset TRX Counter
@@ -1690,23 +1640,6 @@ static int32_t HQA_SetFAGCRssiPath(struct net_device
 
 	return i4Ret;
 }
-
-#if 0 /* camellia: unused: HQA_CMD_SET2 */
-static HQA_CMD_HANDLER HQA_CMD_SET2[] = {
-	/* cmd id start from 0x1200 */
-	HQA_ResetTxRxCounter,	/* 0x1200 */
-	HQA_GetStatistics,	/* 0x1201 */
-	HQA_GetRxOKData,	/* 0x1202 */
-	HQA_GetRxOKOther,	/* 0x1203 */
-	HQA_GetRxAllPktCount,	/* 0x1204 */
-	HQA_GetTxTransmitted,	/* 0x1205 */
-	HQA_GetHwCounter,	/* 0x1206 */
-	HQA_CalibrationOperation,	/* 0x1207 */
-	HQA_CalibrationBypassExt,	/* 0x1208 */
-	HQA_SetRXVectorIdx,	/* 0x1209 */
-	HQA_SetFAGCRssiPath,	/* 0x120A */
-};
-#endif /* HQA_CMD_SET2 */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -3501,35 +3434,6 @@ static int32_t HQA_SetBufferBin(struct net_device *prNetDev,
 	return Ret;
 }
 
-#if 0 /* camellia: unused: HQA_CMD_SET3 */
-static HQA_CMD_HANDLER HQA_CMD_SET3[] = {
-	/* cmd id start from 0x1300 */
-	HQA_MacBbpRegRead,	/* 0x1300 */
-	HQA_MacBbpRegWrite,	/* 0x1301 */
-	HQA_MACBbpRegBulkRead,	/* 0x1302 */
-	HQA_RfRegBulkRead,	/* 0x1303 */
-	HQA_RfRegBulkWrite,	/* 0x1304 */
-	HQA_ReadEEPROM,		/* 0x1305 */
-	HQA_WriteEEPROM,	/* 0x1306 */
-	HQA_ReadBulkEEPROM,	/* 0x1307 */
-	HQA_WriteBulkEEPROM,	/* 0x1308 */
-	HQA_CheckEfuseMode,	/* 0x1309 */
-	HQA_GetFreeEfuseBlock,	/* 0x130A */
-	HQA_GetEfuseBlockNr,	/* 0x130B */
-	HQA_WriteEFuseFromBuffer,	/* 0x130C */
-	HQA_GetTxPower,		/* 0x130D */
-	HQA_SetCfgOnOff,	/* 0x130E */
-	HQA_GetFreqOffset,	/* 0x130F */
-	HQA_DBDCTXTone,		/* 0x1310 */
-	HQA_DBDCContinuousTX,	/* 0x1311 */
-	HQA_SetRXFilterPktLen,	/* 0x1312 */
-	HQA_GetTXInfo,		/* 0x1313 */
-	HQA_GetCfgOnOff,	/* 0x1314 */
-	ToDoFunction,       /* 0x1315 */
-	HQA_SetBufferBin,   /* 0x1316 */
-};
-#endif /* HQA_CMD_SET3 */
-
 /*----------------------------------------------------------------------------*/
 /*!
  * \brief  QA Agent For
@@ -3628,15 +3532,6 @@ static int32_t HQA_SetSideBandOption(struct net_device
 
 	return i4Ret;
 }
-
-#if 0 /* camellia: unused: HQA_CMD_SET4 */
-static HQA_CMD_HANDLER HQA_CMD_SET4[] = {
-	/* cmd id start from 0x1400 */
-	HQA_ReadTempReferenceValue,	/* 0x1400 */
-	HQA_GetThermalValue,	/* 0x1401 */
-	HQA_SetSideBandOption,	/* 0x1402 */
-};
-#endif /* HQA_CMD_SET4 */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -5926,85 +5821,6 @@ static int32_t HQA_GetDumpRXV(struct net_device *prNetDev,
 	return i4Ret;
 }
 
-#if 0 /* camellia: unused: HQA_ReCal_CMDS */
-static HQA_CMD_HANDLER HQA_ReCal_CMDS[] = {
-	HQA_GetDumpRecal,			/*0x1581 */
-};
-#endif /* HQA_ReCal_CMDS */
-
-#if 0 /* camellia: unused: HQA_RXV_CMDS */
-static HQA_CMD_HANDLER HQA_RXV_CMDS[] = {
-	HQA_GetDumpRXV,		/* 0x1581 */
-};
-#endif /* HQA_RXV_CMDS */
-
-
-#if 0 /* camellia: unused: HQA_CMD_SET5 */
-static HQA_CMD_HANDLER HQA_CMD_SET5[] = {
-	/* cmd id start from 0x1500 */
-	HQA_GetFWInfo,		/* 0x1500 */
-	HQA_StartContinousTx,	/* 0x1501 */
-	HQA_SetSTBC,		/* 0x1502 */
-	HQA_SetShortGI,		/* 0x1503 */
-	HQA_SetDPD,		/* 0x1504 */
-	HQA_SetTssiOnOff,	/* 0x1505 */
-	HQA_GetRxStatisticsAll,	/* 0x1506 */
-	HQA_StartContiTxTone,	/* 0x1507 */
-	HQA_StopContiTxTone,	/* 0x1508 */
-	HQA_CalibrationTestMode,	/* 0x1509 */
-	HQA_DoCalibrationTestItem,	/* 0x150A */
-	HQA_eFusePhysicalWrite,	/* 0x150B */
-	HQA_eFusePhysicalRead,	/* 0x150C */
-	HQA_eFuseLogicalRead,	/* 0x150D */
-	HQA_eFuseLogicalWrite,	/* 0x150E */
-	HQA_TMRSetting,		/* 0x150F */
-	HQA_GetRxSNR,		/* 0x1510 */
-	HQA_WriteBufferDone,	/* 0x1511 */
-	HQA_FFT,		/* 0x1512 */
-	HQA_SetTxTonePower,	/* 0x1513 */
-	HQA_GetChipID,		/* 0x1514 */
-	HQA_MPSSetSeqData,	/* 0x1515 */
-	HQA_MPSSetPayloadLength,	/* 0x1516 */
-	HQA_MPSSetPacketCount,	/* 0x1517 */
-	HQA_MPSSetPowerGain,	/* 0x1518 */
-	HQA_MPSStart,		/* 0x1519 */
-	HQA_MPSStop,		/* 0x151A */
-	ToDoFunction,		/* 0x151B */
-	HQA_GetRxStatisticsAllV2,	/* 0x151C */
-	ToDoFunction,		/* 0x151D */
-	ToDoFunction,		/* 0x151E */
-	ToDoFunction,		/* 0x151F */
-	ToDoFunction,		/* 0x1520 */
-	HQA_SetAIFS,		/* 0x1521 */
-	HQA_CheckEfuseModeType,	/* 0x1522 */
-	HQA_CheckEfuseNativeModeType,	/* 0x1523 */
-	ToDoFunction,		/* 0x1524 */
-	ToDoFunction,		/* 0x1525 */
-	ToDoFunction,		/* 0x1526 */
-	ToDoFunction,		/* 0x1527 */
-	ToDoFunction,		/* 0x1528 */
-	ToDoFunction,		/* 0x1529 */
-	ToDoFunction,		/* 0x152A */
-	ToDoFunction,		/* 0x152B */
-	HQA_SetBandMode,	/* 0x152C */
-	HQA_GetBandMode,	/* 0x152D */
-	HQA_RDDStartExt,	/* 0x152E */
-	HQA_RDDStopExt,		/* 0x152F */
-	ToDoFunction,		/* 0x1530 */
-#if CFG_SUPPORT_TX_BF
-	HQA_BssInfoUpdate,	/* 0x1531 */
-	HQA_DevInfoUpdate,	/* 0x1532 */
-#else
-	ToDoFunction,		/* 0x1531 */
-	ToDoFunction,		/* 0x1532 */
-#endif
-	HQA_LogOnOff,		/* 0x1533 */
-	ToDoFunction,		/* 0x1534 */
-	ToDoFunction,		/* 0x1535 */
-	HQA_MPSSetNss,		/* 0x1536 */
-	HQA_MPSSetPerpacketBW,	/* 0x1537 */
-};
-#endif /* HQA_CMD_SET5 */
 
 #if CFG_SUPPORT_TX_BF
 static int32_t HQA_TxBfProfileTagInValid(struct net_device
@@ -7173,38 +6989,6 @@ static int32_t HQA_ManualAssoc(struct net_device *prNetDev,
 	return i4Ret;
 }
 
-#if 0 /* camellia: unused: HQA_TXBF_CMDS */
-static HQA_CMD_HANDLER HQA_TXBF_CMDS[] = {
-	HQA_TxBfProfileTagInValid,	/* 0x1540 */
-	HQA_TxBfProfileTagPfmuIdx,	/* 0x1541 */
-	HQA_TxBfProfileTagBfType,	/* 0x1542 */
-	HQA_TxBfProfileTagBw,	/* 0x1543 */
-	HQA_TxBfProfileTagSuMu,	/* 0x1544 */
-	HQA_TxBfProfileTagMemAlloc,	/* 0x1545 */
-	HQA_TxBfProfileTagMatrix,	/* 0x1546 */
-	HQA_TxBfProfileTagSnr,	/* 0x1547 */
-	HQA_TxBfProfileTagSmtAnt,	/* 0x1548 */
-	HQA_TxBfProfileTagSeIdx,	/* 0x1549 */
-	HQA_TxBfProfileTagRmsdThrd,	/* 0x154A */
-	HQA_TxBfProfileTagMcsThrd,	/* 0x154B */
-	HQA_TxBfProfileTagTimeOut,	/* 0x154C */
-	HQA_TxBfProfileTagDesiredBw,	/* 0x154D */
-	HQA_TxBfProfileTagDesiredNc,	/* 0x154E */
-	HQA_TxBfProfileTagDesiredNr,	/* 0x154F */
-	HQA_TxBfProfileTagWrite,	/* 0x1550 */
-	HQA_TxBfProfileTagRead,	/* 0x1551 */
-	HQA_StaRecCmmUpdate,	/* 0x1552 */
-	HQA_StaRecBfUpdate,	/* 0x1553 */
-	HQA_BFProfileDataRead,	/* 0x1554 */
-	HQA_BFProfileDataWrite,	/* 0x1555 */
-	HQA_BFSounding,		/* 0x1556 */
-	HQA_TXBFSoundingStop,	/* 0x1557 */
-	HQA_TXBFProfileDataWriteAllExt,	/* 0x1558 */
-	HQA_TxBfTxApply,	/* 0x1559 */
-	HQA_ManualAssoc,	/* 0x155A */
-};
-#endif /* HQA_TXBF_CMDS */
-
 #if CFG_SUPPORT_MU_MIMO
 static int32_t HQA_MUGetInitMCS(struct net_device *prNetDev,
 				union iwreq_data *prIwReqData,
@@ -7852,23 +7636,6 @@ static int32_t HQA_MUTriggerTx(struct net_device *prNetDev,
 	return i4Ret;
 }
 
-#if 0 /* camellia: unused: HQA_TXMU_CMDS */
-static HQA_CMD_HANDLER HQA_TXMU_CMDS[] = {
-	HQA_MUGetInitMCS,	/* 0x1560 */
-	HQA_MUCalInitMCS,	/* 0x1561 */
-	HQA_MUCalLQ,		/* 0x1562 */
-	HQA_MUGetLQ,		/* 0x1563 */
-	HQA_MUSetSNROffset,	/* 0x1564 */
-	HQA_MUSetZeroNss,	/* 0x1565 */
-	HQA_MUSetSpeedUpLQ,	/* 0x1566 */
-	HQA_MUSetMUTable,	/* 0x1567 */
-	HQA_MUSetGroup,		/* 0x1568 */
-	HQA_MUGetQD,		/* 0x1569 */
-	HQA_MUSetEnable,	/* 0x156A */
-	HQA_MUSetGID_UP,	/* 0x156B */
-	HQA_MUTriggerTx,	/* 0x156C */
-};
-#endif /* HQA_TXMU_CMDS */
 #endif
 #endif
 
@@ -8036,165 +7803,6 @@ static int32_t HQA_CapWiFiSpectrum(struct net_device
 	}
 	return 0;
 }
-
-#if 0 /* camellia: unused: mt6632SetICapStart */
-int32_t mt6632SetICapStart(struct GLUE_INFO *prGlueInfo,
-			   uint32_t u4Trigger, uint32_t u4RingCapEn,
-			   uint32_t u4Event, uint32_t u4Node, uint32_t u4Len,
-			   uint32_t u4StopCycle,
-			   uint32_t u4BW, uint32_t u4MacTriggerEvent,
-			   uint32_t u4SourceAddrLSB,
-			   uint32_t u4SourceAddrMSB, uint32_t u4Band)
-{
-	struct PARAM_MTK_WIFI_TEST_STRUCT rRfATInfo;
-	uint32_t rStatus = WLAN_STATUS_SUCCESS;
-	uint32_t u4BufLen = 0;
-
-	/* iwpriv wlan205 set_test_cmd 75 0   (J mode Setting) */
-	rRfATInfo.u4FuncIndex = RF_AT_FUNCID_SET_J_MODE;
-	rRfATInfo.u4FuncData = 0;
-
-	rStatus = kalIoctl(prGlueInfo,	/* prGlueInfo */
-			   wlanoidRftestSetAutoTest,	/* pfnOidHandler */
-			   &rRfATInfo,	/* pvInfoBuf */
-			   sizeof(rRfATInfo),	/* u4InfoBufLen */
-			   &u4BufLen);	/* pu4QryInfoLen */
-
-	if (rStatus != WLAN_STATUS_SUCCESS)
-		return -EFAULT;
-
-	/* iwpriv wlan205 set_test_cmd 71 0   (Channel Bandwidth) */
-	if (u4BW == 4)
-		u4BW = 3;
-	else if (u4BW == 3)
-		u4BW = 4;
-
-	rRfATInfo.u4FuncIndex = RF_AT_FUNCID_SET_CBW;
-	rRfATInfo.u4FuncData = u4BW;
-
-	rStatus = kalIoctl(prGlueInfo,	/* prGlueInfo */
-			   wlanoidRftestSetAutoTest,	/* pfnOidHandler */
-			   &rRfATInfo,	/* pvInfoBuf */
-			   sizeof(rRfATInfo),	/* u4InfoBufLen */
-			   &u4BufLen);	/* pu4QryInfoLen */
-
-	if (rStatus != WLAN_STATUS_SUCCESS)
-		return -EFAULT;
-
-	/* iwpriv wlan205 set_test_cmd 24 0     (ADC clock mode) */
-	rRfATInfo.u4FuncIndex = RF_AT_FUNCID_ADC_CLK_MODE;
-	rRfATInfo.u4FuncData = 0;
-
-	rStatus = kalIoctl(prGlueInfo,	/* prGlueInfo */
-			   wlanoidRftestSetAutoTest,	/* pfnOidHandler */
-			   &rRfATInfo,	/* pvInfoBuf */
-			   sizeof(rRfATInfo),	/* u4InfoBufLen */
-			   &u4BufLen);	/* pu4QryInfoLen */
-
-	if (rStatus != WLAN_STATUS_SUCCESS)
-		return -EFAULT;
-
-	/* iwpriv wlan205 set_test_cmd 84 18000
-	 * (Internal Capture Trigger Offset)
-	 */
-	rRfATInfo.u4FuncIndex =
-		RF_AT_FUNCID_SET_ICAP_TRIGGER_OFFSET;
-	rRfATInfo.u4FuncData = u4StopCycle;
-
-	rStatus = kalIoctl(prGlueInfo,	/* prGlueInfo */
-			   wlanoidRftestSetAutoTest,	/* pfnOidHandler */
-			   &rRfATInfo,	/* pvInfoBuf */
-			   sizeof(rRfATInfo),	/* u4InfoBufLen */
-			   &u4BufLen);	/* pu4QryInfoLen */
-
-	if (rStatus != WLAN_STATUS_SUCCESS)
-		return -EFAULT;
-
-	if (u4Len == 0)
-		u4Len = 196615;/* 24000; */
-	/* iwpriv wlan205 set_test_cmd 83 24576   (Internal Capture Size) */
-	rRfATInfo.u4FuncIndex = RF_AT_FUNCID_SET_ICAP_SIZE;
-	rRfATInfo.u4FuncData = u4Len;
-
-	rStatus = kalIoctl(prGlueInfo,	/* prGlueInfo */
-			   wlanoidRftestSetAutoTest,	/* pfnOidHandler */
-			   &rRfATInfo,	/* pvInfoBuf */
-			   sizeof(rRfATInfo),	/* u4InfoBufLen */
-			   &u4BufLen);	/* pu4QryInfoLen */
-
-	if (rStatus != WLAN_STATUS_SUCCESS)
-		return -EFAULT;
-	/* iwpriv wlan205 set_test_cmd 80 0   (Internal Capture Content) */
-	if (u4Node == 0x6)
-		u4Node = 0x10000006;
-	else if (u4Node == 0x8)
-		u4Node = 0x49;
-	else if (u4Node == 0x9)
-		u4Node = 0x48;
-
-	rRfATInfo.u4FuncIndex = RF_AT_FUNCID_SET_ICAP_CONTENT;
-	rRfATInfo.u4FuncData = u4Node;
-
-	rStatus = kalIoctl(prGlueInfo,	/* prGlueInfo */
-			   wlanoidRftestSetAutoTest,	/* pfnOidHandler */
-			   &rRfATInfo,	/* pvInfoBuf */
-			   sizeof(rRfATInfo),	/* u4InfoBufLen */
-			   &u4BufLen);	/* pu4QryInfoLen */
-
-	if (rStatus != WLAN_STATUS_SUCCESS)
-		return -EFAULT;
-
-	/* iwpriv wlan205 set_test_cmd 81 0 (Internal Capture Trigger mode) */
-	rRfATInfo.u4FuncIndex = RF_AT_FUNCID_SET_ICAP_MODE;
-	rRfATInfo.u4FuncData = u4Trigger;
-
-	rStatus = kalIoctl(prGlueInfo,	/* prGlueInfo */
-			   wlanoidRftestSetAutoTest,	/* pfnOidHandler */
-			   &rRfATInfo,	/* pvInfoBuf */
-			   sizeof(rRfATInfo),	/* u4InfoBufLen */
-			   &u4BufLen);	/* pu4QryInfoLen */
-
-	if (rStatus != WLAN_STATUS_SUCCESS)
-		return -EFAULT;
-
-	rRfATInfo.u4FuncIndex = RF_AT_FUNCID_SET_ICAP_RING;
-	rRfATInfo.u4FuncData = u4RingCapEn;
-
-	rStatus = kalIoctl(prGlueInfo,	/* prGlueInfo */
-			   wlanoidRftestSetAutoTest,	/* pfnOidHandler */
-			   &rRfATInfo,	/* pvInfoBuf */
-			   sizeof(rRfATInfo),	/* u4InfoBufLen */
-			   &u4BufLen);	/* pu4QryInfoLen */
-
-	if (rStatus != WLAN_STATUS_SUCCESS)
-		return -EFAULT;
-	/* iwpriv wlan205 set_test_cmd 1 13 */
-	rRfATInfo.u4FuncIndex = RF_AT_FUNCID_COMMAND;
-	rRfATInfo.u4FuncData = RF_AT_COMMAND_CH_SWITCH_FOR_ICAP;
-
-	rStatus = kalIoctl(prGlueInfo,	/* prGlueInfo */
-			   wlanoidRftestSetAutoTest,	/* pfnOidHandler */
-			   &rRfATInfo,	/* pvInfoBuf */
-			   sizeof(rRfATInfo),	/* u4InfoBufLen */
-			   &u4BufLen);	/* pu4QryInfoLen */
-
-	if (rStatus != WLAN_STATUS_SUCCESS)
-		return -EFAULT;
-	/* iwpriv wlan205 set_test_cmd 1 11 */
-	rRfATInfo.u4FuncIndex = RF_AT_FUNCID_COMMAND;
-	rRfATInfo.u4FuncData = RF_AT_COMMAND_ICAP;
-
-	rStatus = kalIoctl(prGlueInfo,	/* prGlueInfo */
-			   wlanoidRftestSetAutoTest,	/* pfnOidHandler */
-			   &rRfATInfo,	/* pvInfoBuf */
-			   sizeof(rRfATInfo),	/* u4InfoBufLen */
-			   &u4BufLen);	/* pu4QryInfoLen */
-
-	if (rStatus != WLAN_STATUS_SUCCESS)
-		return -EFAULT;
-	return 0;
-}
-#endif /* mt6632SetICapStart */
 
 int32_t mt6632GetICapStatus(struct GLUE_INFO *prGlueInfo)
 {
@@ -8420,12 +8028,6 @@ int32_t connacGetICapIQData(struct GLUE_INFO *prGlueInfo,
 	return rRbistDump.u4IcapDataLen;
 }
 
-
-#if 0 /* camellia: unused: HQA_ICAP_CMDS */
-static HQA_CMD_HANDLER HQA_ICAP_CMDS[] = {
-	HQA_CapWiFiSpectrum,	/* 0x1580 */
-};
-#endif /* HQA_ICAP_CMDS */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -9380,94 +8982,6 @@ static int32_t hqa_ext_cmds(struct net_device *prNetDev,
 	return i4Ret;
 }
 
-#if 0 /* camellia: unused: HQA_CMD_SET6 */
-static HQA_CMD_HANDLER HQA_CMD_SET6[] = {
-	/* cmd id start from 0x1600 */
-	hqa_ext_cmds,		/* 0x1600 */
-};
-#endif /* HQA_CMD_SET6 */
-
-#if 0 /* camellia: unused: HQA_CMD_TABLES */
-static struct HQA_CMD_TABLE HQA_CMD_TABLES[] = {
-	{
-		HQA_CMD_SET0,
-		ARRAY_SIZE(HQA_CMD_SET0),
-		0x1000,
-	}
-	,
-	{
-		HQA_CMD_SET1,
-		ARRAY_SIZE(HQA_CMD_SET1),
-		0x1100,
-	}
-	,
-	{
-		HQA_CMD_SET2,
-		ARRAY_SIZE(HQA_CMD_SET2),
-		0x1200,
-	}
-	,
-	{
-		HQA_CMD_SET3,
-		ARRAY_SIZE(HQA_CMD_SET3),
-		0x1300,
-	}
-	,
-	{
-		HQA_CMD_SET4,
-		ARRAY_SIZE(HQA_CMD_SET4),
-		0x1400,
-	}
-	,
-	{
-		HQA_CMD_SET5,
-		ARRAY_SIZE(HQA_CMD_SET5),
-		0x1500,
-	}
-	,
-#if CFG_SUPPORT_TX_BF
-	{
-		HQA_TXBF_CMDS,
-		ARRAY_SIZE(HQA_TXBF_CMDS),
-		0x1540,
-	}
-	,
-#if CFG_SUPPORT_MU_MIMO
-	{
-		HQA_TXMU_CMDS,
-		ARRAY_SIZE(HQA_TXMU_CMDS),
-		0x1560,
-	}
-	,
-#endif
-#endif
-	{
-		HQA_ICAP_CMDS,
-		ARRAY_SIZE(HQA_ICAP_CMDS),
-		0x1580,
-	}
-	,
-	{
-		HQA_ReCal_CMDS,
-		ARRAY_SIZE(HQA_ReCal_CMDS),
-		0x1581,
-	}
-	,
-	{
-		HQA_RXV_CMDS,
-		ARRAY_SIZE(HQA_RXV_CMDS),
-		0x1582,
-	}
-	,
-	{
-		HQA_CMD_SET6,
-		ARRAY_SIZE(HQA_CMD_SET6),
-		0x1600,
-	}
-	,
-};
-#endif /* HQA_CMD_TABLES */
-
 /*----------------------------------------------------------------------------*/
 /*!
  * \brief  QA Agent For Handle Ethernet command by Command Idx.
@@ -9480,38 +8994,6 @@ static struct HQA_CMD_TABLE HQA_CMD_TABLES[] = {
  * \retval 0			On success.
  */
 /*----------------------------------------------------------------------------*/
-#if 0 /* camellia: unused: HQA_CMDHandler */
-int HQA_CMDHandler(struct net_device *prNetDev,
-		   union iwreq_data *prIwReqData,
-		   struct HQA_CMD_FRAME *HqaCmdFrame)
-{
-	int32_t i4Status = 0;
-	uint32_t u4CmdId;
-	uint32_t u4TableIndex = 0;
-
-	u4CmdId = ntohs(HqaCmdFrame->Id);
-
-	while (u4TableIndex < ARRAY_SIZE(HQA_CMD_TABLES)) {
-		int CmdIndex = 0;
-
-		CmdIndex = u4CmdId - HQA_CMD_TABLES[u4TableIndex].CmdOffset;
-		if ((CmdIndex >= 0)
-		    && (CmdIndex < HQA_CMD_TABLES[u4TableIndex].CmdSetSize)) {
-			HQA_CMD_HANDLER *pCmdSet;
-
-			pCmdSet = HQA_CMD_TABLES[u4TableIndex].CmdSet;
-
-			if (pCmdSet[CmdIndex] != NULL)
-				i4Status = (*pCmdSet[CmdIndex])(prNetDev,
-						prIwReqData, HqaCmdFrame);
-			break;
-		}
-		u4TableIndex++;
-	}
-
-	return i4Status;
-}
-#endif /* HQA_CMDHandler */
 
 /*----------------------------------------------------------------------------*/
 /*!

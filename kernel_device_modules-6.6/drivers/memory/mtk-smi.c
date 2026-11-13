@@ -3965,14 +3965,6 @@ int mtk_smi_driver_register_notifier(struct notifier_block *nb)
 }
 EXPORT_SYMBOL_GPL(mtk_smi_driver_register_notifier);
 
-#if 0 /* camellia: unused: mtk_smi_driver_unregister_notifier */
-int mtk_smi_driver_unregister_notifier(struct notifier_block *nb)
-{
-	return raw_notifier_chain_unregister(&smi_driver_notifier_list, nb);
-}
-EXPORT_SYMBOL_GPL(mtk_smi_driver_unregister_notifier);
-#endif /* mtk_smi_driver_unregister_notifier */
-
 static u32 mtk_smi_common_ostd_check(struct mtk_smi *common,
 	u32 check_port, unsigned long flags)
 {

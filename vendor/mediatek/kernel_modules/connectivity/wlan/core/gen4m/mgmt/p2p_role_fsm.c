@@ -57,22 +57,6 @@ p2pRoleP2pLisStopDbdcDecision(
 static void p2pRoleFsmHandleBssUnlink(struct ADAPTER *prAdapter,
 	uint8_t ucRoleIdx);
 
-#if 0 /* camellia: unused: p2pRoleFsmNeedMlo */
-u_int8_t p2pRoleFsmNeedMlo(
-	struct ADAPTER *prAdapter,
-	uint8_t ucRoleIdx)
-{
-#if (CFG_SUPPORT_802_11BE_MLO == 1)
-	u_int8_t fgIsApMode = p2pFuncIsAPMode(
-		prAdapter->rWifiVar.prP2PConnSettings[ucRoleIdx]);
-
-	return mldIsMultiLinkEnabled(prAdapter, NETWORK_TYPE_P2P, fgIsApMode);
-#else
-	return FALSE;
-#endif
-}
-#endif /* p2pRoleFsmNeedMlo */
-
 void
 p2pRoleFsmStaCsaUpdt(struct ADAPTER *prAdapter,
 		struct LINK *prClientList,
@@ -5564,35 +5548,6 @@ u_int8_t indicateApAcsOverwrite(
 	return bOverwrite;
 }
 
-#if 0 /* camellia: unused: p2pIsBssInScanScope */
-u_int8_t p2pIsBssInScanScope(
-	struct ADAPTER *prAdapter,
-	struct MSG_P2P_ACS_REQUEST *prMsgAcsRequest,
-	uint8_t ucNumAliveNonSapBss,
-	struct BSS_INFO **aprAliveNonSapBss)
-{
-	uint8_t i;
-
-	for (i = 0; i < ucNumAliveNonSapBss; i++) {
-		if (prMsgAcsRequest->eHwMode ==
-			P2P_VENDOR_ACS_HW_MODE_11G &&
-			aprAliveNonSapBss[i]->eBand == BAND_2G4)
-			return true;
-		else if (prMsgAcsRequest->eHwMode ==
-			P2P_VENDOR_ACS_HW_MODE_11A &&
-			(aprAliveNonSapBss[i]->eBand == BAND_5G
-#if (CFG_SUPPORT_WIFI_6G == 1)
-			|| aprAliveNonSapBss[i]->eBand == BAND_6G
-#endif
-			))
-			return true;
-		else if (prMsgAcsRequest->eHwMode ==
-			P2P_VENDOR_ACS_HW_MODE_11ANY)
-			return true;
-	}
-	return false;
-}
-#endif /* p2pIsBssInScanScope */
 static void p2pRoleFsmSetSafeBitmap(struct ADAPTER *prAdapter,
 				struct P2P_ACS_REQ_INFO *prAcsReqInfo,
 				enum ENUM_BAND eBand,

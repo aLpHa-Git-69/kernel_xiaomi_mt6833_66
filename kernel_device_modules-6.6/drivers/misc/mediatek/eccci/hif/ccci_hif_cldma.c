@@ -1875,17 +1875,6 @@ void cldma_disable_irq(struct md_cd_ctrl *md_ctrl)
 		disable_irq(md_ctrl->cldma_irq_id);
 }
 
-#if 0 /* camellia: unused: cldma_disable_irq_nosync */
-void cldma_disable_irq_nosync(struct md_cd_ctrl *md_ctrl)
-{
-	if (atomic_cmpxchg(&md_ctrl->cldma_irq_enabled, 1, 0) == 1)
-		/*
-		 * may be called in isr, so use disable_irq_nosync.
-		 * if use disable_irq in isr, system will hang
-		 */
-		disable_irq_nosync(md_ctrl->cldma_irq_id);
-}
-#endif /* cldma_disable_irq_nosync */
 static void cldma_rx_worker_start(struct md_cd_ctrl *md_ctrl, int qno)
 {
 	tasklet_hi_schedule(&md_ctrl->cldma_rxq0_task);

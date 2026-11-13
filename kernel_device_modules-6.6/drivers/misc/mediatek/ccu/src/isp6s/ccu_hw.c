@@ -446,13 +446,6 @@ int ccu_uninit_hw(struct ccu_device_s *device)
 	return 0;
 }
 
-#if 0 /* camellia: unused: ccu_mmap_hw */
-int ccu_mmap_hw(struct file *filp, struct vm_area_struct *vma)
-{
-	return 0;
-}
-#endif /* ccu_mmap_hw */
-
 int ccu_memcpy(void *dest, void *src, int length)
 {
 	int i = 0;
@@ -465,20 +458,6 @@ int ccu_memcpy(void *dest, void *src, int length)
 
 	return length;
 }
-
-#if 0 /* camellia: unused: ccu_memclr */
-int ccu_memclr(void *dest, int length)
-{
-	int i = 0;
-
-	char *destPtr = (char *)dest;
-
-	for (i = 0; i < length; i++)
-		destPtr[i] = 0;
-
-	return length;
-}
-#endif /* ccu_memclr */
 
 int ccu_send_command(struct ccu_cmd_s *pCmd)
 {

@@ -1448,28 +1448,6 @@ int _btif_lpbk_ctrl(struct _mtk_btif_ *p_btif, bool flag)
 	return i_ret;
 }
 
-#if 0 /* camellia: unused: btif_clock_ctrl */
-int btif_clock_ctrl(struct _mtk_btif_ *p_btif, int en)
-{
-	int i_ret = 0;
-	struct _MTK_BTIF_INFO_STR_ *p_btif_info = p_btif->p_btif_info;
-	enum _ENUM_CLOCK_CTRL_ ctrl_flag =
-			en == 0 ? CLK_OUT_DISABLE : CLK_OUT_ENABLE;
-
-	i_ret = hal_btif_clk_ctrl(p_btif_info, ctrl_flag);
-
-	if (p_btif->rx_mode == BTIF_MODE_DMA)
-		i_ret += hal_btif_dma_clk_ctrl(p_btif->p_rx_dma->p_dma_info,
-				ctrl_flag);
-
-	if (p_btif->tx_mode == BTIF_MODE_DMA)
-		i_ret += hal_btif_dma_clk_ctrl(p_btif->p_tx_dma->p_dma_info,
-				ctrl_flag);
-
-	return i_ret;
-}
-#endif /* btif_clock_ctrl */
-
 int _btif_controller_setup(struct _mtk_btif_ *p_btif)
 {
 	int i_ret = -1;
@@ -3559,13 +3537,6 @@ int mtk_btif_hal_get_log_lvl(void)
 {
 	return mtk_btif_dbg_lvl;
 }
-
-#if 0 /* camellia: unused: mtk_btif_read_cpu_sw_rst_debug */
-void mtk_btif_read_cpu_sw_rst_debug(void)
-{
-	mtk_btif_read_cpu_sw_rst_debug_plat();
-}
-#endif /* mtk_btif_read_cpu_sw_rst_debug */
 
 static int _btif_rx_thread_lock(struct _mtk_btif_ *p_btif, bool enable)
 {

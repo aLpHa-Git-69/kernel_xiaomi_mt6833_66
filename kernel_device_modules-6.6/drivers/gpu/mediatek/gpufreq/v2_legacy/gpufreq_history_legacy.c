@@ -74,25 +74,6 @@ static unsigned int gpufreq_history_bit_reverse(unsigned int x)
 	return x;
 }
 
-#if 0 /* camellia: unused: gpufreq_history_get_log */
-const unsigned int *gpufreq_history_get_log(void)
-{
-	int i = 0;
-	u32 val = 0;
-
-	if (unlikely(!g_history_base))
-		goto done;
-
-	for (i = 0; i < GPUFREQ_HISTORY_SIZE; i++) {
-		val = readl(g_history_base + (i << 2));
-		g_history_log[i] = gpufreq_history_bit_reverse(val);
-	}
-
-done:
-	return g_history_log;
-}
-#endif /* gpufreq_history_get_log */
-
 int gpufreq_history_init(void)
 {
 	g_history_base = gpufreq_history_of_ioremap("mediatek,gpufreq", "sysram_mfg_history");

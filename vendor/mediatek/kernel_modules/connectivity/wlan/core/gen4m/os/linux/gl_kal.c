@@ -1278,23 +1278,6 @@ kalQueryPacketEtherType(void *pvPacket)
  * *			Version field from skb payload
  */
 /*----------------------------------------------------------------------------*/
-#if 0 /* camellia: unused: kalQueryPacketIPVersion */
-uint8_t
-kalQueryPacketIPVersion(void *pvPacket)
-{
-	uint8_t *pucEth;
-	struct sk_buff *skb;
-
-	if (!pvPacket)
-		return 0xFF;
-
-	skb = (struct sk_buff *)pvPacket;
-
-	pucEth = skb->data;
-
-	return ((pucEth[ETH_HLEN] & IPVH_VERSION_MASK) >> IPVH_VERSION_OFFSET);
-}
-#endif /* kalQueryPacketIPVersion */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -1305,23 +1288,6 @@ kalQueryPacketIPVersion(void *pvPacket)
  *			field from skb payload
  */
 /*----------------------------------------------------------------------------*/
-#if 0 /* camellia: unused: kalQueryPacketIPV4Precedence */
-uint8_t
-kalQueryPacketIPV4Precedence(void *pvPacket)
-{
-	uint8_t *pucEth;
-	struct sk_buff *skb;
-
-	if (!pvPacket)
-		return 0xFF;
-
-	skb = (struct sk_buff *)pvPacket;
-
-	pucEth = skb->data;
-
-	return ((pucEth[ETH_HLEN+1] & IPTOS_PREC_MASK) >> IPTOS_PREC_OFFSET);
-}
-#endif /* kalQueryPacketIPV4Precedence */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -1331,23 +1297,6 @@ kalQueryPacketIPV4Precedence(void *pvPacket)
  * \return		8-bits of IPv4 Protocol field from skb payload
  */
 /*----------------------------------------------------------------------------*/
-#if 0 /* camellia: unused: kalQueryPacketIPv4Protocol */
-uint8_t
-kalQueryPacketIPv4Protocol(void *pvPacket)
-{
-	uint8_t *pucEth;
-	struct sk_buff *skb;
-
-	if (!pvPacket)
-		return 0xFF;
-
-	skb = (struct sk_buff *)pvPacket;
-
-	pucEth = skb->data;
-
-	return pucEth[ETH_HLEN+9];
-}
-#endif /* kalQueryPacketIPv4Protocol */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -1357,24 +1306,6 @@ kalQueryPacketIPv4Protocol(void *pvPacket)
  * \return		16-bits of IPv4 Identiication field from skb payload
  */
 /*----------------------------------------------------------------------------*/
-#if 0 /* camellia: unused: kalQueryPacketIPv4Identification */
-uint16_t
-kalQueryPacketIPv4Identification(void *pvPacket)
-{
-	uint8_t *pucEth;
-	struct sk_buff *skb;
-
-	if (!pvPacket)
-		return 0xFFFF;
-
-	skb = (struct sk_buff *)pvPacket;
-
-	pucEth = skb->data;
-
-	return (uint16_t) ((pucEth[ETH_HLEN+4] << 8)
-			| (pucEth[ETH_HLEN+5]));
-}
-#endif /* kalQueryPacketIPv4Identification */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -1384,24 +1315,6 @@ kalQueryPacketIPv4Identification(void *pvPacket)
  * \return		16-bits of source port field from skb payload
  */
 /*----------------------------------------------------------------------------*/
-#if 0 /* camellia: unused: kalQueryPacketIPv4TCPUDPSrcPort */
-uint16_t
-kalQueryPacketIPv4TCPUDPSrcPort(void *pvPacket)
-{
-	uint8_t *pucEth;
-	struct sk_buff *skb;
-
-	if (!pvPacket)
-		return 0xFFFF;
-
-	skb = (struct sk_buff *)pvPacket;
-
-	pucEth = skb->data;
-
-	return (uint16_t) ((pucEth[ETH_HLEN+20] << 8)
-			| (pucEth[ETH_HLEN+21]));
-}
-#endif /* kalQueryPacketIPv4TCPUDPSrcPort */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -1411,24 +1324,6 @@ kalQueryPacketIPv4TCPUDPSrcPort(void *pvPacket)
  * \retur		16-bits of destination port field from skb payload
  */
 /*----------------------------------------------------------------------------*/
-#if 0 /* camellia: unused: kalQueryPacketIPv4TCPUDPDstPort */
-uint16_t
-kalQueryPacketIPv4TCPUDPDstPort(void *pvPacket)
-{
-	uint8_t *pucEth;
-	struct sk_buff *skb;
-
-	if (!pvPacket)
-		return 0xFFFF;
-
-	skb = (struct sk_buff *)pvPacket;
-
-	pucEth = skb->data;
-
-	return (uint16_t) ((pucEth[ETH_HLEN+22] << 8)
-			| (pucEth[ETH_HLEN+23]));
-}
-#endif /* kalQueryPacketIPv4TCPUDPDstPort */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -1440,26 +1335,6 @@ kalQueryPacketIPv4TCPUDPDstPort(void *pvPacket)
  * \return			same as strncmp
  */
 /*----------------------------------------------------------------------------*/
-#if 0 /* camellia: unused: kalComparePacketIPv4UDPPayload */
-int
-kalComparePacketIPv4UDPPayload(void *pvPacket, int8_t *pattern, size_t length)
-{
-	uint8_t *pucEth;
-	uint8_t *pucUdp;
-	struct sk_buff *skb;
-
-	if (!pvPacket)
-		return 0xFFFFFFFF;
-
-	skb = (struct sk_buff *)pvPacket;
-
-	pucEth = skb->data;
-
-	pucUdp = &pucEth[ETH_HLEN+28];
-
-	return strncmp(pucUdp, pattern, length);
-}
-#endif /* kalComparePacketIPv4UDPPayload */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -1561,30 +1436,6 @@ void kalGetPacketBufHeadManipulate(void *pvPacket,
  * \return (none)
  */
 /*----------------------------------------------------------------------------*/
-#if 0 /* camellia: unused: kalGetPacketBufTailManipulate */
-void kalGetPacketBufTailManipulate(void *pvPacket,
-		uint8_t **ppucData,
-		int16_t length)
-{
-	struct sk_buff *skb;
-	int len;
-
-	if (!pvPacket)
-		return;
-
-	skb = (struct sk_buff *)pvPacket;
-
-	if (length > 0) {
-		len = length;
-		skb_put(skb, len);
-	} else if (length < 0) {
-		len = -length;
-		skb_trim(skb, len);
-	}
-
-	*ppucData = (uint8_t *) (skb->data);
-}
-#endif /* kalGetPacketBufTailManipulate */
 
 
 uint32_t kalGetPacketMark(void *pvPacket)
@@ -6832,13 +6683,6 @@ void kalEnqueueCommand(struct GLUE_INFO *prGlueInfo,
  * @return none
  */
 /*----------------------------------------------------------------------------*/
-#if 0 /* camellia: unused: kalHandleAssocInfo */
-void kalHandleAssocInfo(struct GLUE_INFO *prGlueInfo,
-			struct EVENT_ASSOC_INFO *prAssocInfo)
-{
-	/* to do */
-}
-#endif /* kalHandleAssocInfo */
 
 uint32_t kalGetTxPendingFrameCount(struct GLUE_INFO
 				   *prGlueInfo)
@@ -7239,36 +7083,6 @@ void kalSetMddpEvent(struct GLUE_INFO *pr)
 	wake_up_interruptible(&pr->waitq_hif);
 #endif
 }
-
-#if 0 /* camellia: unused: kalSetHifAerResetEvent */
-void kalSetHifAerResetEvent(struct GLUE_INFO *pr)
-{
-	set_bit(HIF_FLAG_AER_RESET_BIT, &pr->ulHifFlag);
-#if CFG_SUPPORT_MULTITHREAD
-	wake_up_interruptible(&pr->waitq_hif);
-#endif
-}
-#endif /* kalSetHifAerResetEvent */
-
-#if 0 /* camellia: unused: kalSetHifMsiRecoveryEvent */
-void kalSetHifMsiRecoveryEvent(struct GLUE_INFO *pr)
-{
-	set_bit(HIF_FLAG_MSI_RECOVERY_BIT, &pr->ulHifFlag);
-#if CFG_SUPPORT_MULTITHREAD
-	wake_up_interruptible(&pr->waitq_hif);
-#endif
-}
-#endif /* kalSetHifMsiRecoveryEvent */
-
-#if 0 /* camellia: unused: kalSetHifHandleAllTokensUnusedEvent */
-void kalSetHifHandleAllTokensUnusedEvent(struct GLUE_INFO *pr)
-{
-	set_bit(HIF_FLAG_ALL_TOKENS_UNUSED_BIT, &pr->ulHifFlag);
-#if CFG_SUPPORT_MULTITHREAD
-	wake_up_interruptible(&pr->waitq_hif);
-#endif
-}
-#endif /* kalSetHifHandleAllTokensUnusedEvent */
 
 void kalSetHifDbgEvent(struct GLUE_INFO *pr)
 {
@@ -12393,65 +12207,7 @@ uint32_t kalGetTpMbpsByBssId(struct ADAPTER *prAdapter,
 	return u4TpMbps;
 }
 
-#if 0 /* camellia: unused: kalGetTpMbps */
-uint32_t kalGetTpMbps(struct ADAPTER *prAdapter,
-	enum ENUM_PKT_PATH ePath)
-{
-	uint32_t u4TpMbps = 0;
-	uint8_t i = 0;
-
-	for (i = 0; i < MAX_BSSID_NUM; i++)
-		u4TpMbps += kalGetTpMbpsByBssId(prAdapter, ePath, i);
-
-	return u4TpMbps;
-}
-#endif /* kalGetTpMbps */
-
-#if 0 /* camellia: unused: kalIsTxHighTput */
-u_int8_t kalIsTxHighTput(struct ADAPTER *prAdapter)
-{
-	struct WIFI_VAR *prWifiVar = &prAdapter->rWifiVar;
-
-	if (kalGetTpMbps(prAdapter, PKT_PATH_TX) < prWifiVar->u4TxHighTputTh)
-		return FALSE;
-
-	return TRUE;
-}
-#endif /* kalIsTxHighTput */
-
-#if 0 /* camellia: unused: kalIsRxHighTput */
-u_int8_t kalIsRxHighTput(struct ADAPTER *prAdapter)
-{
-	struct WIFI_VAR *prWifiVar = &prAdapter->rWifiVar;
-
-	if (kalGetTpMbps(prAdapter, PKT_PATH_RX) < prWifiVar->u4RxHighTputTh)
-		return FALSE;
-
-	return TRUE;
-}
-#endif /* kalIsRxHighTput */
-
 #if CFG_SUPPORT_DISABLE_DATA_DDONE_INTR
-#if 0 /* camellia: unused: kalIsTputMode */
-u_int8_t kalIsTputMode(struct ADAPTER *prAdapter,
-	enum ENUM_PKT_PATH ePath,
-	uint8_t ucBssIdx)
-{
-	struct WIFI_VAR *prWifiVar = &prAdapter->rWifiVar;
-	uint32_t u4TpMbps = 0;
-	uint8_t ucRet = FALSE;
-
-	if (ucBssIdx == MAX_BSSID_NUM)
-		u4TpMbps = kalGetTpMbps(prAdapter, ePath);
-	else
-		u4TpMbps = kalGetTpMbpsByBssId(prAdapter, ePath, ucBssIdx);
-
-	if (u4TpMbps > prWifiVar->u4TputThresholdMbps)
-		ucRet = TRUE;
-
-	return ucRet;
-}
-#endif /* kalIsTputMode */
 #endif /* CFG_SUPPORT_DISABLE_DATA_DDONE_INTR */
 
 void __weak kalSetRunOnNonXCore(struct task_struct *task)
@@ -13230,15 +12986,6 @@ void kalInitDevWakeup(struct ADAPTER *prAdapter, struct device *prDev)
 #endif
 }
 
-#if 0 /* camellia: unused: kalIsOuiMask */
-u_int8_t kalIsOuiMask(const uint8_t pucMacAddrMask[MAC_ADDR_LEN])
-{
-	return (pucMacAddrMask[0] == 0xFF &&
-		pucMacAddrMask[1] == 0xFF &&
-		pucMacAddrMask[2] == 0xFF);
-}
-#endif /* kalIsOuiMask */
-
 u_int8_t kalIsValidMacAddr(const uint8_t *addr)
 {
 	return (addr != NULL) && is_valid_ether_addr(addr);
@@ -13913,19 +13660,6 @@ int _kalSnprintf(char *buf, size_t size, const char *fmt, ...)
 	va_end(ap);
 	return (retval < 0)?(0):(retval);
 }
-
-#if 0 /* camellia: unused: _kalSprintf */
-int _kalSprintf(char *buf, const char *fmt, ...)
-{
-	int retval;
-	va_list ap;
-
-	va_start(ap, fmt);
-	retval = vsprintf(buf, fmt, ap);
-	va_end(ap);
-	return (retval < 0)?(0):(retval);
-}
-#endif /* _kalSprintf */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -16299,14 +16033,6 @@ uint32_t kalTxDirectStartXmit(struct sk_buff *prSkb,
 	return ret;
 }
 
-#if 0 /* camellia: unused: kalGetTxDirectQueueLength */
-uint32_t kalGetTxDirectQueueLength(
-				struct GLUE_INFO *prGlueInfo)
-{
-	return skb_queue_len(&prGlueInfo->rTxDirectSkbQueue);
-}
-#endif /* kalGetTxDirectQueueLength */
-
 void kalKfreeSkb(void *pvPacket, u_int8_t fgIsFreeData)
 {
 	struct sk_buff *pkt = (struct sk_buff *)pvPacket;
@@ -16318,38 +16044,6 @@ void kalKfreeSkb(void *pvPacket, u_int8_t fgIsFreeData)
 		kfree_skb(pkt);
 	}
 }
-
-#if 0 /* camellia: unused: kalBuildSkb */
-void *kalBuildSkb(void *pvPacket, uint32_t u4MgmtLength,
-	uint32_t u4TotLen, u_int8_t fgIsSetLen)
-{
-	struct sk_buff *pkt;
-
-	/* Add kalGetSKBSharedInfoSize() is due to build_skb
-	 * API will assume user have contain this in length parameter,
-	 * but we don't do this, so if not add this will result kernel
-	 * overwrite the content which is not expected.
-	 */
-	pkt = build_skb(pvPacket, u4MgmtLength
-		+ kalGetSKBSharedInfoSize());
-
-	/* Not need send skb shared info to peers, so not add
-	 * kalGetSKBSharedInfoSize() here.
-	 */
-	if (pkt && fgIsSetLen)
-		pkt->len = u4TotLen;
-
-	return (void *)pkt;
-}
-#endif /* kalBuildSkb */
-
-#if 0 /* camellia: unused: kalGetSKBSharedInfoSize */
-uint32_t kalGetSKBSharedInfoSize(void)
-{
-	return SKB_RESERVED_SIZE +
-		SKB_DATA_ALIGN(sizeof(struct skb_shared_info));
-}
-#endif /* kalGetSKBSharedInfoSize */
 
 uint32_t kalGetChannelFrequency(
 				uint8_t ucChannel,
@@ -16675,43 +16369,6 @@ void kalConfigWfdmaTh(struct GLUE_INFO *prGlueInfo, uint32_t u4Th)
 #endif /* defined(_HIF_PCIE) */
 
 #if defined(_HIF_PCIE) || defined(_HIF_AXI)
-#if 0 /* camellia: unused: kalSetISRMask */
-void kalSetISRMask(struct ADAPTER *prAdapter, uint32_t set_mask)
-{
-#define CPU_ALL_CORE (0xff)
-	struct cpumask cpu_mask;
-	int i;
-	struct GLUE_INFO *prGlueInfo = prAdapter->prGlueInfo;
-	struct GL_HIF_INFO *prHifInfo = NULL;
-
-	if (!HAL_IS_RX_DIRECT(prAdapter))
-		return;
-
-	if (!prGlueInfo)
-		return;
-
-	prHifInfo = &prGlueInfo->rHifInfo;
-
-	if (set_mask == CPU_ALL_CORE) {
-		synchronize_irq(prHifInfo->u4IrqId);
-		irq_set_affinity_hint(prHifInfo->u4IrqId,
-			cpu_all_mask);
-	} else {
-		cpumask_clear(&cpu_mask);
-		for (i = 0; i < num_possible_cpus(); i++)
-			if ((0x1 << i) & set_mask)
-				cpumask_or(&cpu_mask, &cpu_mask,
-					cpumask_of(i));
-		synchronize_irq(prHifInfo->u4IrqId);
-		irq_set_affinity_hint(prHifInfo->u4IrqId,
-			&cpu_mask);
-	}
-
-	DBGLOG(INIT, INFO, "irq_set_affinity_hint(%u, %u)",
-		prHifInfo->u4IrqId, set_mask);
-#undef CPU_ALL_CORE
-}
-#endif /* kalSetISRMask */
 #endif /* defined(_HIF_PCIE) || defined(_HIF_AXI) */
 
 #if CFG_TCP_IP_CHKSUM_OFFLOAD
@@ -16987,15 +16644,6 @@ void kalWlanHardStartXmit(void *pvPacket, void *pvDev)
 
 	wlanHardStartXmit(skb, dev);
 }
-#if 0 /* camellia: unused: kalNlaPut */
-int32_t kalNlaPut(void *pvPacket, uint32_t attrType,
-		uint32_t attrLen, const void *data)
-{
-	struct sk_buff *skb = (struct sk_buff *)pvPacket;
-
-	return nla_put(skb, attrType, attrLen, data);
-}
-#endif /* kalNlaPut */
 
 void *
 kalProcessRttReportDone(struct GLUE_INFO *prGlueInfo,
@@ -17095,16 +16743,6 @@ void kalGetFtIeParam(void *pvftie,
 	*pu4IeLength = ftie->ie_len;
 	*pucIe = ftie->ie;
 }
-
-#if 0 /* camellia: unused: kalRegulatoryHint */
-int kalRegulatoryHint(char *country)
-{
-	struct wiphy *pWiphy;
-
-	pWiphy = wlanGetWiphy();
-	return regulatory_hint(pWiphy, country);
-}
-#endif /* kalRegulatoryHint */
 
 #if (CFG_VOLT_INFO == 1)
 /*----------------------------------------------------------------------------*/
@@ -18135,30 +17773,6 @@ end:
 	return WLAN_STATUS_SUCCESS;
 }
 
-#if 0 /* camellia: unused: kalWorkGetGlueInfo */
-inline struct GLUE_INFO *kalWorkGetGlueInfo(
-	struct work_struct *work)
-{
-	struct GLUE_INFO *pr;
-	struct WORK_CONTAINER *prWorkContainer;
-
-	prWorkContainer = CONTAINER_OF(work, struct WORK_CONTAINER, rWork);
-	pr = prWorkContainer->pr;
-	return pr;
-}
-#endif /* kalWorkGetGlueInfo */
-
-#if 0 /* camellia: unused: kalWorkGetIdx */
-inline enum ENUM_WORK_INDEX kalWorkGetIdx(
-	struct work_struct *work)
-{
-	struct WORK_CONTAINER *prWorkContainer;
-
-	prWorkContainer = CONTAINER_OF(work, struct WORK_CONTAINER, rWork);
-	return prWorkContainer->eIdx;
-}
-#endif /* kalWorkGetIdx */
-
 inline uint32_t kalWorkCheckState(struct work_struct *work)
 {
 	struct WORK_CONTAINER *prWorkContainer;
@@ -18177,130 +17791,6 @@ inline uint32_t kalWorkCheckState(struct work_struct *work)
 
 	return WLAN_STATUS_SUCCESS;
 }
-
-#if 0 /* camellia: unused: kalConWorkRun */
-static void kalConWorkRun(struct work_struct *work)
-{
-	struct CON_WORK *prConWork =
-		CONTAINER_OF(work, struct CON_WORK, rWork);
-	struct GLUE_INFO *pr = prConWork->pr;
-	uint8_t ucIdx;
-
-	if (!pr)
-		return;
-
-	ucIdx = prConWork->ucIdx;
-	if (unlikely(ucIdx >= CON_WORK_MAX)) {
-		DBGLOG(INIT, INFO, "Invalid Idx %u\n", ucIdx);
-		return;
-	}
-
-#if CFG_ENABLE_WAKE_LOCK
-	KAL_WAKE_LOCK(pr->prAdapter, prConWork->wakelock);
-#endif /* CFG_ENABLE_WAKE_LOCK */
-
-	if (prConWork->func)
-		prConWork->func(pr, ucIdx);
-
-#if CFG_ENABLE_WAKE_LOCK
-	KAL_WAKE_UNLOCK(pr->prAdapter, prConWork->wakelock);
-#endif /* CFG_ENABLE_WAKE_LOCK */
-}
-#endif /* kalConWorkRun */
-
-#if 0 /* camellia: unused: kalConWorkInit */
-inline void kalConWorkInit(struct GLUE_INFO *pr, struct CON_WORK *prConWork,
-	const char *name, uint8_t ucIdx, PFN_CON_WORK_FUNC func)
-{
-	uint8_t aucBuf[WORKER_NAME_STR_MAX] = {0};
-
-	prConWork->pr = pr;
-	prConWork->ucIdx = ucIdx;
-	kalSnprintf(aucBuf, sizeof(aucBuf), "%s/%u", name, ucIdx);
-	prConWork->func = func;
-	INIT_WORK(&prConWork->rWork, kalConWorkRun);
-	prConWork->prWorkQueue = __kalWorkQueueInit(aucBuf);
-
-#if CFG_ENABLE_WAKE_LOCK
-	KAL_WAKE_LOCK_INIT(pr->prAdapter, prConWork->wakelock, aucBuf);
-#endif /* CFG_ENABLE_WAKE_LOCK */
-}
-#endif /* kalConWorkInit */
-
-#if 0 /* camellia: unused: kalConWorkUninit */
-inline void kalConWorkUninit(struct GLUE_INFO *pr, struct CON_WORK *prConWork)
-{
-	struct workqueue_struct *prWq;
-
-	/* set prWorkQueue to NULL to prevent more schedule */
-	prWq = prConWork->prWorkQueue;
-	prConWork->prWorkQueue = NULL;
-
-	/* cancel all wq */
-	__kalWorkQueueUninit(prWq);
-
-#if CFG_ENABLE_WAKE_LOCK
-	KAL_WAKE_LOCK_DESTROY(pr->prAdapter, prConWork->wakelock);
-#endif /* CFG_ENABLE_WAKE_LOCK */
-}
-#endif /* kalConWorkUninit */
-
-#if 0 /* camellia: unused: kalConWorkSchedule */
-inline void kalConWorkSchedule(struct GLUE_INFO *pr, struct CON_WORK *prConWork,
-	enum CPU_CORE_TYPE eCoreType)
-{
-	int32_t cpu;
-
-	/* skip if workqueue is not inited */
-	if (!prConWork->prWorkQueue)
-		return;
-
-	if (eCoreType == CPU_CORE_BIG) {
-		/* use Big Core */
-		cpu = CPU_BIG_CORE_START_IDX + prConWork->ucIdx;
-	} else if (eCoreType == CPU_CORE_LITTLE) {
-		/* use Little Core */
-		cpu = prConWork->ucIdx;
-	} else {
-		/* use All Core */
-		cpu = -1;
-	}
-
-	if (cpu != -1) {
-		queue_work_on(cpu,
-			prConWork->prWorkQueue, &prConWork->rWork);
-	} else
-		queue_work(prConWork->prWorkQueue, &prConWork->rWork);
-}
-#endif /* kalConWorkSchedule */
-
-#if 0 /* camellia: unused: kalConWorkDispatchJobs */
-inline unsigned long kalConWorkDispatchJobs(uint32_t arJobs[],
-	uint32_t u4ReqNum)
-{
-	unsigned long ulMask = 0;
-	uint32_t q, r, u4Num;
-	uint8_t ucIdx;
-
-	q = u4ReqNum >> CON_WORK_SHIFT;
-	r = u4ReqNum & CON_WORK_MASK;
-
-	for (ucIdx = 0; ucIdx < CON_WORK_MAX; ucIdx++) {
-		u4Num = q;
-		if ((ucIdx + 1) <= r)
-			u4Num++;
-
-		/* early break if no need to schedule */
-		if (u4Num == 0)
-			break;
-
-		arJobs[ucIdx] = u4Num;
-		set_bit(ucIdx, &ulMask);
-	}
-
-	return ulMask;
-}
-#endif /* kalConWorkDispatchJobs */
 
 #if CFG_SUPPORT_TX_FREE_MSDU_WORK
 void kalTxFreeMsduWork(struct work_struct *work)

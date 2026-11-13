@@ -89,13 +89,6 @@ void rlmObssInit(struct ADAPTER *prAdapter)
  * \return none
  */
 /*----------------------------------------------------------------------------*/
-#if 0 /* camellia: unused: rlmObssUpdateChnlLists */
-u_int8_t rlmObssUpdateChnlLists(struct ADAPTER *prAdapter,
-				struct SW_RFB *prSwRfb)
-{
-	return TRUE;
-}
-#endif /* rlmObssUpdateChnlLists */
 
 /*----------------------------------------------------------------------------*/
 /*!

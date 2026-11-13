@@ -847,20 +847,3 @@ int aed_proc_debug_init(struct proc_dir_entry *aed_proc_dir)
 
 	return 0;
 }
-
-#if 0 /* camellia: unused: aed_proc_debug_done */
-int aed_proc_debug_done(struct proc_dir_entry *aed_proc_dir)
-{
-	remove_proc_entry("generate-oops", aed_proc_dir);
-	remove_proc_entry("generate-nested-ke", aed_proc_dir);
-	remove_proc_entry("generate-kernel-notify", aed_proc_dir);
-	remove_proc_entry("generate-ee", aed_proc_dir);
-	remove_proc_entry("generate-combo", aed_proc_dir);
-	remove_proc_entry("generate-md32", aed_proc_dir);
-	remove_proc_entry("generate-scp", aed_proc_dir);
-	remove_proc_entry("generate-wdt", aed_proc_dir);
-	remove_proc_entry("generate-adsp", aed_proc_dir);
-	remove_proc_entry("generate-platform", aed_proc_dir);
-	return 0;
-}
-#endif /* aed_proc_debug_done */

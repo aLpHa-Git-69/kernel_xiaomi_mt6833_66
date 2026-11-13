@@ -3304,13 +3304,6 @@ VOID wmt_core_set_flag_for_test(UINT32 enable)
 	g_open_wmt_lte_flag = enable;
 }
 
-#if 0 /* camellia: unused: wmt_core_get_flag_for_test */
-UINT32 wmt_core_get_flag_for_test(VOID)
-{
-	return g_open_wmt_lte_flag;
-}
-#endif /* wmt_core_get_flag_for_test */
-
 #endif
 
 static INT32 opfunc_utc_time_sync(P_WMT_OP pWmtOp)

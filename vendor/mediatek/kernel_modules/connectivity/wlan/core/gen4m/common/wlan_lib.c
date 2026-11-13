@@ -670,30 +670,6 @@ PFN_OID_HANDLER_FUNC apfnOidWOTimeoutCheck[] = {
  * \retval FALSE This function does not need HW access
  */
 /*----------------------------------------------------------------------------*/
-#if 0 /* camellia: unused: wlanIsHandlerNeedHwAccess */
-u_int8_t wlanIsHandlerNeedHwAccess(PFN_OID_HANDLER_FUNC
-				   pfnOidHandler, u_int8_t fgSetInfo)
-{
-	PFN_OID_HANDLER_FUNC *apfnOidHandlerWOHwAccess;
-	uint32_t i;
-	uint32_t u4NumOfElem;
-
-	if (fgSetInfo) {
-		apfnOidHandlerWOHwAccess = apfnOidSetHandlerWOHwAccess;
-		u4NumOfElem = ARRAY_SIZE(apfnOidSetHandlerWOHwAccess);
-	} else {
-		apfnOidHandlerWOHwAccess = apfnOidQueryHandlerWOHwAccess;
-		u4NumOfElem = ARRAY_SIZE(apfnOidQueryHandlerWOHwAccess);
-	}
-
-	for (i = 0; i < u4NumOfElem; i++) {
-		if (apfnOidHandlerWOHwAccess[i] == pfnOidHandler)
-			return FALSE;
-	}
-
-	return TRUE;
-} /* wlanIsHandlerNeedHwAccess */
-#endif /* wlanIsHandlerNeedHwAccess */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -1853,19 +1829,6 @@ void wlanIST(struct ADAPTER *prAdapter, bool fgEnInt)
 	if (fgEnInt)
 		nicEnableInterrupt(prAdapter);
 }
-
-#if 0 /* camellia: unused: wlanClearPendingInterrupt */
-void wlanClearPendingInterrupt(struct ADAPTER *prAdapter)
-{
-	uint32_t i;
-
-	i = 0;
-	while (i < CFG_IST_LOOP_COUNT
-	       && nicProcessIST(prAdapter) != WLAN_STATUS_NOT_INDICATING) {
-		i++;
-	};
-}
-#endif /* wlanClearPendingInterrupt */
 
 void wlanCheckAsicCap(struct ADAPTER *prAdapter)
 {
@@ -3083,13 +3046,6 @@ void wlanReleaseCommandEx(struct ADAPTER *prAdapter,
 
 }				/* end of wlanReleaseCommand() */
 
-#if 0 /* camellia: unused: wlanGetThreadWakeUp */
-uint32_t wlanGetThreadWakeUp(struct ADAPTER *prAdapter)
-{
-	return prAdapter->rWifiVar.u4WakeLockThreadWakeup;
-}
-#endif /* wlanGetThreadWakeUp */
-
 uint32_t wlanGetTxdAppendSize(struct ADAPTER *prAdapter)
 {
 	return prAdapter->chip_info->txd_append_size;
@@ -3621,34 +3577,6 @@ uint32_t wlanSendNicPowerCtrlCmd(struct ADAPTER
  * \return (none)
  */
 /*----------------------------------------------------------------------------*/
-#if 0 /* camellia: unused: wlanIsHandlerAllowedInRFTest */
-u_int8_t wlanIsHandlerAllowedInRFTest(PFN_OID_HANDLER_FUNC pfnOidHandler,
-				      u_int8_t fgSetInfo)
-{
-	PFN_OID_HANDLER_FUNC *apfnOidHandlerAllowedInRFTest;
-	uint32_t i;
-	uint32_t u4NumOfElem;
-
-	if (fgSetInfo) {
-		apfnOidHandlerAllowedInRFTest =
-			apfnOidSetHandlerAllowedInRFTest;
-		u4NumOfElem = sizeof(apfnOidSetHandlerAllowedInRFTest) /
-			      sizeof(PFN_OID_HANDLER_FUNC);
-	} else {
-		apfnOidHandlerAllowedInRFTest =
-			apfnOidQueryHandlerAllowedInRFTest;
-		u4NumOfElem = sizeof(apfnOidQueryHandlerAllowedInRFTest) /
-			      sizeof(PFN_OID_HANDLER_FUNC);
-	}
-
-	for (i = 0; i < u4NumOfElem; i++) {
-		if (apfnOidHandlerAllowedInRFTest[i] == pfnOidHandler)
-			return TRUE;
-	}
-
-	return FALSE;
-}
-#endif /* wlanIsHandlerAllowedInRFTest */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -11100,17 +11028,6 @@ int32_t wlanHwAddrToBin(int8_t *txt, uint8_t *addr)
 	return pos - txt;
 }
 
-#if 0 /* camellia: unused: wlanNumBitSet */
-int32_t wlanNumBitSet(uint32_t val)
-{
-	int32_t c;
-
-	for (c = 0; val; c++)
-		val &= val - 1;
-	return c;
-}
-#endif /* wlanNumBitSet */
-
 u_int8_t wlanIsChipNoAck(struct ADAPTER *prAdapter)
 {
 	u_int8_t fgIsNoAck;
@@ -11139,14 +11056,6 @@ u_int8_t wlanIsChipNoAck(struct ADAPTER *prAdapter)
 	}
 	return fgIsNoAck;
 }
-
-#if 0 /* camellia: unused: wlanIsChipRstRecEnabled */
-u_int8_t wlanIsChipRstRecEnabled(struct ADAPTER
-				 *prAdapter)
-{
-	return prAdapter->rWifiVar.fgChipResetRecover;
-}
-#endif /* wlanIsChipRstRecEnabled */
 
 u_int8_t wlanIsChipAssert(struct ADAPTER *prAdapter)
 {
@@ -11650,22 +11559,6 @@ void wlanUpdateTxStatistics(struct ADAPTER *prAdapter,
 		prStaRec->u8TotalTxBytes += prMsduInfo->u2FrameLength;
 #endif
 }
-
-#if 0 /* camellia: unused: wlanUpdateRxStatistics */
-void wlanUpdateRxStatistics(struct ADAPTER *prAdapter,
-			    struct SW_RFB *prSwRfb)
-{
-	struct STA_RECORD *prStaRec;
-	enum ENUM_WMM_ACI eAci = WMM_AC_BE_INDEX;
-
-	eAci = aucTid2ACI[prSwRfb->ucTid];
-
-	prStaRec = cnmGetStaRecByIndex(prAdapter,
-				       prSwRfb->ucStaRecIdx);
-	if (prStaRec && eAci < WMM_AC_INDEX_NUM)
-		prStaRec->arLinkStatistics[eAci].u4RxMsdu++;
-}
-#endif /* wlanUpdateRxStatistics */
 
 void wlanReportTxDelayOverLimit(struct ADAPTER *prAdapter,
 		enum ENUM_TX_OVER_LIMIT_DELAY_TYPE type, uint32_t delay)

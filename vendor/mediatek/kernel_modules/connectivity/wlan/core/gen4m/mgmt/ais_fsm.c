@@ -9240,38 +9240,6 @@ uint8_t aisCollectNeighborMld(struct ADAPTER *prAdapter,
 }
 #endif
 
-#if 0 /* camellia: unused: aisGetNeighborAPEntry */
-struct NEIGHBOR_AP *aisGetNeighborAPEntry(
-	struct ADAPTER *prAdapter, struct BSS_DESC *bss, uint8_t ucBssIndex)
-{
-	struct LINK *prNeighborAPLink =
-		&aisGetAisSpecBssInfo(prAdapter, ucBssIndex)
-		->rNeighborApList.rUsingLink;
-	struct NEIGHBOR_AP *prNeighborAP = NULL;
-
-	LINK_FOR_EACH_ENTRY(prNeighborAP, prNeighborAPLink, rLinkEntry,
-			    struct NEIGHBOR_AP)
-	{
-		if (EQUAL_MAC_ADDR(prNeighborAP->aucBssid, bss->aucBSSID))
-			return prNeighborAP;
-	}
-
-#if (CFG_SUPPORT_802_11BE_MLO == 1)
-	LINK_FOR_EACH_ENTRY(prNeighborAP, prNeighborAPLink, rLinkEntry,
-			    struct NEIGHBOR_AP)
-	{
-		if (bss->rMlInfo.fgValid && prNeighborAP->fgIsMld &&
-		   EQUAL_MAC_ADDR(prNeighborAP->aucMldAddr,
-				  bss->rMlInfo.aucMldAddr) &&
-		   (prNeighborAP->u2ValidLinks & BIT(bss->rMlInfo.ucLinkIndex)))
-			return prNeighborAP;
-	}
-#endif
-
-	return NULL;
-}
-#endif /* aisGetNeighborAPEntry */
-
 uint32_t aisCollectNeighborAP(struct ADAPTER *prAdapter, uint8_t *pucApBuf,
 			  uint16_t u2ApBufLen, uint8_t ucValidInterval,
 			  uint8_t ucBssIndex)
@@ -9745,13 +9713,6 @@ struct STA_RECORD *aisGetLinkStaRec(struct AIS_FSM_INFO *prAisFsmInfo,
 	return prAisFsmInfo->aprLinkInfo[ucLinkIdx].prTargetStaRec;
 }
 
-#if 0 /* camellia: unused: aisGetMainLinkStaRec */
-struct STA_RECORD *aisGetMainLinkStaRec(struct AIS_FSM_INFO *prAisFsmInfo)
-{
-	return aisGetLinkStaRec(prAisFsmInfo, AIS_MAIN_LINK_INDEX);
-}
-#endif /* aisGetMainLinkStaRec */
-
 void aisClearAllLink(struct AIS_FSM_INFO *prAisFsmInfo)
 {
 	uint8_t i;
@@ -9920,15 +9881,6 @@ struct TIMER *aisGetScanDoneTimer(
 {
 	return &aisGetAisFsmInfo(prAdapter, ucBssIndex)->rScanDoneTimer;
 }
-
-#if 0 /* camellia: unused: aisGetCurrState */
-enum ENUM_AIS_STATE aisGetCurrState(
-	struct ADAPTER *prAdapter,
-	uint8_t ucBssIndex)
-{
-	return aisGetAisFsmInfo(prAdapter, ucBssIndex)->eCurrentState;
-}
-#endif /* aisGetCurrState */
 
 struct CONNECTION_SETTINGS *aisGetConnSettings(
 	struct ADAPTER *prAdapter,

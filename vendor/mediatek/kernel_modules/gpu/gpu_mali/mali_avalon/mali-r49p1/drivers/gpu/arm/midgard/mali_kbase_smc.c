@@ -63,23 +63,4 @@ u64 kbase_invoke_smc_fid(u32 fid, u64 arg0, u64 arg1, u64 arg2)
 	return invoke_smc_fid(fid, arg0, arg1, arg2);
 }
 
-#if 0 /* camellia: unused: kbase_invoke_smc */
-u64 kbase_invoke_smc(u32 oen, u16 function_number, bool smc64, u64 arg0, u64 arg1, u64 arg2)
-{
-	u32 fid = 0;
-
-	/* Only the six bits allowed should be used. */
-	KBASE_DEBUG_ASSERT((oen & ~SMC_OEN_MASK) == 0);
-
-	fid |= SMC_FAST_CALL; /* Bit 31: Fast call */
-	if (smc64)
-		fid |= SMC_64; /* Bit 30: 1=SMC64, 0=SMC32 */
-	fid |= oen; /* Bit 29:24: OEN */
-	/* Bit 23:16: Must be zero for fast calls */
-	fid |= (function_number); /* Bit 15:0: function number */
-
-	return kbase_invoke_smc_fid(fid, arg0, arg1, arg2);
-}
-#endif /* kbase_invoke_smc */
-
 #endif /* CONFIG_ARM64 */

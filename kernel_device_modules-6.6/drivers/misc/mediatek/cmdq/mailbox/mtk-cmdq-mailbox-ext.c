@@ -596,24 +596,6 @@ void cmdq_event_dump_and_clr(void *chan)
 }
 EXPORT_SYMBOL(cmdq_event_dump_and_clr);
 
-#if 0 /* camellia: unused: cmdq_get_usage_cb */
-void cmdq_get_usage_cb(struct mbox_chan *chan, cmdq_usage_cb usage_cb)
-{
-	struct cmdq *cmdq = container_of(((struct mbox_chan *)chan)->mbox,
-		typeof(*cmdq), mbox);
-	u32 i;
-
-	for (i = 0; i < ARRAY_SIZE(cmdq->thread); i++)
-		if (cmdq->thread[i].chan == chan)
-			break;
-
-	if (i == ARRAY_SIZE(cmdq->thread))
-		return;
-	cmdq->thread[i].usage_cb = usage_cb;
-}
-EXPORT_SYMBOL(cmdq_get_usage_cb);
-#endif /* cmdq_get_usage_cb */
-
 void cmdq_dump_usage(void)
 {
 	s32 i, j, usage[CMDQ_THR_MAX_COUNT];
@@ -818,16 +800,6 @@ static void cmdq_mtcmos_by_fast(struct cmdq *cmdq, bool on)
 	}
 	spin_unlock_irqrestore(&cmdq->fast_mtcmos_lock, flags);
 }
-
-#if 0 /* camellia: unused: cmdq_mbox_mtcmos_by_fast_chan */
-void cmdq_mbox_mtcmos_by_fast_chan(struct mbox_chan *chan, bool on)
-{
-	struct cmdq *cmdq = container_of(chan->mbox, typeof(*cmdq), mbox);
-
-	cmdq_mtcmos_by_fast(cmdq, on);
-}
-EXPORT_SYMBOL(cmdq_mbox_mtcmos_by_fast_chan);
-#endif /* cmdq_mbox_mtcmos_by_fast_chan */
 
 void cmdq_mbox_mtcmos_by_fast(void *cmdq_mbox, bool on)
 {
@@ -4671,42 +4643,6 @@ phys_addr_t cmdq_dev_get_base_pa(struct device *dev)
 }
 EXPORT_SYMBOL(cmdq_dev_get_base_pa);
 
-#if 0 /* camellia: unused: cmdq_mbox_get_dummy_reg */
-phys_addr_t cmdq_mbox_get_dummy_reg(void *chan)
-{
-	struct cmdq *cmdq = container_of(((struct mbox_chan *)chan)->mbox,
-		typeof(*cmdq), mbox);
-
-	return cmdq->thread[22].gce_pa
-		+ CMDQ_THR_BASE + CMDQ_THR_SIZE * 22
-		+ CMDQ_THR_SPR + 4*CMDQ_THR_SPR_IDX3;
-}
-EXPORT_SYMBOL(cmdq_mbox_get_dummy_reg);
-#endif /* cmdq_mbox_get_dummy_reg */
-
-#if 0 /* camellia: unused: cmdq_mbox_get_spr_pa */
-phys_addr_t cmdq_mbox_get_spr_pa(void *chan, u8 spr)
-{
-	struct cmdq_thread *thread =
-		(struct cmdq_thread *)((struct mbox_chan *)chan)->con_priv;
-
-	return thread->gce_pa + CMDQ_THR_BASE + CMDQ_THR_SIZE * ((u64)thread->idx) +
-		CMDQ_THR_SPR + 4 * spr;
-}
-EXPORT_SYMBOL(cmdq_mbox_get_spr_pa);
-#endif /* cmdq_mbox_get_spr_pa */
-
-#if 0 /* camellia: unused: cmdq_mbox_get_dev */
-struct device *cmdq_mbox_get_dev(void *chan)
-{
-	struct cmdq *cmdq = container_of(((struct mbox_chan *)chan)->mbox,
-		typeof(*cmdq), mbox);
-
-	return cmdq->mbox.dev;
-}
-EXPORT_SYMBOL(cmdq_mbox_get_dev);
-#endif /* cmdq_mbox_get_dev */
-
 s32 cmdq_mbox_set_hw_id(void *cmdq_mbox)
 {
 	struct cmdq *cmdq = cmdq_mbox;
@@ -4733,18 +4669,6 @@ s32 cmdq_mbox_reset_hw_id(void *cmdq_mbox)
 	return 0;
 }
 
-#if 0 /* camellia: unused: cmdq_mbox_thread_reset */
-s32 cmdq_mbox_thread_reset(void *chan)
-{
-	struct cmdq_thread *thread = ((struct mbox_chan *)chan)->con_priv;
-	struct cmdq *cmdq = container_of(thread->chan->mbox, struct cmdq,
-		mbox);
-
-	return cmdq_thread_reset(cmdq, thread);
-}
-EXPORT_SYMBOL(cmdq_mbox_thread_reset);
-#endif /* cmdq_mbox_thread_reset */
-
 s32 cmdq_mbox_thread_suspend(void *chan)
 {
 	struct cmdq_thread *thread = ((struct mbox_chan *)chan)->con_priv;
@@ -4760,18 +4684,6 @@ s32 cmdq_mbox_thread_suspend(void *chan)
 }
 EXPORT_SYMBOL(cmdq_mbox_thread_suspend);
 
-#if 0 /* camellia: unused: cmdq_mbox_thread_disable */
-void cmdq_mbox_thread_disable(void *chan)
-{
-	struct cmdq_thread *thread = ((struct mbox_chan *)chan)->con_priv;
-	struct cmdq *cmdq = container_of(thread->chan->mbox, struct cmdq,
-		mbox);
-
-	cmdq_thread_disable(cmdq, thread);
-}
-EXPORT_SYMBOL(cmdq_mbox_thread_disable);
-#endif /* cmdq_mbox_thread_disable */
-
 u32 cmdq_mbox_get_thread_timeout(void *chan)
 {
 	struct cmdq_thread *thread = ((struct mbox_chan *)chan)->con_priv;
@@ -4779,23 +4691,6 @@ u32 cmdq_mbox_get_thread_timeout(void *chan)
 	return thread->timeout_ms;
 }
 EXPORT_SYMBOL(cmdq_mbox_get_thread_timeout);
-
-#if 0 /* camellia: unused: cmdq_mbox_set_thread_timeout */
-u32 cmdq_mbox_set_thread_timeout(void *chan, u32 timeout)
-{
-	struct cmdq_thread *thread = ((struct mbox_chan *)chan)->con_priv;
-	unsigned long flags;
-	u32 timeout_prv;
-
-	spin_lock_irqsave(&thread->chan->lock, flags);
-	timeout_prv = thread->timeout_ms;
-	thread->timeout_ms = timeout;
-	spin_unlock_irqrestore(&thread->chan->lock, flags);
-
-	return timeout_prv;
-}
-EXPORT_SYMBOL(cmdq_mbox_set_thread_timeout);
-#endif /* cmdq_mbox_set_thread_timeout */
 
 s32 cmdq_mbox_chan_id(void *chan)
 {
@@ -4924,86 +4819,6 @@ s32 cmdq_task_get_thread_irq(struct mbox_chan *chan, u32 *irq_out)
 	return 0;
 }
 EXPORT_SYMBOL(cmdq_task_get_thread_irq);
-
-#if 0 /* camellia: unused: cmdq_task_get_thread_irq_en */
-s32 cmdq_task_get_thread_irq_en(struct mbox_chan *chan, u32 *irq_en_out)
-{
-	struct cmdq *cmdq;
-	struct cmdq_thread *thread;
-
-	if (!irq_en_out || !chan)
-		return -EINVAL;
-
-	cmdq = container_of(chan->mbox, typeof(*cmdq), mbox);
-	thread = chan->con_priv;
-	cmdq_mtcmos_by_fast(cmdq, true);
-	*irq_en_out = readl(thread->base + CMDQ_THR_IRQ_ENABLE);
-	cmdq_mtcmos_by_fast(cmdq, false);
-
-	return 0;
-}
-#endif /* cmdq_task_get_thread_irq_en */
-
-#if 0 /* camellia: unused: cmdq_task_get_thread_end_addr */
-s32 cmdq_task_get_thread_end_addr(struct mbox_chan *chan,
-	dma_addr_t *end_addr_out)
-{
-	struct cmdq *cmdq;
-	struct cmdq_thread *thread;
-
-	if (!end_addr_out || !chan)
-		return -EINVAL;
-
-	cmdq = container_of(chan->mbox, typeof(*cmdq), mbox);
-	thread = chan->con_priv;
-	cmdq_mtcmos_by_fast(cmdq, true);
-	*end_addr_out = cmdq_thread_get_end(thread);
-	cmdq_mtcmos_by_fast(cmdq, false);
-
-	return 0;
-}
-#endif /* cmdq_task_get_thread_end_addr */
-
-#if 0 /* camellia: unused: cmdq_task_get_task_info_from_thread_unlock */
-s32 cmdq_task_get_task_info_from_thread_unlock(struct mbox_chan *chan,
-	struct list_head *task_list_out, u32 *task_num_out)
-{
-	struct cmdq_thread *thread;
-	struct cmdq_task *task;
-	u32 task_num = 0;
-
-	if (!chan || !task_list_out)
-		return -EINVAL;
-
-	thread = chan->con_priv;
-	list_for_each_entry(task, &thread->task_busy_list, list_entry) {
-		struct cmdq_thread_task_info *task_info;
-
-		task_info = kzalloc(sizeof(*task_info), GFP_ATOMIC);
-		if (!task_info)
-			continue;
-
-		task_info->pa_base = task->pa_base;
-
-		/* copy pkt here to avoid released */
-		task_info->pkt = kzalloc(sizeof(*task_info->pkt), GFP_ATOMIC);
-		if (!task_info->pkt) {
-			kfree(task_info);
-			continue;
-		}
-		memcpy(task_info->pkt, task->pkt, sizeof(*task->pkt));
-
-		INIT_LIST_HEAD(&task_info->list_entry);
-		list_add_tail(&task_info->list_entry, task_list_out);
-		task_num++;
-	}
-
-	if (task_num_out)
-		*task_num_out = task_num;
-
-	return 0;
-}
-#endif /* cmdq_task_get_task_info_from_thread_unlock */
 
 s32 cmdq_task_get_pkt_from_thread(struct mbox_chan *chan,
 	struct cmdq_pkt **pkt_list_out, u32 pkt_list_size, u32 *pkt_count_out)

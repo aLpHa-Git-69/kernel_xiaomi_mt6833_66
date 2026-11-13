@@ -293,13 +293,6 @@ static int port_ipc_kernel_write(struct ipc_ilm *in_ilm)
 	}
 }
 
-#if 0 /* camellia: unused: ccci_ipc_send_ilm */
-int ccci_ipc_send_ilm(struct ipc_ilm *in_ilm)
-{
-	return port_ipc_kernel_write(in_ilm);
-}
-#endif /* ccci_ipc_send_ilm */
-
 #if IS_ENABLED(CONFIG_MTK_CONN_MD)
 static int ccci_ipc_send_ilm_to_md1(struct ipc_ilm *in_ilm)
 {

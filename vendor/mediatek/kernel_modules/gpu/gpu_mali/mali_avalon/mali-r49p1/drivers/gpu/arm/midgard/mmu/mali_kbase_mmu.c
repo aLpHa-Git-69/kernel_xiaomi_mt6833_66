@@ -2979,25 +2979,6 @@ fail_unlock_free_pgds:
 	return err;
 }
 
-#if 0 /* camellia: unused: kbase_mmu_insert_pages_no_flush */
-int kbase_mmu_insert_pages_no_flush(struct kbase_device *kbdev, struct kbase_mmu_table *mmut,
-				    const u64 start_vpfn, struct tagged_addr *phys, size_t nr,
-				    unsigned long flags, int const group_id, u64 *dirty_pgds,
-				    struct kbase_va_region *reg)
-{
-	int err;
-
-	/* Early out if there is nothing to do */
-	if (nr == 0)
-		return 0;
-
-	err = mmu_insert_pages_no_flush(kbdev, mmut, start_vpfn, phys, nr, flags, group_id,
-					dirty_pgds, reg, false);
-
-	return err;
-}
-#endif /* kbase_mmu_insert_pages_no_flush */
-
 /*
  * Map 'nr' pages pointed to by 'phys' at GPU PFN 'vpfn' for GPU address space
  * number 'as_nr'.

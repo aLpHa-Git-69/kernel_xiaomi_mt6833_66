@@ -233,13 +233,6 @@ static unsigned int eem_to_eb(unsigned int cmd,
 	return ret;
 }
 
-#if 0 /* camellia: unused: mt_eem_is_enabled */
-unsigned int mt_eem_is_enabled(void)
-{
-	return informEEMisReady;
-}
-#endif /* mt_eem_is_enabled */
-
 static struct eemsn_det *id_to_eem_det(enum eemsn_det_id id)
 {
 	if (likely(id < NR_EEMSN_DET))
@@ -905,40 +898,6 @@ static struct platform_driver eem_driver = {
 };
 
 #if IS_ENABLED(CONFIG_PROC_FS)
-#if 0 /* camellia: unused: mt_eem_opp_num */
-int mt_eem_opp_num(enum eemsn_det_id id)
-{
-	struct eemsn_det *det = id_to_eem_det(id);
-
-	FUNC_ENTER(FUNC_LV_API);
-	if (det == NULL)
-		return 0;
-
-	FUNC_EXIT(FUNC_LV_API);
-
-	return NR_FREQ;
-}
-EXPORT_SYMBOL(mt_eem_opp_num);
-#endif /* mt_eem_opp_num */
-
-#if 0 /* camellia: unused: mt_eem_opp_freq */
-void mt_eem_opp_freq(enum eemsn_det_id id, unsigned int *freq)
-{
-	struct eemsn_det *det = id_to_eem_det(id);
-	int i = 0;
-
-	FUNC_ENTER(FUNC_LV_API);
-
-	if (det == NULL)
-		return;
-
-	for (i = 0; i < NR_FREQ; i++)
-		freq[i] = det->freq_tbl[i];
-
-	FUNC_EXIT(FUNC_LV_API);
-}
-EXPORT_SYMBOL(mt_eem_opp_freq);
-#endif /* mt_eem_opp_freq */
 
 /**
  * ===============================================
@@ -2046,12 +2005,6 @@ static int create_procfs(void)
 }
 #endif /* CONFIG_PROC_FS */
 
-#if 0 /* camellia: unused: get_efuse_status */
-unsigned int get_efuse_status(void)
-{
-	return eem_checkEfuse;
-}
-#endif /* get_efuse_status */
 #endif
 /*
  * Module driver

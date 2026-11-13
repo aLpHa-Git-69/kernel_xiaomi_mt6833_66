@@ -90,20 +90,6 @@ done:
 	return ret;
 }
 
-#if 0 /* camellia: unused: mtk_session_get_mode */
-int mtk_session_get_mode(struct drm_device *dev, struct drm_crtc *crtc)
-{
-	int crtc_idx = drm_crtc_index(crtc);
-	struct mtk_drm_private *private = dev->dev_private;
-	int session_mode = private->session_mode;
-	const struct mtk_session_mode_tb *mode_tb = private->data->mode_tb;
-
-	if (!mode_tb[session_mode].en)
-		return -EINVAL;
-	return mode_tb[session_mode].ddp_mode[crtc_idx];
-}
-#endif /* mtk_session_get_mode */
-
 int mtk_session_set_mode(struct drm_device *dev, unsigned int session_mode)
 {
 	int i;

@@ -714,18 +714,3 @@ void xhci_debugfs_exit(struct xhci_hcd *xhci)
 	list_for_each_entry_safe(rgs, tmp, &xhci->regset_list, list)
 		xhci_debugfs_free_regset(rgs);
 }
-
-#if 0 /* camellia: unused: xhci_debugfs_create_root */
-void __init xhci_debugfs_create_root(void)
-{
-	xhci_debugfs_root = debugfs_create_dir("xhci", usb_debug_root);
-}
-#endif /* xhci_debugfs_create_root */
-
-#if 0 /* camellia: unused: xhci_debugfs_remove_root */
-void __exit xhci_debugfs_remove_root(void)
-{
-	debugfs_remove_recursive(xhci_debugfs_root);
-	xhci_debugfs_root = NULL;
-}
-#endif /* xhci_debugfs_remove_root */

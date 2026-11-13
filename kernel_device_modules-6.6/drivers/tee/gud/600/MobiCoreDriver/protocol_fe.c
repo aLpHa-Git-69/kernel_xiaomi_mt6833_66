@@ -45,22 +45,6 @@ struct protocol_gp_operation {
 	struct interworld_session	*iws;
 };
 
-#if 0 /* camellia: unused: protocol_fe_init */
-int protocol_fe_init(struct protocol_fe *pfe)
-{
-	/* Initialize pfe in arg */
-	mutex_init(&pfe->protocol_mutex);
-	/* Init l_ctx */
-	mutex_init(&l_ctx.mc_sessions_lock);
-	INIT_LIST_HEAD(&l_ctx.mc_sessions);
-	mutex_init(&l_ctx.gp_operations_lock);
-	INIT_LIST_HEAD(&l_ctx.gp_operations);
-	/* Store pfe in l_ctx */
-	l_ctx.pfe = pfe;
-	return 0;
-}
-#endif /* protocol_fe_init */
-
 static inline void protocol_fe_get(struct protocol_fe *pfe)
 {
 	protocol_get(pfe);
@@ -88,101 +72,9 @@ static inline struct protocol_mc_session *find_mc_session(u32 session_id)
 	return session;
 }
 
-#if 0 /* camellia: unused: protocol_mc_wait_done */
-static int protocol_mc_wait_done(struct protocol_fe *pfe)
-{
-	struct protocol_mc_session *session;
-
-	mc_dev_devel("received response to mc_wait for session %x: %d",
-		     pfe->be2fe_data->session_id,
-		     pfe->be2fe_data->cmd_ret);
-
-	session = find_mc_session(pfe->be2fe_data->session_id);
-
-	if (IS_ERR(session))
-		return PTR_ERR(session);
-
-	session->ret = pfe->be2fe_data->cmd_ret;
-	complete(&session->completion);
-	return 0;
-}
-#endif /* protocol_mc_wait_done */
-
 /* GP protocol */
 
-#if 0 /* camellia: unused: find_gp_operation */
-static struct protocol_gp_operation *find_gp_operation(u64 operation_id)
-{
-	struct protocol_gp_operation *operation =
-		ERR_PTR(-ENXIO), *candidate;
-
-	mutex_lock(&l_ctx.gp_operations_lock);
-	list_for_each_entry(candidate, &l_ctx.gp_operations, list) {
-		if (candidate->slot == operation_id) {
-			operation = candidate;
-			list_del(&operation->list);
-			break;
-		}
-	}
-	mutex_unlock(&l_ctx.gp_operations_lock);
-
-	WARN(IS_ERR(operation), "GP operation not found for op id %llx",
-	     operation_id);
-	return operation;
-}
-#endif /* find_gp_operation */
-
-#if 0 /* camellia: unused: protocol_gp_operation_done */
-static int protocol_gp_operation_done(struct protocol_fe *pfe)
-{
-	struct protocol_gp_operation *operation;
-
-	mc_dev_devel("received response to GP operation for op id %llx",
-		     pfe->be2fe_data->operation_id);
-	operation = find_gp_operation(pfe->be2fe_data->operation_id);
-	if (IS_ERR(operation))
-		return PTR_ERR(operation);
-
-	/* operation->iws is NULL for close session */
-	if (operation->iws) {
-		*operation->iws = pfe->be2fe_data->iws;
-		*operation->gp_ret = pfe->be2fe_data->gp_ret;
-	}
-
-	operation->ret = pfe->be2fe_data->cmd_ret;
-	complete(&operation->completion);
-	return 0;
-}
-#endif /* protocol_gp_operation_done */
-
 /* Dispatch function for the FE callback */
-
-#if 0 /* camellia: unused: protocol_fe_dispatch */
-int protocol_fe_dispatch(struct protocol_fe *pfe)
-{
-	int ret = -EINVAL;
-
-	switch (pfe->be2fe_data->cmd) {
-	case TEE_BE_NONE:
-		ret = -ENOMEM;
-		break;
-	case TEE_MC_WAIT_DONE:
-		ret = protocol_mc_wait_done(pfe);
-		break;
-	case TEE_GP_OPEN_SESSION_DONE:
-		ret = protocol_gp_operation_done(pfe);
-		break;
-	case TEE_GP_CLOSE_SESSION_DONE:
-		ret = protocol_gp_operation_done(pfe);
-		break;
-	case TEE_GP_INVOKE_COMMAND_DONE:
-		ret = protocol_gp_operation_done(pfe);
-		break;
-	}
-
-	return ret;
-}
-#endif /* protocol_fe_dispatch */
 
 /* Call Backend */
 

@@ -1064,18 +1064,6 @@ void kalP2PIndicateSecCheckRsp(struct GLUE_INFO *prGlueInfo,
  * \return none
  */
 /*---------------------------------------------------------------------------*/
-#if 0 /* camellia: unused: kalGetChnlList */
-void
-kalGetChnlList(struct GLUE_INFO *prGlueInfo,
-		enum ENUM_BAND eSpecificBand,
-		uint8_t ucMaxChannelNum,
-		uint8_t *pucNumOfChannel,
-		struct RF_CHANNEL_INFO *paucChannelList)
-{
-	rlmDomainGetChnlList(prGlueInfo->prAdapter, eSpecificBand,
-		FALSE, ucMaxChannelNum, pucNumOfChannel, paucChannelList);
-}				/* kalGetChnlList */
-#endif /* kalGetChnlList */
 
 /* ////////////////////////////ICS SUPPORT////////////////////////////// */
 

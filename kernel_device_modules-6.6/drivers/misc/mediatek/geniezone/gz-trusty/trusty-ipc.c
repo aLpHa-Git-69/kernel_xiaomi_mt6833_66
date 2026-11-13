@@ -592,38 +592,6 @@ static void fill_msg_hdr(struct tipc_msg_buf *mb, u32 src, u32 dst)
 	hdr->reserved = 0;
 }
 
-#if 0 /* camellia: unused: tipc_create_channel */
-struct tipc_chan *tipc_create_channel(struct device *dev,
-				      const struct tipc_chan_ops *ops,
-				      void *ops_arg)
-{
-	struct virtio_device *vd = NULL;
-	struct tipc_chan *chan;
-	struct tipc_virtio_dev *vds;
-	struct tipc_dn_chan *dn = ops_arg;
-
-	mutex_lock(&tipc_devices_lock);
-	if (dev) {
-		vd = container_of(dev, struct virtio_device, dev);
-	} else {
-		if (is_tee_id(dn->tee_id))
-			vd = vdev_array[dn->tee_id];
-		if (!vd) {
-			mutex_unlock(&tipc_devices_lock);
-			return ERR_PTR(-ENOENT);
-		}
-	}
-	vds = vd->priv;
-	kref_get(&vds->refcount);
-	mutex_unlock(&tipc_devices_lock);
-
-	chan = vds_create_channel(vds, ops, ops_arg);
-	kref_put(&vds->refcount, _free_vds);
-	return chan;
-}
-EXPORT_SYMBOL(tipc_create_channel);
-#endif /* tipc_create_channel */
-
 struct tipc_msg_buf *tipc_chan_get_rxbuf(struct tipc_chan *chan)
 {
 	/* sanity check */

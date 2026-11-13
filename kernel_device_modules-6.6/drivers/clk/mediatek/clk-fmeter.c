@@ -39,39 +39,6 @@ unsigned int mt_get_abist_freq(unsigned int id)
 }
 EXPORT_SYMBOL(mt_get_abist_freq);
 
-#if 0 /* camellia: unused: mt_get_abist2_freq */
-unsigned int mt_get_abist2_freq(unsigned int id)
-{
-	if (fm_ops == NULL || fm_ops->get_abist2_freq == NULL)
-		return 0;
-
-	return  fm_ops->get_abist2_freq(id);
-}
-EXPORT_SYMBOL(mt_get_abist2_freq);
-#endif /* mt_get_abist2_freq */
-
-#if 0 /* camellia: unused: mt_get_vlpck_freq */
-unsigned int mt_get_vlpck_freq(unsigned int id)
-{
-	if (fm_ops == NULL || fm_ops->get_vlpck_freq == NULL)
-		return 0;
-
-	return  fm_ops->get_vlpck_freq(id);
-}
-EXPORT_SYMBOL(mt_get_vlpck_freq);
-#endif /* mt_get_vlpck_freq */
-
-#if 0 /* camellia: unused: mt_get_subsys_freq */
-unsigned int mt_get_subsys_freq(unsigned int id)
-{
-	if (fm_ops == NULL || fm_ops->get_subsys_freq == NULL)
-		return 0;
-
-	return  fm_ops->get_subsys_freq(id);
-}
-EXPORT_SYMBOL(mt_get_subsys_freq);
-#endif /* mt_get_subsys_freq */
-
 unsigned int mt_get_fmeter_freq(unsigned int id, enum  FMETER_TYPE type)
 {
 	if (fm_ops == NULL || fm_ops->get_fmeter_freq == NULL)
@@ -80,28 +47,6 @@ unsigned int mt_get_fmeter_freq(unsigned int id, enum  FMETER_TYPE type)
 	return  fm_ops->get_fmeter_freq(id, type);
 }
 EXPORT_SYMBOL(mt_get_fmeter_freq);
-
-#if 0 /* camellia: unused: mt_get_fmeter_id */
-int mt_get_fmeter_id(enum FMETER_ID fid)
-{
-	if (fm_ops == NULL || fm_ops->get_fmeter_id == NULL)
-		return FID_NULL;
-
-	return  fm_ops->get_fmeter_id(fid);
-}
-EXPORT_SYMBOL(mt_get_fmeter_id);
-#endif /* mt_get_fmeter_id */
-
-#if 0 /* camellia: unused: mt_subsys_freq_register */
-int mt_subsys_freq_register(struct fm_subsys *fm, unsigned int size)
-{
-	if (fm_ops == NULL || fm_ops->subsys_freq_register == NULL)
-		return -EINVAL;
-
-	return  fm_ops->subsys_freq_register(fm, size);
-}
-EXPORT_SYMBOL(mt_subsys_freq_register);
-#endif /* mt_subsys_freq_register */
 
 void fmeter_set_ops(const struct fmeter_ops *ops)
 {

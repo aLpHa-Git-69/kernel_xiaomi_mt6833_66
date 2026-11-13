@@ -82,16 +82,7 @@ struct conn_dbg_record {
 };
 
 /* device node related */
-#if 0 /* camellia: unused: gConnDbgMajor */
-static int gConnDbgMajor = CONN_DBG_DEV_MAJOR;
-#endif /* gConnDbgMajor */
-#if 0 /* camellia: unused: pConnDbgClass */
-static struct class *pConnDbgClass;
-#endif /* pConnDbgClass */
 static struct device *pConnDbgDev;
-#if 0 /* camellia: unused: gConnDbgdev */
-static struct cdev gConnDbgdev;
-#endif /* gConnDbgdev */
 
 /*******************************************************************************
  * Bridging from platform -> wmt_drv.ko
@@ -105,51 +96,6 @@ static struct wmt_platform_dbg_bridge g_dbg_bridge;
 static spinlock_t conn_dbg_log_lock;
 static struct conn_dbg_record *g_conn_dbg_record_p;
 static int conn_dbg_record_num;
-
-#if 0 /* camellia: unused: conn_dbg_dump_log */
-static void conn_dbg_dump_log(char *buf)
-{
-	struct conn_dbg_record *rec;
-	char temp[64];
-	unsigned long flag;
-
-	buf[0] = '\0';
-	buf[CONN_DBG_LOG_BUF_SIZE - 1] = '\0';
-	spin_lock_irqsave(&conn_dbg_log_lock, flag);
-	rec = g_conn_dbg_record_p;
-	while(rec != NULL) {
-		if (snprintf(temp, sizeof(temp), "[%llu.%06lu~%llu.%06lu][%llu]",
-			rec->first_sec, rec->first_nsec,
-			rec->last_sec, rec->last_nsec, rec->num) > 0) {
-			strncat(buf, temp, CONN_DBG_LOG_BUF_SIZE - strlen(buf) - 1);
-			strncat(buf, rec->log, CONN_DBG_LOG_BUF_SIZE - strlen(buf) - 1);
-			strncat(buf, "\n", CONN_DBG_LOG_BUF_SIZE - strlen(buf) - 1);
-		}
-		rec = rec->next;
-	}
-	spin_unlock_irqrestore(&conn_dbg_log_lock, flag);
-	buf[CONN_DBG_LOG_BUF_SIZE - 1] = '\0';
-}
-#endif /* conn_dbg_dump_log */
-
-#if 0 /* camellia: unused: hw_monitor_show */
-static ssize_t hw_monitor_show(
-	struct kobject *kobj,
-	struct kobj_attribute *attr,
-	char *buf)
-{
-	conn_dbg_dump_log(buf);
-	return strlen(buf);
-}
-#endif /* hw_monitor_show */
-
-#if 0 /* camellia: unused: conn_kobj */
-static struct kobject *conn_kobj;
-#endif /* conn_kobj */
-#if 0 /* camellia: unused: hw_monitor_attr */
-static struct kobj_attribute hw_monitor_attr
-	= __ATTR(hw_monitor, 0664, hw_monitor_show, NULL);
-#endif /* hw_monitor_attr */
 
 static void conn_dbg_get_local_time(u64 *sec, unsigned long *nsec)
 {
@@ -239,49 +185,6 @@ exit:
 }
 EXPORT_SYMBOL(conn_dbg_add_log);
 
-#if 0 /* camellia: unused: conn_dbg_log_init */
-static int conn_dbg_log_init(void)
-{
-	int ret;
-
-	spin_lock_init(&conn_dbg_log_lock);
-
-	conn_kobj = kobject_create_and_add("conn", NULL);
-	kobject_get(conn_kobj);
-	kobject_uevent(conn_kobj, KOBJ_ADD);
-
-	ret = sysfs_create_file(conn_kobj, &hw_monitor_attr.attr);
-	if (ret)
-		pr_notice("%s sysfs_create_file failed. (%d)\n", __func__, ret);
-
-	return ret;
-}
-#endif /* conn_dbg_log_init */
-
-#if 0 /* camellia: unused: conn_dbg_log_deinit */
-static void conn_dbg_log_deinit(void)
-{
-	struct conn_dbg_record *rec;
-	unsigned long flag;
-
-	spin_lock_irqsave(&conn_dbg_log_lock, flag);
-	rec = g_conn_dbg_record_p;
-	while (rec != NULL) {
-		g_conn_dbg_record_p = rec->next;
-		if (rec->log != NULL)
-			kfree(rec->log);
-		kfree(rec);
-		rec = g_conn_dbg_record_p;
-	}
-	conn_dbg_record_num = 0;
-	spin_unlock_irqrestore(&conn_dbg_log_lock, flag);
-
-	sysfs_remove_file(conn_kobj, &hw_monitor_attr.attr);
-	kobject_put(conn_kobj);
-	conn_kobj = NULL;
-}
-#endif /* conn_dbg_log_deinit */
-
 ssize_t conn_dbg_dev_write(struct file *filp, const char __user *buffer,
 				size_t count, loff_t *f_pos)
 {
@@ -307,81 +210,6 @@ static const struct file_operations gConnDbgDevFops = {
 	.write = conn_dbg_dev_write,
 };
 
-#if 0 /* camellia: unused: conn_dbg_dev_init */
-static int conn_dbg_dev_init(void)
-{
-	dev_t dev_id = MKDEV(gConnDbgMajor, 0);
-	int ret = 0;
-
-	ret = register_chrdev_region(dev_id, CONN_DBG_DEV_NUM, CONN_DBG_DRVIER_NAME);
-	if (ret) {
-		pr_info("%s fail to register chrdev.(%d)\n", __func__, ret);
-		return -1;
-	}
-
-	cdev_init(&gConnDbgdev, &gConnDbgDevFops);
-	gConnDbgdev.owner = THIS_MODULE;
-
-	ret = cdev_add(&gConnDbgdev, dev_id, CONN_DBG_DEV_NUM);
-	if (ret) {
-		pr_info("cdev_add() fails (%d)\n", ret);
-		goto err1;
-	}
-
-	pConnDbgClass = class_create(CONN_DBG_DEVICE_NAME);
-	if (IS_ERR(pConnDbgClass)) {
-		pr_info("class create fail, error code(%ld)\n", PTR_ERR(pConnDbgClass));
-		goto err2;
-	}
-
-	pConnDbgDev = device_create(pConnDbgClass, NULL, dev_id, NULL, CONN_DBG_DEVICE_NAME);
-	if (IS_ERR(pConnDbgDev)) {
-		pr_info("device create fail, error code(%ld)\n", PTR_ERR(pConnDbgDev));
-		goto err3;
-	}
-
-	return 0;
-err3:
-
-	pr_info("[%s] err3", __func__);
-	if (pConnDbgClass) {
-		class_destroy(pConnDbgClass);
-		pConnDbgClass = NULL;
-	}
-err2:
-	pr_info("[%s] err2", __func__);
-	cdev_del(&gConnDbgdev);
-
-err1:
-	pr_info("[%s] err1", __func__);
-	unregister_chrdev_region(dev_id, CONN_DBG_DEV_NUM);
-
-	return -1;
-}
-#endif /* conn_dbg_dev_init */
-
-#if 0 /* camellia: unused: conn_dbg_dev_deinit */
-static int conn_dbg_dev_deinit(void)
-{
-	dev_t dev_id = MKDEV(gConnDbgMajor, 0);
-
-	if (pConnDbgDev) {
-		device_destroy(pConnDbgClass, dev_id);
-		pConnDbgDev = NULL;
-	}
-
-	if (pConnDbgClass) {
-		class_destroy(pConnDbgClass);
-		pConnDbgClass = NULL;
-	}
-
-	cdev_del(&gConnDbgdev);
-	unregister_chrdev_region(dev_id, CONN_DBG_DEV_NUM);
-
-	return 0;
-}
-#endif /* conn_dbg_dev_deinit */
-
 void wmt_export_platform_bridge_register(struct wmt_platform_bridge *cb)
 {
 	if (unlikely(!cb))
@@ -402,32 +230,6 @@ void wmt_export_platform_bridge_unregister(void)
 	CONNADP_INFO_FUNC("\n");
 }
 EXPORT_SYMBOL(wmt_export_platform_bridge_unregister);
-
-#if 0 /* camellia: unused: wmt_export_platform_dbg_bridge_register */
-void wmt_export_platform_dbg_bridge_register(const struct wmt_platform_dbg_bridge *cb)
-{
-	if (unlikely(!cb))
-		return;
-	if (cb->write_cb != NULL && cb->read_cb != NULL) {
-		conn_dbg_dev_init();
-		g_dbg_bridge.write_cb = cb->write_cb;
-		g_dbg_bridge.read_cb = cb->read_cb;
-	}
-	conn_dbg_log_init();
-}
-EXPORT_SYMBOL(wmt_export_platform_dbg_bridge_register);
-#endif /* wmt_export_platform_dbg_bridge_register */
-
-#if 0 /* camellia: unused: wmt_export_platform_dbg_bridge_unregister */
-void wmt_export_platform_dbg_bridge_unregister(void)
-{
-	if (g_dbg_bridge.write_cb && g_dbg_bridge.read_cb)
-		conn_dbg_dev_deinit();
-	memset(&g_dbg_bridge, 0, sizeof(struct wmt_platform_dbg_bridge));
-	conn_dbg_log_deinit();
-}
-EXPORT_SYMBOL(wmt_export_platform_dbg_bridge_unregister);
-#endif /* wmt_export_platform_dbg_bridge_unregister */
 
 int mtk_wcn_cmb_stub_query_ctrl(void)
 {

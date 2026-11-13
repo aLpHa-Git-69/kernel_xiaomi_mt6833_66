@@ -149,23 +149,9 @@ void register_set_p2p_mode_handler(set_p2p_mode handler)
 EXPORT_SYMBOL(register_set_p2p_mode_handler);
 
 static void (*pf_set_wifi_test_mode_fwdl)(const int);
-#if 0 /* camellia: unused: register_set_wifi_test_mode_fwdl_handler */
-void register_set_wifi_test_mode_fwdl_handler(void (*handler)(const int))
-{
-	pf_set_wifi_test_mode_fwdl = handler;
-}
-EXPORT_SYMBOL(register_set_wifi_test_mode_fwdl_handler);
-#endif /* register_set_wifi_test_mode_fwdl_handler */
 
 typedef uint8_t (*is_wifi_in_test_mode) (struct net_device *netdev);
 static is_wifi_in_test_mode pf_is_wifi_in_test_mode;
-#if 0 /* camellia: unused: register_is_wifi_in_test_mode_handler */
-void register_is_wifi_in_test_mode_handler(is_wifi_in_test_mode handler)
-{
-	pf_is_wifi_in_test_mode = handler;
-}
-EXPORT_SYMBOL(register_is_wifi_in_test_mode_handler);
-#endif /* register_is_wifi_in_test_mode_handler */
 
 void update_driver_loaded_status(uint8_t loaded)
 {

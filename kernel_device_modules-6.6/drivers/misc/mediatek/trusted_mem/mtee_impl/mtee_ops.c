@@ -163,30 +163,6 @@ static void pkvm_smmu_region_mapping(u64 region_start, u32 region_size,
 #endif
 }
 
-#if 0 /* camellia: unused: flush_region_mem */
-void flush_region_mem(u64 pa, u32 size)
-{
-	struct sg_table table;
-	struct device *dev = get_ssmr_dev();
-
-	sg_alloc_table(&table, 1, GFP_KERNEL);
-	sg_set_page(table.sgl, phys_to_page(pa), size, 0);
-	table.sgl->dma_address = pa;
-
-	/*
-	 * For region uncached buffers, we need to initially flush cpu cache,
-	 * since the __GFP_ZERO on the allocation means the zeroing was done by
-	 * the cpu and thus it is likely cached. Map (and implicitly flush) and
-	 * unmap it now so we don't get corruption later on.
-	 * To flush cpu cache should be after memory allocation and before
-	 * hypervisor protection.
-	 */
-	dma_map_sgtable(dev, &table, DMA_BIDIRECTIONAL, 0);
-	dma_unmap_sgtable(dev, &table, DMA_BIDIRECTIONAL, 0);
-	sg_free_table(&table);
-}
-#endif /* flush_region_mem */
-
 /*
  * This combination is pKVM & FF-A and GZ is disable.
  */

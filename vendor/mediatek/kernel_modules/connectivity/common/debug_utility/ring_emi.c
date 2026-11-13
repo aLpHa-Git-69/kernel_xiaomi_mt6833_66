@@ -81,31 +81,6 @@ unsigned int ring_emi_read_prepare(unsigned int sz, struct ring_emi_segment *seg
 /*
  * Function prepares the ring_emi_segment and returns the number of bytes available for write.
  */
-#if 0 /* camellia: unused: ring_emi_write_prepare */
-unsigned int ring_emi_write_prepare(unsigned int sz, struct ring_emi_segment *seg, struct ring_emi *ring_emi)
-{
-	unsigned int wt = EMI_READ32(ring_emi->write);
-	unsigned int rd = EMI_READ32(ring_emi->read);
-
-	memset(seg, 0, sizeof(struct ring_emi_segment));
-#ifdef ROUND_REPEAT
-	if (wt >= rd)
-		seg->remain = ring_emi->max_size - (wt - rd + 1);
-	else
-		seg->remain = ring_emi->max_size - (rd - wt + 1);
-
-	if (sz <= seg->remain)
-		seg->remain = sz;
-#else
-	if (sz > ring_emi->max_size - (wt - rd))
-		sz = ring_emi->max_size - (wt - rd);
-	seg->remain = sz;
-#endif
-	/* ring_emi_dump(__func__, ring_emi); */
-	/* ring_emi_dump_segment(__func__, seg); */
-	return seg->remain;
-}
-#endif /* ring_emi_write_prepare */
 
 void _ring_emi_segment_prepare(unsigned int from, struct ring_emi_segment *seg, struct ring_emi *ring_emi)
 {
@@ -137,16 +112,4 @@ void _ring_emi_read_commit(struct ring_emi_segment *seg, struct ring_emi *ring_e
 	/* ring_emi_dump(__func__, ring_emi); */
 	/* ring_emi_dump_segment(__func__, seg); */
 }
-#if 0 /* camellia: unused: _ring_emi_write_commit */
-void _ring_emi_write_commit(struct ring_emi_segment *seg, struct ring_emi *ring_emi)
-{
-#ifdef ROUND_REPEAT
-	EMI_WRITE32(ring_emi->write, (EMI_READ32(ring_emi->write) + seg->sz) & (ring_emi->max_size - 1));
-#else
-	EMI_WRITE32(ring_emi->write, EMI_READ32(ring_emi->write) + seg->sz);
-#endif
-	/* ring_emi_dump(__func__, ring_emi); */
-	/* ring_emi_dump_segment(__func__, seg); */
-}
-#endif /* _ring_emi_write_commit */
 

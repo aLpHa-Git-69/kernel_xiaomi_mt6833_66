@@ -78,28 +78,6 @@ static u_int8_t fgIsWaitForTxDone = FALSE;
  *******************************************************************************
  */
 
-#if 0 /* camellia: unused: TdlsAllowedChannel */
-uint8_t TdlsAllowedChannel(
-	struct ADAPTER *pAd,
-	struct BSS_INFO *bss)
-{
-	uint8_t fgAvailable = TRUE;
-
-		/* Check VLP */
-#if (CFG_SUPPORT_WIFI_6G == 1)
-	if (bss->eBand == BAND_6G &&
-		bss->ucPrimaryChannel >= 97) {
-		DBGLOG(TDLS, TRACE,
-			"VLP channel (%d)\n",
-			bss->ucPrimaryChannel);
-		fgAvailable = FALSE;
-	}
-#endif
-
-	return fgAvailable;
-}
-#endif /* TdlsAllowedChannel */
-
 #if CFG_SUPPORT_TDLS_AUTO
 uint8_t TdlsCheckSetup(
 	struct ADAPTER *ad,
@@ -770,36 +748,6 @@ uint8_t TdlsValid(
 
 	return fgValid;
 }
-
-#if 0 /* camellia: unused: TdlsAllowed */
-uint8_t TdlsAllowed(
-	struct ADAPTER *pAd,
-	uint8_t ucBssIndex)
-{
-	uint8_t fgAvailable;
-
-	if (!TdlsValid(pAd, ucBssIndex))
-		fgAvailable = FALSE;
-	else {
-		struct BSS_INFO *bss =
-			GET_BSS_INFO_BY_INDEX(
-			pAd, ucBssIndex);
-
-#if CFG_SUPPORT_TDLS_LOG
-		DBGLOG(TDLS, TRACE,
-			"STA ch: %d, band: %d, conn state: %d",
-			bss->ucPrimaryChannel,
-			bss->eBand,
-			bss->eConnectionState);
-#endif
-
-		fgAvailable =
-			TdlsAllowedChannel(pAd, bss);
-	}
-
-	return fgAvailable;
-}
-#endif /* TdlsAllowed */
 
 uint8_t TdlsNeedAdjustBw(
 	struct ADAPTER *pAd,

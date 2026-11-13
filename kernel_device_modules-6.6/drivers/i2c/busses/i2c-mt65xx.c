@@ -893,25 +893,6 @@ err:
 }
 EXPORT_SYMBOL(mtk_i2c_clock_enable_ex);
 
-#if 0 /* camellia: unused: mtk_i2c_clock_disable_ex */
-int mtk_i2c_clock_disable_ex(struct i2c_adapter *adap)
-{
-	int ret = 0;
-	struct mtk_i2c *i2c = i2c_get_adapdata(adap);
-
-	if (!i2c) {
-		ret = -EINVAL;
-		goto err;
-	}
-
-	mtk_i2c_clock_disable(i2c);
-
-err:
-	return ret;
-}
-EXPORT_SYMBOL(mtk_i2c_clock_disable_ex);
-#endif /* mtk_i2c_clock_disable_ex */
-
 static void mtk_i2c_init_hw(struct mtk_i2c *i2c)
 {
 	u16 control_reg;

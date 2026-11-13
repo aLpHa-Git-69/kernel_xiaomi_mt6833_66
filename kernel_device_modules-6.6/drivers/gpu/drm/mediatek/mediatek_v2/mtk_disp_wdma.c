@@ -2254,25 +2254,6 @@ int mtk_wdma_analysis(struct mtk_ddp_comp *comp)
 	return 0;
 }
 
-#if 0 /* camellia: unused: MMPathTraceWDMA */
-int MMPathTraceWDMA(struct mtk_ddp_comp *ddp_comp, char *str,
-	unsigned int strlen, unsigned int n)
-{
-	struct mtk_disp_wdma *wdma = comp_to_wdma(ddp_comp);
-	struct mtk_wdma_cfg_info *cfg_info = &wdma->cfg_info;
-
-	n += scnprintf(str + n, strlen - n,
-		"out=0x%lx, out_width=%d, out_height=%d, out_fmt=%s, out_bpp=%d",
-		(unsigned long)cfg_info->addr,
-		cfg_info->width,
-		cfg_info->height,
-		mtk_get_format_name(cfg_info->fmt),
-		mtk_get_format_bpp(cfg_info->fmt));
-
-	return n;
-}
-#endif /* MMPathTraceWDMA */
-
 struct mtk_ddp_comp *mtk_disp_get_wdma_comp_by_scn(struct drm_crtc *crtc, enum addon_scenario scn)
 {
 	const struct mtk_addon_scenario_data *addon_data = NULL;

@@ -138,28 +138,6 @@ int mtk_spk_get_i2s_in_type(void)
 }
 EXPORT_SYMBOL(mtk_spk_get_i2s_in_type);
 
-#if 0 /* camellia: unused: mtk_ext_spk_get_status */
-int mtk_ext_spk_get_status(void)
-{
-#ifdef CONFIG_SND_SOC_AW87339
-	return aw87339_spk_status_get();
-#else
-	return 0;
-#endif
-}
-EXPORT_SYMBOL(mtk_ext_spk_get_status);
-#endif /* mtk_ext_spk_get_status */
-
-#if 0 /* camellia: unused: mtk_ext_spk_enable */
-void mtk_ext_spk_enable(int enable)
-{
-#ifdef CONFIG_SND_SOC_AW87339
-	aw87339_spk_enable_set(enable);
-#endif
-}
-EXPORT_SYMBOL(mtk_ext_spk_enable);
-#endif /* mtk_ext_spk_enable */
-
 int mtk_spk_update_info(struct snd_soc_card *card,
 			struct platform_device *pdev)
 {
@@ -322,73 +300,6 @@ BYPASS_UPDATE:
 	return 0;
 }
 EXPORT_SYMBOL(mtk_spk_update_info);
-
-#if 0 /* camellia: unused: mtk_spk_send_ipi_buf_to_dsp */
-int mtk_spk_send_ipi_buf_to_dsp(void *data_buffer, uint32_t data_size)
-{
-	int result = -1;
-#if IS_ENABLED(CONFIG_SND_SOC_MTK_AUDIO_DSP) || \
-IS_ENABLED(CONFIG_MTK_SCP_AUDIO)
-	int task_scene = -1;
-	struct ipi_msg_t ipi_msg;
-
-#if IS_ENABLED(CONFIG_SND_SOC_MTK_AUDIO_DSP)
-	task_scene = mtk_get_ipi_buf_scene_adsp();
-#endif
-
-#if IS_ENABLED(CONFIG_MTK_SCP_AUDIO)
-	if (task_scene == -1)
-		task_scene = mtk_get_ipi_buf_scene_rv();
-#endif
-
-	if (task_scene >= 0) {
-		memset((void *)&ipi_msg, 0, sizeof(struct ipi_msg_t));
-
-		result = audio_send_ipi_buf_to_dsp(&ipi_msg, task_scene,
-						   AUDIO_DSP_TASK_AURISYS_SET_BUF,
-						   mtk_spk_type,
-						   data_buffer, data_size);
-	}
-#endif /*CONFIG_SND_SOC_MTK_AUDIO_DSP || CONFIG_MTK_SCP_AUDIO*/
-	return result;
-}
-EXPORT_SYMBOL(mtk_spk_send_ipi_buf_to_dsp);
-#endif /* mtk_spk_send_ipi_buf_to_dsp */
-
-#if 0 /* camellia: unused: mtk_spk_recv_ipi_buf_from_dsp */
-int mtk_spk_recv_ipi_buf_from_dsp(int8_t *buffer,
-				  int16_t size,
-				  uint32_t *buf_len)
-{
-	int result = -1;
-#if IS_ENABLED(CONFIG_SND_SOC_MTK_AUDIO_DSP) || \
-IS_ENABLED(CONFIG_MTK_SCP_AUDIO)
-	int task_scene = -1;
-	struct ipi_msg_t ipi_msg;
-
-
-#if IS_ENABLED(CONFIG_SND_SOC_MTK_AUDIO_DSP)
-	task_scene = mtk_get_ipi_buf_scene_adsp();
-#endif
-#if IS_ENABLED(CONFIG_MTK_SCP_AUDIO)
-	if (task_scene == -1)
-		task_scene = mtk_get_ipi_buf_scene_rv();
-#endif
-
-	if (task_scene >= 0) {
-		memset((void *)&ipi_msg, 0, sizeof(struct ipi_msg_t));
-
-		result = audio_recv_ipi_buf_from_dsp(&ipi_msg,
-						     task_scene,
-						     AUDIO_DSP_TASK_AURISYS_GET_BUF,
-						     mtk_spk_type,
-						     buffer, size, buf_len);
-	}
-#endif /*CONFIG_SND_SOC_MTK_AUDIO_DSP || CONFIG_MTK_SCP_AUDIO*/
-	return result;
-}
-EXPORT_SYMBOL(mtk_spk_recv_ipi_buf_from_dsp);
-#endif /* mtk_spk_recv_ipi_buf_from_dsp */
 
 static const struct i2c_device_id mtk_spk_i2c_id[] = {
 	{ "speaker_amp", 0},

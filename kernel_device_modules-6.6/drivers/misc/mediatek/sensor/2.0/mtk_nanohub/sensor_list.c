@@ -71,53 +71,6 @@ int sensorlist_sensor_to_handle(int sensor)
 	return handle;
 }
 
-#if 0 /* camellia: unused: sensorlist_handle_to_sensor */
-int sensorlist_handle_to_sensor(int handle)
-{
-	int type = -1;
-
-	switch (handle) {
-	case accel:
-		type = SENSOR_TYPE_ACCELEROMETER;
-		break;
-	case gyro:
-		type = SENSOR_TYPE_GYROSCOPE;
-		break;
-	case mag:
-		type = SENSOR_TYPE_MAGNETIC_FIELD;
-		break;
-	case als:
-		type = SENSOR_TYPE_LIGHT;
-		break;
-	case ps:
-		type = SENSOR_TYPE_PROXIMITY;
-		break;
-	case baro:
-		type = SENSOR_TYPE_PRESSURE;
-		break;
-	case sar:
-		type = SENSOR_TYPE_SAR;
-		break;
-	case ois:
-		type = SENSOR_TYPE_OIS;
-		break;
-	case front_cct:
-                type = SENSOR_TYPE_FRONT_CCT;
-                break;
-        case pwm_rgb:
-                type = SENSOR_TYPE_PWM_RGB;
-                break;
-	case flicker:
-		type = SENSOR_TYPE_FLICKER;
-		break;
-	case rear_als:
-		type = SENSOR_TYPE_REAR_LIGHT;
-		break;
-	}
-	return type;
-}
-#endif /* sensorlist_handle_to_sensor */
-
 MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("dynamic sensorlist driver");
 MODULE_AUTHOR("hongxu.zhao@mediatek.com");

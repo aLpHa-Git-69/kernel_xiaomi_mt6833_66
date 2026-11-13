@@ -1436,23 +1436,6 @@ void qmDetermineStaRecIndex(struct ADAPTER *prAdapter,
 #endif
 }
 
-#if 0 /* camellia: unused: qmDetermineStaToBeDequeued */
-struct STA_RECORD *qmDetermineStaToBeDequeued(
-	struct ADAPTER *prAdapter,
-	uint32_t u4StartStaRecIndex)
-{
-
-	return NULL;
-}
-#endif /* qmDetermineStaToBeDequeued */
-
-#if 0 /* camellia: unused: qmDequeueStaTxPackets */
-struct QUE *qmDequeueStaTxPackets(struct ADAPTER *prAdapter)
-{
-
-	return NULL;
-}
-#endif /* qmDequeueStaTxPackets */
 #if CFG_SUPPORT_NAN
 void
 qmUpdateFreeNANQouta(struct ADAPTER *prAdapter,
@@ -2688,97 +2671,6 @@ void qmAdjustTcQuotaPle(struct ADAPTER *prAdapter,
  * \return (none)
  */
 /*----------------------------------------------------------------------------*/
-#if 0 /* camellia: unused: qmAdjustTcQuotas */
-u_int8_t qmAdjustTcQuotas(struct ADAPTER *prAdapter,
-	struct TX_TCQ_ADJUST *prTcqAdjust,
-	struct TX_TCQ_STATUS *prTcqStatus)
-{
-#if QM_ADAPTIVE_TC_RESOURCE_CTRL
-	uint32_t i;
-	struct QUE_MGT *prQM = &prAdapter->rQM;
-
-	/* Must initialize */
-	for (i = 0; i < QM_ACTIVE_TC_NUM; i++)
-		prTcqAdjust->ai4Variation[i] = 0;
-
-	/* 4 <1> If TC resource is not just adjusted, exit directly */
-	if (!prQM->fgTcResourcePostAnnealing)
-		return FALSE;
-	/* 4 <2> Adjust TcqStatus according to
-	 * the updated prQM->au4CurrentTcResource
-	 */
-	else {
-		int32_t i4TotalExtraQuota = 0;
-		int32_t ai4ExtraQuota[QM_ACTIVE_TC_NUM];
-		u_int8_t fgResourceRedistributed = TRUE;
-
-		/* Obtain the free-to-distribute resource */
-		for (i = 0; i < QM_ACTIVE_TC_NUM; i++) {
-			ai4ExtraQuota[i] =
-				(int32_t) prTcqStatus->au4MaxNumOfBuffer[i] -
-				(int32_t) prQM->au4CurrentTcResource[i];
-
-			if (ai4ExtraQuota[i] > 0) {
-				/* The resource shall be
-				 * reallocated to other TCs
-				 */
-				if (ai4ExtraQuota[i] >
-					prTcqStatus->au4FreeBufferCount[i]) {
-					ai4ExtraQuota[i] =
-						prTcqStatus->
-						au4FreeBufferCount[i];
-					fgResourceRedistributed = FALSE;
-				}
-
-				i4TotalExtraQuota += ai4ExtraQuota[i];
-				prTcqAdjust->ai4Variation[i] =
-					(-ai4ExtraQuota[i]);
-			}
-		}
-
-		/* Distribute quotas to TCs which need extra resource
-		 * according to prQM->au4CurrentTcResource
-		 */
-		for (i = 0; i < QM_ACTIVE_TC_NUM; i++) {
-			if (ai4ExtraQuota[i] < 0) {
-				if ((-ai4ExtraQuota[i]) > i4TotalExtraQuota) {
-					ai4ExtraQuota[i] = (-i4TotalExtraQuota);
-					fgResourceRedistributed = FALSE;
-				}
-
-				i4TotalExtraQuota += ai4ExtraQuota[i];
-				prTcqAdjust->ai4Variation[i] =
-					(-ai4ExtraQuota[i]);
-			}
-		}
-
-		/* In case some TC is waiting for TX Done,
-		 * continue to adjust TC quotas upon TX Done
-		 */
-		prQM->fgTcResourcePostAnnealing = (!fgResourceRedistributed);
-
-#if QM_FAST_TC_RESOURCE_CTRL
-		prQM->fgTcResourceFastReaction = FALSE;
-#endif
-
-#if QM_PRINT_TC_RESOURCE_CTRL
-		DBGLOG(QM, LOUD,
-			"QM: Curr Quota [0]=%u [1]=%u [2]=%u [3]=%u [4]=%u [5]=%u\n",
-			prTcqStatus->au4FreeBufferCount[0],
-			prTcqStatus->au4FreeBufferCount[1],
-			prTcqStatus->au4FreeBufferCount[2],
-			prTcqStatus->au4FreeBufferCount[3],
-			prTcqStatus->au4FreeBufferCount[4],
-			prTcqStatus->au4FreeBufferCount[5]);
-#endif
-	}
-
-	return TRUE;
-#else
-	return FALSE;
-#endif
-}
-#endif /* qmAdjustTcQuotas */
 
 #if QM_ADAPTIVE_TC_RESOURCE_CTRL
 #if (CFG_TX_RSRC_WMM_ENHANCE == 1)
@@ -3387,13 +3279,6 @@ uint32_t gmGetDequeueQuota(
  * \return (none)
  */
 /*----------------------------------------------------------------------------*/
-#if 0 /* camellia: unused: qmInitRxQueues */
-void qmInitRxQueues(struct ADAPTER *prAdapter)
-{
-	/* DbgPrint("QM: Enter qmInitRxQueues()\n"); */
-	/* TODO */
-}
-#endif /* qmInitRxQueues */
 
 #if (CFG_SUPPORT_HOST_OFFLOAD == 1)
 u_int8_t qmHandleRroPkt(struct ADAPTER *prAdapter,
@@ -5772,13 +5657,6 @@ void qmHandleEventCheckReorderBubble(struct ADAPTER *prAdapter,
  * \return (none)
  */
 /*----------------------------------------------------------------------------*/
-#if 0 /* camellia: unused: qmHandleMailboxRxMessage */
-void qmHandleMailboxRxMessage(struct MAILBOX_MSG prMailboxRxMsg)
-{
-	/* DbgPrint("QM: Enter qmHandleMailboxRxMessage()\n"); */
-	/* TODO */
-}
-#endif /* qmHandleMailboxRxMessage */
 
 /*----------------------------------------------------------------------------*/
 /*!

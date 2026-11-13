@@ -433,17 +433,6 @@ void mtk_wcn_wmt_set_chipid(int chipid)
 }
 EXPORT_SYMBOL(mtk_wcn_wmt_set_chipid);
 
-#if 0 /* camellia: unused: mtk_wcn_cmb_stub_do_reset */
-int mtk_wcn_cmb_stub_do_reset(unsigned int type)
-{
-	if (cmb_stub_do_reset_cb)
-		return (*cmb_stub_do_reset_cb) (type);
-	else
-		return -1;
-}
-EXPORT_SYMBOL(mtk_wcn_cmb_stub_do_reset);
-#endif /* mtk_wcn_cmb_stub_do_reset */
-
 #ifdef MTK_WCN_REMOVE_KERNEL_MODULE
 static void mtk_wcn_cmb_sdio_enable_eirq(void)
 {

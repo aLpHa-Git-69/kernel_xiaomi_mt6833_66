@@ -10114,23 +10114,6 @@ static void mtk_crtc_comp_trigger(struct mtk_drm_crtc *mtk_crtc,
 	mtk_ddp_comp_config_trigger(comp, cmdq_handle, trig_flag);
 }
 
-#if 0 /* camellia: unused: mtk_crtc_comp_is_busy */
-int mtk_crtc_comp_is_busy(struct mtk_drm_crtc *mtk_crtc)
-{
-	int ret = 0;
-	int i, j;
-	struct mtk_ddp_comp *comp;
-
-	for_each_comp_in_cur_crtc_path(comp, mtk_crtc, i, j) {
-		ret = mtk_ddp_comp_is_busy(comp);
-		if (ret)
-			return ret;
-	}
-
-	return ret;
-}
-#endif /* mtk_crtc_comp_is_busy */
-
 #ifndef DRM_CMDQ_DISABLE
 /* TODO: need to remove this in vdo mode for lowpower */
 static void trig_done_cb(struct cmdq_cb_data data)
@@ -19555,13 +19538,6 @@ static void mtk_drm_set_crtc_caps(struct drm_crtc *crtc)
 	mtk_crtc_property[CRTC_PROP_CAPS_BLOB_ID].val = blob_id;
 }
 
-#if 0 /* camellia: unused: mtk_crtc_ability_chk */
-int mtk_crtc_ability_chk(struct mtk_drm_crtc *mtk_crtc, enum MTK_CRTC_ABILITY ability)
-{
-	return !!(mtk_crtc->crtc_caps.crtc_ability & ability);
-}
-#endif /* mtk_crtc_ability_chk */
-
 static void mtk_drm_crtc_attach_property(struct drm_crtc *crtc)
 {
 	struct drm_device *dev = crtc->dev;
@@ -19632,19 +19608,6 @@ err_cleanup_crtc:
 	drm_crtc_cleanup(&mtk_crtc->base);
 	return ret;
 }
-
-#if 0 /* camellia: unused: mtk_crtc_ddp_irq */
-void mtk_crtc_ddp_irq(struct drm_crtc *crtc, struct mtk_ddp_comp *comp)
-{
-	struct mtk_drm_crtc *mtk_crtc = to_mtk_crtc(crtc);
-	struct mtk_drm_private *priv = crtc->dev->dev_private;
-
-	if (priv->data->shadow_register == false)
-		mtk_crtc_ddp_config(crtc);
-
-	mtk_drm_finish_page_flip(mtk_crtc);
-}
-#endif /* mtk_crtc_ddp_irq */
 
 void mtk_crtc_vblank_irq(struct drm_crtc *crtc)
 {
@@ -22240,17 +22203,6 @@ void mtk_crtc_path_switch_prepare(struct drm_crtc *crtc, unsigned int ddp_mode,
 	mtk_crtc_attach_ddp_comp(crtc, ddp_mode, true);
 }
 
-#if 0 /* camellia: unused: mtk_crtc_path_switch_update_ddp_status */
-void mtk_crtc_path_switch_update_ddp_status(struct drm_crtc *crtc,
-					    unsigned int ddp_mode)
-{
-	struct mtk_drm_crtc *mtk_crtc = to_mtk_crtc(crtc);
-
-	mtk_crtc_attach_ddp_comp(crtc, mtk_crtc->ddp_mode, false);
-	mtk_crtc_attach_ddp_comp(crtc, ddp_mode, true);
-}
-#endif /* mtk_crtc_path_switch_update_ddp_status */
-
 void mtk_need_vds_path_switch(struct drm_crtc *crtc)
 {
 	struct mtk_drm_private *priv = crtc->dev->dev_private;
@@ -23365,41 +23317,6 @@ unsigned int mtk_drm_primary_display_get_debug_state(
 	return len;
 }
 
-#if 0 /* camellia: unused: MMPathTraceCrtcPlanes */
-int MMPathTraceCrtcPlanes(struct drm_crtc *crtc,
-	char *str, int strlen, int n)
-{
-	unsigned int i = 0, addr;
-	struct mtk_drm_crtc *mtk_crtc = to_mtk_crtc(crtc);
-
-	for (i = 0; i < mtk_crtc->layer_nr; i++) {
-		struct mtk_plane_state *state =
-		    to_mtk_plane_state(mtk_crtc->planes[i].base.state);
-		struct mtk_plane_pending_state *pending = &state->pending;
-
-		if (pending->enable == 0)
-			continue;
-
-		addr = (unsigned int)pending->addr;
-
-		n += scnprintf(str + n, strlen - n, "in_%d=0x%x, ",
-			i, addr);
-		n += scnprintf(str + n, strlen - n, "in_%d_width=%u, ",
-			i, pending->width);
-		n += scnprintf(str + n, strlen - n, "in_%d_height=%u, ",
-			i, pending->height);
-		n += scnprintf(str + n, strlen - n, "in_%d_fmt=%s, ",
-			i, mtk_get_format_name(pending->format));
-		n += scnprintf(str + n, strlen - n, "in_%d_bpp=%u, ",
-			i, mtk_get_format_bpp(pending->format));
-		n += scnprintf(str + n, strlen - n, "in_%d_compr=%u, ",
-			i, (unsigned int)pending->prop_val[PLANE_PROP_COMPRESS]);
-	}
-
-	return n;
-}
-#endif /* MMPathTraceCrtcPlanes */
-
 /* ************   Panel Master   **************** */
 
 void mtk_crtc_start_for_pm(struct drm_crtc *crtc)
@@ -23541,13 +23458,6 @@ skip:
 	DDPINFO("%s:%d -\n", __func__, __LINE__);
 }
 /* ***********  Panel Master end ************** */
-
-#if 0 /* camellia: unused: mtk_drm_get_hdr_property */
-bool mtk_drm_get_hdr_property(void)
-{
-	return hdr_en;
-}
-#endif /* mtk_drm_get_hdr_property */
 
 /********************** Legacy DRM API *****************************/
 int mtk_drm_format_plane_cpp(uint32_t format, unsigned int plane)

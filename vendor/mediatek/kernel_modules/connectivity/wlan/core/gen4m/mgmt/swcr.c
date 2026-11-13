@@ -1176,13 +1176,6 @@ void swCrReadWriteCmd(struct ADAPTER *prAdapter,
 }
 
 /* Debug Support */
-#if 0 /* camellia: unused: swCrFrameCheckEnable */
-void swCrFrameCheckEnable(struct ADAPTER *prAdapter,
-			  uint32_t u4DumpType)
-{
-	g_u4SwcrDebugFrameDumpType = u4DumpType;
-}
-#endif /* swCrFrameCheckEnable */
 
 void swCrDebugInit(struct ADAPTER *prAdapter)
 {

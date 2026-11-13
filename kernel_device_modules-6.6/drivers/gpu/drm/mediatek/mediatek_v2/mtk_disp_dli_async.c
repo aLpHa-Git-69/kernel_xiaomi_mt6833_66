@@ -144,13 +144,6 @@ void mtk_dli_async_dump(struct mtk_ddp_comp *comp)
 		readl(baddr + 0x2CC));
 }
 
-#if 0 /* camellia: unused: mtk_dli_async_analysis */
-int mtk_dli_async_analysis(struct mtk_ddp_comp *comp)
-{
-	return 0;
-}
-#endif /* mtk_dli_async_analysis */
-
 static void mtk_dli_async_start(struct mtk_ddp_comp *comp, struct cmdq_pkt *handle)
 {
 	DDPDBG("%s+\n", __func__);

@@ -173,46 +173,6 @@ static void fw_log_get_version_workQ(struct work_struct *work)
 			&prInf->ver_length, MANIFEST_BUFFER_SIZE);
 }
 
-#if 0 /* camellia: unused: fw_log_notify_rcv */
-uint32_t fw_log_notify_rcv(enum ENUM_FW_LOG_CTRL_TYPE type,
-	uint8_t *buffer,
-	uint32_t size)
-{
-	uint32_t written = 0;
-#if IS_ENABLED(CFG_MTK_WIFI_CONNV3_SUPPORT)
-	enum connv3_log_type eType = CONNV3_LOG_TYPE_PRIMARY;
-#endif
-
-#if IS_ENABLED(CFG_MTK_WIFI_CONNV3_SUPPORT)
-	switch (type) {
-	case ENUM_FW_LOG_CTRL_TYPE_MCU:
-		eType = CONNV3_LOG_TYPE_MCU;
-		break;
-	case ENUM_FW_LOG_CTRL_TYPE_WIFI:
-		eType = CONNV3_LOG_TYPE_PRIMARY;
-		break;
-	default:
-		DBGLOG(INIT, ERROR, "invalid type: %d\n",
-			type);
-		break;
-	}
-	written = connv3_log_handler(CONNV3_DEBUG_TYPE_WIFI, eType,
-		buffer, size);
-	if (written == 0)
-		DBGLOG(INIT, WARN,
-			"[%d] connv3 driver buffer full.\n",
-			type);
-	else
-		DBGLOG(INIT, LOUD,
-			"[%d] connv3_log_handler written=%d\n",
-			type,
-			written);
-#endif
-
-	return written;
-}
-#endif /* fw_log_notify_rcv */
-
 int fw_log_wifi_inf_init(void)
 {
 	struct fw_log_wifi_interface *prInf = &fw_log_wifi_inf;

@@ -165,65 +165,6 @@ void p2pGenerate_IEForAssocReq(struct ADAPTER *prAdapter,
 
 }				/* p2pGenerate_IEForAssocReq */
 #if CFG_SUPPORT_WFD
-#if 0 /* camellia: unused: wfdFuncAppendAttriDevInfo */
-uint32_t
-wfdFuncAppendAttriDevInfo(struct ADAPTER *prAdapter,
-		u_int8_t fgIsAssocFrame,
-		uint16_t *pu2Offset,
-		uint8_t *pucBuf,
-		uint16_t u2BufSize)
-{
-	uint32_t u4AttriLen = 0;
-	uint8_t *pucBuffer = NULL;
-	struct WFD_DEVICE_INFORMATION_IE *prWfdDevInfo =
-		(struct WFD_DEVICE_INFORMATION_IE *) NULL;
-	struct WFD_CFG_SETTINGS *prWfdCfgSettings =
-		(struct WFD_CFG_SETTINGS *) NULL;
-
-	do {
-		ASSERT_BREAK((prAdapter != NULL)
-			&& (pucBuf != NULL) && (pu2Offset != NULL));
-
-		prWfdCfgSettings = &(prAdapter->rWifiVar.rWfdConfigureSettings);
-
-		ASSERT_BREAK((prWfdCfgSettings != NULL));
-
-		if ((prWfdCfgSettings->ucWfdEnable == 0) ||
-			((prWfdCfgSettings->u4WfdFlag
-			& WFD_FLAGS_DEV_INFO_VALID) == 0)) {
-			break;
-		}
-
-		pucBuffer = (uint8_t *) ((uintptr_t) pucBuf
-			+ *pu2Offset);
-
-		ASSERT_BREAK(pucBuffer != NULL);
-
-		prWfdDevInfo = (struct WFD_DEVICE_INFORMATION_IE *) pucBuffer;
-
-		prWfdDevInfo->ucElemID = WFD_ATTRI_ID_DEV_INFO;
-
-		WLAN_SET_FIELD_BE16(&prWfdDevInfo->u2WfdDevInfo,
-			prWfdCfgSettings->u2WfdDevInfo);
-
-		WLAN_SET_FIELD_BE16(&prWfdDevInfo->u2SessionMgmtCtrlPort,
-			prWfdCfgSettings->u2WfdControlPort);
-
-		WLAN_SET_FIELD_BE16(&prWfdDevInfo->u2WfdDevMaxSpeed,
-			prWfdCfgSettings->u2WfdMaximumTp);
-
-		WLAN_SET_FIELD_BE16(&prWfdDevInfo->u2Length,
-			WFD_ATTRI_MAX_LEN_DEV_INFO);
-
-		u4AttriLen = WFD_ATTRI_MAX_LEN_DEV_INFO + WFD_ATTRI_HDR_LEN;
-
-	} while (FALSE);
-
-	(*pu2Offset) += (uint16_t) u4AttriLen;
-
-	return u4AttriLen;
-}
-#endif /* wfdFuncAppendAttriDevInfo */
 
 /* wfdFuncAppendAttriDevInfo */
 #endif

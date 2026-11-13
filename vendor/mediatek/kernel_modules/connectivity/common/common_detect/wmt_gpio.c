@@ -434,31 +434,6 @@ err:
 	return iret;
 }
 
-#if 0 /* camellia: unused: wmt_gpio_deinit */
-INT32 wmt_gpio_deinit(VOID)
-{
-	INT32 iret = 0;
-	UINT32 i;
-	UINT32 j;
-
-	for (i = 0; i < GPIO_PIN_ID_MAX; i++) {
-		gpio_ctrl_info.gpio_ctrl_state[i].gpio_num = DEFAULT_PIN_ID;
-		if (gpio_ctrl_info.gpio_ctrl_state[i].gpio_num != DEFAULT_PIN_ID) {
-			for (j = 0; j < GPIO_STATE_MAX; j++) {
-				if (strlen(gpio_state_name[i][j]) != 0)
-					gpio_ctrl_info.gpio_ctrl_state[i].gpio_state[j] = NULL;
-			}
-		}
-	}
-	if (gpio_ctrl_info.pinctrl_info) {
-		devm_pinctrl_put(gpio_ctrl_info.pinctrl_info);
-		gpio_ctrl_info.pinctrl_info = NULL;
-	}
-
-	return iret;
-}
-#endif /* wmt_gpio_deinit */
-
 VOID _wmt_dump_gpio_regs(INT32 idx)
 {
 	ULONG idxl = (ULONG)idx;

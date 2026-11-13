@@ -34,30 +34,6 @@
 #define INVALID_PIN_ID (0xFFFFFFFF)
 
 /*copied form WMT module*/
-#if 0 /* camellia: unused: wmt_detect_dump_pin_conf */
-static int wmt_detect_dump_pin_conf(void)
-{
-	WMT_DETECT_PR_DBG("[WMT-DETECT]=>dump wmt pin configuration start<=\n");
-
-	WMT_DETECT_PR_INFO("LDO(GPIO%d), PMU(GPIO%d), PMUV28(GPIO%d)\n",
-			gpio_ctrl_info.gpio_ctrl_state[GPIO_COMBO_LDO_EN_PIN].gpio_num,
-			gpio_ctrl_info.gpio_ctrl_state[GPIO_COMBO_PMU_EN_PIN].gpio_num,
-			gpio_ctrl_info.gpio_ctrl_state[GPIO_COMBO_PMUV28_EN_PIN].gpio_num);
-
-	WMT_DETECT_PR_INFO("RST(GPIO%d), BGF_EINT(GPIO%d), BGF_EINT_NUM(%d)\n",
-			gpio_ctrl_info.gpio_ctrl_state[GPIO_COMBO_RST_PIN].gpio_num,
-			gpio_ctrl_info.gpio_ctrl_state[GPIO_COMBO_BGF_EINT_PIN].gpio_num,
-			gpio_to_irq(gpio_ctrl_info.gpio_ctrl_state[GPIO_COMBO_BGF_EINT_PIN].gpio_num));
-
-	WMT_DETECT_PR_INFO("WIFI_EINT(GPIO%d), WIFI_EINT_NUM(%d)\n",
-			gpio_ctrl_info.gpio_ctrl_state[GPIO_WIFI_EINT_PIN].gpio_num,
-			gpio_to_irq(gpio_ctrl_info.gpio_ctrl_state[GPIO_WIFI_EINT_PIN].gpio_num));
-
-	WMT_DETECT_PR_DBG("[WMT-PLAT]=>dump wmt pin configuration ends<=\n");
-
-	return 0;
-}
-#endif /* wmt_detect_dump_pin_conf */
 
 int _wmt_detect_output_low(unsigned int id)
 {
@@ -106,117 +82,6 @@ int _wmt_detect_read_gpio_input(unsigned int id)
  * 5. RTC32k clock control is a must
  *
  */
-#if 0 /* camellia: unused: wmt_detect_chip_pwr_on */
-static int wmt_detect_chip_pwr_on(void)
-{
-	int retval = -1;
-
-	/*setting validiation check*/
-	if ((gpio_ctrl_info.gpio_ctrl_state[GPIO_COMBO_PMU_EN_PIN].gpio_num == INVALID_PIN_ID) ||
-		(gpio_ctrl_info.gpio_ctrl_state[GPIO_WIFI_EINT_PIN].gpio_num == INVALID_PIN_ID)) {
-		WMT_DETECT_PR_ERR("WMT-DETECT: either PMU(%d) or WIFI_EINT(%d) is not set\n",
-				gpio_ctrl_info.gpio_ctrl_state[GPIO_COMBO_PMU_EN_PIN].gpio_num,
-				gpio_ctrl_info.gpio_ctrl_state[GPIO_WIFI_EINT_PIN].gpio_num);
-
-		return retval;
-	}
-	if (gpio_ctrl_info.gpio_ctrl_state[GPIO_COMBO_RST_PIN].gpio_num == INVALID_PIN_ID) {
-		WMT_DETECT_PR_WARN("WMT-DETECT: RST(%d) is not set, if it`s not 6632 project, please check it\n",
-				gpio_ctrl_info.gpio_ctrl_state[GPIO_COMBO_RST_PIN].gpio_num);
-
-	}
-	if (gpio_ctrl_info.gpio_ctrl_state[GPIO_COMBO_URXD_PIN].gpio_state[GPIO_PULL_DIS]) {
-		pinctrl_select_state(gpio_ctrl_info.pinctrl_info,
-							 gpio_ctrl_info.gpio_ctrl_state[GPIO_COMBO_URXD_PIN].
-							 gpio_state[GPIO_PULL_DIS]);
-	} else
-		pr_err("wmt_gpio:set GPIO_COMBO_URXD_PIN to GPIO_PULL_DIS fail, is NULL!\n");
-
-	WMT_DETECT_PR_DBG("WMT-DETECT: GPIO_COMBO_URXD_PIN out 0\n");
-	_wmt_detect_output_low(GPIO_COMBO_URXD_PIN);
-
-	/*set LDO/PMU/RST to output 0, no pull*/
-	if (gpio_ctrl_info.gpio_ctrl_state[GPIO_COMBO_LDO_EN_PIN].gpio_num != INVALID_PIN_ID)
-		_wmt_detect_output_low(GPIO_COMBO_LDO_EN_PIN);
-	if (gpio_ctrl_info.gpio_ctrl_state[GPIO_COMBO_PMU_EN_PIN].gpio_state[GPIO_PULL_DIS]) {
-		pinctrl_select_state(gpio_ctrl_info.pinctrl_info,
-				gpio_ctrl_info.gpio_ctrl_state[GPIO_COMBO_PMU_EN_PIN].gpio_state[GPIO_PULL_DIS]);
-		WMT_DETECT_PR_INFO("wmt_gpio:set GPIO_COMBO_PMU_EN_PIN to GPIO_PULL_DIS done!\n");
-	} else
-		WMT_DETECT_PR_ERR("wmt_gpio:set GPIO_COMBO_PMU_EN_PIN to GPIO_PULL_DIS fail, is NULL!\n");
-	_wmt_detect_output_low(GPIO_COMBO_PMU_EN_PIN);
-	if (gpio_ctrl_info.gpio_ctrl_state[GPIO_COMBO_RST_PIN].gpio_state[GPIO_PULL_DIS]) {
-		pinctrl_select_state(gpio_ctrl_info.pinctrl_info,
-				gpio_ctrl_info.gpio_ctrl_state[GPIO_COMBO_RST_PIN].gpio_state[GPIO_PULL_DIS]);
-		WMT_DETECT_PR_INFO("wmt_gpio:set GPIO_COMBO_RST_PIN to GPIO_PULL_DIS done!\n");
-	} else
-		WMT_DETECT_PR_ERR("wmt_gpio:set GPIO_COMBO_RST_PIN to GPIO_PULL_DIS fail, is NULL!\n");
-	_wmt_detect_output_low(GPIO_COMBO_RST_PIN);
-
-#if 0
-	_wmt_detect_output_high(GPIO_WIFI_EINT_PIN);
-#endif
-
-	/*pull high LDO*/
-	if (gpio_ctrl_info.gpio_ctrl_state[GPIO_COMBO_LDO_EN_PIN].gpio_num != INVALID_PIN_ID)
-		_wmt_detect_output_high(GPIO_COMBO_LDO_EN_PIN);
-	/*sleep for LDO stable time*/
-	msleep(MAX_LDO_STABLE_TIME);
-
-	/*export RTC clock, sleep for RTC stable time*/
-#if (LINUX_VERSION_CODE < KERNEL_VERSION(4, 19, 0))
-	rtc_gpio_enable_32k(RTC_GPIO_USER_GPS);
-#endif
-	msleep(MAX_RTC_STABLE_TIME);
-	/*PMU output low, RST output low, to make chip power off completely*/
-	/*always done*/
-	/*sleep for power off stable time*/
-	msleep(MAX_OFF_STABLE_TIME);
-	/*PMU output high, and sleep for reset stable time*/
-	_wmt_detect_output_high(GPIO_COMBO_PMU_EN_PIN);
-#ifdef CONFIG_MTK_COMBO_COMM_NPWR
-	if ((gpio_ctrl_info.gpio_ctrl_state[GPIO_COMBO_I2S_DAT_PIN].gpio_num != INVALID_PIN_ID) &&
-		(gpio_ctrl_info.gpio_ctrl_state[GPIO_PCM_DAISYNC_PIN].gpio_num != INVALID_PIN_ID)) {
-		msleep(20);
-		_wmt_detect_output_high(GPIO_PCM_DAISYNC_PIN);
-
-		msleep(20);
-		_wmt_detect_output_high(GPIO_COMBO_I2S_DAT_PIN);
-
-		msleep(20);
-		_wmt_detect_output_low(GPIO_COMBO_I2S_DAT_PIN);
-
-		msleep(20);
-		_wmt_detect_output_low(GPIO_PCM_DAISYNC_PIN);
-
-		msleep(20);
-	}
-#endif
-	msleep(MAX_RST_STABLE_TIME);
-	/*RST output high, and sleep for power on stable time */
-	_wmt_detect_output_high(GPIO_COMBO_RST_PIN);
-	msleep(MAX_ON_STABLE_TIME);
-	retval = 0;
-	return retval;
-}
-#endif /* wmt_detect_chip_pwr_on */
-
-#if 0 /* camellia: unused: wmt_detect_chip_pwr_off */
-static int wmt_detect_chip_pwr_off(void)
-{
-
-	/*set RST pin to input low status*/
-	if (gpio_ctrl_info.gpio_ctrl_state[GPIO_COMBO_LDO_EN_PIN].gpio_num != INVALID_PIN_ID)
-		_wmt_detect_output_low(GPIO_COMBO_LDO_EN_PIN);
-	/*set RST pin to input low status*/
-	if (gpio_ctrl_info.gpio_ctrl_state[GPIO_COMBO_RST_PIN].gpio_num != INVALID_PIN_ID)
-		_wmt_detect_output_low(GPIO_COMBO_RST_PIN);
-	/*set PMU pin to input low status*/
-	if (gpio_ctrl_info.gpio_ctrl_state[GPIO_COMBO_PMU_EN_PIN].gpio_num != INVALID_PIN_ID)
-		_wmt_detect_output_low(GPIO_COMBO_PMU_EN_PIN);
-	return 0;
-}
-#endif /* wmt_detect_chip_pwr_off */
 
 int wmt_detect_read_ext_cmb_status(void)
 {
@@ -231,23 +96,6 @@ int wmt_detect_read_ext_cmb_status(void)
 	}
 	return retval;
 }
-
-#if 0 /* camellia: unused: wmt_detect_chip_pwr_ctrl */
-int wmt_detect_chip_pwr_ctrl(int on)
-{
-	int retval = -1;
-
-	if (on == 0) {
-		/*power off combo chip */
-		retval = wmt_detect_chip_pwr_off();
-	} else {
-		wmt_detect_dump_pin_conf();
-		/*power on combo chip */
-		retval = wmt_detect_chip_pwr_on();
-	}
-	return retval;
-}
-#endif /* wmt_detect_chip_pwr_ctrl */
 
 int wmt_detect_sdio_pwr_ctrl(int on)
 {

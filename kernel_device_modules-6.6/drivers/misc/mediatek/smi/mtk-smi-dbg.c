@@ -1137,13 +1137,6 @@ void call_smi_user_force_all_put(char *caller)
 }
 
 static RAW_NOTIFIER_HEAD(force_on_notifier_list);
-#if 0 /* camellia: unused: mtk_smi_dbg_register_force_on_notifier */
-int mtk_smi_dbg_register_force_on_notifier(struct notifier_block *nb)
-{
-	return raw_notifier_chain_register(&force_on_notifier_list, nb);
-}
-EXPORT_SYMBOL_GPL(mtk_smi_dbg_register_force_on_notifier);
-#endif /* mtk_smi_dbg_register_force_on_notifier */
 
 int smi_larb_force_all_on(char *buf, const struct kernel_param *kp)
 {
@@ -1534,22 +1527,6 @@ int mtk_smi_dbg_register_notifier(struct notifier_block *nb)
 	return raw_notifier_chain_register(&smi_notifier_list, nb);
 }
 EXPORT_SYMBOL_GPL(mtk_smi_dbg_register_notifier);
-
-#if 0 /* camellia: unused: mtk_smi_dbg_unregister_notifier */
-int mtk_smi_dbg_unregister_notifier(struct notifier_block *nb)
-{
-	return raw_notifier_chain_unregister(&smi_notifier_list, nb);
-}
-EXPORT_SYMBOL_GPL(mtk_smi_dbg_unregister_notifier);
-#endif /* mtk_smi_dbg_unregister_notifier */
-
-#if 0 /* camellia: unused: mtk_smi_dbg_unregister_force_on_notifier */
-int mtk_smi_dbg_unregister_force_on_notifier(struct notifier_block *nb)
-{
-	return raw_notifier_chain_unregister(&force_on_notifier_list, nb);
-}
-EXPORT_SYMBOL_GPL(mtk_smi_dbg_unregister_force_on_notifier);
-#endif /* mtk_smi_dbg_unregister_force_on_notifier */
 
 int mtk_smi_dbg_register_pwr_ctrl_cb(struct smi_user_pwr_ctrl *cb)
 {
@@ -2482,39 +2459,6 @@ static void smi_hang_detect_bw_monitor(bool is_start)
 	}
 }
 
-#if 0 /* camellia: unused: mtk_smi_dbg_dump_for_mminfra */
-void mtk_smi_dbg_dump_for_mminfra(void)
-{
-	struct mtk_smi_dbg	*smi = gsmi;
-
-	mtk_smi_dbg_hang_detect_force_dump("FORCE_DUMP_MMINFRA",
-		smi->subsys[SMI_MMINFRA].larb_skip_rpm, smi->subsys[SMI_MMINFRA].comm_skip_rpm);
-}
-EXPORT_SYMBOL_GPL(mtk_smi_dbg_dump_for_mminfra);
-#endif /* mtk_smi_dbg_dump_for_mminfra */
-
-#if 0 /* camellia: unused: mtk_smi_dbg_dump_for_venc */
-void mtk_smi_dbg_dump_for_venc(void)
-{
-	struct mtk_smi_dbg	*smi = gsmi;
-
-	mtk_smi_dbg_hang_detect_force_dump("FORCE_DUMP_VENC",
-		smi->subsys[SMI_VENC].larb_skip_rpm, smi->subsys[SMI_VENC].comm_skip_rpm);
-}
-EXPORT_SYMBOL_GPL(mtk_smi_dbg_dump_for_venc);
-#endif /* mtk_smi_dbg_dump_for_venc */
-
-#if 0 /* camellia: unused: mtk_smi_dbg_dump_for_vdec */
-void mtk_smi_dbg_dump_for_vdec(void)
-{
-	struct mtk_smi_dbg	*smi = gsmi;
-
-	mtk_smi_dbg_hang_detect_force_dump("FORCE_DUMP_VDEC",
-		smi->subsys[SMI_VDEC].larb_skip_rpm, smi->subsys[SMI_VDEC].comm_skip_rpm);
-}
-EXPORT_SYMBOL_GPL(mtk_smi_dbg_dump_for_vdec);
-#endif /* mtk_smi_dbg_dump_for_vdec */
-
 void mtk_smi_dbg_dump_for_isp_fast(u32 isp_id)
 {
 	struct mtk_smi_dbg	*smi = gsmi;
@@ -2538,17 +2482,6 @@ void mtk_smi_dbg_dump_for_disp(void)
 		smi->subsys[SMI_DISP].larb_skip_rpm, smi->subsys[SMI_DISP].comm_skip_rpm);
 }
 EXPORT_SYMBOL_GPL(mtk_smi_dbg_dump_for_disp);
-
-#if 0 /* camellia: unused: mtk_smi_dbg_dump_for_mml */
-void mtk_smi_dbg_dump_for_mml(void)
-{
-	struct mtk_smi_dbg	*smi = gsmi;
-
-	mtk_smi_dbg_hang_detect_force_dump("FORCE_DUMP_MML",
-		smi->subsys[SMI_MML].larb_skip_rpm, smi->subsys[SMI_MML].comm_skip_rpm);
-}
-EXPORT_SYMBOL_GPL(mtk_smi_dbg_dump_for_mml);
-#endif /* mtk_smi_dbg_dump_for_mml */
 
 static void __mtk_smi_dbg_hang_detect(char *user)
 {

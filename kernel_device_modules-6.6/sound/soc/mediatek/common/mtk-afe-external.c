@@ -8,13 +8,7 @@
 
 static RAW_NOTIFIER_HEAD(afe_mem_init_noitify_chain);
 static ATOMIC_NOTIFIER_HEAD(semaphore_noitify_chain);
-#if 0 /* camellia: unused: vp_audio_noitify_chain */
-static RAW_NOTIFIER_HEAD(vp_audio_noitify_chain);
-#endif /* vp_audio_noitify_chain */
 static RAW_NOTIFIER_HEAD(vow_ipi_send_noitify_chain);
-#if 0 /* camellia: unused: ultra_afe_hw_free_noitify_chain */
-static RAW_NOTIFIER_HEAD(ultra_afe_hw_free_noitify_chain);
-#endif /* ultra_afe_hw_free_noitify_chain */
 void* (*afe_get_power_scenario)(void) = NULL;
 
 /* memory allocate */
@@ -43,35 +37,6 @@ int notify_allocate_mem(unsigned long module, void *v)
 EXPORT_SYMBOL_GPL(notify_allocate_mem);
 
 /* vp_audio_message */
-#if 0 /* camellia: unused: register_vp_audio_notifier */
-int register_vp_audio_notifier(struct notifier_block *nb)
-{
-	int status;
-
-	status = raw_notifier_chain_register(&vp_audio_noitify_chain, nb);
-	return status;
-}
-EXPORT_SYMBOL_GPL(register_vp_audio_notifier);
-#endif /* register_vp_audio_notifier */
-
-#if 0 /* camellia: unused: unregister_vp_audio_notifier */
-int unregister_vp_audio_notifier(struct notifier_block *nb)
-{
-	int status;
-
-	status = raw_notifier_chain_unregister(&vp_audio_noitify_chain, nb);
-	return status;
-}
-EXPORT_SYMBOL_GPL(unregister_vp_audio_notifier);
-#endif /* unregister_vp_audio_notifier */
-
-#if 0 /* camellia: unused: notify_vb_audio_control */
-int notify_vb_audio_control(unsigned long module, void *v)
-{
-	return raw_notifier_call_chain(&vp_audio_noitify_chain, module, v);
-}
-EXPORT_SYMBOL_GPL(notify_vb_audio_control);
-#endif /* notify_vb_audio_control */
 
 /* semaphore control */
 int register_3way_semaphore_notifier(struct notifier_block *nb)
@@ -118,53 +83,6 @@ int notify_vow_ipi_send(unsigned long module, void *v)
 EXPORT_SYMBOL_GPL(notify_vow_ipi_send);
 
 /* ultrasound register notify for AFE hw free */
-#if 0 /* camellia: unused: register_ultra_afe_hw_free_notifier */
-int register_ultra_afe_hw_free_notifier(struct notifier_block *nb)
-{
-	int status;
-
-	status = raw_notifier_chain_register(&ultra_afe_hw_free_noitify_chain, nb);
-	return status;
-}
-EXPORT_SYMBOL_GPL(register_ultra_afe_hw_free_notifier);
-#endif /* register_ultra_afe_hw_free_notifier */
-
-#if 0 /* camellia: unused: unregister_ultra_afe_hw_free_notifier */
-int unregister_ultra_afe_hw_free_notifier(struct notifier_block *nb)
-{
-	int status;
-
-	status = raw_notifier_chain_unregister(&ultra_afe_hw_free_noitify_chain, nb);
-	return status;
-}
-EXPORT_SYMBOL_GPL(unregister_ultra_afe_hw_free_notifier);
-#endif /* unregister_ultra_afe_hw_free_notifier */
-
-#if 0 /* camellia: unused: notify_ultra_afe_hw_free */
-int notify_ultra_afe_hw_free(unsigned long module, void *v)
-{
-	return raw_notifier_call_chain(&ultra_afe_hw_free_noitify_chain, module, v);
-}
-EXPORT_SYMBOL_GPL(notify_ultra_afe_hw_free);
-#endif /* notify_ultra_afe_hw_free */
-
-#if 0 /* camellia: unused: audio_get_power_scenario */
-void *audio_get_power_scenario(void)
-{
-	if (afe_get_power_scenario)
-		return afe_get_power_scenario();
-	return NULL;
-}
-EXPORT_SYMBOL_GPL(audio_get_power_scenario);
-#endif /* audio_get_power_scenario */
-
-#if 0 /* camellia: unused: register_get_power_scene_callback */
-void register_get_power_scene_callback(void* (*callback)(void))
-{
-	afe_get_power_scenario = callback;
-}
-EXPORT_SYMBOL_GPL(register_get_power_scene_callback);
-#endif /* register_get_power_scene_callback */
 
 MODULE_SOFTDEP("post: mediatek-drm");
 

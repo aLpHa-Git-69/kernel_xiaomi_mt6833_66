@@ -269,24 +269,6 @@ int mml_topology_register_ip(const char *ip, const struct mml_topology_ops *op)
 }
 EXPORT_SYMBOL_GPL(mml_topology_register_ip);
 
-#if 0 /* camellia: unused: mml_topology_unregister_ip */
-void mml_topology_unregister_ip(const char *ip)
-{
-	struct topology_ip_node *tp_node, *tmp;
-
-	mutex_lock(&tp_mutex);
-	list_for_each_entry_safe(tp_node, tmp, &tp_ips, entry) {
-		if (strcmp(tp_node->ip, ip) == 0) {
-			list_del(&tp_node->entry);
-			kfree(tp_node);
-			break;
-		}
-	}
-	mutex_unlock(&tp_mutex);
-}
-EXPORT_SYMBOL_GPL(mml_topology_unregister_ip);
-#endif /* mml_topology_unregister_ip */
-
 u32 mml_topology_get_mode_caps(void)
 {
 	struct topology_ip_node *tp_node;

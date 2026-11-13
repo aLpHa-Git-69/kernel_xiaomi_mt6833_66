@@ -2611,12 +2611,6 @@ uint32_t halTxPollingResource(struct ADAPTER *prAdapter, uint8_t ucTC)
 	return WLAN_STATUS_SUCCESS;
 }
 
-#if 0 /* camellia: unused: halSerHifReset */
-void halSerHifReset(struct ADAPTER *prAdapter)
-{
-}
-#endif /* halSerHifReset */
-
 u_int8_t halRxInsertRecvRfbList(
 	struct ADAPTER *prAdapter,
 	struct QUE *prReceivedRfbList,
@@ -3891,45 +3885,6 @@ void halWpdmaProcessDataDmaDone(struct GLUE_INFO *prGlueInfo,
 #endif /* !CFG_TX_DIRECT_VIA_HIF_THREAD */
 }
 
-#if 0 /* camellia: unused: halIsWfdmaRxRingReady */
-u_int8_t halIsWfdmaRxRingReady(struct GLUE_INFO *prGlueInfo, uint8_t ucRingNum)
-{
-	struct GL_HIF_INFO *prHifInfo;
-	struct RTMP_RX_RING *prRxRing;
-	uint32_t u4CpuIdx = 0;
-
-	if (ucRingNum >= NUM_OF_RX_RING)
-		return FALSE;
-
-	prHifInfo = &prGlueInfo->rHifInfo;
-	prRxRing = &prHifInfo->RxRing[ucRingNum];
-	if (prRxRing->u4RingSize == 0)
-		return FALSE;
-
-	u4CpuIdx = prRxRing->RxCpuIdx;
-	INC_RING_INDEX(u4CpuIdx, prRxRing->u4RingSize);
-
-	return halIsWfdmaRxReady(prRxRing, u4CpuIdx);
-}
-#endif /* halIsWfdmaRxRingReady */
-
-#if 0 /* camellia: unused: halIsWfdmaRxRingsEmpty */
-u_int8_t halIsWfdmaRxRingsEmpty(struct GLUE_INFO *prGlueInfo)
-{
-	u_int8_t fgIsReady = FALSE;
-	uint32_t u4Idx;
-
-	for (u4Idx = 0; u4Idx < NUM_OF_RX_RING; u4Idx++) {
-		fgIsReady = halIsWfdmaRxRingReady(
-			prGlueInfo, u4Idx);
-		if (fgIsReady)
-			break;
-	}
-
-	return !fgIsReady;
-}
-#endif /* halIsWfdmaRxRingsEmpty */
-
 uint32_t halWpdmaGetRxDmaDoneCnt(struct GLUE_INFO *prGlueInfo,
 	uint8_t ucRingNum)
 {
@@ -4723,49 +4678,6 @@ u_int8_t halChipToStaticMapBusAddr(struct mt66xx_chip_info *prChipInfo,
 	return TRUE;
 }
 
-#if 0 /* camellia: unused: halGetDynamicMapReg */
-u_int8_t halGetDynamicMapReg(struct GLUE_INFO *prGlueInfo,
-			     uint32_t u4ChipAddr, uint32_t *pu4Value)
-{
-	struct mt66xx_chip_info *prChipInfo;
-	uint32_t u4ReMapReg, u4BusAddr;
-
-	prChipInfo = prGlueInfo->prAdapter->chip_info;
-
-	if (!halChipToStaticMapBusAddr(prChipInfo, MCU_CFG_PCIE_REMAP2,
-				       &u4ReMapReg))
-		return FALSE;
-
-
-	RTMP_IO_WRITE32(prChipInfo, u4ReMapReg, u4ChipAddr & PCIE_REMAP2_MASK);
-	u4BusAddr = PCIE_REMAP2_BUS_ADDR + (u4ChipAddr & ~PCIE_REMAP2_MASK);
-	RTMP_IO_READ32(prChipInfo, u4BusAddr, pu4Value);
-
-	return TRUE;
-}
-#endif /* halGetDynamicMapReg */
-
-#if 0 /* camellia: unused: halSetDynamicMapReg */
-u_int8_t halSetDynamicMapReg(struct GLUE_INFO *prGlueInfo,
-			     uint32_t u4ChipAddr, uint32_t u4Value)
-{
-	struct mt66xx_chip_info *prChipInfo;
-	uint32_t u4ReMapReg, u4BusAddr;
-
-	prChipInfo = prGlueInfo->prAdapter->chip_info;
-
-	if (!halChipToStaticMapBusAddr(prChipInfo, MCU_CFG_PCIE_REMAP2,
-				       &u4ReMapReg))
-		return FALSE;
-
-	RTMP_IO_WRITE32(prChipInfo, u4ReMapReg, u4ChipAddr & PCIE_REMAP2_MASK);
-	u4BusAddr = PCIE_REMAP2_BUS_ADDR + (u4ChipAddr & ~PCIE_REMAP2_MASK);
-	RTMP_IO_WRITE32(prChipInfo, u4BusAddr, u4Value);
-
-	return TRUE;
-}
-#endif /* halSetDynamicMapReg */
-
 u_int8_t halIsPendingRx(struct ADAPTER *prAdapter)
 {
 	/* TODO: check pending Rx
@@ -5543,13 +5455,6 @@ uint32_t halGetHifTxDataPageSize(struct ADAPTER *prAdapter)
 	return halGetHifTxPageSize(prAdapter);
 }
 
-#if 0 /* camellia: unused: halGetHifTxCmdPageSize */
-uint32_t halGetHifTxCmdPageSize(struct ADAPTER *prAdapter)
-{
-	return halGetHifTxPageSize(prAdapter);
-}
-#endif /* halGetHifTxCmdPageSize */
-
 /*----------------------------------------------------------------------------*/
 /*!
 * @brief Check if HIF state is READY for upper layer cfg80211
@@ -6281,14 +6186,6 @@ void halUpdateBssTokenCnt(struct ADAPTER *prAdapter,
 		halSetTxRingBssTokenCnt(prAdapter, prTokenInfo->u4TokenNum);
 #endif
 }
-
-#if 0 /* camellia: unused: halSetHifIntEvent */
-void halSetHifIntEvent(struct GLUE_INFO *pr, unsigned long ulBit)
-{
-	set_bit(ulBit, &pr->rHifInfo.ulIntFlag);
-	kalSetDrvIntEvent(pr);
-}
-#endif /* halSetHifIntEvent */
 
 /**
  * diffTxDelayCounter - Counting diff from two 32-bit uint32_t array

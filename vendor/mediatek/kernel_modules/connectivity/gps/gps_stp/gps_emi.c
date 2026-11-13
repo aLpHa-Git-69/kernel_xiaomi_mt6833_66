@@ -219,43 +219,6 @@ void mtk_wcn_consys_gps_memory_reserve(void)
 		GPS_DBG("memblock fail\n");
 }
 
-#if 0 /* camellia: unused: gps_emi_mpu_set_region_protection */
-INT32 gps_emi_mpu_set_region_protection(INT32 region)
-{
-#if EMI_MPU_PROTECTION_IS_READY
-#if defined(GPS_EMI_NEW_API)
-	struct emimpu_region_t region_info;
-	int emimpu_ret1, emimpu_ret2, emimpu_ret3, emimpu_ret4, emimpu_ret5, emimpu_ret6;
-	/* Set EMI MPU permission */
-	GPS_DBG("emi mpu cfg: region = %d, no protection domain = %d, %d",
-	    region, gps_emi_mpu_domain_ap, gps_emi_mpu_domain_conn);
-	emimpu_ret1 = mtk_emimpu_init_region(&region_info, region);
-	emimpu_ret2 = mtk_emimpu_set_addr(&region_info, gGpsEmiPhyBase,
-		gGpsEmiPhyBase + (phys_addr_t)gps_emi_mpu_size - 1);
-	emimpu_ret3 = mtk_emimpu_set_apc(&region_info, (unsigned int)gps_emi_mpu_domain_ap, MTK_EMIMPU_NO_PROTECTION);
-	emimpu_ret4 = mtk_emimpu_set_apc(&region_info, (unsigned int)gps_emi_mpu_domain_conn, MTK_EMIMPU_NO_PROTECTION);
-	emimpu_ret5 = mtk_emimpu_set_protection(&region_info);
-	emimpu_ret6 = mtk_emimpu_free_region(&region_info);
-	GPS_DBG("emi mpu cfg: ret = %d, %d, %d, %d, %d, %d",
-	    emimpu_ret1, emimpu_ret2, emimpu_ret3, emimpu_ret4, emimpu_ret5, emimpu_ret6);
-#else
-	struct emi_region_info_t region_info;
-	/*set MPU for EMI share Memory */
-	GPS_DBG("setting MPU for EMI share memory\n");
-	region_info.start = gGpsEmiPhyBase;
-	region_info.end = gGpsEmiPhyBase + (phys_addr_t)gps_emi_mpu_size - 1;
-	region_info.region = region;
-	SET_ACCESS_PERMISSION(region_info.apc, LOCK,
-	FORBIDDEN, FORBIDDEN, FORBIDDEN, FORBIDDEN, FORBIDDEN, FORBIDDEN, FORBIDDEN,
-	FORBIDDEN, FORBIDDEN, FORBIDDEN, FORBIDDEN, FORBIDDEN, FORBIDDEN,
-	NO_PROTECTION, FORBIDDEN, NO_PROTECTION);
-	emi_mpu_set_protection(&region_info);
-#endif
-#endif
-	return 0;
-}
-#endif /* gps_emi_mpu_set_region_protection */
-
 INT32 gps_emi_patch_get(PUINT8 pPatchName, osal_firmware **ppPatch)
 {
 	INT32 iRet;

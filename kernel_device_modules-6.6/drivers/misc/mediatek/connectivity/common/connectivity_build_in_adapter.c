@@ -103,17 +103,6 @@ void connectivity_export_conap_scp_init(unsigned int chip_info, phys_addr_t emi_
 EXPORT_SYMBOL(connectivity_export_conap_scp_init);
 
 
-#if 0 /* camellia: unused: connectivity_export_conap_scp_deinit */
-void connectivity_export_conap_scp_deinit(void)
-{
-
-	mutex_lock(&conn_state_notify_mutex);
-	blocking_notifier_call_chain(&conn_state_notifier_list, 0, NULL);
-	mutex_unlock(&conn_state_notify_mutex);
-}
-EXPORT_SYMBOL(connectivity_export_conap_scp_deinit);
-#endif /* connectivity_export_conap_scp_deinit */
-
 void connectivity_export_conap_scp_state_change(enum conn_event_type type)
 {
 	pr_info("[%s] type=[%d]", __func__, type);
@@ -124,37 +113,6 @@ void connectivity_export_conap_scp_state_change(enum conn_event_type type)
 EXPORT_SYMBOL(connectivity_export_conap_scp_state_change);
 
 /* DFD support */
-#if 0 /* camellia: unused: g_conap_scp_cmd_handler */
-static int (*g_conap_scp_cmd_handler)(uint8_t drv_type, uint32_t cmd, uint32_t param);
-#endif /* g_conap_scp_cmd_handler */
-
-#if 0 /* camellia: unused: connectivity_register_cmd_handler */
-void connectivity_register_cmd_handler(int (*cmd_hdlr)(uint8_t drv_type, uint32_t cmd, uint32_t param))
-{
-	g_conap_scp_cmd_handler = cmd_hdlr;
-}
-EXPORT_SYMBOL(connectivity_register_cmd_handler);
-#endif /* connectivity_register_cmd_handler */
-
-#if 0 /* camellia: unused: connectivity_unregister_cmd_handler */
-void connectivity_unregister_cmd_handler(void)
-{
-	g_conap_scp_cmd_handler = NULL;
-}
-EXPORT_SYMBOL(connectivity_unregister_cmd_handler);
-#endif /* connectivity_unregister_cmd_handler */
-
-#if 0 /* camellia: unused: connectivity_export_conap_scp_trigger_cmd */
-void connectivity_export_conap_scp_trigger_cmd(enum conn_hif_dbg_drv_type drv_type,
-						enum conn_hif_dbg_cmd cmd, int param)
-{
-#if 0
-	if (g_conap_scp_cmd_handler)
-		(*g_conap_scp_cmd_handler)(drv_type, cmd, param);
-#endif
-}
-EXPORT_SYMBOL(connectivity_export_conap_scp_trigger_cmd);
-#endif /* connectivity_export_conap_scp_trigger_cmd */
 
 
 /* ++ DFD support ++ */
@@ -173,36 +131,6 @@ void connectivity_unregister_dfd_handler(void)
 }
 EXPORT_SYMBOL(connectivity_unregister_dfd_handler);
 
-#if 0 /* camellia: unused: connectivity_export_conap_scp_trigger_dfd_cmd */
-int connectivity_export_conap_scp_trigger_dfd_cmd(uint8_t drv_type,
-					uint32_t reserved_param0, uint32_t reserved_param1)
-{
-	if (g_conap_scp_dfd_handler.cmd_hdlr)
-		return (*g_conap_scp_dfd_handler.cmd_hdlr)(drv_type, reserved_param0, reserved_param1);
-	return 0;
-}
-EXPORT_SYMBOL(connectivity_export_conap_scp_trigger_dfd_cmd);
-#endif /* connectivity_export_conap_scp_trigger_dfd_cmd */
-
-#if 0 /* camellia: unused: connectivity_export_conap_scp_clr_dfd_buffer */
-int connectivity_export_conap_scp_clr_dfd_buffer(void)
-{
-	if (g_conap_scp_dfd_handler.clr_buf_hdlr)
-		return (*g_conap_scp_dfd_handler.clr_buf_hdlr)();
-	return 0;
-}
-EXPORT_SYMBOL(connectivity_export_conap_scp_clr_dfd_buffer);
-#endif /* connectivity_export_conap_scp_clr_dfd_buffer */
-
-#if 0 /* camellia: unused: connectivity_export_conap_get_dfd_value_info */
-int connectivity_export_conap_get_dfd_value_info(phys_addr_t *addr, uint32_t *size)
-{
-	if (g_conap_scp_dfd_handler.clr_buf_hdlr)
-		return (*g_conap_scp_dfd_handler.clr_buf_hdlr)();
-	return 0;
-}
-EXPORT_SYMBOL(connectivity_export_conap_get_dfd_value_info);
-#endif /* connectivity_export_conap_get_dfd_value_info */
 /* -- DFD support -- */
 
 void connectivity_register_state_notifier(struct notifier_block *nb)
@@ -321,13 +249,6 @@ void __weak gpio_dump_regs_range(int start, int end)
 }
 #endif
 #ifndef CONFIG_MTK_GPIO
-#if 0 /* camellia: unused: connectivity_export_dump_gpio_info */
-void connectivity_export_dump_gpio_info(int start, int end)
-{
-	gpio_dump_regs_range(start, end);
-}
-EXPORT_SYMBOL(connectivity_export_dump_gpio_info);
-#endif /* connectivity_export_dump_gpio_info */
 #endif
 
 void connectivity_export_dump_thread_state(const char *name)
@@ -377,13 +298,5 @@ void connectivity_export_dump_thread_state(const char *name)
 	rcu_read_unlock();
 }
 EXPORT_SYMBOL(connectivity_export_dump_thread_state);
-
-#if 0 /* camellia: unused: connectivity_export_gpio_get_tristate_input */
-int connectivity_export_gpio_get_tristate_input(unsigned int pin)
-{
-	return 0;
-}
-EXPORT_SYMBOL(connectivity_export_gpio_get_tristate_input);
-#endif /* connectivity_export_gpio_get_tristate_input */
 
 MODULE_LICENSE("GPL");

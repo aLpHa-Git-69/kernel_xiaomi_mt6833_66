@@ -219,24 +219,8 @@ EXPORT_SYMBOL(cmdq_dump_thrd_irq_history);
 cmdq_mminfra_power mminfra_power_cb;
 EXPORT_SYMBOL(mminfra_power_cb);
 
-#if 0 /* camellia: unused: cmdq_get_mminfra_cb */
-void cmdq_get_mminfra_cb(cmdq_mminfra_power cb)
-{
-	mminfra_power_cb = cb;
-}
-EXPORT_SYMBOL(cmdq_get_mminfra_cb);
-#endif /* cmdq_get_mminfra_cb */
-
 cmdq_mminfra_gce_cg mminfra_gce_cg;
 EXPORT_SYMBOL(mminfra_gce_cg);
-
-#if 0 /* camellia: unused: cmdq_get_mminfra_gce_cg_cb */
-void cmdq_get_mminfra_gce_cg_cb(cmdq_mminfra_gce_cg cb)
-{
-	mminfra_gce_cg = cb;
-}
-EXPORT_SYMBOL(cmdq_get_mminfra_gce_cg_cb);
-#endif /* cmdq_get_mminfra_gce_cg_cb */
 
 struct cmdq_util_platform_fp *cmdq_platform;
 
@@ -780,17 +764,6 @@ void cmdq_util_set_mml_aid_selmode(void)
 		0, 0, 0, 0, 0, 0, &res);
 }
 EXPORT_SYMBOL(cmdq_util_set_mml_aid_selmode);
-
-#if 0 /* camellia: unused: cmdq_util_mmuen_devapc_disable */
-void cmdq_util_mmuen_devapc_disable(void)
-{
-	struct arm_smccc_res res;
-
-	arm_smccc_smc(MTK_SIP_CMDQ_CONTROL, CMDQ_MMUEN_SET_DEVAPC_DISABLE,
-		0, 0, 0, 0, 0, 0, &res);
-}
-EXPORT_SYMBOL(cmdq_util_mmuen_devapc_disable);
-#endif /* cmdq_util_mmuen_devapc_disable */
 
 void cmdq_util_enable_disp_va(void)
 {

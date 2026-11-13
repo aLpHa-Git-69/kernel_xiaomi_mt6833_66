@@ -351,12 +351,6 @@ exit:
 	return ret;
 }
 
-#if 0 /* camellia: unused: tz_load_drv */
-int tz_load_drv(struct TEEC_UUID *uuid)
-{
-	return load_ut_drv(uuid, TEEI_DRV);
-}
-#endif /* tz_load_drv */
 int tz_load_ta_by_str(const char *buf)
 {
 	struct TEEC_UUID uuid;
@@ -451,13 +445,6 @@ exit:
 	mutex_unlock(&drv_load_mutex);
 	return 0;
 }
-
-#if 0 /* camellia: unused: tz_unload_drv */
-int tz_unload_drv(struct TEEC_UUID *uuid)
-{
-	return unload_ut_drv(uuid);
-}
-#endif /* tz_unload_drv */
 
 static ssize_t unload_ut_drv_store(struct device *dev,
 				struct device_attribute *attr,

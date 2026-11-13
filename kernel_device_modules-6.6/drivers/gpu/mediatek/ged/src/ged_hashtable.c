@@ -263,41 +263,6 @@ void ged_hashtable_iterator(GED_HASHTABLE_HANDLE hHashTable,
 	}
 }
 
-#if 0 /* camellia: unused: ged_hashtable_search */
-void *ged_hashtable_search(GED_HASHTABLE_HANDLE hHashTable,
-	void* (*pFunc)(unsigned long ulID, void *pvoid, void *pvParam),
-	void *pvParam)
-{
-	struct GED_HASHTABLE *psHT = __ged_hashtable_verify(hHashTable);
-	void *pResult = NULL;
-
-	if (psHT) {
-		struct GED_HASHNODE *psHN;
-		unsigned long i;
-		struct list_head *psListEntry, *psListEntryTemp;
-
-		for (i = 0; i < psHT->ulLength; ++i) {
-			struct list_head *psList = &psHT->psHashTable[i];
-
-			list_for_each_safe(psListEntry, psListEntryTemp,
-				psList) {
-				psHN = list_entry(psListEntry,
-					struct GED_HASHNODE,
-					sList);
-
-				if (psHN) {
-					pResult = pFunc(psHN->ulID,
-						psHN->pvoid, pvParam);
-					if (pResult)
-						return pResult;
-				}
-			}
-		}
-	}
-	return pResult;
-}
-#endif /* ged_hashtable_search */
-
 void ged_hashtable_iterator_delete(GED_HASHTABLE_HANDLE hHashTable,
 	GED_BOOL (*pFunc)(unsigned long ulID, void *pvoid, void *pvParam,
 	GED_BOOL *pbDeleted),
@@ -337,15 +302,4 @@ void ged_hashtable_iterator_delete(GED_HASHTABLE_HANDLE hHashTable,
 	}
 
 }
-
-#if 0 /* camellia: unused: ged_hashtable_get_count */
-unsigned long ged_hashtable_get_count(GED_HASHTABLE_HANDLE hHashTable)
-{
-	struct GED_HASHTABLE *psHT = __ged_hashtable_verify(hHashTable);
-
-	if (psHT)
-		return psHT->ulCount;
-	return 0;
-}
-#endif /* ged_hashtable_get_count */
 

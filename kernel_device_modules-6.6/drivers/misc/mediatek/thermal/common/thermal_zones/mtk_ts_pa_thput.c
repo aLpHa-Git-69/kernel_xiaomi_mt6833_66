@@ -85,22 +85,6 @@ struct md_info g_pinfo_list[6] = { {"TXPWR_MD1", -127, "db", -127, 0},
 {"RFTEMP_3G_MD2", -127000, "mC", -127000, 5}
 };
 
-#if 0 /* camellia: unused: mtk_mdm_get_tx_power */
-int mtk_mdm_get_tx_power(void)
-{
-	return 0;
-}
-EXPORT_SYMBOL(mtk_mdm_get_tx_power);
-#endif /* mtk_mdm_get_tx_power */
-
-#if 0 /* camellia: unused: mtk_mdm_get_rf_temp */
-int mtk_mdm_get_rf_temp(void)
-{
-	return 0;
-}
-EXPORT_SYMBOL(mtk_mdm_get_rf_temp);
-#endif /* mtk_mdm_get_rf_temp */
-
 int mtk_mdm_get_md_info(struct md_info **p_inf, int *size)
 {
 	mtk_mdm_dprintk("%s+\n", __func__);
@@ -113,44 +97,6 @@ int mtk_mdm_get_md_info(struct md_info **p_inf, int *size)
 	return 0;
 }
 EXPORT_SYMBOL(mtk_mdm_get_md_info);
-
-#if 0 /* camellia: unused: mtk_mdm_get_mdinfoex */
-int mtk_mdm_get_mdinfoex(int opcode, int *value)
-{
-	mtk_mdm_dprintk("%s\n", __func__);
-
-#if IS_ENABLED(CONFIG_MTK_THERMAL_PA_VIA_ATCMD)
-	if (opcode >= 0 && opcode < MAX_MDINFOEX_OPCODE && value != NULL) {
-		*value = mdinfoex[opcode];
-		return 0;
-	} else {
-		return -1;
-	}
-#else
-	return -1;
-#endif
-}
-EXPORT_SYMBOL(mtk_mdm_get_mdinfoex);
-#endif /* mtk_mdm_get_mdinfoex */
-
-#if 0 /* camellia: unused: mtk_mdm_set_mdinfoex_threshold */
-int mtk_mdm_set_mdinfoex_threshold(int opcode, int threshold)
-{
-	mtk_mdm_dprintk("%s\n", __func__);
-
-#if IS_ENABLED(CONFIG_MTK_THERMAL_PA_VIA_ATCMD)
-	if (opcode >= 0 && opcode < MAX_MDINFOEX_OPCODE) {
-		mdinfoex_threshold[opcode] = threshold;
-		return 0;
-	} else {
-		return -1;
-	}
-#else
-	return -1;
-#endif
-}
-EXPORT_SYMBOL(mtk_mdm_set_mdinfoex_threshold);
-#endif /* mtk_mdm_set_mdinfoex_threshold */
 
 int mtk_mdm_start_query(void)
 {
@@ -225,16 +171,6 @@ int mtk_mdm_set_md1_signal_period(int second)
 	return 0;
 }
 EXPORT_SYMBOL(mtk_mdm_set_md1_signal_period);
-
-#if 0 /* camellia: unused: mtk_mdm_set_md2_signal_period */
-int mtk_mdm_set_md2_signal_period(int second)
-{
-	md2_signal_period = second;
-	set_mdm_signal_period();
-	return 0;
-}
-EXPORT_SYMBOL(mtk_mdm_set_md2_signal_period);
-#endif /* mtk_mdm_set_md2_signal_period */
 
 
 

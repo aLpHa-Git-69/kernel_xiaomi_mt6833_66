@@ -1145,14 +1145,6 @@ uint8_t nicTxGetCmdResourceType(struct CMD_INFO
 	return ucTC;
 }
 
-#if 0 /* camellia: unused: nicTxGetTxQByTc */
-uint8_t nicTxGetTxQByTc(struct ADAPTER *prAdapter,
-			uint8_t ucTc)
-{
-	return arTcResourceControl[ucTc].ucHifTxQIndex;
-}
-#endif /* nicTxGetTxQByTc */
-
 uint8_t nicTxGetTxDestPortIdxByTc(uint8_t ucTc)
 {
 	return arTcResourceControl[ucTc].ucDestPortIndex;
@@ -1848,31 +1840,6 @@ nicTxComposeDesc(
  * Therefore, this function were intended to be called at the beginning
  * of before calling those two compose functions right after memzero the buffer.
  */
-#if 0 /* camellia: unused: nicTxForceAmsduForCert */
-void nicTxForceAmsduForCert(struct ADAPTER *prAdapter, u_int8_t *prTxDescBuffer)
-{
-#if (CFG_SUPPORT_802_11BE == 1) && (CFG_SUPPORT_CONNAC3X == 1)
-	struct HW_MAC_CONNAC3X_TX_DESC *prTxDesc =
-		(struct HW_MAC_CONNAC3X_TX_DESC *) prTxDescBuffer;
-#elif (CFG_SUPPORT_802_11AX == 1) && (CFG_SUPPORT_CONNAC2X == 1)
-	struct HW_MAC_CONNAC2X_TX_DESC *prTxDesc =
-		(struct HW_MAC_CONNAC2X_TX_DESC *) prTxDescBuffer;
-#endif
-
-#if (CFG_SUPPORT_802_11BE == 1) && (CFG_SUPPORT_CONNAC3X == 1)
-	if (/* TODO: fgEfuseCtrlBeOn == */ 1) {
-		if (prAdapter->rWifiVar.ucEhtAmsduInAmpduTx)
-			HAL_MAC_CONNAC3X_TXD_SET_HW_AMSDU(prTxDesc);
-	}
-#elif (CFG_SUPPORT_802_11AX == 1) && (CFG_SUPPORT_CONNAC2X == 1)
-	if (fgEfuseCtrlAxOn == 1) {
-		if (prAdapter->rWifiVar.ucHeAmsduInAmpduTx &&
-		    prAdapter->rWifiVar.ucHeCertForceAmsdu)
-			HAL_MAC_CONNAC2X_TXD_SET_HW_AMSDU(prTxDesc);
-	}
-#endif
-}
-#endif /* nicTxForceAmsduForCert */
 
 #if CFG_TX_CUSTOMIZE_LTO
 u_int8_t nicTxEnableLTO(struct ADAPTER *prAdapter,
@@ -2196,28 +2163,6 @@ nicTxFillDataDesc(struct ADAPTER *prAdapter,
 			prDbgOps->dumpTxdInfo(prAdapter, pucOutputBuf);
 	}
 }
-
-#if 0 /* camellia: unused: nicTxCopyDesc */
-void
-nicTxCopyDesc(struct ADAPTER *prAdapter,
-	      uint8_t *pucTarTxDesc, uint8_t *pucSrcTxDesc,
-	      uint8_t *pucTxDescLength)
-{
-	struct TX_DESC_OPS_T *prTxDescOps;
-	uint8_t ucTxDescLength;
-
-	prTxDescOps = prAdapter->chip_info->prTxDescOps;
-	if (prTxDescOps->nic_txd_long_format_op(pucSrcTxDesc, FALSE))
-		ucTxDescLength = NIC_TX_DESC_LONG_FORMAT_LENGTH;
-	else
-		ucTxDescLength = NIC_TX_DESC_SHORT_FORMAT_LENGTH;
-
-	kalMemCopy(pucTarTxDesc, pucSrcTxDesc, ucTxDescLength);
-
-	if (pucTxDescLength)
-		*pucTxDescLength = ucTxDescLength;
-}
-#endif /* nicTxCopyDesc */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -4648,40 +4593,12 @@ void nicTxSetForceRts(struct MSDU_INFO *prMsduInfo,
 		prMsduInfo->u4Option &= ~MSDU_OPT_FORCE_RTS;
 }
 
-#if 0 /* camellia: unused: nicTxSetPktPowerOffset */
-void nicTxSetPktPowerOffset(struct MSDU_INFO *prMsduInfo,
-			    int8_t cPowerOffset)
-{
-	prMsduInfo->cPowerOffset = cPowerOffset;
-	prMsduInfo->u4Option |= MSDU_OPT_MANUAL_POWER_OFFSET;
-}
-#endif /* nicTxSetPktPowerOffset */
-
 void nicTxSetPktSequenceNumber(struct MSDU_INFO *prMsduInfo,
 			       uint16_t u2SN)
 {
 	prMsduInfo->u2SwSN = u2SN;
 	prMsduInfo->u4Option |= MSDU_OPT_MANUAL_SN;
 }
-
-#if 0 /* camellia: unused: nicTxSetPktMacTxQue */
-void nicTxSetPktMacTxQue(struct MSDU_INFO *prMsduInfo,
-			 uint8_t ucMacTxQue)
-{
-	uint8_t ucTcIdx;
-
-	for (ucTcIdx = TC0_INDEX; ucTcIdx < TC_NUM; ucTcIdx++) {
-		if (arTcResourceControl[ucTcIdx].ucDestQueueIndex ==
-		    ucMacTxQue)
-			break;
-	}
-
-	if (ucTcIdx < TC_NUM) {
-		prMsduInfo->ucTC = ucTcIdx;
-		prMsduInfo->u4Option |= MSDU_OPT_MANUAL_TX_QUE;
-	}
-}
-#endif /* nicTxSetPktMacTxQue */
 
 void nicTxSetPktFixedRateOptionFull(
 	struct ADAPTER *prAdapter,
@@ -4796,32 +4713,6 @@ void nicTxSetPktLowestFixedRate(struct ADAPTER *prAdapter,
 			   FIX_BW_NO_FIXED, FALSE, FALSE);
 }
 
-#if 0 /* camellia: unused: nicTxSetPktMoreData */
-void nicTxSetPktMoreData(struct MSDU_INFO
-			 *prCurrentMsduInfo, u_int8_t fgSetMoreDataBit)
-{
-	struct WLAN_MAC_HEADER *prWlanMacHeader = NULL;
-
-	if (prCurrentMsduInfo->fgIs802_11) {
-		prWlanMacHeader =
-			(struct WLAN_MAC_HEADER *) (((uint8_t *) (
-			prCurrentMsduInfo->prPacket)) + MAC_TX_RESERVED_FIELD);
-	}
-
-	if (fgSetMoreDataBit) {
-		if (!prCurrentMsduInfo->fgIs802_11)
-			prCurrentMsduInfo->u4Option |= MSDU_OPT_MORE_DATA;
-		else
-			prWlanMacHeader->u2FrameCtrl |= MASK_FC_MORE_DATA;
-	} else {
-		if (!prCurrentMsduInfo->fgIs802_11)
-			prCurrentMsduInfo->u4Option &= ~MSDU_OPT_MORE_DATA;
-		else
-			prWlanMacHeader->u2FrameCtrl &= ~MASK_FC_MORE_DATA;
-	}
-}
-#endif /* nicTxSetPktMoreData */
-
 uint8_t nicTxAssignPID(struct ADAPTER *prAdapter,
 		       uint8_t ucWlanIndex, enum ENUM_TX_PACKET_TYPE type)
 {
@@ -4848,34 +4739,6 @@ uint8_t nicTxAssignPID(struct ADAPTER *prAdapter,
 
 	return ucRetval;
 }
-
-#if 0 /* camellia: unused: nicTxSetPktEOSP */
-void nicTxSetPktEOSP(struct MSDU_INFO *prCurrentMsduInfo,
-		     u_int8_t fgSetEOSPBit)
-{
-	struct WLAN_MAC_HEADER_QOS *prWlanMacHeader = NULL;
-	u_int8_t fgWriteToDesc = TRUE;
-
-	if (prCurrentMsduInfo->fgIs802_11) {
-		prWlanMacHeader =
-			(struct WLAN_MAC_HEADER_QOS *) (((uint8_t *) (
-			prCurrentMsduInfo->prPacket)) + MAC_TX_RESERVED_FIELD);
-		fgWriteToDesc = FALSE;
-	}
-
-	if (fgSetEOSPBit) {
-		if (fgWriteToDesc)
-			prCurrentMsduInfo->u4Option |= MSDU_OPT_EOSP;
-		else
-			prWlanMacHeader->u2QosCtrl |= MASK_QC_EOSP;
-	} else {
-		if (fgWriteToDesc)
-			prCurrentMsduInfo->u4Option &= ~MSDU_OPT_EOSP;
-		else
-			prWlanMacHeader->u2QosCtrl &= ~MASK_QC_EOSP;
-	}
-}
-#endif /* nicTxSetPktEOSP */
 
 uint32_t
 nicTxDummyTxDone(struct ADAPTER *prAdapter,
@@ -5281,46 +5144,6 @@ void nicTxDirectMoveStaPendQ(struct ADAPTER *prAdapter,
 exit:
 	TX_DIRECT_UNLOCK(prAdapter->prGlueInfo);
 }
-
-#if 0 /* camellia: unused: nicTxDirectClearAllStaPsQ */
-void nicTxDirectClearAllStaPsQ(struct ADAPTER *prAdapter)
-{
-	uint8_t ucStaRecIndex;
-	uint32_t u4StaPsBitmap;
-
-	u4StaPsBitmap = prAdapter->u4StaPsBitmap;
-
-	if (!u4StaPsBitmap)
-		return;
-
-	for (ucStaRecIndex = 0; ucStaRecIndex < CFG_STA_REC_NUM;
-		++ucStaRecIndex) {
-		if (QUEUE_IS_NOT_EMPTY(
-			&prAdapter->rStaPsQueue[ucStaRecIndex])) {
-			nicTxDirectClearStaPsQ(prAdapter,
-				ucStaRecIndex);
-			u4StaPsBitmap &= ~BIT(ucStaRecIndex);
-		}
-		if (u4StaPsBitmap == 0)
-			break;
-	}
-}
-#endif /* nicTxDirectClearAllStaPsQ */
-
-#if 0 /* camellia: unused: nicTxDirectClearAllStaPendQ */
-void nicTxDirectClearAllStaPendQ(struct ADAPTER *prAdapter)
-{
-	uint8_t ucIdx; /* StaRec Index */
-
-	for (ucIdx = 0; ucIdx < CFG_STA_REC_NUM; ++ucIdx) {
-		if (prAdapter->u4StaPendBitmap == 0)
-			break;
-
-		if (QUEUE_IS_NOT_EMPTY(&prAdapter->rStaPendQueue[ucIdx]))
-			nicTxDirectClearStaPendQ(prAdapter, ucIdx);
-	}
-}
-#endif /* nicTxDirectClearAllStaPendQ */
 
 /*----------------------------------------------------------------------------*/
 /*
@@ -5820,35 +5643,6 @@ static void nicTxDirectCheckStaAcmQ(struct ADAPTER *prAdapter,
 	}
 }
 
-#if 0 /* camellia: unused: nicTxDirectClearStaAcmQ */
-void nicTxDirectClearStaAcmQ(struct ADAPTER *prAdapter,
-	uint8_t ucStaRecIdx)
-{
-	struct QUE rNeedToFreeQue;
-	struct QUE *prNeedToFreeQue = &rNeedToFreeQue;
-	uint8_t ucAc;
-
-
-	QUEUE_INITIALIZE(prNeedToFreeQue);
-
-	TX_DIRECT_LOCK(prAdapter->prGlueInfo);
-
-	for (ucAc = 0; ucAc < ACI_NUM; ucAc++) {
-		nicTxDirectDequeueStaAcmQ(prAdapter, ucStaRecIdx, ucAc,
-			prNeedToFreeQue);
-	}
-
-	TX_DIRECT_UNLOCK(prAdapter->prGlueInfo);
-
-	if (QUEUE_IS_NOT_EMPTY(prNeedToFreeQue)) {
-		wlanProcessQueuedMsduInfo(prAdapter,
-			(struct MSDU_INFO *) QUEUE_GET_HEAD(prNeedToFreeQue));
-	}
-
-	prAdapter->u4StaAcmBitmap &= ~BIT(ucStaRecIdx);
-}
-#endif /* nicTxDirectClearStaAcmQ */
-
 void nicTxDirectMoveStaAcmQ(struct ADAPTER *prAdapter,
 	uint8_t ucDstStaRecIdx, uint8_t ucSrcStaRecIdx)
 {
@@ -5885,21 +5679,6 @@ void nicTxDirectMoveStaAcmQ(struct ADAPTER *prAdapter,
 
 	TX_DIRECT_UNLOCK(prAdapter->prGlueInfo);
 }
-
-#if 0 /* camellia: unused: nicTxDirectClearAllStaAcmQ */
-void nicTxDirectClearAllStaAcmQ(struct ADAPTER *prAdapter)
-{
-	uint8_t ucIdx; /* StaRec Index */
-
-	for (ucIdx = 0; ucIdx < CFG_STA_REC_NUM; ++ucIdx) {
-		if (prAdapter->u4StaAcmBitmap == 0)
-			break;
-
-		if (prAdapter->u4StaAcmBitmap & BIT(ucIdx))
-			nicTxDirectClearStaAcmQ(prAdapter, ucIdx);
-	}
-}
-#endif /* nicTxDirectClearAllStaAcmQ */
 
 #endif /* CFG_SUPPORT_SOFT_ACM */
 
@@ -6816,70 +6595,6 @@ void nicTxChangeDataPortByAc(
 ** In multi-thread solution, we also need to check if pending tx packets in
 ** hif_thread tx queue.
 */
-#if 0 /* camellia: unused: nicTxHandleRoamingDone */
-void nicTxHandleRoamingDone(struct ADAPTER *prAdapter,
-			    struct STA_RECORD *prOldStaRec,
-			    struct STA_RECORD *prNewStaRec)
-{
-	struct MSDU_INFO *prMsduInfo = NULL;
-	uint8_t ucOldWlanIndex = prOldStaRec->ucWlanIndex;
-	uint8_t ucNewWlanIndex = prNewStaRec->ucWlanIndex;
-#if CFG_SUPPORT_MULTITHREAD
-	uint8_t ucIndex = 0;
-	uint8_t i = 0;
-#endif
-
-	KAL_SPIN_LOCK_DECLARATION();
-
-	KAL_ACQUIRE_SPIN_LOCK(prAdapter, SPIN_LOCK_TXING_MGMT_LIST);
-	prMsduInfo = QUEUE_GET_HEAD(&prAdapter->rTxCtrl.rTxMgmtTxingQueue);
-	while (prMsduInfo) {
-		if (prMsduInfo->ucWlanIndex == ucOldWlanIndex)
-			prMsduInfo->ucWlanIndex = ucNewWlanIndex;
-		prMsduInfo = QUEUE_GET_NEXT_ENTRY(&prMsduInfo->rQueEntry);
-	}
-	KAL_RELEASE_SPIN_LOCK(prAdapter, SPIN_LOCK_TXING_MGMT_LIST);
-
-/* I think any time we disconnect with previous AP, rTxP0Queue and rTxP1Queue
-** should be empty.
-** because we have stopped dequeue when initial to connect the new roaming AP.
-** It is enough time for hif_thread to send out these packets. But anyway, let's
-** prepare code for that case to avoid scheduler corner case.
-*/
-#if CFG_SUPPORT_MULTITHREAD
-	KAL_ACQUIRE_SPIN_LOCK(prAdapter, SPIN_LOCK_TX_PORT_QUE);
-	for (i = 0; i < MAX_BSSID_NUM; i++) {
-		for (ucIndex = 0; ucIndex < TC_NUM; ucIndex++) {
-			prMsduInfo = QUEUE_GET_HEAD(
-					&prAdapter->rTxPQueue[i][ucIndex]);
-			while (prMsduInfo) {
-				if (prMsduInfo->ucWlanIndex == ucOldWlanIndex)
-					prMsduInfo->ucWlanIndex =
-							ucNewWlanIndex;
-				prMsduInfo = QUEUE_GET_NEXT_ENTRY(
-						&prMsduInfo->rQueEntry);
-			}
-		}
-	}
-	KAL_RELEASE_SPIN_LOCK(prAdapter, SPIN_LOCK_TX_PORT_QUE);
-#if (CFG_TX_HIF_PORT_QUEUE == 1)
-	for (i = 0; i < MAX_BSSID_NUM; i++) {
-		for (ucIndex = 0; ucIndex < TC_NUM; ucIndex++) {
-			prMsduInfo = QUEUE_GET_HEAD(
-					&prAdapter->rTxHifPQueue[i][ucIndex]);
-			while (prMsduInfo) {
-				if (prMsduInfo->ucWlanIndex == ucOldWlanIndex)
-					prMsduInfo->ucWlanIndex =
-							ucNewWlanIndex;
-				prMsduInfo = QUEUE_GET_NEXT_ENTRY(
-						&prMsduInfo->rQueEntry);
-			}
-		}
-	}
-#endif
-#endif
-}
-#endif /* nicTxHandleRoamingDone */
 
 int32_t nicTxGetVectorInfo(char *pcCommand, int i4TotalLen,
 				   struct TX_VECTOR_BBP_LATCH *prTxV)
@@ -7055,24 +6770,4 @@ uint8_t nicTxWmmTc2ResTc(struct ADAPTER *prAdapter,
 
 	return ucTC;
 }
-
-#if 0 /* camellia: unused: nicTxResTc2WmmTc */
-uint8_t nicTxResTc2WmmTc(uint8_t ucResTC)
-{
-	uint8_t ucSetIdx;
-	uint8_t ucTcIdx;
-
-	ucSetIdx = nicTxGetWmmIdxByTc(ucResTC);
-
-	/* TCx is meaningless for BMC, do not need to cover BMC case */
-	for (ucTcIdx = 0;
-		ucTcIdx < ARRAY_SIZE(arNetwork2TcResource[0]);
-		ucTcIdx++) {
-		if (ucResTC == arNetwork2TcResource[ucSetIdx][ucTcIdx])
-			break;
-	}
-
-	return ucTcIdx;
-}
-#endif /* nicTxResTc2WmmTc */
 

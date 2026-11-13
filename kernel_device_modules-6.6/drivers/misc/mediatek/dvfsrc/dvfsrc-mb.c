@@ -40,19 +40,6 @@ void dvfsrc_mt6989_get_data(struct mtk_dvfsrc_header *header)
 		header->data[3], header->data[4], header->data[5]);
 }
 
-#if 0 /* camellia: unused: dvfsrc_get_data */
-void dvfsrc_get_data(struct mtk_dvfsrc_header *header)
-{
-	if (dvfsrc_drv == NULL) {
-		header->data_length = 0;
-		return;
-	}
-
-	dvfsrc_drv->dvd->config->get_data(header);
-}
-EXPORT_SYMBOL(dvfsrc_get_data);
-#endif /* dvfsrc_get_data */
-
 const struct mtk_dvfsrc_config mt6989_config = {
 	.get_data = &dvfsrc_mt6989_get_data,
 };

@@ -710,32 +710,3 @@ struct devfreq_cooling_power kbase_ipa_power_model_ops = {
 #endif
 };
 KBASE_EXPORT_TEST_API(kbase_ipa_power_model_ops);
-
-#if 0 /* camellia: unused: kbase_ipa_reset_data */
-void kbase_ipa_reset_data(struct kbase_device *kbdev)
-{
-	ktime_t now, diff;
-	s64 elapsed_time;
-
-	mutex_lock(&kbdev->ipa.lock);
-
-	now = ktime_get_raw();
-	diff = ktime_sub(now, kbdev->ipa.last_sample_time);
-	elapsed_time = ktime_to_ms(diff);
-
-	if (elapsed_time > RESET_INTERVAL_MS) {
-		struct kbasep_pm_metrics diff;
-		struct kbase_ipa_model *model;
-
-		kbase_pm_get_dvfs_metrics(kbdev, &kbdev->ipa.last_metrics, &diff);
-
-		model = get_current_model(kbdev);
-		if (model != kbdev->ipa.fallback_model)
-			model->ops->reset_counter_data(model);
-
-		kbdev->ipa.last_sample_time = ktime_get_raw();
-	}
-
-	mutex_unlock(&kbdev->ipa.lock);
-}
-#endif /* kbase_ipa_reset_data */

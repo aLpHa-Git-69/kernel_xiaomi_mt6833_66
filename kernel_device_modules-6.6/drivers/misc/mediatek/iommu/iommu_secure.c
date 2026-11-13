@@ -328,22 +328,6 @@ int mtk_iommu_sec_bk_pgtable_dump(uint32_t type, uint32_t id, uint32_t bank,
 }
 EXPORT_SYMBOL_GPL(mtk_iommu_sec_bk_pgtable_dump);
 
-#if 0 /* camellia: unused: mtk_smmu_sec_config_cqdma */
-int mtk_smmu_sec_config_cqdma(bool enable)
-{
-	return 0;
-}
-EXPORT_SYMBOL_GPL(mtk_smmu_sec_config_cqdma);
-#endif /* mtk_smmu_sec_config_cqdma */
-
-#if 0 /* camellia: unused: mtk_smmu_sec_test */
-int mtk_smmu_sec_test(u32 smmu_type, u32 lvl)
-{
-	return 0;
-}
-EXPORT_SYMBOL_GPL(mtk_smmu_sec_test);
-#endif /* mtk_smmu_sec_test */
-
 static int mtk_iommu_sec_debug_set(void *data, u64 val)
 {
 	int ret = 0;

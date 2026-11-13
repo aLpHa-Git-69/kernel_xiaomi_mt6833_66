@@ -40,20 +40,6 @@
  */
 static struct FW_LOG_INFO *fw_log_info;
 
-#if 0 /* camellia: unused: fw_log_type_to_str */
-uint8_t *fw_log_type_to_str(enum ENUM_FW_LOG_CTRL_TYPE type)
-{
-	switch (type) {
-	case ENUM_FW_LOG_CTRL_TYPE_MCU:
-		return "WF_MCU";
-	case ENUM_FW_LOG_CTRL_TYPE_WIFI:
-		return "WF_WM";
-	default:
-		return "UNKNOWN";
-	}
-}
-#endif /* fw_log_type_to_str */
-
 uint32_t fw_log_init(struct ADAPTER *ad)
 {
 	struct FW_LOG_INFO *fw_log = NULL;

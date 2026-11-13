@@ -724,13 +724,6 @@ scanSearchBssDescByBssidAndSsid(struct ADAPTER *prAdapter,
  * @return   Pointer to BSS Descriptor, if found. NULL, if not found
  */
 /*----------------------------------------------------------------------------*/
-#if 0 /* camellia: unused: scanSearchBssDescByTA */
-struct BSS_DESC *scanSearchBssDescByTA(struct ADAPTER *prAdapter,
-	uint8_t aucSrcAddr[])
-{
-	return scanSearchBssDescByTAAndSsid(prAdapter, aucSrcAddr, FALSE, NULL);
-}
-#endif /* scanSearchBssDescByTA */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -874,17 +867,6 @@ scanSearchBssDescByLinkIdMldAddrSsid(struct ADAPTER *prAdapter,
  * @return   Pointer to BSS Descriptor, if found. NULL, if not found
  */
 /*----------------------------------------------------------------------------*/
-#if 0 /* camellia: unused: scanSearchExistingBssDesc */
-struct BSS_DESC *
-scanSearchExistingBssDesc(struct ADAPTER *prAdapter,
-			  enum ENUM_BSS_TYPE eBSSType,
-			  uint8_t aucBSSID[],
-			  uint8_t aucSrcAddr[])
-{
-	return scanSearchExistingBssDescWithSsid(prAdapter, eBSSType, aucBSSID,
-		aucSrcAddr, FALSE, NULL);
-}
-#endif /* scanSearchExistingBssDesc */
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -5134,46 +5116,6 @@ void scanFillChnlIdleSlot(struct ADAPTER *ad, enum ENUM_BAND eBand,
 	}
 }
 
-#if 0 /* camellia: unused: scanGetChnlIdleSlot */
-uint16_t scanGetChnlIdleSlot(struct ADAPTER *ad, enum ENUM_BAND eBand,
-	uint8_t ucChNum)
-{
-	struct CHNL_IDLE_SLOT *prSlotInfo =
-		&(ad->rWifiVar.rScanInfo.rSlotInfo);
-	uint8_t index = 0;
-	uint16_t u2Slot = 0;
-
-	if (eBand == BAND_2G4) {
-		if (ucChNum < 1 || ucChNum > 14)
-			return 0;
-
-		index = (ucChNum - 1);
-		u2Slot = prSlotInfo->au2ChIdleTime2G4[index];
-	} else if (eBand == BAND_5G) {
-		if (ucChNum < 36 || ucChNum > 165)
-			return 0;
-
-		if (ucChNum >= 36 && ucChNum <= 64)
-			index = (ucChNum - 36) / 4;
-		else if (ucChNum >= 100 && ucChNum <= 144)
-			index = (ucChNum - 68) / 4;
-		else if (ucChNum >= 149 && ucChNum <= 165)
-			index = (ucChNum - 69) / 4;
-		u2Slot = prSlotInfo->au2ChIdleTime5G[index];
-#if (CFG_SUPPORT_WIFI_6G == 1)
-	} else if (eBand == BAND_6G) {
-		if (ucChNum < 1 || ucChNum > 233)
-			return 0;
-
-		index = (ucChNum - 1) / 4;
-		u2Slot = prSlotInfo->au2ChIdleTime6G[index];
-#endif
-	}
-
-	return u2Slot;
-}
-#endif /* scanGetChnlIdleSlot */
-
 
 /*----------------------------------------------------------------------------*/
 /*!
@@ -5633,32 +5575,6 @@ void scanHandleOceIE(struct SCAN_PARAM *prScanParam,
 	DBGLOG(SCN, INFO, "After OCE IE, length = %d\n", prScanParam->u2IELen);
 	dumpMemory8(pucBuf, prScanParam->u2IELen);
 }
-
-#if 0 /* camellia: unused: scanGetFilsCacheIdFromBssDesc */
-uint8_t	*scanGetFilsCacheIdFromBssDesc(struct BSS_DESC *bss)
-{
-	uint8_t *ie;
-	uint16_t ie_len, offset;
-
-	if (!bss)
-		return NULL;
-
-	ie = bss->pucIeBuf;
-	ie_len = bss->u2IELength;
-
-	IE_FOR_EACH(ie, ie_len, offset) {
-		if (IE_ID(ie) == ELEM_ID_FILS_INDICATION && IE_LEN(ie) >= 4) {
-			uint16_t info;
-
-			WLAN_GET_FIELD_16(ie + 2, &info);
-			if (info & FILS_INFO_CACHE_ID_INCLUDED)
-				return ie + 4;
-		}
-	}
-
-	return NULL;
-}
-#endif /* scanGetFilsCacheIdFromBssDesc */
 
 #if (CFG_SUPPORT_WIFI_6G == 1)
 void scanParseHEOpIE(struct ADAPTER *prAdapter, uint8_t *pucIE,

@@ -590,19 +590,6 @@ int session_put(struct tee_session *session)
  * Simply return current nq session state as defined in
  * enum nq_notif_state (nq.h)
  */
-#if 0 /* camellia: unused: session_get_state */
-int session_get_state(struct tee_session *session)
-{
-	int ret = 0;
-
-	if (session->is_gp)
-		ret = session->iwp_session.nq_session.state;
-	else
-		ret = session->mcp_session.nq_session.state;
-
-	return ret;
-}
-#endif /* session_get_state */
 
 static int wsm_debug_structs(struct kasnprintf_buf *buf, struct tee_wsm *wsm,
 			     int no)
@@ -780,13 +767,6 @@ int session_close(struct tee_session *session)
 /*
  * Session is to be removed from NWd records as SWd is dead
  */
-#if 0 /* camellia: unused: session_mc_cleanup_session */
-int session_mc_cleanup_session(struct tee_session *session)
-{
-	mcp_cleanup_session(&session->mcp_session);
-	return session_put(session);
-}
-#endif /* session_mc_cleanup_session */
 
 /*
  * Send a notification to TA
@@ -1019,44 +999,6 @@ int session_gp_open_session(struct tee_session *session,
 	return ret;
 }
 
-#if 0 /* camellia: unused: session_gp_open_session_domu */
-int session_gp_open_session_domu(struct tee_session *session,
-				 const struct mc_uuid_t *uuid,
-				 struct tee_mmu *ta_mmu,
-				 u64 started,
-				 struct interworld_session *iws,
-				 struct tee_mmu **mmus,
-				 struct gp_return *gp_ret)
-{
-	/* TEEC_MEMREF_TEMP_* buffers to map */
-	struct client_gp_operation client_operation;
-	int ret = 0;
-
-	ret = iwp_open_session_prepare(&session->iwp_session, NULL, NULL, NULL,
-				       gp_ret);
-	if (ret)
-		return ret;
-
-	/* Tell client about operation */
-	client_operation.started = started;
-	client_operation.slot = iwp_session_slot(&session->iwp_session);
-	client_operation.cancelled = false;
-	if (!client_gp_operation_add(session->client, &client_operation)) {
-		iwp_open_session_abort(&session->iwp_session);
-		return iwp_set_ret(-ECANCELED, gp_ret);
-	}
-
-	/* Open/call TA */
-	ret = iwp_open_session(&session->iwp_session, uuid, ta_mmu,
-			       NULL, NULL, iws, mmus, gp_ret,
-			       client_vm_id(session->client));
-
-	/* Cleanup */
-	client_gp_operation_remove(session->client, &client_operation);
-	return ret;
-}
-#endif /* session_gp_open_session_domu */
-
 int session_gp_invoke_command(struct tee_session *session, u32 command_id,
 			      struct gp_operation *operation,
 			      struct gp_return *gp_ret)
@@ -1100,39 +1042,6 @@ int session_gp_invoke_command(struct tee_session *session, u32 command_id,
 	mutex_unlock(&session->iwp_session.iws_lock);
 	return ret;
 }
-
-#if 0 /* camellia: unused: session_gp_invoke_command_domu */
-int session_gp_invoke_command_domu(struct tee_session *session,
-				   u64 started, struct interworld_session *iws,
-				   struct tee_mmu **mmus,
-				   struct gp_return *gp_ret)
-{
-	struct client_gp_operation client_operation;
-	int ret = 0;
-
-	ret = iwp_invoke_command_prepare(&session->iwp_session, 0, NULL, NULL,
-					 NULL, gp_ret);
-	if (ret)
-		return ret;
-
-	/* Tell client about operation */
-	client_operation.started = started;
-	client_operation.slot = iwp_session_slot(&session->iwp_session);
-	client_operation.cancelled = false;
-	if (!client_gp_operation_add(session->client, &client_operation)) {
-		iwp_invoke_command_abort(&session->iwp_session);
-		return iwp_set_ret(-ECANCELED, gp_ret);
-	}
-
-	/* Call TA */
-	ret = iwp_invoke_command(&session->iwp_session, NULL, NULL, iws, mmus,
-				 gp_ret);
-	/* Cleanup */
-	client_gp_operation_remove(session->client, &client_operation);
-	mutex_unlock(&session->iwp_session.iws_lock);
-	return ret;
-}
-#endif /* session_gp_invoke_command_domu */
 
 int session_gp_request_cancellation(u64 slot)
 {

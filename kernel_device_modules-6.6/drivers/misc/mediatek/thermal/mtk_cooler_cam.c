@@ -80,17 +80,6 @@ void cl_set_apu_status(int vv)
 
 }
 EXPORT_SYMBOL(cl_set_apu_status);
-#if 0 /* camellia: unused: cl_get_apu_status */
-unsigned int cl_get_apu_status(void)
-{
-	//if(_cl_apu_status == 1)
-	//	mtk_cooler_cam_dprintk_always("%s %d\n", __func__,
-	//_cl_apu_status);
-	return _cl_apu_status;
-
-}
-EXPORT_SYMBOL(cl_get_apu_status);
-#endif /* cl_get_apu_status */
 
 #endif
 

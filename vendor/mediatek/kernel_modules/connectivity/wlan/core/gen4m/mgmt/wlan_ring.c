@@ -79,23 +79,6 @@ unsigned int wlan_ring_write_prepare(unsigned int sz,
 	return seg->remain;
 }
 
-#if 0 /* camellia: unused: wlan_ring_overwrite_prepare */
-unsigned int wlan_ring_overwrite_prepare(unsigned int sz, struct wlan_ring_segment *seg,
-						      struct wlan_ring *ring)
-{
-	unsigned int wt = ring->write;
-	unsigned int rd = ring->read;
-
-	memset(seg, 0, sizeof(struct wlan_ring_segment));
-	if (sz > ring->max_size - (wt - rd))
-		ring->read += sz - (ring->max_size - (wt - rd));
-	seg->remain = sz;
-	/* wlan_ring_dump(__func__, ring); */
-	/* wlan_ring_dump_segment(__func__, seg); */
-	return seg->remain;
-}
-#endif /* wlan_ring_overwrite_prepare */
-
 void __wlan_ring_segment_prepare(unsigned int from, unsigned int sz,
 						struct wlan_ring_segment *seg,
 						struct wlan_ring *ring)
@@ -119,18 +102,6 @@ void _wlan_ring_segment_prepare(unsigned int from,
 {
 	__wlan_ring_segment_prepare(from, seg->remain, seg, ring);
 }
-
-#if 0 /* camellia: unused: _wlan_ring_segment_prepare_item */
-void _wlan_ring_segment_prepare_item(unsigned int from,
-					struct wlan_ring_segment *seg,
-					struct wlan_ring *ring)
-{
-	unsigned int size;
-
-	size = (seg->remain ? 1 : 0);
-	__wlan_ring_segment_prepare(from, size, seg, ring);
-}
-#endif /* _wlan_ring_segment_prepare_item */
 
 void _wlan_ring_read_commit(struct wlan_ring_segment *seg, struct wlan_ring *ring)
 {

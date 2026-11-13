@@ -786,16 +786,6 @@ static int mmdvfs_probe(struct platform_device *pdev)
 	return ret;
 }
 
-#if 0 /* camellia: unused: mtk_mmdvfs_aov_enable */
-void mtk_mmdvfs_aov_enable(const bool enable)
-{
-	if (!dbg_data)
-		return;
-	dbg_data->is_aov_enable = enable;
-}
-EXPORT_SYMBOL_GPL(mtk_mmdvfs_aov_enable);
-#endif /* mtk_mmdvfs_aov_enable */
-
 static int mmdvfs_set_aov_clk(bool is_sys_resume)
 {
 	int err = 0, i;

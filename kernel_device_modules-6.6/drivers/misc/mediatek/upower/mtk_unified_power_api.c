@@ -39,39 +39,6 @@ void upower_update_volt_by_eem(enum upower_bank bank,
 EXPORT_SYMBOL(upower_update_volt_by_eem);
 
 /* PTP will update volt in eem_set_eem_volt */
-#if 0 /* camellia: unused: upower_update_degree_by_eem */
-void upower_update_degree_by_eem(enum upower_bank bank, int deg)
-{
-	int idx = -1;
-	int i;
-	int upper;
-
-	/* calculate upper bound first, then decide idx of degree */
-	for (i = NR_UPOWER_DEGREE - 1; i > 0; i--) {
-		upper = (degree_set[i] + degree_set[i-1] + 1) / 2;
-		if (deg <= upper) {
-			idx = i;
-			break;
-		}
-	}
-	if (idx == -1)
-		idx = 0;
-
-	upower_debug("(%s) bank = %d, deg = %d\n", __func__, bank, deg);
-	if (bank >= NR_UPOWER_BANK) {
-		upower_debug("(%s) No this bank\n", __func__);
-		return;
-	}
-
-	for (i = 0; i < NR_UPOWER_BANK; i++) {
-		if (upower_recognize_by_eem[i] == bank) {
-			upower_tbl_ref[i].lkg_idx = idx;
-			upower_debug("i = %d, deg = %d\n", i, deg);
-		}
-	}
-}
-EXPORT_SYMBOL(upower_update_degree_by_eem);
-#endif /* upower_update_degree_by_eem */
 
 /* Update dyn and lkg power along wirh L and LL
  * efficiency after volt update from eem
@@ -107,24 +74,6 @@ struct upower_tbl_info **upower_get_tbl(void)
 
 }
 EXPORT_SYMBOL(upower_get_tbl);
-
-#if 0 /* camellia: unused: upower_get_turn_point */
-int upower_get_turn_point(void)
-{
-#ifndef DISABLE_TP
-	struct upower_tbl *L_tbl;
-	int turn_point;
-
-	L_tbl = &upower_tbl_ref[UPOWER_BANK_L];
-	turn_point = L_tbl->turn_point;
-	return turn_point;
-#else
-	return -1;
-#endif
-
-}
-EXPORT_SYMBOL(upower_get_turn_point);
-#endif /* upower_get_turn_point */
 
 /* for EAS to get pointer of core's tbl */
 struct upower_tbl *upower_get_core_tbl(unsigned int cpu)

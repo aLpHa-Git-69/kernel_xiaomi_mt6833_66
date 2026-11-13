@@ -3138,20 +3138,6 @@ void nicRxReceiveRFB(struct ADAPTER *prAdapter, struct SW_RFB *rfb)
  */
 /*----------------------------------------------------------------------------*/
 
-#if 0 /* camellia: unused: nicRxCopyRFB */
-uint32_t nicRxCopyRFB(struct ADAPTER *prAdapter,
-		       struct SW_RFB *prDst, struct SW_RFB *prSrc)
-{
-	kalMemCopy(prDst->pucRecvBuff, prSrc->pucRecvBuff,
-	       ALIGN_4(prSrc->u2RxByteCount + HIF_RX_HW_APPENDED_LEN));
-	prDst->ucPacketType = prSrc->ucPacketType;
-	nicRxFillRFB(prAdapter, prDst);
-	GLUE_COPY_PRIV_DATA(prDst->pvPacket, prSrc->pvPacket);
-
-	return WLAN_STATUS_SUCCESS;
-}
-#endif /* nicRxCopyRFB */
-
 u_int8_t isRfbFromSpared(struct RX_CTRL *prRxCtrl, struct SW_RFB *prSwRfb)
 {
 	return prSwRfb < prRxCtrl->prRxCached ||
@@ -4253,17 +4239,6 @@ int32_t nicRxGetLastRxRssi(struct ADAPTER *prAdapter, char *pcCommand,
 /**
  * Lookup wlan index by matching band index.
  */
-#if 0 /* camellia: unused: getWlanIdxByBand */
-uint8_t getWlanIdxByBand(struct ADAPTER *prAdapter, uint8_t ucHwBandIdx,
-			 uint8_t ucWlanIdx)
-{
-#if (CFG_SUPPORT_802_11BE_MLO == 1)
-	return mldGetWlanIdxByBand(prAdapter, ucHwBandIdx, ucWlanIdx);
-#else
-	return ucWlanIdx;
-#endif
-}
-#endif /* getWlanIdxByBand */
 
 /**
  * HW RX setting MLD_ID
@@ -4275,17 +4250,6 @@ uint8_t getWlanIdxByBand(struct ADAPTER *prAdapter, uint8_t ucHwBandIdx,
  * else: (management frame goes here, need to distinguish by band)
  *     MLD_ID = primary_MLD_ID
  */
-#if 0 /* camellia: unused: getPrimaryWlanIdx */
-uint8_t getPrimaryWlanIdx(struct ADAPTER *prAdapter,
-		uint8_t ucTid, uint8_t ucWlanIdx)
-{
-#if (CFG_SUPPORT_802_11BE_MLO == 1)
-	return mldGetPrimaryWlanIdx(prAdapter, ucWlanIdx);
-#else
-	return ucWlanIdx;
-#endif
-}
-#endif /* getPrimaryWlanIdx */
 
 /**
  * For MLO, it should read prSwRfb->ucHwBandIdx to match the RX link.
@@ -4725,40 +4689,6 @@ uint32_t nicRxGetUnUseCnt(struct ADAPTER *prAdapter)
 	return 0;
 #endif /* CFG_DYNAMIC_RFB_ADJUSTMENT */
 }
-
-#if 0 /* camellia: unused: nicRxSetUnUseCnt */
-void nicRxSetUnUseCnt(struct ADAPTER *prAdapter,
-	uint32_t u4UnUseCnt, u_int8_t fgAdjustNow)
-{
-#if CFG_DYNAMIC_RFB_ADJUSTMENT
-	if (prAdapter->u4RfbUnUseCnt == u4UnUseCnt)
-		return;
-
-	DBGLOG(NIC, INFO, "u4RfbUnUseCnt:[%u->%u]\n",
-	       prAdapter->u4RfbUnUseCnt, u4UnUseCnt);
-	prAdapter->u4RfbUnUseCnt = u4UnUseCnt;
-
-	if (fgAdjustNow)
-		nicRxAdjustUnUseRFB(prAdapter);
-#endif /* CFG_DYNAMIC_RFB_ADJUSTMENT */
-}
-#endif /* nicRxSetUnUseCnt */
-
-#if 0 /* camellia: unused: nicRxProcessRxvLinkStats */
-void nicRxProcessRxvLinkStats(struct ADAPTER *prAdapter,
-	struct SW_RFB *prRetSwRfb, uint32_t *pu4RxV)
-{
-#if CFG_SUPPORT_LLS
-	struct CHIP_DBG_OPS *prChipDbg;
-
-	prChipDbg = prAdapter->chip_info->prDebugOps;
-	if (prChipDbg && prChipDbg->get_rx_link_stats)
-		prChipDbg->get_rx_link_stats(prAdapter, prRetSwRfb, pu4RxV);
-
-	updateLinkStatsMpduAc(prAdapter, prRetSwRfb);
-#endif
-}
-#endif /* nicRxProcessRxvLinkStats */
 
 uint16_t nicRxGetFrameControl(struct ADAPTER *prAdapter, struct SW_RFB *prSwRfb)
 {

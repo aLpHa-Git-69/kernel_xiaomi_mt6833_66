@@ -1133,37 +1133,6 @@ bool mtk_drm_idlemgr_get_async_status(struct drm_crtc *crtc)
 	return false;
 }
 
-#if 0 /* camellia: unused: mtk_drm_idlemgr_get_sram_status */
-bool mtk_drm_idlemgr_get_sram_status(struct drm_crtc *crtc)
-{
-	struct mtk_drm_idlemgr *idlemgr;
-	struct mtk_drm_private *priv = NULL;
-	struct mtk_drm_crtc *mtk_crtc = NULL;
-	struct mtk_drm_idlemgr_context *idlemgr_ctx;
-
-	if (crtc == NULL)
-		return false;
-
-	priv = crtc->dev->dev_private;
-	if (priv == NULL ||
-		!mtk_drm_helper_get_opt(priv->helper_opt,
-			MTK_DRM_OPT_IDLEMGR_ASYNC))
-		return false;
-
-	mtk_crtc = to_mtk_crtc(crtc);
-	if (mtk_crtc && mtk_crtc->idlemgr)
-		idlemgr = mtk_crtc->idlemgr;
-	else
-		return false;
-
-	idlemgr_ctx = idlemgr->idlemgr_ctx;
-	if (atomic_read(&idlemgr->async_enabled) != 0)
-		return idlemgr_ctx->priv.sram_sleep;
-
-	return false;
-}
-#endif /* mtk_drm_idlemgr_get_sram_status */
-
 void mtk_drm_idlemgr_async_get(struct drm_crtc *crtc, unsigned int user_id)
 {
 	struct mtk_drm_idlemgr *idlemgr = NULL;

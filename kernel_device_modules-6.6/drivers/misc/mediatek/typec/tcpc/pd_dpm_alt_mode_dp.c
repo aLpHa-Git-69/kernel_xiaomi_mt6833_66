@@ -127,19 +127,6 @@ bool dp_dfp_u_notify_pe_ready(
 	return true;
 }
 
-#if 0 /* camellia: unused: dp_notify_pe_shutdown */
-bool dp_notify_pe_shutdown(
-	struct pd_port *pd_port, struct svdm_svid_data *svid_data)
-{
-	if (svid_data->active_mode) {
-		pd_send_vdm_exit_mode(pd_port, TCPC_TX_SOP,
-			svid_data->svid, svid_data->active_mode);
-	}
-
-	return false;
-}
-#endif /* dp_notify_pe_shutdown */
-
 bool dp_dfp_u_notify_discover_id(struct pd_port *pd_port,
 	struct svdm_svid_data *svid_data, bool ack)
 {

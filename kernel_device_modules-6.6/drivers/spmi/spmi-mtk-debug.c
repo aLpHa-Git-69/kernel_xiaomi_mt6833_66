@@ -2300,15 +2300,6 @@ void spmi_slvid_nack_cnt_add(unsigned int nack_m, unsigned int nack_p)
 }
 EXPORT_SYMBOL_GPL(spmi_slvid_nack_cnt_add);
 
-#if 0 /* camellia: unused: get_spmi_slvid_nack_cnt */
-void get_spmi_slvid_nack_cnt(unsigned int *buf)
-{
-	if (buf != NULL)
-		memcpy(buf, slvid_nack_cnt, slvid_cnt*sizeof(unsigned int));
-}
-EXPORT_SYMBOL_GPL(get_spmi_slvid_nack_cnt);
-#endif /* get_spmi_slvid_nack_cnt */
-
 int spmi_pmif_dbg_init(struct spmi_controller *ctrl)
 {
 	struct pmif *arb = spmi_controller_get_drvdata(ctrl);

@@ -2793,12 +2793,6 @@ void musb_g_suspend(struct musb *musb)
 }
 
 /* Called during SRP */
-#if 0 /* camellia: unused: musb_g_wakeup */
-void musb_g_wakeup(struct musb *musb)
-{
-	musb_gadget_wakeup(&musb->g);
-}
-#endif /* musb_g_wakeup */
 
 /* called when VBUS drops below session threshold, and in other cases */
 void musb_g_disconnect(struct musb *musb)

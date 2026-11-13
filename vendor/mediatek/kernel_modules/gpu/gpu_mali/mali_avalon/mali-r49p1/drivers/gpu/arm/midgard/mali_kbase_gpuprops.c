@@ -166,18 +166,6 @@ static void kbase_gpuprops_update_max_config_props(struct kbase_device *kbdev)
 	gpu_props->coherency_info.group.num_cores = hweight32(gpu_props->max_config.core_mask);
 }
 
-#if 0 /* camellia: unused: kbase_gpuprops_set_max_config */
-void kbase_gpuprops_set_max_config(struct kbase_device *kbdev,
-				   const struct max_config_props *max_config)
-{
-	if (WARN_ON(!kbdev) || WARN_ON(!max_config))
-		return;
-
-	kbdev->gpu_props.max_config.l2_slices = max_config->l2_slices;
-	kbdev->gpu_props.max_config.core_mask = max_config->core_mask;
-}
-#endif /* kbase_gpuprops_set_max_config */
-
 void kbase_gpuprops_update_composite_ids(struct kbase_gpu_id_props *props)
 {
 	props->product_id = GPU_ID_PRODUCT_ID_MAKE(props->arch_major, props->arch_minor,

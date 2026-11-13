@@ -1463,13 +1463,6 @@ void mdrv_DPTx_CheckMaxLinkRate(struct mtk_dp *mtk_dp)
 	}
 }
 
-#if 0 /* camellia: unused: mdrv_DPTx_DisconnetInit */
-void mdrv_DPTx_DisconnetInit(struct mtk_dp *mtk_dp)
-{
-	mdrv_DPTx_CheckMaxLinkRate(mtk_dp);
-}
-#endif /* mdrv_DPTx_DisconnetInit */
-
 void mdrv_DPTx_SPKG_SDP(struct mtk_dp *mtk_dp, bool bEnable, u8 ucSDPType,
 	u8 *pHB, u8 *pDB)
 {
@@ -2664,13 +2657,6 @@ void mdrv_DPTx_HPD_ISREvent(struct mtk_dp *mtk_dp)
 		queue_work(mtk_dp->dptx_wq, &mtk_dp->dptx_work);
 }
 
-#if 0 /* camellia: unused: mdrv_DPTx_ISR */
-void mdrv_DPTx_ISR(struct mtk_dp *mtk_dp)
-{
-	mhal_DPTx_ISR(mtk_dp);
-}
-#endif /* mdrv_DPTx_ISR */
-
 void mdrv_DPTx_InitPort(struct mtk_dp *mtk_dp)
 {
 	mdrv_DPTx_InitVariable(mtk_dp);
@@ -2938,26 +2924,6 @@ void mdrv_DPTx_FEC_Ready(struct mtk_dp *mtk_dp, u8 err_cnt_sel)
 
 	DPTXMSG("SINK has_fec   (%d)\n", mtk_dp->has_fec);
 }
-
-#if 0 /* camellia: unused: getTimeDiff */
-DWORD getTimeDiff(DWORD dwPreTime)
-{
-	DWORD dwPostTime = getSystemTime();
-
-	if (dwPreTime > dwPostTime)
-		return ((1000000 - dwPreTime) + dwPostTime);
-	else
-		return (dwPostTime - dwPreTime);
-}
-#endif /* getTimeDiff */
-
-#if 0 /* camellia: unused: getSystemTime */
-DWORD getSystemTime(void)
-{
-	DWORD tms = (DWORD)(DO_COMMMON_MOD(DO_COMMON_DIV(sched_clock(), 1000000), 1000000));
-	return tms;
-}
-#endif /* getSystemTime */
 
 static void mdrv_DPTx_main_handle(struct work_struct *data)
 {

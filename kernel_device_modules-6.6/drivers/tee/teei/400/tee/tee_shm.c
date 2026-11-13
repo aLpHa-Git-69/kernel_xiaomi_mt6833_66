@@ -311,20 +311,6 @@ EXPORT_SYMBOL_GPL(isee_shm_alloc);
  * @shm:	Shared memory handle
  * @returns user space file descriptor to shared memory
  */
-#if 0 /* camellia: unused: isee_shm_get_fd */
-int isee_shm_get_fd(struct tee_shm *shm)
-{
-	int fd;
-
-	if (!(shm->flags & TEE_SHM_DMA_BUF))
-		return -EINVAL;
-
-	fd = dma_buf_fd(shm->dmabuf, O_CLOEXEC);
-	if (fd >= 0)
-		get_dma_buf(shm->dmabuf);
-	return fd;
-}
-#endif /* isee_shm_get_fd */
 
 /**
  * isee_shm_free() - Free shared memory
@@ -375,28 +361,6 @@ EXPORT_SYMBOL_GPL(isee_shm_va2pa);
  * @va:		Returned virtual address
  * @returns 0 on success and < 0 on failure
  */
-#if 0 /* camellia: unused: isee_shm_pa2va */
-int isee_shm_pa2va(struct tee_shm *shm, phys_addr_t pa, void **va)
-{
-	if (!(shm->flags & TEE_SHM_MAPPED))
-		return -EINVAL;
-	/* Check that we're in the range of the shm */
-	if (pa < shm->paddr)
-		return -EINVAL;
-	if (pa >= (shm->paddr + shm->size))
-		return -EINVAL;
-
-	if (va) {
-		void *v = isee_shm_get_va(shm, pa - shm->paddr);
-
-		if (IS_ERR(v))
-			return PTR_ERR(v);
-		*va = v;
-	}
-	return 0;
-}
-EXPORT_SYMBOL_GPL(isee_shm_pa2va);
-#endif /* isee_shm_pa2va */
 
 /**
  * isee_shm_get_va() - Get virtual address of a shared memory plus an offset
@@ -465,13 +429,6 @@ EXPORT_SYMBOL_GPL(isee_shm_get_from_id);
  * @shm:	Shared memory handle
  * @returns id
  */
-#if 0 /* camellia: unused: isee_shm_get_id */
-int isee_shm_get_id(struct tee_shm *shm)
-{
-	return shm->id;
-}
-EXPORT_SYMBOL_GPL(isee_shm_get_id);
-#endif /* isee_shm_get_id */
 
 /**
  * isee_shm_put() - Decrease reference count on a shared memory handle

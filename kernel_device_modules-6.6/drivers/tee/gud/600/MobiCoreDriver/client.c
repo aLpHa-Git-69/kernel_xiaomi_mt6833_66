@@ -458,27 +458,6 @@ void client_close(struct tee_client *client)
 /*
  * Clean all structures shared with the SWd (note: incomplete but unused)
  */
-#if 0 /* camellia: unused: client_cleanup */
-void client_cleanup(void)
-{
-	struct tee_client *client;
-
-	mutex_lock(&client_ctx.clients_lock);
-	list_for_each_entry(client, &client_ctx.clients, list) {
-		mutex_lock(&client->sessions_lock);
-		while (!list_empty(&client->sessions)) {
-			struct tee_session *session;
-
-			session = list_first_entry(&client->sessions,
-						   struct tee_session, list);
-			list_del(&session->list);
-			session_mc_cleanup_session(session);
-		}
-		mutex_unlock(&client->sessions_lock);
-	}
-	mutex_unlock(&client_ctx.clients_lock);
-}
-#endif /* client_cleanup */
 
 /*
  * Get the vm id of the client passed in argument
@@ -684,46 +663,6 @@ int client_waitnotif_session(struct tee_client *client, u32 session_id,
 	return ret;
 }
 
-#if 0 /* camellia: unused: client_get_session_state */
-int client_get_session_state(struct tee_client *client, u32 session_id)
-{
-	struct tee_session *session;
-	int ret;
-
-	/* Find/get session */
-	session = client_get_session(client, session_id);
-	if (!session)
-		return -ENXIO;
-
-	ret = session_get_state(session);
-
-	/* Put session */
-	session_put(session);
-	mc_dev_devel("session %x, exit with %d", session_id, ret);
-	return ret;
-}
-#endif /* client_get_session_state */
-
-#if 0 /* camellia: unused: client_is_wait_cancelled */
-int client_is_wait_cancelled(struct tee_client *client, u32 session_id,
-			     int *cancelled_status)
-{
-	struct tee_session *session;
-
-	/* Find/get session */
-	session = client_get_session(client, session_id);
-	if (!session)
-		return -ENXIO;
-
-	*cancelled_status = session->is_cancelled;
-	/* Put session */
-	session_put(session);
-	mc_dev_devel("Cancel state %d for session %x",
-		     *cancelled_status, session_id);
-	return 0;
-}
-#endif /* client_is_wait_cancelled */
-
 int client_set_wait_cancelled(struct tee_client *client, u32 session_id)
 {
 	struct tee_session *session;
@@ -744,25 +683,6 @@ int client_set_wait_cancelled(struct tee_client *client, u32 session_id)
 	session_put(session);
 	return 0;
 }
-
-#if 0 /* camellia: unused: client_unset_wait_cancelled */
-int client_unset_wait_cancelled(struct tee_client *client, u32 session_id)
-{
-	struct tee_session *session;
-
-	mc_dev_devel("Cancel disable for session %x", session_id);
-
-	/* Find/get session */
-	session = client_get_session(client, session_id);
-	if (!session)
-		return -ENXIO;
-
-	session->is_cancelled = false;
-	/* Put session */
-	session_put(session);
-	return 0;
-}
-#endif /* client_unset_wait_cancelled */
 
 /*
  * Read session exit/termination code
@@ -928,44 +848,6 @@ end:
 	return ret;
 }
 
-#if 0 /* camellia: unused: client_gp_open_session_domu */
-int client_gp_open_session_domu(struct tee_client *client,
-				const struct mc_uuid_t *uuid,
-				struct tee_mmu *ta_mmu,
-				u64 started,
-				struct interworld_session *iws,
-				struct tee_mmu **mmus,
-				struct gp_return *gp_ret)
-{
-	struct tee_session *session = NULL;
-	int ret = 0;
-
-	/* Don't pass NULL for identity as it would make a MC session */
-	session = session_create(client, ERR_PTR(-ENOENT));
-	if (IS_ERR(session))
-		return iwp_set_ret(PTR_ERR(session), gp_ret);
-
-	/* Open session */
-	ret = session_gp_open_session_domu(session, uuid, ta_mmu, started, iws,
-					   mmus, gp_ret);
-	if (ret)
-		goto end;
-
-	mutex_lock(&client->sessions_lock);
-	/* Add session to client */
-	list_add_tail(&session->list, &client->sessions);
-	mutex_unlock(&client->sessions_lock);
-
-end:
-	if (ret)
-		session_put(session);
-
-	mc_dev_devel("gp session %x, exit with %d",
-		     session->iwp_session.sid, ret);
-	return ret;
-}
-#endif /* client_gp_open_session_domu */
-
 int client_gp_close_session(struct tee_client *client, u32 session_id)
 {
 	struct tee_session *session = NULL, *candidate;
@@ -1015,28 +897,6 @@ int client_gp_invoke_command(struct tee_client *client, u32 session_id,
 	session_put(session);
 	return ret;
 }
-
-#if 0 /* camellia: unused: client_gp_invoke_command_domu */
-int client_gp_invoke_command_domu(struct tee_client *client, u32 session_id,
-				  u64 started, struct interworld_session *iws,
-				  struct tee_mmu **mmus,
-				  struct gp_return *gp_ret)
-{
-	struct tee_session *session;
-	int ret = 0;
-
-	session = client_get_session(client, session_id);
-	if (!session)
-		return iwp_set_ret(-ENXIO, gp_ret);
-
-	ret = session_gp_invoke_command_domu(session, started, iws, mmus,
-					     gp_ret);
-
-	/* Put session */
-	session_put(session);
-	return ret;
-}
-#endif /* client_gp_invoke_command_domu */
 
 void client_gp_request_cancellation(struct tee_client *client, u64 started)
 {

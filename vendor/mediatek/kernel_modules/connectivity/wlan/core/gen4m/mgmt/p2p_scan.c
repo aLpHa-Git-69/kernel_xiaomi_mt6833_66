@@ -201,26 +201,6 @@ scanP2pProcessBeaconAndProbeResp(struct ADAPTER *prAdapter,
 	} while (FALSE);
 }
 
-#if 0 /* camellia: unused: scnEventReturnChannel */
-void scnEventReturnChannel(struct ADAPTER *prAdapter,
-		uint8_t ucScnSeqNum)
-{
-
-	struct CMD_SCAN_CANCEL rCmdScanCancel = {0};
-
-	/* send cancel message to firmware domain */
-	rCmdScanCancel.ucSeqNum = ucScnSeqNum;
-	rCmdScanCancel.ucIsExtChannel = (uint8_t) FALSE;
-
-	wlanSendSetQueryCmd(prAdapter,
-			    CMD_ID_SCAN_CANCEL,
-			    TRUE,
-			    FALSE, FALSE, NULL, NULL,
-			    sizeof(struct CMD_SCAN_CANCEL),
-			    (uint8_t *)&rCmdScanCancel, NULL, 0);
-}				/* scnEventReturnChannel */
-#endif /* scnEventReturnChannel */
-
 #if (CFG_SUPPORT_802_11BE_MLO == 1)
 static u_int8_t scanP2pNeedTriggerMlScan(struct ADAPTER *prAdapter,
 	struct BSS_DESC_SET *prBssDescSet,

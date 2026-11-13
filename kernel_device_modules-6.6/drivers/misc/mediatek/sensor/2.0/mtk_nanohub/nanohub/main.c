@@ -41,13 +41,6 @@
 
 static struct nanohub_data *g_nanohub_data_p;
 
-#if 0 /* camellia: unused: nanohub_wait_for_interrupt */
-int nanohub_wait_for_interrupt(struct nanohub_data *data)
-{
-	return 0;
-}
-#endif /* nanohub_wait_for_interrupt */
-
 int nanohub_wakeup_eom(struct nanohub_data *data, bool repeat)
 {
 	return 0;

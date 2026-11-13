@@ -4609,29 +4609,6 @@ static void release_sticky_resource_meta(struct kbase_context *kctx,
 	kfree(meta);
 }
 
-#if 0 /* camellia: unused: kbase_sticky_resource_release */
-bool kbase_sticky_resource_release(struct kbase_context *kctx, struct kbase_ctx_ext_res_meta *meta,
-				   u64 gpu_addr)
-{
-	lockdep_assert_held(&kctx->reg_lock);
-
-	/* Search of the metadata if one isn't provided. */
-	if (!meta)
-		meta = find_sticky_resource_meta(kctx, gpu_addr);
-
-	/* No metadata so just return. */
-	if (!meta)
-		return false;
-
-	if (--meta->ref != 0)
-		return true;
-
-	release_sticky_resource_meta(kctx, meta);
-
-	return true;
-}
-#endif /* kbase_sticky_resource_release */
-
 bool kbase_sticky_resource_release_force(struct kbase_context *kctx,
 					 struct kbase_ctx_ext_res_meta *meta, u64 gpu_addr)
 {

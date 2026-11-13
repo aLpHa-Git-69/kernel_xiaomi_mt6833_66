@@ -1218,19 +1218,3 @@ int32_t nicGetRxRateInfo(struct ADAPTER *prAdapter, char *pcCommand,
 
 	return i4BytesWritten;
 }
-
-#if 0 /* camellia: unused: nicRateInfo2RateCode */
-uint16_t nicRateInfo2RateCode(uint32_t  u4TxMode,
-	uint32_t  u4Rate)
-{
-	uint16_t u2RateCode = 0;
-
-	if (u4TxMode < 5) {
-		u2RateCode |= (u4TxMode << 6);
-		u2RateCode |= u4Rate;
-	} else
-		return -1;
-
-	return u2RateCode;
-}
-#endif /* nicRateInfo2RateCode */

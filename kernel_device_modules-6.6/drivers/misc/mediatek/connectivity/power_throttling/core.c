@@ -73,13 +73,6 @@ int conn_pwr_core_resume(void)
 	return 0;
 }
 
-#if 0 /* camellia: unused: conn_pwr_core_suspend */
-int conn_pwr_core_suspend(void)
-{
-	return 0;
-}
-#endif /* conn_pwr_core_suspend */
-
 int conn_pwr_get_low_battery_level(struct conn_pwr_update_info *info)
 {
 	int ret = CONN_PWR_THR_LV_0;
@@ -343,12 +336,3 @@ int conn_pwr_arbitrate(struct conn_pwr_update_info *info)
 
 	return 0;
 }
-
-#if 0 /* camellia: unused: conn_pwr_report_level_required */
-int conn_pwr_report_level_required(enum conn_pwr_drv_type type,
-					enum conn_pwr_low_battery_level level)
-{
-	return 0;
-}
-EXPORT_SYMBOL(conn_pwr_report_level_required);
-#endif /* conn_pwr_report_level_required */

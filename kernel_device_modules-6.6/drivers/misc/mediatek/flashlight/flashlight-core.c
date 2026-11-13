@@ -584,13 +584,6 @@ EXPORT_SYMBOL(flashlight_dev_unregister_by_device_id);
  *
  * Already be removed from kernel-4.4.
  */
-#if 0 /* camellia: unused: strobe_VDIrq */
-ssize_t strobe_VDIrq(void)
-{
-	return 0;
-}
-EXPORT_SYMBOL(strobe_VDIrq);
-#endif /* strobe_VDIrq */
 
 /******************************************************************************
  * Charger Status

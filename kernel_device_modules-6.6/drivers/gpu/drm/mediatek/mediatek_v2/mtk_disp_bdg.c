@@ -399,14 +399,6 @@ void bdg_tx_pull_6382_reset_pin(struct mtk_dsi *dsi)
 //		disp_dts_gpio_select_state(DTS_GPIO_STATE_6382_RST_OUT0);
 //}
 
-#if 0 /* camellia: unused: bdg_tx_set_test_pattern */
-void bdg_tx_set_test_pattern(void)
-{
-	BDG_OUTREG32(NULL, TX_REG[0]->DSI_TX_SELF_PAT_CON0, 0x0FFF0002);
-	BDG_OUTREG32(NULL, TX_REG[0]->DSI_TX_INTSTA, 0x0);
-}
-#endif /* bdg_tx_set_test_pattern */
-
 void set_LDO_on(void *cmdq)
 {
 	unsigned int reg1, reg2, reg3;
@@ -511,61 +503,6 @@ void set_mtcmos_off(void *cmdq)
 	BDG_OUTREGBIT(cmdq, struct SYSREG_PWR_CTRL_REG,
 			SYS_REG->SYSREG_PWR_CTRL, REG_PWR_ON, 0);
 }
-
-#if 0 /* camellia: unused: set_pll_on */
-void set_pll_on(void *cmdq)
-{
-	unsigned int reg = 0;
-
-	reg = mtk_spi_read((unsigned long)(&APMIXEDSYS->AP_PLL_CON3));
-	reg = reg | 0x0000001e;
-	BDG_OUTREG32(cmdq, APMIXEDSYS->AP_PLL_CON3, reg);
-
-	reg = mtk_spi_read((unsigned long)(&APMIXEDSYS->AP_PLL_CON5));
-	reg = reg | 0x00016bf0;
-	BDG_OUTREG32(cmdq, APMIXEDSYS->AP_PLL_CON5, reg);
-
-	reg = mtk_spi_read((unsigned long)(&APMIXEDSYS->AP_PLL_CON5));
-	reg = reg & 0xfffdffff;
-	BDG_OUTREG32(cmdq, APMIXEDSYS->AP_PLL_CON5, reg);
-
-	reg = mtk_spi_read((unsigned long)(&APMIXEDSYS->PLLON_CON0));
-	reg = reg | 0x07ffffff;
-	BDG_OUTREG32(cmdq, APMIXEDSYS->PLLON_CON0, reg);
-
-	reg = mtk_spi_read((unsigned long)(&APMIXEDSYS->PLLON_CON1));
-	reg = reg | 0x07fffe00;
-	BDG_OUTREG32(cmdq, APMIXEDSYS->PLLON_CON1, reg);
-
-	reg = mtk_spi_read((unsigned long)(&APMIXEDSYS->PLLON_CON1));
-	reg = reg & 0xfffffe00;
-	BDG_OUTREG32(cmdq, APMIXEDSYS->PLLON_CON1, reg);
-
-	reg = mtk_spi_read((unsigned long)(&APMIXEDSYS->MAINPLL_CON3));
-	reg = reg | 0x00000001;
-	BDG_OUTREG32(cmdq, APMIXEDSYS->MAINPLL_CON3, reg);
-
-	udelay(1);
-
-	reg = mtk_spi_read((unsigned long)(&APMIXEDSYS->MAINPLL_CON3));
-	reg = reg & 0xfffffffd;
-	BDG_OUTREG32(cmdq, APMIXEDSYS->MAINPLL_CON3, reg);
-
-	BDG_OUTREG32(cmdq, APMIXEDSYS->MAINPLL_CON1, 0x800fc000);
-
-	udelay(1);
-
-	reg = mtk_spi_read((unsigned long)(&APMIXEDSYS->MAINPLL_CON0));
-	reg = reg | 0x00000001;
-	BDG_OUTREG32(cmdq, APMIXEDSYS->MAINPLL_CON0, reg);
-
-	udelay(20);
-
-	reg = mtk_spi_read((unsigned long)(&APMIXEDSYS->MAINPLL_CON0));
-	reg = reg | 0x00800001;
-	BDG_OUTREG32(cmdq, APMIXEDSYS->MAINPLL_CON0, reg);
-}
-#endif /* set_pll_on */
 
 void set_pll_off(void *cmdq)
 {
@@ -696,48 +633,6 @@ void ana_macro_off(void *cmdq)
 	set_pll_off(cmdq);
 }
 
-#if 0 /* camellia: unused: set_topck_on */
-void set_topck_on(void *cmdq)
-{
-	unsigned int reg = 0;
-
-	reg = mtk_spi_read((unsigned long)(&TOPCKGEN->CLK_MODE));
-	reg = reg & 0xfffffffd;
-	BDG_OUTREG32(cmdq, TOPCKGEN->CLK_MODE, reg);
-
-	reg = mtk_spi_read((unsigned long)(&TOPCKGEN->CLK_CFG_0));
-	reg = reg & 0xdf7f7f7f;
-	BDG_OUTREG32(cmdq, TOPCKGEN->CLK_CFG_0, reg);
-
-}
-#endif /* set_topck_on */
-
-#if 0 /* camellia: unused: set_topck_off */
-void set_topck_off(void *cmdq)
-{
-	unsigned int reg = 0;
-
-	//select clock source
-	BDG_OUTREG32(cmdq, TOPCKGEN->CLK_CFG_0_CLR, 0x03030103);
-	BDG_OUTREG32(cmdq, TOPCKGEN->CLK_CFG_0_SET, 0);
-	//config update
-	BDG_OUTREG32(cmdq, TOPCKGEN->CLK_CFG_UPDATE, 0x0000001b);
-
-//	#5000ns; //wait clk mux stable
-	udelay(6);
-//	DDPMSG("mt6382, %s, delay 6us\n", __func__);
-//	spis_low_speed_cfg();
-//	set_pll_off(cmdq);
-
-	BDG_OUTREG32(cmdq, TOPCKGEN->CLK_CFG_0_CLR, 0x00808080);
-	BDG_OUTREG32(cmdq, TOPCKGEN->CLK_CFG_0_SET, 0x00808080);
-	BDG_OUTREG32(cmdq, TOPCKGEN->CLK_CFG_UPDATE, 0x0000001b);
-	reg = mtk_spi_read((unsigned long)(&TOPCKGEN->CLK_MODE));
-	reg = reg | 0x00000001;
-	BDG_OUTREG32(cmdq, TOPCKGEN->CLK_MODE, reg);
-}
-#endif /* set_topck_off */
-
 void set_subsys_on(void *cmdq)
 {
 	unsigned int reg = 0;
@@ -763,35 +658,6 @@ void set_subsys_on(void *cmdq)
 	// enable 26m clock
 	BDG_OUTREG32(cmdq, SYS_REG->DISP_MISC1, 1);
 }
-
-#if 0 /* camellia: unused: set_subsys_off */
-void set_subsys_off(void *cmdq)
-{
-	unsigned int reg = 0;
-
-	reg = mtk_spi_read((unsigned long)(&GCE_REG->GCE_CTL_INT0));
-	reg = reg | 0x00010000;
-	BDG_OUTREG32(cmdq, GCE_REG->GCE_CTL_INT0, reg);
-
-	reg = mtk_spi_read((unsigned long)(&GCE_REG->GCE_CTL_INT0));
-	reg = reg & 0x0001ffff;
-	BDG_OUTREG32(cmdq, GCE_REG->GCE_CTL_INT0, reg);
-
-	//Set CG
-	BDG_OUTREG32(cmdq, DISPSYS_REG->MMSYS_CG_CON0, 0xffffffff);
-	//Turn on all DCM, Clock off
-	reg = mtk_spi_read((unsigned long)(&EFUSE->DCM_ON));
-	reg = reg | 0x00000007;
-	BDG_OUTREG32(cmdq, EFUSE->DCM_ON, reg);
-
-	reg = mtk_spi_read((unsigned long)(&GCE_REG->GCE_CTL_INT0));
-	reg = reg | 0x0000ffff;
-	BDG_OUTREG32(cmdq, GCE_REG->GCE_CTL_INT0, reg);
-
-	BDG_OUTREG32(cmdq, DISPSYS_REG->MMSYS_HW_DCM_1ST_DIS0, 0);
-	BDG_OUTREG32(cmdq, DISPSYS_REG->MMSYS_HW_DCM_2ND_DIS0, 0);
-}
-#endif /* set_subsys_off */
 
 void set_ana_mipi_dsi_off(void *cmdq)
 {
@@ -1797,43 +1663,6 @@ int bdg_tx_set_mode(enum DISP_BDG_ENUM module,
 	return 0;
 }
 
-#if 0 /* camellia: unused: bdg_tx_bist_pattern */
-int bdg_tx_bist_pattern(enum DISP_BDG_ENUM module,
-				void *cmdq, bool enable, unsigned int sel,
-				unsigned int red, unsigned int green,
-				unsigned int blue)
-{
-	unsigned int i;
-
-	for (i = DSI_MODULE_BEGIN(module); i <= DSI_MODULE_END(module); i++) {
-		if (enable) {
-			BDG_OUTREGBIT(cmdq, struct DSI_TX_SELF_PAT_CON0_REG,
-					TX_REG[i]->DSI_TX_SELF_PAT_CON0,
-					SELF_PAT_R, (red & 0xff) << 4);
-			BDG_OUTREGBIT(cmdq, struct DSI_TX_SELF_PAT_CON1_REG,
-					TX_REG[i]->DSI_TX_SELF_PAT_CON1,
-					SELF_PAT_G, (green & 0xff) << 4);
-			BDG_OUTREGBIT(cmdq, struct DSI_TX_SELF_PAT_CON1_REG,
-					TX_REG[i]->DSI_TX_SELF_PAT_CON1,
-					SELF_PAT_B, (blue & 0xff) << 4);
-			BDG_OUTREGBIT(cmdq, struct DSI_TX_SELF_PAT_CON0_REG,
-					TX_REG[i]->DSI_TX_SELF_PAT_CON0,
-					SELF_PAT_SEL, sel);
-			BDG_OUTREGBIT(cmdq, struct DSI_TX_SELF_PAT_CON0_REG,
-					TX_REG[i]->DSI_TX_SELF_PAT_CON0,
-					SELF_PAT_PRE_MODE, 1);
-		} else {
-			BDG_OUTREGBIT(cmdq, struct DSI_TX_SELF_PAT_CON0_REG,
-					TX_REG[i]->DSI_TX_SELF_PAT_CON0,
-					SELF_PAT_PRE_MODE, 0);
-		}
-
-	}
-
-	return 0;
-}
-#endif /* bdg_tx_bist_pattern */
-
 int bdg_tx_start(enum DISP_BDG_ENUM module, void *cmdq)
 {
 	unsigned int i;
@@ -1847,37 +1676,6 @@ int bdg_tx_start(enum DISP_BDG_ENUM module, void *cmdq)
 
 	return 0;
 }
-
-#if 0 /* camellia: unused: bdg_set_dcs_read_cmd */
-int bdg_set_dcs_read_cmd(bool enable, void *cmdq)
-{
-	if (enable) {
-		BDG_OUTREGBIT(cmdq, struct DSI_TX_RACK_REG,
-			TX_REG[0]->DSI_TX_RACK, DSI_TX_RACK_BYPASS, 1);
-		BDG_OUTREGBIT(cmdq, struct MIPI_RX_POST_CTRL_REG,
-			DISPSYS_REG->MIPI_RX_POST_CTRL, MIPI_RX_MODE_SEL, 0);
-	} else {
-		BDG_OUTREGBIT(cmdq, struct DSI_TX_RACK_REG,
-			TX_REG[0]->DSI_TX_RACK, DSI_TX_RACK_BYPASS, 0);
-		BDG_OUTREGBIT(cmdq, struct MIPI_RX_POST_CTRL_REG,
-			DISPSYS_REG->MIPI_RX_POST_CTRL, MIPI_RX_MODE_SEL, 1);
-	}
-	return 0;
-}
-#endif /* bdg_set_dcs_read_cmd */
-
-#if 0 /* camellia: unused: bdg_tx_stop */
-int bdg_tx_stop(enum DISP_BDG_ENUM module, void *cmdq)
-{
-	unsigned int i;
-
-	for (i = DSI_MODULE_BEGIN(module); i <= DSI_MODULE_END(module); i++)
-		BDG_OUTREGBIT(cmdq, struct DSI_TX_START_REG,
-				TX_REG[i]->DSI_TX_START, DSI_TX_START, 0);
-
-	return 0;
-}
-#endif /* bdg_tx_stop */
 
 int bdg_tx_reset(enum DISP_BDG_ENUM module, void *cmdq)
 {
@@ -1901,56 +1699,6 @@ void bdg_rx_reset(void *cmdq)
 	udelay(1);
 	BDG_OUTREG32(cmdq, DSI2_REG->DSI2_DEVICE_SOFT_RSTN_OS, 1);
 }
-
-#if 0 /* camellia: unused: bdg_vm_mode_set */
-int bdg_vm_mode_set(enum DISP_BDG_ENUM module, bool enable,
-			unsigned int long_pkt, void *cmdq)
-{
-	unsigned int i;
-
-	for (i = DSI_MODULE_BEGIN(module); i <= DSI_MODULE_END(module); i++) {
-		if (enable) {
-			BDG_OUTREG32(cmdq, TX_REG[i]->DSI_VM_CMD_CON1, 0x10);
-			BDG_OUTREG32(cmdq, DISPSYS_REG->DDI_POST_CTRL, 0x00001110);
-			if (long_pkt > 1)
-				BDG_OUTREG32(cmdq, TX_REG[i]->DSI_VM_CMD_CON0, 0x37);
-			else
-				BDG_OUTREG32(cmdq, TX_REG[i]->DSI_VM_CMD_CON0, 0x35);
-		} else {
-			BDG_OUTREG32(cmdq, TX_REG[i]->DSI_VM_CMD_CON0, 0);
-			BDG_OUTREG32(cmdq, DISPSYS_REG->DDI_POST_CTRL, 0x00001100);
-		}
-	}
-	return 0;
-}
-#endif /* bdg_vm_mode_set */
-
-#if 0 /* camellia: unused: bdg_tx_cmd_mode */
-int bdg_tx_cmd_mode(enum DISP_BDG_ENUM module, void *cmdq)
-{
-	unsigned int i;
-
-	for (i = DSI_MODULE_BEGIN(module); i <= DSI_MODULE_END(module); i++) {
-		BDG_OUTREG32(cmdq, TX_REG[i]->DSI_TX_MEM_CONTI, 0x3c);
-		BDG_OUTREG32(cmdq, TX_REG[i]->DSI_TX_CMDQ, 0x2c3909);
-		BDG_OUTREG32(cmdq, TX_REG[i]->DSI_TX_CMDQ_CON, 1);
-	}
-
-	return 0;
-}
-#endif /* bdg_tx_cmd_mode */
-
-#if 0 /* camellia: unused: bdg_mutex_trigger */
-int bdg_mutex_trigger(enum DISP_BDG_ENUM module, void *cmdq)
-{
-
-	BDG_OUTREGBIT(cmdq, struct DISP_MUTEX0_EN_REG,
-			MUTEX_REG->DISP_MUTEX0_EN, MUTEX0_EN, 0);
-	BDG_OUTREGBIT(cmdq, struct DISP_MUTEX0_EN_REG,
-			MUTEX_REG->DISP_MUTEX0_EN, MUTEX0_EN, 1);
-	return 0;
-}
-#endif /* bdg_mutex_trigger */
 
 int bdg_dsi_dump_reg(enum DISP_BDG_ENUM module)
 {
@@ -3633,15 +3381,6 @@ void dbg_set_cmdq_V2(enum DISP_BDG_ENUM module, void *cmdq,
 	}
 }
 
-#if 0 /* camellia: unused: BDG_set_cmdq_V2_DSI0 */
-void BDG_set_cmdq_V2_DSI0(void *cmdq, unsigned int cmd, unsigned char count,
-	unsigned char *para_list, unsigned char force_update)
-{
-	dbg_set_cmdq_V2(DISP_BDG_DSI0, cmdq, cmd, count, para_list,
-		force_update);
-}
-#endif /* BDG_set_cmdq_V2_DSI0 */
-
 int bdg_tx_init(enum DISP_BDG_ENUM module,
 		   struct mtk_dsi *dsi, void *cmdq)
 {
@@ -3667,24 +3406,6 @@ int bdg_tx_init(enum DISP_BDG_ENUM module,
 
 	return ret;
 }
-
-#if 0 /* camellia: unused: bdg_tx_deinit */
-int bdg_tx_deinit(enum DISP_BDG_ENUM module, void *cmdq)
-{
-	unsigned int i;
-
-	bdg_tx_enable_hs_clk(module, cmdq, false);
-	bdg_tx_set_mode(module, cmdq, NULL);
-	bdg_tx_reset(module, cmdq);
-
-	for (i = DSI_MODULE_BEGIN(module); i <= DSI_MODULE_END(module); i++) {
-		BDG_OUTREGBIT(cmdq, struct DSI_TX_TXRX_CON_REG,
-			TX_REG[i]->DSI_TX_TXRX_CON, LANE_NUM, 0);
-	}
-
-	return 0;
-}
-#endif /* bdg_tx_deinit */
 
 void calculate_datarate_cfgs_rx(unsigned int data_rate)
 {
@@ -5617,150 +5338,6 @@ int bdg_common_deinit(enum DISP_BDG_ENUM module, void *cmdq, struct mtk_dsi *dsi
 		clk_buf_disp_ctrl(false, dsi);
 	return ret;
 }
-
-#if 0 /* camellia: unused: bdg_common_init_for_rx_pat */
-int bdg_common_init_for_rx_pat(enum DISP_BDG_ENUM module,
-			struct mtk_dsi *dsi, void *cmdq)
-{
-	int ret = 0;
-	unsigned int vact = 0;
-	unsigned int hact = 0;
-	struct videomode *vm = &dsi->vm;
-
-	unsigned int vfp = vm->vfront_porch;
-	unsigned int vbp = vm->vback_porch;
-	unsigned int vsa = vm->vsync_len;
-
-	DISPSYS_REG = (struct BDG_DISPSYS_CONFIG_REGS *)DISPSYS_BDG_MMSYS_CONFIG_BASE;
-	DSI2_REG = (struct BDG_MIPIDSI2_REGS *)DISPSYS_BDG_MIPIDSI2_DEVICE_BASE;
-	SYS_REG = (struct BDG_SYSREG_CTRL_REGS *)DISPSYS_BDG_SYSREG_CTRL_BASE;
-	RDMA_REG = (struct BDG_RDMA0_REGS *)DISPSYS_BDG_RDMA0_REGS_BASE;
-	MUTEX_REG = (struct BDG_MUTEX_REGS *)DISPSYS_BDG_MUTEX_REGS_BASE;
-	OCLA_REG = (struct BDG_OCLA_REGS *)DISPSYS_BDG_OCLA_BASE;
-	TX_REG[0] = (struct BDG_TX_REGS *)DISPSYS_BDG_TX_DSI0_BASE;
-	MIPI_TX_REG = (struct BDG_MIPI_TX_REGS *)DISPSYS_BDG_MIPI_TX_BASE;
-	DSC_REG = (struct BDG_DISP_DSC_REGS *)DISPSYS_BDG_DISP_DSC_BASE;
-	APMIXEDSYS = (struct BDG_APMIXEDSYS_REGS *)DISPSYS_BDG_APMIXEDSYS_BASE;
-	TOPCKGEN = (struct BDG_TOPCKGEN_REGS *)DISPSYS_BDG_TOPCKGEN_BASE;
-	GCE_REG = (struct BDG_GCE_REGS *)DISPSYS_BDG_GCE_BASE;
-	EFUSE = (struct BDG_EFUSE_REGS *)DISPSYS_BDG_EFUSE_BASE;
-	GPIO = (struct BDG_GPIO_REGS *)DISPSYS_BDG_GPIO_BASE;
-	TX_CMDQ_REG[0] = (struct DSI_TX_CMDQ_REGS *)(DISPSYS_BDG_TX_DSI0_BASE + 0xd00);
-
-	bdg_tx_pull_6382_reset_pin(dsi);
-	set_LDO_on(cmdq);
-	set_mtcmos_on(cmdq);
-	ana_macro_on(cmdq);
-	set_subsys_on(cmdq);
-
-	// Disable reset sequential de-glitch circuit
-	BDG_OUTREG32(cmdq, SYS_REG->RST_DG_CTRL, 0);
-	// Set GPIO to active IRQ
-	BDG_OUTREGBIT(cmdq, struct GPIO_MODE1_REG, GPIO->GPIO_MODE1, GPIO12, 1);
-
-	// for release rx mac reset
-	BDG_OUTREG32(cmdq, SYS_REG->DISP_MISC0, 1);
-	BDG_OUTREG32(cmdq, SYS_REG->DISP_MISC0, 0);
-	// switch DDI(cmd mode) or IPI(vdo mode) path
-	BDG_OUTREG32(cmdq, DISPSYS_REG->DDI_POST_CTRL, 0x00001100);
-	if ((dsi->mode_flags & MIPI_DSI_MODE_VIDEO) == 0) {
-		BDG_OUTREGBIT(cmdq, struct GPIO_MODE1_REG, GPIO->GPIO_MODE1, RSV_24, 0x31);
-		BDG_OUTREGBIT(cmdq, struct MIPI_RX_POST_CTRL_REG,
-				DISPSYS_REG->MIPI_RX_POST_CTRL, MIPI_RX_MODE_SEL, 0);
-	} else
-		BDG_OUTREGBIT(cmdq, struct MIPI_RX_POST_CTRL_REG,
-				DISPSYS_REG->MIPI_RX_POST_CTRL, MIPI_RX_MODE_SEL, 1);
-
-	// RDMA setting
-	vact = mtk_dsi_get_virtual_heigh(dsi, dsi->encoder.crtc);
-	hact = mtk_dsi_get_virtual_width(dsi, dsi->encoder.crtc);
-	BDG_OUTREG32(cmdq, RDMA_REG->DISP_RDMA_SIZE_CON_0,
-			hact);
-	BDG_OUTREG32(cmdq, RDMA_REG->DISP_RDMA_SIZE_CON_1,
-			vact);
-
-	BDG_OUTREG32(cmdq, RDMA_REG->DISP_RDMA_FIFO_CON, 0xf30 << 16);
-	BDG_OUTREG32(cmdq, RDMA_REG->DISP_RDMA_STALL_CG_CON, 0);
-	BDG_OUTREGBIT(cmdq, struct DISP_RDMA_SRAM_SEL_REG,
-			RDMA_REG->DISP_RDMA_SRAM_SEL, RDMA_SRAM_SEL, 0);
-	BDG_OUTREGBIT(cmdq, struct DISP_RDMA_GLOBAL_CON_REG,
-			RDMA_REG->DISP_RDMA_GLOBAL_CON, ENGINE_EN, 1);
-
-	// MUTEX setting
-	BDG_OUTREG32(cmdq, MUTEX_REG->DISP_MUTEX_INTEN, 0x1 << 16);
-	BDG_OUTREG32(cmdq, MUTEX_REG->DISP_MUTEX0_MOD0, 0x1f);
-	if ((dsi->mode_flags & MIPI_DSI_MODE_VIDEO) == 0)
-		BDG_OUTREG32(cmdq, MUTEX_REG->DISP_MUTEX0_CTL, 0);
-	else {
-		BDG_OUTREG32(cmdq, MUTEX_REG->DISP_MUTEX0_CTL,
-				0x1 << 0 | 0x0 << 3 | 0x1 << 6 | 0x0 << 9);
-		BDG_OUTREGBIT(cmdq, struct DISP_MUTEX0_EN_REG,
-			MUTEX_REG->DISP_MUTEX0_EN, MUTEX0_EN, 1);
-	}
-
-	// DSI-TX setting
-	bdg_tx_init(module, dsi, NULL);
-	/* panel init*/
-	//bdg_lcm_init(pgc->plcm, 1);
-	bdg_tx_set_mode(module, cmdq, dsi);
-	BDG_OUTREG32(cmdq, TX_REG[0]->DSI_RESYNC_CON, 0x50007);
-
-	// DSC setting
-	if (dsc_en) {
-		bdg_dsc_init(module, cmdq, dsi);
-		BDG_OUTREGBIT(cmdq, struct DISP_DSC_CON_REG,
-				DSC_REG->DISP_DSC_CON, DSC_PT_MEM_EN, 1);
-		BDG_OUTREGBIT(cmdq, struct DISP_DSC_CON_REG,
-				DSC_REG->DISP_DSC_CON, DSC_EN, 1);
-	} else {
-#ifdef DSC_RELAY_MODE_EN
-		bdg_dsc_init(module, cmdq, dsi);
-		BDG_OUTREGBIT(cmdq, struct DISP_DSC_CON_REG,
-	DSC_REG->DISP_DSC_CON, DSC_PT_MEM_EN, 1);
-		BDG_OUTREGBIT(cmdq, struct DISP_DSC_CON_REG,
-				DSC_REG->DISP_DSC_CON, DSC_RELAY, 1);
-		BDG_OUTREGBIT(cmdq, struct DISP_DSC_CON_REG,
-				DSC_REG->DISP_DSC_CON, DSC_EN, 1);
-#else
-		BDG_OUTREGBIT(cmdq, struct DISP_DSC_CON_REG,
-				DSC_REG->DISP_DSC_CON, DSC_ALL_BYPASS, 1);
-#endif
-	}
-
-	bdg_tx_start(DISP_BDG_DSI0, NULL);
-
-	BDG_OUTREG32(cmdq, DSI2_REG->DSI2_DEVICE_SOFT_RSTN_OS, 0);
-	BDG_OUTREG32(cmdq, DSI2_REG->DSI2_DEVICE_IPI_PG_CFG_OS, 4);
-	BDG_OUTREG32(cmdq, DSI2_REG->DSI2_DEVICE_IPI_PG_PIXEL_NUM_OS,
-			hact);
-	if (dsc_en) {
-//tx:500M
-//		BDG_OUTREG32(cmdq, DSI2_REG->DSI2_DEVICE_IPI_PG_HSA_TIME_OS, 145);
-//		BDG_OUTREG32(cmdq, DSI2_REG->DSI2_DEVICE_IPI_PG_HBP_TIME_OS, 145);
-//		BDG_OUTREG32(cmdq, DSI2_REG->DSI2_DEVICE_IPI_PG_HLINE_TIME_OS,
-//			(1080 + 145 + 145 + 2361));
-//tx:760 MHz
-		BDG_OUTREG32(cmdq, DSI2_REG->DSI2_DEVICE_IPI_PG_HSA_TIME_OS, 22);
-		BDG_OUTREG32(cmdq, DSI2_REG->DSI2_DEVICE_IPI_PG_HBP_TIME_OS, 22);
-		BDG_OUTREG32(cmdq, DSI2_REG->DSI2_DEVICE_IPI_PG_HLINE_TIME_OS,
-			(hact + 22 + 22 + 1331));
-	} else {
-//tx:1G
-		BDG_OUTREG32(cmdq, DSI2_REG->DSI2_DEVICE_IPI_PG_HSA_TIME_OS, 73);
-		BDG_OUTREG32(cmdq, DSI2_REG->DSI2_DEVICE_IPI_PG_HBP_TIME_OS, 73);
-		BDG_OUTREG32(cmdq, DSI2_REG->DSI2_DEVICE_IPI_PG_HLINE_TIME_OS,
-			(hact + 73 + 73 + 2998));
-	}
-	BDG_OUTREG32(cmdq, DSI2_REG->DSI2_DEVICE_IPI_PG_VSA_LINES_OS, vsa);
-	BDG_OUTREG32(cmdq, DSI2_REG->DSI2_DEVICE_IPI_PG_VBP_LINES_OS, vbp);
-	BDG_OUTREG32(cmdq, DSI2_REG->DSI2_DEVICE_IPI_PG_VFP_LINES_OS, vfp);
-	BDG_OUTREG32(cmdq, DSI2_REG->DSI2_DEVICE_IPI_PG_VACTIVE_LINES_OS, vact);
-	BDG_OUTREG32(cmdq, DSI2_REG->DSI2_DEVICE_IPI_PG_EN_OS, 1);
-	BDG_OUTREG32(cmdq, DSI2_REG->DSI2_DEVICE_SOFT_RSTN_OS, 1);
-
-	return ret;
-}
-#endif /* bdg_common_init_for_rx_pat */
 
 
 static struct task_struct *bdg_eint_chk_task;

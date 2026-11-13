@@ -4845,49 +4845,6 @@ static struct notifier_block mfb_suspend_pm_notifier_func = {
  *
  ******************************************************************************/
 
-#if 0 /* camellia: unused: MFB_ClockOnCallback */
-int32_t MFB_ClockOnCallback(uint64_t engineFlag)
-{
-	/* LOG_DBG("MFB_ClockOnCallback"); */
-	/* LOG_DBG("+CmdqEn:%d", g_u4EnableClockCount); */
-	/* MFB_EnableClock(MTRUE); */
-
-	return 0;
-}
-#endif /* MFB_ClockOnCallback */
-
-#if 0 /* camellia: unused: MFB_DumpCallback */
-int32_t MFB_DumpCallback(uint64_t engineFlag, int level)
-{
-	LOG_DBG("MFB_DumpCallback");
-	MSS_DumpReg();
-	MSF_DumpReg();
-
-	return 0;
-}
-#endif /* MFB_DumpCallback */
-
-#if 0 /* camellia: unused: MFB_ResetCallback */
-int32_t MFB_ResetCallback(uint64_t engineFlag)
-{
-	LOG_DBG("MSS_ResetCallback");
-	MSS_Reset();
-	MSF_Reset();
-
-	return 0;
-}
-#endif /* MFB_ResetCallback */
-
-#if 0 /* camellia: unused: MFB_ClockOffCallback */
-int32_t MFB_ClockOffCallback(uint64_t engineFlag)
-{
-	/* LOG_DBG("MFB_ClockOffCallback"); */
-	/* MFB_EnableClock(MFALSE); */
-	/* LOG_DBG("-CmdqEn:%d", g_u4EnableClockCount); */
-	return 0;
-}
-#endif /* MFB_ClockOffCallback */
-
 static signed int __init MFB_Init(void)
 {
 	signed int Ret = 0, j;

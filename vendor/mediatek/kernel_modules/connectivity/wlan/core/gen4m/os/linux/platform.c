@@ -323,29 +323,6 @@ int glUnregisterEarlySuspend(struct early_suspend *prDesc)
  *           FALSE
  */
 /*----------------------------------------------------------------------------*/
-#if 0 /* camellia: unused: kalCfgDataRead */
-u_int8_t kalCfgDataRead(struct GLUE_INFO *prGlueInfo,
-			uint32_t u4Offset,
-			ssize_t len, uint16_t *pu2Data)
-{
-	if (pu2Data == NULL)
-		return FALSE;
-
-	if (u4Offset + len > MAX_CFG_FILE_WIFI_REC_SIZE)
-		return FALSE;
-
-	kalMemCopy(pu2Data, &g_aucNvram[u4Offset], len);
-	return TRUE;
-#if 0
-	if (nvram_read(WIFI_NVRAM_FILE_NAME,
-		       (char *)pu2Data, len, u4Offset) != len) {
-		return FALSE;
-	} else {
-		return TRUE;
-	}
-#endif
-}
-#endif /* kalCfgDataRead */
 
 /*----------------------------------------------------------------------------*/
 /*!

@@ -108,13 +108,6 @@ EXPORT_SYMBOL(ccci_dump);
 #endif
 
 static void (*s_notify_flightmode)(bool on);
-#if 0 /* camellia: unused: md_notify_flightmode_cb_register */
-void md_notify_flightmode_cb_register(void (*md_notify_flightmode_cb)(bool on))
-{
-	s_notify_flightmode = md_notify_flightmode_cb;
-}
-EXPORT_SYMBOL(md_notify_flightmode_cb_register);
-#endif /* md_notify_flightmode_cb_register */
 
 static int md_cd_io_remap_md_side_register(struct ccci_modem *md)
 {
@@ -180,14 +173,6 @@ static int md_cd_io_remap_md_side_register(struct ccci_modem *md)
 }
 
 static void (*s_md_clock_src_callback)(u8 set);
-
-#if 0 /* camellia: unused: ccci_set_spm_mdsrc_cb */
-void ccci_set_spm_mdsrc_cb(void (*md_clock_src_cb)(u8 set))
-{
-	s_md_clock_src_callback = md_clock_src_cb;
-}
-EXPORT_SYMBOL(ccci_set_spm_mdsrc_cb);
-#endif /* ccci_set_spm_mdsrc_cb */
 
 void md_cd_lock_modem_clock_src(int locked)
 {

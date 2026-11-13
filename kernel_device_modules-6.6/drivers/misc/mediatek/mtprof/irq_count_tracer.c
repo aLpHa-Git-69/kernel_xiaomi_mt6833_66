@@ -69,19 +69,6 @@ const char *irq_to_name(int irq)
 	return NULL;
 }
 
-#if 0 /* camellia: unused: irq_to_handler */
-const void *irq_to_handler(int irq)
-{
-	struct irq_desc *desc;
-
-	desc = irq_to_desc(irq);
-
-	if (desc && desc->action && desc->action->handler)
-		return (void *)desc->action->handler;
-	return NULL;
-}
-#endif /* irq_to_handler */
-
 #if !IS_ENABLED(CONFIG_ARM64)
 const int desc_to_ipi_type(struct irq_desc *desc)
 {

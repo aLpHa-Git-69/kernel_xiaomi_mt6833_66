@@ -110,55 +110,6 @@ int mtk_get_format_bpp(uint32_t format)
 	}
 }
 
-#if 0 /* camellia: unused: mtk_get_format_name */
-char *mtk_get_format_name(uint32_t format)
-{
-	switch (format) {
-	case DRM_FORMAT_C8:
-		return "C8";
-	case DRM_FORMAT_XRGB8888:
-		return "XRGB8888";
-	case DRM_FORMAT_XBGR8888:
-		return "XBGR8888";
-	case DRM_FORMAT_ARGB8888:
-		return "ARGB8888";
-	case DRM_FORMAT_ABGR8888:
-		return "ABGR8888";
-	case DRM_FORMAT_BGRX8888:
-		return "BGRX8888";
-	case DRM_FORMAT_RGBX8888:
-		return "RGBX8888";
-	case DRM_FORMAT_BGRA8888:
-		return "BGRA8888";
-	case DRM_FORMAT_RGBA8888:
-		return "RGBA8888";
-	case DRM_FORMAT_BGR888:
-		return "BGR888";
-	case DRM_FORMAT_RGB888:
-		return "RGB888";
-	case DRM_FORMAT_BGR565:
-		return "BGR565";
-	case DRM_FORMAT_RGB565:
-		return "RGB565";
-	case DRM_FORMAT_YUYV:
-		return "YUYV";
-	case DRM_FORMAT_YVYU:
-		return "YVYU";
-	case DRM_FORMAT_UYVY:
-		return "UYVY";
-	case DRM_FORMAT_VYUY:
-		return "VYUY";
-	case DRM_FORMAT_ABGR2101010:
-		return "ABGR2101010";
-	case DRM_FORMAT_ABGR16161616F:
-		return "ABGRFP16";
-	case DRM_FORMAT_Y410:
-		return "Y410";
-	}
-	return "fmt_unknown";
-}
-#endif /* mtk_get_format_name */
-
 static struct mtk_drm_property mtk_plane_property[PLANE_PROP_MAX] = {
 	{DRM_MODE_PROP_ATOMIC, "NEXT_BUFF_IDX", 0, UINT_MAX, 0},	/* 0 */
 	{DRM_MODE_PROP_ATOMIC, "LYE_BLOB_IDX", 0, UINT_MAX, 0},

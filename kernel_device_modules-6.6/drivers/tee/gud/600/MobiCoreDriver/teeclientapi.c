@@ -514,68 +514,6 @@ u32 teec_register_shared_memory(struct teec_context *context,
 }
 EXPORT_SYMBOL(teec_register_shared_memory);
 
-#if 0 /* camellia: unused: teec_allocate_shared_memory */
-u32 teec_allocate_shared_memory(struct teec_context *context,
-				struct teec_shared_memory *shared_mem)
-{
-	struct gp_shared_memory memref;
-	struct gp_return gp_ret;
-	int ret = 0;
-
-	/* No connection to "context"? */
-	mc_dev_devel("== %s() ==============", __func__);
-
-	if (!g_ctx.real_drv)
-		return TEEC_ERROR_NOT_IMPLEMENTED;
-
-	/* The parameter context MUST point to an initialized TEE Context */
-	if (!context) {
-		mc_dev_devel("context is NULL");
-		return TEEC_ERROR_BAD_PARAMETERS;
-	}
-	/*
-	 * The parameter shared_mem MUST point to the Shared Memory structure
-	 * defining the memory region to register
-	 */
-	if (!shared_mem) {
-		mc_dev_devel("shared_mem is NULL");
-		return TEEC_ERROR_BAD_PARAMETERS;
-	}
-	if (shared_mem->flags & ~TEEC_MEM_INOUT) {
-		mc_dev_devel("shared_mem->flags is incorrect");
-		return TEEC_ERROR_BAD_PARAMETERS;
-	}
-	if (!shared_mem->flags) {
-		mc_dev_devel("shared_mem->flags is incorrect");
-		return TEEC_ERROR_BAD_PARAMETERS;
-	}
-
-	shared_mem->buffer = vmalloc(shared_mem->size);
-	if (!shared_mem->buffer)
-		return TEEC_ERROR_OUT_OF_MEMORY;
-
-	memref.buffer = (uintptr_t)shared_mem->buffer;
-	memref.flags = shared_mem->flags;
-	memref.size = shared_mem->size;
-	memref.tag = shared_mem->imp.tag;
-	ret = client_gp_register_shared_mem(context->imp.client, NULL, NULL,
-					    &memref, &gp_ret);
-
-	if (ret) {
-		vfree(shared_mem->buffer);
-		shared_mem->buffer = NULL;
-		shared_mem->size = 0;
-		return _teec_convert_error(-ret);
-	}
-
-	shared_mem->imp.client = context->imp.client;
-	shared_mem->imp.implementation_allocated = true;
-
-	return TEEC_SUCCESS;
-}
-EXPORT_SYMBOL(teec_allocate_shared_memory);
-#endif /* teec_allocate_shared_memory */
-
 void teec_release_shared_memory(struct teec_shared_memory *shared_mem)
 {
 	struct gp_shared_memory memref;
@@ -610,51 +548,6 @@ void teec_release_shared_memory(struct teec_shared_memory *shared_mem)
 	}
 }
 EXPORT_SYMBOL(teec_release_shared_memory);
-
-#if 0 /* camellia: unused: teec_request_cancellation */
-void teec_request_cancellation(struct teec_operation *operation)
-{
-	struct teec_session_imp *session;
-	int ret;
-
-	mc_dev_devel("== %s() ==============", __func__);
-
-	if (!g_ctx.real_drv)
-		return;
-
-	ret = wait_event_interruptible(operations_wq, operation->started);
-	if (ret == -ERESTARTSYS) {
-		mc_dev_devel("signal received");
-		return;
-	}
-
-	mc_dev_devel("operation->started changed from 0 to %d",
-		     operation->started);
-
-	if (operation->started > 1) {
-		mc_dev_devel("the operation has finished");
-		return;
-	}
-
-	session = operation->imp.session;
-	operation->started = 2;
-	wake_up_interruptible(&operations_wq);
-
-	if (!session->active) {
-		mc_dev_devel("Corresponding session is not active");
-		return;
-	}
-
-	/* TODO: handle cancellation */
-
-	/* Signal the Trustlet */
-	ret = client_notify_session(session->context.client,
-				    session->session_id);
-	if (ret)
-		mc_dev_devel("Notify failed: %d", ret);
-}
-EXPORT_SYMBOL(teec_request_cancellation);
-#endif /* teec_request_cancellation */
 
 #ifndef MC_FFA_FASTCALL
 

@@ -3215,13 +3215,6 @@ static int pm_wait_for_desired_state(struct kbase_device *kbdev, bool killable_w
 	return err;
 }
 
-#if 0 /* camellia: unused: kbase_pm_killable_wait_for_desired_state */
-int kbase_pm_killable_wait_for_desired_state(struct kbase_device *kbdev)
-{
-	return pm_wait_for_desired_state(kbdev, true);
-}
-#endif /* kbase_pm_killable_wait_for_desired_state */
-
 int kbase_pm_wait_for_desired_state(struct kbase_device *kbdev)
 {
 	return pm_wait_for_desired_state(kbdev, false);
@@ -3339,13 +3332,6 @@ static int pm_wait_for_poweroff_work_complete(struct kbase_device *kbdev, bool k
 
 	return err;
 }
-
-#if 0 /* camellia: unused: kbase_pm_killable_wait_for_poweroff_work_complete */
-int kbase_pm_killable_wait_for_poweroff_work_complete(struct kbase_device *kbdev)
-{
-	return pm_wait_for_poweroff_work_complete(kbdev, true);
-}
-#endif /* kbase_pm_killable_wait_for_poweroff_work_complete */
 
 int kbase_pm_wait_for_poweroff_work_complete(struct kbase_device *kbdev)
 {

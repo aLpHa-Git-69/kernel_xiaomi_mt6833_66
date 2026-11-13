@@ -1303,35 +1303,6 @@ wlanoidSetUApsdParam(struct ADAPTER *prAdapter,
 #endif
 }
 
-#if 0 /* camellia: unused: wlanoidQueryP2pVersion */
-uint32_t
-wlanoidQueryP2pVersion(struct ADAPTER *prAdapter,
-		void *pvQueryBuffer,
-		uint32_t u4QueryBufferLen,
-		uint32_t *pu4QueryInfoLen)
-{
-	uint32_t rResult = WLAN_STATUS_FAILURE;
-/* PUINT_8 pucVersionNum = (PUINT_8)pvQueryBuffer; */
-
-	do {
-		if ((prAdapter == NULL) || (pu4QueryInfoLen == NULL))
-			break;
-
-		if ((u4QueryBufferLen) && (pvQueryBuffer == NULL))
-			break;
-
-		if (u4QueryBufferLen < sizeof(uint8_t)) {
-			*pu4QueryInfoLen = sizeof(uint8_t);
-			rResult = WLAN_STATUS_BUFFER_TOO_SHORT;
-			break;
-		}
-
-	} while (FALSE);
-
-	return rResult;
-}				/* wlanoidQueryP2pVersion */
-#endif /* wlanoidQueryP2pVersion */
-
 #if CFG_SUPPORT_HOTSPOT_WPS_MANAGER
 
 /*----------------------------------------------------------------------------*/
@@ -1383,44 +1354,6 @@ wlanoidSetP2pWPSmode(struct ADAPTER *prAdapter,
 }				/* end of wlanoidSetP2pWPSmode() */
 
 #endif
-
-#if 0 /* camellia: unused: wlanoidSetP2pSupplicantVersion */
-uint32_t
-wlanoidSetP2pSupplicantVersion(struct ADAPTER *prAdapter,
-		void *pvSetBuffer,
-		uint32_t u4SetBufferLen,
-		uint32_t *pu4SetInfoLen)
-{
-	uint32_t rResult;
-	uint8_t ucVersionNum;
-
-	do {
-		if ((prAdapter == NULL) || (pu4SetInfoLen == NULL)) {
-
-			rResult = WLAN_STATUS_INVALID_DATA;
-			break;
-		}
-
-		if ((u4SetBufferLen) && (pvSetBuffer == NULL)) {
-			rResult = WLAN_STATUS_INVALID_DATA;
-			break;
-		}
-
-		*pu4SetInfoLen = sizeof(uint8_t);
-
-		if (u4SetBufferLen < sizeof(uint8_t)) {
-			rResult = WLAN_STATUS_INVALID_LENGTH;
-			break;
-		}
-
-		ucVersionNum = *((uint8_t *) pvSetBuffer);
-
-		rResult = WLAN_STATUS_SUCCESS;
-	} while (FALSE);
-
-	return rResult;
-}				/* wlanoidSetP2pSupplicantVersion */
-#endif /* wlanoidSetP2pSupplicantVersion */
 
 uint32_t
 wlanoidRequestP2pScan(struct ADAPTER *prAdapter,

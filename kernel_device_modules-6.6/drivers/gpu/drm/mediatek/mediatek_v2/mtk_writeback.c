@@ -101,29 +101,6 @@ static struct mtk_ddp_comp *mtk_wb_find_wdma(struct mtk_drm_crtc *mtk_crtc)
 	return wdma;
 }
 
-#if 0 /* camellia: unused: mtk_wb_remove_comp_from_path */
-void mtk_wb_remove_comp_from_path(struct mtk_drm_crtc *mtk_crtc)
-{
-	struct mtk_ddp_comp *wdma = NULL;
-
-	wdma = mtk_wb_find_wdma(mtk_crtc);
-	if (wdma == NULL)
-		return;
-
-	drm_framebuffer_remove(wdma->fb);
-
-	if (wdma->id == mtk_wb_main[1]) {
-		mtk_ddp_remove_comp_from_path(mtk_crtc,
-					      mtk_wb_main[0], mtk_wb_main[1]);
-	} else if (wdma->id == mtk_wb_ext[1]) {
-		mtk_ddp_remove_comp_from_path(mtk_crtc,
-					      mtk_wb_ext[0], mtk_wb_ext[1]);
-	} else {
-		return;
-	}
-}
-#endif /* mtk_wb_remove_comp_from_path */
-
 int mtk_wb_set_possible_crtcs(struct drm_device *drm_dev,
 			      struct mtk_drm_crtc *mtk_crtc,
 			      unsigned long possible_crtc)

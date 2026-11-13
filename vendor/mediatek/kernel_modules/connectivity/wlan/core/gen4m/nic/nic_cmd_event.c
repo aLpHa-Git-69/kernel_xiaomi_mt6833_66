@@ -1721,39 +1721,6 @@ void nicCmdEventBatchScanResult(struct ADAPTER
 }
 #endif
 
-#if 0 /* camellia: unused: nicEventHifCtrlv2 */
-void nicEventHifCtrlv2(struct ADAPTER *prAdapter,
-		     struct WIFI_EVENT *prEvent)
-{
-#if defined(_HIF_USB)
-	struct EVENT_HIF_CTRL *prEventHifCtrl;
-	struct GL_HIF_INFO *prHifInfo;
-
-	prEventHifCtrl = (struct EVENT_HIF_CTRL *) (
-				 prEvent->aucBuffer);
-
-	if (prEventHifCtrl->ucHifSuspend) {
-		/* suspend event, change state to PRE_SUSPEND_DONE */
-		if (prEventHifCtrl->ucHifTxTrafficStatus ==
-		    ENUM_HIF_TRAFFIC_IDLE &&
-		    prEventHifCtrl->ucHifRxTrafficStatus ==
-		    ENUM_HIF_TRAFFIC_IDLE) {	/* success */
-			halUSBPreSuspendDone(prAdapter,
-				NULL, prEvent->aucBuffer);
-		} else {
-			/* busy */
-			/* invalid */
-			halUSBPreSuspendTimeout(prAdapter, NULL);
-		}
-	} else {
-		/* if USB get resume event, change to LINK_UP */
-		prHifInfo = &prAdapter->prGlueInfo->rHifInfo;
-		glUsbSetState(prHifInfo, USB_STATE_LINK_UP);
-	}
-#endif
-}
-#endif /* nicEventHifCtrlv2 */
-
 void nicEventHifCtrl(struct ADAPTER *prAdapter,
 		     struct WIFI_EVENT *prEvent)
 {
@@ -3727,15 +3694,6 @@ uint32_t nicEventQueryTxResource_v1(struct ADAPTER
 	return WLAN_STATUS_SUCCESS;
 }
 
-#if 0 /* camellia: unused: nicEventQueryTxResource_v2 */
-uint32_t nicEventQueryTxResource_v2(struct ADAPTER
-				    *prAdapter, uint8_t *pucEventBuf)
-{
-	/* Follow V1 as default */
-	return nicEventQueryTxResource_v1(prAdapter, pucEventBuf);
-}
-#endif /* nicEventQueryTxResource_v2 */
-
 uint32_t nicParsingNicCapV2(struct ADAPTER *prAdapter,
 	uint32_t u4Type, uint8_t *pucEventBuf)
 {
@@ -4966,61 +4924,6 @@ void nicEventSleepyNotify(struct ADAPTER *prAdapter,
 #endif
 #endif
 }
-
-#if 0 /* camellia: unused: nicEventBtOverWifi */
-void nicEventBtOverWifi(struct ADAPTER *prAdapter,
-			struct WIFI_EVENT *prEvent)
-{
-#if CFG_ENABLE_BT_OVER_WIFI
-	uint8_t aucTmp[sizeof(struct BT_OVER_WIFI_EVENT) + sizeof(
-					     struct BOW_LINK_DISCONNECTED)];
-	struct EVENT_BT_OVER_WIFI *prEventBtOverWifi;
-	struct BT_OVER_WIFI_EVENT *prBowEvent;
-	struct BOW_LINK_CONNECTED *prBowLinkConnected;
-	struct BOW_LINK_DISCONNECTED *prBowLinkDisconnected;
-
-	prEventBtOverWifi = (struct EVENT_BT_OVER_WIFI *) (
-				    prEvent->aucBuffer);
-
-	/* construct event header */
-	prBowEvent = (struct BT_OVER_WIFI_EVENT *) aucTmp;
-
-	if (prEventBtOverWifi->ucLinkStatus == 0) {
-		/* Connection */
-		prBowEvent->rHeader.ucEventId = BOW_EVENT_ID_LINK_CONNECTED;
-		prBowEvent->rHeader.ucSeqNumber = 0;
-		prBowEvent->rHeader.u2PayloadLength = sizeof(
-				struct BOW_LINK_CONNECTED);
-
-		/* fill event body */
-		prBowLinkConnected = (struct BOW_LINK_CONNECTED *) (
-					     prBowEvent->aucPayload);
-		prBowLinkConnected->rChannel.ucChannelNum =
-			prEventBtOverWifi->ucSelectedChannel;
-		kalMemZero(prBowLinkConnected->aucPeerAddress,
-			   MAC_ADDR_LEN);	/* @FIXME */
-
-		kalIndicateBOWEvent(prAdapter->prGlueInfo, prBowEvent);
-	} else {
-		/* Disconnection */
-		prBowEvent->rHeader.ucEventId =
-			BOW_EVENT_ID_LINK_DISCONNECTED;
-		prBowEvent->rHeader.ucSeqNumber = 0;
-		prBowEvent->rHeader.u2PayloadLength = sizeof(
-				struct BOW_LINK_DISCONNECTED);
-
-		/* fill event body */
-		prBowLinkDisconnected = (struct BOW_LINK_DISCONNECTED *) (
-						prBowEvent->aucPayload);
-		prBowLinkDisconnected->ucReason = 0;	/* @FIXME */
-		kalMemZero(prBowLinkDisconnected->aucPeerAddress,
-			   MAC_ADDR_LEN);	/* @FIXME */
-
-		kalIndicateBOWEvent(prAdapter->prGlueInfo, prBowEvent);
-	}
-#endif
-}
-#endif /* nicEventBtOverWifi */
 
 void nicEventStatistics(struct ADAPTER *prAdapter,
 			struct WIFI_EVENT *prEvent)

@@ -330,34 +330,6 @@ static void adjust_clkdiv(struct pll_ctrl_t *pll_p, unsigned int clk_div)
 	cpufreq_write_mask(pll_p->armpll_div_addr, 21:17, sel);
 }
 
-#if 0 /* camellia: unused: get_posdiv */
-unsigned char get_posdiv(struct pll_ctrl_t *pll_p)
-{
-	unsigned char sel, cur_posdiv;
-
-	sel = _GET_BITS_VAL_(26:24, cpufreq_read(pll_p->armpll_addr));
-	cur_posdiv = (sel == 0 ? 1 :
-		sel == 1 ? 2 :
-		sel == 2 ? 4 : 1);
-
-	return cur_posdiv;
-}
-#endif /* get_posdiv */
-
-#if 0 /* camellia: unused: get_clkdiv */
-unsigned char get_clkdiv(struct pll_ctrl_t *pll_p)
-{
-	unsigned char sel, cur_clkdiv;
-
-	sel = _GET_BITS_VAL_(21:17, cpufreq_read(pll_p->armpll_div_addr));
-	cur_clkdiv = (sel == 8 ? 1 :
-		sel == 10 ? 2 :
-		sel == 11 ? 4 : 1);
-
-	return cur_clkdiv;
-}
-#endif /* get_clkdiv */
-
 static void adjust_freq_hopping(struct pll_ctrl_t *pll_p, unsigned int dds)
 {
 #if IS_ENABLED(CONFIG_MTK_FREQ_HOPPING)
@@ -549,16 +521,6 @@ struct hp_action_tbl cpu_dvfs_hp_action[] = {
 };
 
 unsigned int nr_hp_action = ARRAY_SIZE(cpu_dvfs_hp_action);
-#if 0 /* camellia: unused: can_turbo */
-static int can_turbo;
-#endif /* can_turbo */
-#if 0 /* camellia: unused: mt_cpufreq_turbo_action */
-void mt_cpufreq_turbo_action(unsigned long action,
-	unsigned int *cpus, enum mt_cpu_dvfs_id cluster_id)
-{
-	can_turbo = 0;
-}
-#endif /* mt_cpufreq_turbo_action */
 
 int mt_cpufreq_turbo_config(enum mt_cpu_dvfs_id id,
 	unsigned int turbo_f, unsigned int turbo_v)

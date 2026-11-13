@@ -906,25 +906,6 @@ void kalDumpRxRing(struct GLUE_INFO *prGlueInfo,
 		prMemOps->dumpRx(prHifInfo, prRxRing, u4Num, u4DumpLen);
 }
 
-#if 0 /* camellia: unused: halIsWfdmaRxCidxChanged */
-u_int8_t halIsWfdmaRxCidxChanged(struct ADAPTER *prAdapter, uint32_t u4Idx)
-{
-	struct GL_HIF_INFO *prHifInfo = &prAdapter->prGlueInfo->rHifInfo;
-	struct RTMP_RX_RING *prRxRing;
-
-	if (u4Idx >= NUM_OF_RX_RING)
-		return FALSE;
-
-	prRxRing = &prHifInfo->RxRing[u4Idx];
-	if (GLUE_GET_REF_CNT(prRxRing->u4CidxRec) != prRxRing->RxCpuIdx) {
-		GLUE_SET_REF_CNT(prRxRing->RxCpuIdx, prRxRing->u4CidxRec);
-		return TRUE;
-	}
-
-	return FALSE;
-}
-#endif /* halIsWfdmaRxCidxChanged */
-
 #if CFG_MTK_WIFI_WFDMA_WB
 void halCheckWfdmaHangForWB(struct ADAPTER *prAdapter)
 {

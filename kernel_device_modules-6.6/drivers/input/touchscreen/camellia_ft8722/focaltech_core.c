@@ -2581,13 +2581,6 @@ int __init is_lcm_detect1(char *str)
  __setup("LCM_name=", is_lcm_detect1);
 
 #if FOCAL_LOCKDOWN
-#if 0 /* camellia: unused: is_fts_lockdown_info_detect */
-int __init is_fts_lockdown_info_detect(char *str)
-{
-	strlcpy(fts_lockdown, str, sizeof(fts_lockdown));
-	return 0;
-}
-#endif /* is_fts_lockdown_info_detect */
  __setup("tp_lockdown_info=", is_fts_lockdown_info_detect);
 #endif
 

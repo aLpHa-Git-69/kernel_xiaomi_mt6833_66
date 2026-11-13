@@ -338,27 +338,6 @@ int kbase_hwcnt_jm_metadata_create(const struct kbase_hwcnt_gpu_info *gpu_info,
 	return 0;
 }
 
-#if 0 /* camellia: unused: kbase_hwcnt_csf_metadata_create */
-int kbase_hwcnt_csf_metadata_create(const struct kbase_hwcnt_gpu_info *gpu_info,
-				    enum kbase_hwcnt_set counter_set,
-				    const struct kbase_hwcnt_metadata **out_metadata)
-{
-	int errcode;
-	const struct kbase_hwcnt_metadata *metadata;
-
-	if (!gpu_info || !out_metadata)
-		return -EINVAL;
-
-	errcode = kbasep_hwcnt_backend_gpu_metadata_create(gpu_info, true, counter_set, &metadata);
-	if (errcode)
-		return errcode;
-
-	*out_metadata = metadata;
-
-	return 0;
-}
-#endif /* kbase_hwcnt_csf_metadata_create */
-
 bool kbase_hwcnt_is_block_type_shader(const enum kbase_hwcnt_gpu_v5_block_type blk_type)
 {
 	if (blk_type == KBASE_HWCNT_GPU_V5_BLOCK_TYPE_PERF_SC ||
@@ -380,30 +359,6 @@ bool kbase_hwcnt_is_block_type_memsys(const enum kbase_hwcnt_gpu_v5_block_type b
 
 	return false;
 }
-
-#if 0 /* camellia: unused: kbase_hwcnt_is_block_type_tiler */
-bool kbase_hwcnt_is_block_type_tiler(const enum kbase_hwcnt_gpu_v5_block_type blk_type)
-{
-	if (blk_type == KBASE_HWCNT_GPU_V5_BLOCK_TYPE_PERF_TILER ||
-	    blk_type == KBASE_HWCNT_GPU_V5_BLOCK_TYPE_PERF_TILER_UNDEFINED)
-		return true;
-
-	return false;
-}
-#endif /* kbase_hwcnt_is_block_type_tiler */
-
-#if 0 /* camellia: unused: kbase_hwcnt_is_block_type_fe */
-bool kbase_hwcnt_is_block_type_fe(const enum kbase_hwcnt_gpu_v5_block_type blk_type)
-{
-	if (blk_type == KBASE_HWCNT_GPU_V5_BLOCK_TYPE_PERF_FE ||
-	    blk_type == KBASE_HWCNT_GPU_V5_BLOCK_TYPE_PERF_FE2 ||
-	    blk_type == KBASE_HWCNT_GPU_V5_BLOCK_TYPE_PERF_FE3 ||
-	    blk_type == KBASE_HWCNT_GPU_V5_BLOCK_TYPE_PERF_FE_UNDEFINED)
-		return true;
-
-	return false;
-}
-#endif /* kbase_hwcnt_is_block_type_fe */
 
 int kbase_hwcnt_jm_dump_get(struct kbase_hwcnt_dump_buffer *dst, u64 *src,
 			    const struct kbase_hwcnt_enable_map *dst_enable_map, u64 pm_core_mask,
@@ -576,73 +531,6 @@ int kbase_hwcnt_jm_dump_get(struct kbase_hwcnt_dump_buffer *dst, u64 *src,
 
 	return 0;
 }
-
-#if 0 /* camellia: unused: kbase_hwcnt_csf_dump_get */
-int kbase_hwcnt_csf_dump_get(struct kbase_hwcnt_dump_buffer *dst, u64 *src,
-			     blk_stt_t *src_block_stt,
-			     const struct kbase_hwcnt_enable_map *dst_enable_map,
-			     size_t num_l2_slices, u64 powered_shader_core_mask, bool accumulate)
-{
-	const struct kbase_hwcnt_metadata *metadata;
-	const u64 *dump_src = src;
-	size_t src_offset = 0;
-	size_t blk, blk_inst;
-	size_t blk_inst_count = 0;
-
-	if (!dst || !src || !src_block_stt || !dst_enable_map ||
-	    (dst_enable_map->metadata != dst->metadata))
-		return -EINVAL;
-
-	metadata = dst->metadata;
-
-	kbase_hwcnt_metadata_for_each_block(metadata, blk, blk_inst) {
-		const size_t hdr_cnt = kbase_hwcnt_metadata_block_headers_count(metadata, blk);
-		const size_t ctr_cnt = kbase_hwcnt_metadata_block_counters_count(metadata, blk);
-		const uint64_t blk_type = kbase_hwcnt_metadata_block_type(metadata, blk);
-		const bool is_undefined = kbase_hwcnt_is_block_type_undefined(blk_type);
-		blk_stt_t *dst_blk_stt =
-			kbase_hwcnt_dump_buffer_block_state_instance(dst, blk, blk_inst);
-
-		/* Skip block if no values in the destination block are enabled. */
-		if (kbase_hwcnt_enable_map_block_enabled(dst_enable_map, blk, blk_inst)) {
-			u64 *dst_blk = kbase_hwcnt_dump_buffer_block_instance(dst, blk, blk_inst);
-			const u64 *src_blk = dump_src + src_offset;
-
-			if (!is_undefined) {
-				if (accumulate) {
-					kbase_hwcnt_dump_buffer_block_accumulate(dst_blk, src_blk,
-										 hdr_cnt, ctr_cnt);
-					kbase_hwcnt_block_state_append(
-						dst_blk_stt, src_block_stt[blk_inst_count]);
-				} else {
-					kbase_hwcnt_dump_buffer_block_copy(dst_blk, src_blk,
-									   (hdr_cnt + ctr_cnt));
-					kbase_hwcnt_block_state_set(dst_blk_stt,
-								    src_block_stt[blk_inst_count]);
-				}
-			} else {
-				/* Even though the block might be undefined, the user has enabled
-				 * counter collection for it. We should not propagate garbage
-				 * data, or copy/accumulate the block states.
-				 */
-				if (accumulate) {
-					/* No-op to preserve existing values */
-				} else {
-					/* src is garbage, so zero the dst and reset block state */
-					kbase_hwcnt_dump_buffer_block_zero(dst_blk,
-									   (hdr_cnt + ctr_cnt));
-					kbase_hwcnt_block_state_set(dst_blk_stt,
-								    KBASE_HWCNT_STATE_UNKNOWN);
-				}
-			}
-		}
-		blk_inst_count++;
-		src_offset += (hdr_cnt + ctr_cnt);
-	}
-
-	return 0;
-}
-#endif /* kbase_hwcnt_csf_dump_get */
 
 /**
  * kbasep_hwcnt_backend_gpu_block_map_from_physical() - Convert from a physical

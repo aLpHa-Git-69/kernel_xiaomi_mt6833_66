@@ -21,13 +21,6 @@ static DEFINE_IDA(rpmb_ida);
  *
  * @rdev: rpmb device
  */
-#if 0 /* camellia: unused: rpmb_dev_get */
-struct rpmb_dev *rpmb_dev_get(struct rpmb_dev *rdev)
-{
-	return get_device(&rdev->dev) ? rdev : NULL;
-}
-EXPORT_SYMBOL_GPL(rpmb_dev_get);
-#endif /* rpmb_dev_get */
 
 /**
  * rpmb_dev_put - decrease rpmb device ref counter
@@ -133,28 +126,6 @@ static int rpmb_request_verify(struct rpmb_dev *rdev, struct rpmb_data *rpmbd)
  * @ncmds: number of commands
  *
  */
-#if 0 /* camellia: unused: rpmb_cmd_fixup */
-static void rpmb_cmd_fixup(struct rpmb_dev *rdev,
-			   struct rpmb_cmd *cmds, u32 ncmds)
-{
-	int i;
-
-	if (rdev->ops->type != RPMB_TYPE_EMMC)
-		return;
-
-	/* Fixup RPMB_READ_DATA specific to eMMC
-	 * The block count of the RPMB read operation is not indicated
-	 * in the original RPMB Data Read Request packet.
-	 * This is different then implementation for other protocol
-	 * standards.
-	 */
-	for (i = 0; i < ncmds; i++)
-		if (cmds->frames->req_resp == cpu_to_be16(RPMB_READ_DATA)) {
-			dev_dbg(&rdev->dev, "Fixing up READ_DATA frame to block_count=0\n");
-			cmds->frames->block_count = 0;
-		}
-}
-#endif /* rpmb_cmd_fixup */
 
 /**
  * rpmb_cmd_seq - send RPMB command sequence
@@ -168,26 +139,6 @@ static void rpmb_cmd_fixup(struct rpmb_dev *rdev,
  *         -EOPNOTSUPP if device doesn't support the requested operation
  *         < 0 if the operation fails
  */
-#if 0 /* camellia: unused: rpmb_cmd_seq */
-int rpmb_cmd_seq(struct rpmb_dev *rdev, struct rpmb_cmd *cmds, u32 ncmds,
-	u8 region)
-{
-	int err;
-
-	if (!rdev || !cmds || !ncmds)
-		return -EINVAL;
-
-	mutex_lock(&rdev->lock);
-	err = -EOPNOTSUPP;
-	if (rdev->ops && rdev->ops->cmd_seq) {
-		rpmb_cmd_fixup(rdev, cmds, ncmds);
-		err = rdev->ops->cmd_seq(rdev->dev.parent, cmds, ncmds, region);
-	}
-	mutex_unlock(&rdev->lock);
-	return err;
-}
-EXPORT_SYMBOL_GPL(rpmb_cmd_seq);
-#endif /* rpmb_cmd_seq */
 
 static void rpmb_cmd_set(struct rpmb_cmd *cmd, u32 flags,
 			 struct rpmb_frame *frames, u32 nframes)
@@ -351,16 +302,6 @@ struct rpmb_dev *rpmb_dev_find_device(void *data,
 }
 EXPORT_SYMBOL_GPL(rpmb_dev_find_device);
 
-#if 0 /* camellia: unused: match_by_type */
-static int match_by_type(struct device *dev, const void *data)
-{
-	struct rpmb_dev *rdev = to_rpmb_dev(dev);
-	enum rpmb_type *type = (enum rpmb_type *)data;
-
-	return (*type == RPMB_TYPE_ANY || rdev->ops->type == *type);
-}
-#endif /* match_by_type */
-
 /**
  * rpmb_dev_get_by_type - return first registered rpmb device
  *      with matching type.
@@ -371,16 +312,6 @@ static int match_by_type(struct device *dev, const void *data)
  *
  * Return: matching rpmb device or NULL/ERR_PTR on failure
  */
-#if 0 /* camellia: unused: rpmb_dev_get_by_type */
-struct rpmb_dev *rpmb_dev_get_by_type(enum rpmb_type type)
-{
-	if (type > RPMB_TYPE_MAX)
-		return ERR_PTR(-EINVAL);
-
-	return rpmb_dev_find_device(&type, match_by_type);
-}
-EXPORT_SYMBOL_GPL(rpmb_dev_get_by_type);
-#endif /* rpmb_dev_get_by_type */
 
 static int match_by_parent(struct device *dev, const void *data)
 {

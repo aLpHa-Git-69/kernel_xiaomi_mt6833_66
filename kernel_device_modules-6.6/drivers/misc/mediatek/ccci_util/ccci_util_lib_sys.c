@@ -176,13 +176,6 @@ static ssize_t ccci_version_show(char *buf)
 	return snprintf(buf, 16, "%d\n", ccci_port_ver);
 }
 
-#if 0 /* camellia: unused: update_ccci_port_ver */
-void update_ccci_port_ver(unsigned int new_ver)
-{
-	ccci_port_ver = new_ver;
-}
-#endif /* update_ccci_port_ver */
-
 CCCI_ATTR(version, 0644, &ccci_version_show, NULL);
 
 static ssize_t debug_enable_show(char *buf)

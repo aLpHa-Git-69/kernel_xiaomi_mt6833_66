@@ -399,12 +399,6 @@ void register_fw_ops_init(void)
 	}
 }
 
-#if 0 /* camellia: unused: register_fw_ops_uninit */
-void register_fw_ops_uninit(void)
-{
-}
-#endif /* register_fw_ops_uninit */
-
 int fm_register_irq(struct platform_driver *drv, unsigned int irq_num)
 {
 	return 0;
@@ -422,12 +416,3 @@ int fm_wcn_ops_register(void)
 
 	return 0;
 }
-
-#if 0 /* camellia: unused: fm_wcn_ops_unregister */
-int fm_wcn_ops_unregister(void)
-{
-	register_fw_ops_uninit();
-
-	return 0;
-}
-#endif /* fm_wcn_ops_unregister */

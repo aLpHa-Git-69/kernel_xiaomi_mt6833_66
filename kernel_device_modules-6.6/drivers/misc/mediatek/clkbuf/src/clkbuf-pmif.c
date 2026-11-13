@@ -630,13 +630,6 @@ static struct clkbuf_dts *pmif_parse_dts_v3(struct clkbuf_dts *array,
 	return array;
 }
 
-#if 0 /* camellia: unused: __spmi_dump_pmif_record */
-void __spmi_dump_pmif_record(void)
-{
-	spmi_dump_pmif_record_reg();
-}
-#endif /* __spmi_dump_pmif_record */
-
 static struct clkbuf_operation clkbuf_ops_v1 = {
 	.dump_pmif_status = __dump_pmif_status,
 	.set_pmif_inf = __set_pmif_inf,

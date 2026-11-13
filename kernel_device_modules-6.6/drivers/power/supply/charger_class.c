@@ -148,30 +148,6 @@ int charger_dev_is_chip_enabled(struct charger_device *chg_dev, bool *en)
 }
 EXPORT_SYMBOL(charger_dev_is_chip_enabled);
 
-#if 0 /* camellia: unused: charger_dev_enable_direct_charging */
-int charger_dev_enable_direct_charging(struct charger_device *chg_dev, bool en)
-{
-	if (chg_dev != NULL && chg_dev->ops != NULL &&
-	    chg_dev->ops->enable_direct_charging)
-		return chg_dev->ops->enable_direct_charging(chg_dev, en);
-
-	return -EOPNOTSUPP;
-}
-EXPORT_SYMBOL(charger_dev_enable_direct_charging);
-#endif /* charger_dev_enable_direct_charging */
-
-#if 0 /* camellia: unused: charger_dev_kick_direct_charging_wdt */
-int charger_dev_kick_direct_charging_wdt(struct charger_device *chg_dev)
-{
-	if (chg_dev != NULL && chg_dev->ops != NULL &&
-	    chg_dev->ops->kick_direct_charging_wdt)
-		return chg_dev->ops->kick_direct_charging_wdt(chg_dev);
-
-	return -EOPNOTSUPP;
-}
-EXPORT_SYMBOL(charger_dev_kick_direct_charging_wdt);
-#endif /* charger_dev_kick_direct_charging_wdt */
-
 int charger_dev_get_vbus(struct charger_device *chg_dev, u32 *vbus)
 {
 	if (chg_dev != NULL && chg_dev->ops != NULL &&
@@ -314,18 +290,6 @@ int charger_dev_set_eoc_current(struct charger_device *chg_dev, u32 uA)
 }
 EXPORT_SYMBOL(charger_dev_set_eoc_current);
 
-#if 0 /* camellia: unused: charger_dev_get_eoc_current */
-int charger_dev_get_eoc_current(struct charger_device *chg_dev, u32 *uA)
-{
-	if (chg_dev != NULL && chg_dev->ops != NULL &&
-	    chg_dev->ops->get_eoc_current)
-		return chg_dev->ops->get_eoc_current(chg_dev, uA);
-
-	return -EOPNOTSUPP;
-}
-EXPORT_SYMBOL(charger_dev_get_eoc_current);
-#endif /* charger_dev_get_eoc_current */
-
 int charger_dev_kick_wdt(struct charger_device *chg_dev)
 {
 	if (chg_dev != NULL && chg_dev->ops != NULL && chg_dev->ops->kick_wdt)
@@ -366,18 +330,6 @@ int cs_dev_check_cs_temp(struct charger_device *chg_dev)
 }
 EXPORT_SYMBOL(cs_dev_check_cs_temp);
 
-#if 0 /* camellia: unused: charger_dev_dump_init_setting */
-int charger_dev_dump_init_setting(struct charger_device *chg_dev)
-{
-	if (chg_dev != NULL && chg_dev->ops != NULL &&
-	    chg_dev->ops->dump_init_setting)
-		return chg_dev->ops->dump_init_setting(chg_dev);
-
-	return -EOPNOTSUPP;
-}
-EXPORT_SYMBOL(charger_dev_dump_init_setting);
-#endif /* charger_dev_dump_init_setting */
-
 int charger_dev_dump_registers(struct charger_device *chg_dev)
 {
 	if (chg_dev != NULL && chg_dev->ops != NULL &&
@@ -407,30 +359,6 @@ int cs_dev_is_charging_done(struct charger_device *chg_dev, bool *done)
 	return -EOPNOTSUPP;
 }
 EXPORT_SYMBOL(cs_dev_is_charging_done);
-
-#if 0 /* camellia: unused: cs_dev_set_cs_regVal */
-int cs_dev_set_cs_regVal(struct charger_device *chg_dev, int val)
-{
-	if (chg_dev != NULL && chg_dev->ops != NULL &&
-	    chg_dev->ops->set_cs_regVal)
-		return chg_dev->ops->set_cs_regVal(chg_dev, val);
-
-	return -EOPNOTSUPP;
-}
-EXPORT_SYMBOL(cs_dev_set_cs_regVal);
-#endif /* cs_dev_set_cs_regVal */
-
-#if 0 /* camellia: unused: charger_dev_enable_vbus_ovp */
-int charger_dev_enable_vbus_ovp(struct charger_device *chg_dev, bool en)
-{
-	if (chg_dev != NULL && chg_dev->ops != NULL &&
-	    chg_dev->ops->enable_vbus_ovp)
-		return chg_dev->ops->enable_vbus_ovp(chg_dev, en);
-
-	return -EOPNOTSUPP;
-}
-EXPORT_SYMBOL(charger_dev_enable_vbus_ovp);
-#endif /* charger_dev_enable_vbus_ovp */
 
 int charger_dev_set_mivr(struct charger_device *chg_dev, u32 uV)
 {
@@ -479,18 +407,6 @@ int charger_dev_enable_safety_timer(struct charger_device *chg_dev, bool en)
 	return -EOPNOTSUPP;
 }
 EXPORT_SYMBOL(charger_dev_enable_safety_timer);
-
-#if 0 /* camellia: unused: charger_dev_enable_hz */
-int charger_dev_enable_hz(struct charger_device *chg_dev, bool en)
-{
-	if (chg_dev != NULL && chg_dev->ops != NULL &&
-	    chg_dev->ops->enable_hz)
-		return chg_dev->ops->enable_hz(chg_dev, en);
-
-	return -EOPNOTSUPP;
-}
-EXPORT_SYMBOL(charger_dev_enable_hz);
-#endif /* charger_dev_enable_hz */
 
 int charger_dev_set_vac_ovp(struct charger_device *chg_dev, u32 uV)
 {
@@ -555,97 +471,6 @@ int charger_dev_get_mivr_state(struct charger_device *chg_dev, bool *in_loop)
 	return -EOPNOTSUPP;
 }
 EXPORT_SYMBOL(charger_dev_get_mivr_state);
-
-#if 0 /* camellia: unused: charger_dev_send_ta_current_pattern */
-int charger_dev_send_ta_current_pattern(struct charger_device *chg_dev,
-					bool is_increase)
-{
-	if (chg_dev != NULL && chg_dev->ops != NULL &&
-	    chg_dev->ops->send_ta_current_pattern)
-		return chg_dev->ops->send_ta_current_pattern(chg_dev,
-							     is_increase);
-
-	return -EOPNOTSUPP;
-}
-EXPORT_SYMBOL(charger_dev_send_ta_current_pattern);
-#endif /* charger_dev_send_ta_current_pattern */
-
-#if 0 /* camellia: unused: charger_dev_send_ta20_current_pattern */
-int charger_dev_send_ta20_current_pattern(struct charger_device *chg_dev,
-					  u32 uV)
-{
-	if (chg_dev != NULL && chg_dev->ops != NULL &&
-	    chg_dev->ops->send_ta20_current_pattern)
-		return chg_dev->ops->send_ta20_current_pattern(chg_dev, uV);
-
-	return -EOPNOTSUPP;
-}
-EXPORT_SYMBOL(charger_dev_send_ta20_current_pattern);
-#endif /* charger_dev_send_ta20_current_pattern */
-
-#if 0 /* camellia: unused: charger_dev_reset_ta */
-int charger_dev_reset_ta(struct charger_device *chg_dev)
-{
-	if (chg_dev != NULL && chg_dev->ops != NULL &&
-	    chg_dev->ops->reset_ta)
-		return chg_dev->ops->reset_ta(chg_dev);
-
-	return -EOPNOTSUPP;
-}
-EXPORT_SYMBOL(charger_dev_reset_ta);
-#endif /* charger_dev_reset_ta */
-
-#if 0 /* camellia: unused: charger_dev_set_pe20_efficiency_table */
-int charger_dev_set_pe20_efficiency_table(struct charger_device *chg_dev)
-{
-	if (chg_dev != NULL && chg_dev->ops != NULL &&
-	    chg_dev->ops->set_pe20_efficiency_table)
-		return chg_dev->ops->set_pe20_efficiency_table(chg_dev);
-
-	return -EOPNOTSUPP;
-}
-EXPORT_SYMBOL(charger_dev_set_pe20_efficiency_table);
-#endif /* charger_dev_set_pe20_efficiency_table */
-
-#if 0 /* camellia: unused: charger_dev_enable_cable_drop_comp */
-int charger_dev_enable_cable_drop_comp(struct charger_device *chg_dev, bool en)
-{
-	if (chg_dev != NULL && chg_dev->ops != NULL &&
-	    chg_dev->ops->enable_cable_drop_comp)
-		return chg_dev->ops->enable_cable_drop_comp(chg_dev, en);
-
-	return -EOPNOTSUPP;
-}
-EXPORT_SYMBOL(charger_dev_enable_cable_drop_comp);
-#endif /* charger_dev_enable_cable_drop_comp */
-
-#if 0 /* camellia: unused: charger_dev_set_direct_charging_ibusoc */
-int charger_dev_set_direct_charging_ibusoc(struct charger_device *chg_dev,
-					   u32 uA)
-{
-	if (chg_dev != NULL && chg_dev->ops != NULL &&
-	    chg_dev->ops->set_direct_charging_ibusoc)
-		return chg_dev->ops->set_direct_charging_ibusoc(chg_dev,
-								uA);
-
-	return -EOPNOTSUPP;
-}
-EXPORT_SYMBOL(charger_dev_set_direct_charging_ibusoc);
-#endif /* charger_dev_set_direct_charging_ibusoc */
-
-#if 0 /* camellia: unused: charger_dev_set_direct_charging_vbusov */
-int charger_dev_set_direct_charging_vbusov(struct charger_device *chg_dev,
-					   u32 uV)
-{
-	if (chg_dev != NULL && chg_dev->ops != NULL &&
-	    chg_dev->ops->set_direct_charging_vbusov)
-		return chg_dev->ops->set_direct_charging_vbusov(chg_dev,
-								uV);
-
-	return -EOPNOTSUPP;
-}
-EXPORT_SYMBOL(charger_dev_set_direct_charging_vbusov);
-#endif /* charger_dev_set_direct_charging_vbusov */
 
 int charger_dev_set_ibusocp(struct charger_device *chg_dev, u32 uA)
 {
@@ -737,30 +562,6 @@ int charger_dev_init_chip(struct charger_device *chg_dev)
 }
 EXPORT_SYMBOL(charger_dev_init_chip);
 
-#if 0 /* camellia: unused: charger_dev_enable_auto_trans */
-int charger_dev_enable_auto_trans(struct charger_device *chg_dev, bool en)
-{
-	if (chg_dev != NULL && chg_dev->ops != NULL &&
-	    chg_dev->ops->enable_auto_trans)
-		return chg_dev->ops->enable_auto_trans(chg_dev, en);
-
-	return -EOPNOTSUPP;
-}
-EXPORT_SYMBOL(charger_dev_enable_auto_trans);
-#endif /* charger_dev_enable_auto_trans */
-
-#if 0 /* camellia: unused: charger_dev_set_auto_trans */
-int charger_dev_set_auto_trans(struct charger_device *chg_dev, u32 uV, bool en)
-{
-	if (chg_dev != NULL && chg_dev->ops != NULL &&
-	    chg_dev->ops->set_auto_trans)
-		return chg_dev->ops->set_auto_trans(chg_dev, uV, en);
-
-	return -EOPNOTSUPP;
-}
-EXPORT_SYMBOL(charger_dev_set_auto_trans);
-#endif /* charger_dev_set_auto_trans */
-
 int charger_dev_set_operation_mode(struct charger_device *chg_dev, bool div2)
 {
 	if (chg_dev != NULL && chg_dev->ops != NULL &&
@@ -771,29 +572,6 @@ int charger_dev_set_operation_mode(struct charger_device *chg_dev, bool div2)
 }
 EXPORT_SYMBOL(charger_dev_set_operation_mode);
 
-#if 0 /* camellia: unused: charger_dev_enable_chg_type_det */
-int charger_dev_enable_chg_type_det(struct charger_device *chg_dev, bool en)
-{
-	if (chg_dev != NULL && chg_dev->ops != NULL &&
-	    chg_dev->ops->enable_chg_type_det)
-		return chg_dev->ops->enable_chg_type_det(chg_dev, en);
-
-	return -EOPNOTSUPP;
-}
-EXPORT_SYMBOL(charger_dev_enable_chg_type_det);
-#endif /* charger_dev_enable_chg_type_det */
-
-#if 0 /* camellia: unused: charger_dev_enable_otg */
-int charger_dev_enable_otg(struct charger_device *chg_dev, bool en)
-{
-	if (chg_dev != NULL && chg_dev->ops != NULL && chg_dev->ops->enable_otg)
-		return chg_dev->ops->enable_otg(chg_dev, en);
-
-	return -EOPNOTSUPP;
-}
-EXPORT_SYMBOL(charger_dev_enable_otg);
-#endif /* charger_dev_enable_otg */
-
 int charger_dev_enable_discharge(struct charger_device *chg_dev, bool en)
 {
 	if (chg_dev != NULL && chg_dev->ops != NULL &&
@@ -803,18 +581,6 @@ int charger_dev_enable_discharge(struct charger_device *chg_dev, bool en)
 	return -EOPNOTSUPP;
 }
 EXPORT_SYMBOL(charger_dev_enable_discharge);
-
-#if 0 /* camellia: unused: charger_dev_set_boost_current_limit */
-int charger_dev_set_boost_current_limit(struct charger_device *chg_dev, u32 uA)
-{
-	if (chg_dev != NULL && chg_dev->ops != NULL &&
-	    chg_dev->ops->set_boost_current_limit)
-		return chg_dev->ops->set_boost_current_limit(chg_dev, uA);
-
-	return -EOPNOTSUPP;
-}
-EXPORT_SYMBOL(charger_dev_set_boost_current_limit);
-#endif /* charger_dev_set_boost_current_limit */
 
 int charger_dev_get_zcv(struct charger_device *chg_dev, u32 *uV)
 {
@@ -833,18 +599,6 @@ int charger_dev_run_aicl(struct charger_device *chg_dev, u32 *uA)
 	return -EOPNOTSUPP;
 }
 EXPORT_SYMBOL(charger_dev_run_aicl);
-
-#if 0 /* camellia: unused: charger_dev_reset_eoc_state */
-int charger_dev_reset_eoc_state(struct charger_device *chg_dev)
-{
-	if (chg_dev != NULL && chg_dev->ops != NULL &&
-	    chg_dev->ops->reset_eoc_state)
-		return chg_dev->ops->reset_eoc_state(chg_dev);
-
-	return -EOPNOTSUPP;
-}
-EXPORT_SYMBOL(charger_dev_reset_eoc_state);
-#endif /* charger_dev_reset_eoc_state */
 
 int charger_dev_safety_check(struct charger_device *chg_dev, u32 polling_ieoc)
 {
@@ -907,74 +661,6 @@ int charger_dev_enable_usbid_floating(struct charger_device *charger_dev,
 }
 EXPORT_SYMBOL(charger_dev_enable_usbid_floating);
 
-#if 0 /* camellia: unused: charger_dev_enable_force_typec_otp */
-int charger_dev_enable_force_typec_otp(struct charger_device *charger_dev,
-				       bool en)
-{
-	if (charger_dev != NULL && charger_dev->ops != NULL &&
-	    charger_dev->ops->enable_force_typec_otp)
-		return charger_dev->ops->enable_force_typec_otp(charger_dev,
-								en);
-
-	return -EOPNOTSUPP;
-}
-EXPORT_SYMBOL(charger_dev_enable_force_typec_otp);
-#endif /* charger_dev_enable_force_typec_otp */
-
-#if 0 /* camellia: unused: charger_dev_get_ctd_dischg_status */
-int charger_dev_get_ctd_dischg_status(struct charger_device *charger_dev,
-				      u8 *status)
-{
-	if (charger_dev != NULL && charger_dev->ops != NULL &&
-	    charger_dev->ops->get_ctd_dischg_status)
-		return charger_dev->ops->get_ctd_dischg_status(charger_dev,
-							       status);
-
-	return -EOPNOTSUPP;
-}
-EXPORT_SYMBOL(charger_dev_get_ctd_dischg_status);
-#endif /* charger_dev_get_ctd_dischg_status */
-
-#if 0 /* camellia: unused: charger_dev_enable_hidden_mode */
-int charger_dev_enable_hidden_mode(struct charger_device *charger_dev, bool en)
-{
-	if (charger_dev != NULL && charger_dev->ops != NULL &&
-					   charger_dev->ops->enable_hidden_mode)
-		return charger_dev->ops->enable_hidden_mode(charger_dev, en);
-
-	return -EOPNOTSUPP;
-}
-EXPORT_SYMBOL(charger_dev_enable_hidden_mode);
-#endif /* charger_dev_enable_hidden_mode */
-
-
-#if 0 /* camellia: unused: charger_dev_set_property */
-int charger_dev_set_property(struct charger_device *charger_dev,
-			     enum charger_property prop,
-			     union charger_propval *val)
-{
-	if (charger_dev != NULL && charger_dev->ops != NULL &&
-	    charger_dev->ops->set_property)
-		return charger_dev->ops->set_property(charger_dev, prop, val);
-
-	return -EOPNOTSUPP;
-}
-EXPORT_SYMBOL(charger_dev_set_property);
-#endif /* charger_dev_set_property */
-
-#if 0 /* camellia: unused: charger_dev_get_property */
-int charger_dev_get_property(struct charger_device *charger_dev,
-			     enum charger_property prop,
-			     union charger_propval *val)
-{
-	if (charger_dev != NULL && charger_dev->ops != NULL &&
-	    charger_dev->ops->get_property)
-		return charger_dev->ops->get_property(charger_dev, prop, val);
-
-	return -EOPNOTSUPP;
-}
-EXPORT_SYMBOL(charger_dev_get_property);
-#endif /* charger_dev_get_property */
 
 static DEVICE_ATTR_RO(name);
 
@@ -1001,15 +687,6 @@ int register_charger_device_notifier(struct charger_device *chg_dev,
 	return ret;
 }
 EXPORT_SYMBOL(register_charger_device_notifier);
-
-#if 0 /* camellia: unused: unregister_charger_device_notifier */
-int unregister_charger_device_notifier(struct charger_device *chg_dev,
-				struct notifier_block *nb)
-{
-	return srcu_notifier_chain_unregister(&chg_dev->evt_nh, nb);
-}
-EXPORT_SYMBOL(unregister_charger_device_notifier);
-#endif /* unregister_charger_device_notifier */
 
 /**
  * charger_device_register - create and register a new object of

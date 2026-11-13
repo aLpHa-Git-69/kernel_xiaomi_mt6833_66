@@ -580,23 +580,6 @@ static void pmic_set_register_value(struct regmap *map,
 		val << shift);
 }
 
-#if 0 /* camellia: unused: pmic_get_register_value */
-unsigned int pmic_get_register_value(struct regmap *map,
-	unsigned int addr,
-	unsigned int mask,
-	unsigned int shift)
-{
-	unsigned int value = 0;
-
-	regmap_read(map, addr, &value);
-	value =
-		(value &
-		(mask << shift))
-		>> shift;
-	return value;
-}
-#endif /* pmic_get_register_value */
-
 int disable_hw_ovp(struct mtk_charger *info, int en)
 {
 	struct device_node *pmic_node;

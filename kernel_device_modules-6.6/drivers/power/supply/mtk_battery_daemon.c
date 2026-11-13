@@ -85,18 +85,6 @@ int fg_get_system_sec(void)
 	return (int)tmp_time.tv_sec;
 }
 
-#if 0 /* camellia: unused: fg_get_imix */
-int fg_get_imix(struct mtk_battery *gm)
-{
-	int imix = 1;
-
-	if (gm->imix != 0)
-		return gm->imix;
-
-	return imix;
-}
-#endif /* fg_get_imix */
-
 int gauge_set_nag_en(struct mtk_battery *gm, int nafg_zcv_en)
 {
 	if (gm->disableGM30)

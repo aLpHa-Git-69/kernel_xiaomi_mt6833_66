@@ -360,26 +360,6 @@ int mtk_dcm_get_chipid(void)
 }
 EXPORT_SYMBOL(mtk_dcm_get_chipid);
 
-#if 0 /* camellia: unused: mt_dcm_force_disable */
-void mt_dcm_force_disable(void)
-{
-	if (!dcm_initiated)
-		return;
-
-	dcm_force_disable(ALL_DCM_TYPE);
-}
-#endif /* mt_dcm_force_disable */
-
-#if 0 /* camellia: unused: mt_dcm_restore */
-void mt_dcm_restore(void)
-{
-	if (!dcm_initiated)
-		return;
-
-	dcm_restore(ALL_DCM_TYPE);
-}
-#endif /* mt_dcm_restore */
-
 static int __init mtk_dcm_init(void)
 {
 	dcm_debug = 0;
