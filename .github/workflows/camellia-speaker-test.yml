@@ -1,0 +1,151 @@
+name: Build Camellia 6.6 speaker test
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [speaker-fix-test]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: camellia-speaker-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  AK3_TAG: camellia-6.6-r1.3
+  AK3_ZIP: camellia-6.6-r1.3-AnyKernel3.zip
+  AK3_SHA256: d13e7230aa579d05a7d3ed3f066be02868d6d9d941bc664f03b658d01bd17b0e
+  SUKISU_COMMIT: 645ef9860b9b7f900bb5d1b27e224f2c311d39c0
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 150
+    strategy:
+      fail-fast: false
+      matrix:
+        variant: [base, sukisu]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential bc bison flex libssl-dev libelf-dev \
+            device-tree-compiler kmod python3 curl unzip
+          mkdir -p out/toolchain out/template
+          df -h .
+      - name: Cache Android clang r510928
+        id: clang-cache
+        uses: actions/cache@v4
+        with:
+          path: out/toolchain
+          key: android-clang-linux-r510928
+      - name: Download Android clang r510928
+        if: steps.clang-cache.outputs.cache-hit != 'true'
+        run: |
+          curl --fail --location --retry 3 \
+            'https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/android15-release/clang-r510928.tar.gz' \
+            -o out/clang.tar.gz
+          tar -xzf out/clang.tar.gz -C out/toolchain
+          rm out/clang.tar.gz
+      - name: Set toolchain and get verified AnyKernel3 template
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "CLANG_BIN=$GITHUB_WORKSPACE/out/toolchain/bin" >> "$GITHUB_ENV"
+          echo "AK3_TEMPLATE=$GITHUB_WORKSPACE/out/template/$AK3_ZIP" >> "$GITHUB_ENV"
+          out/toolchain/bin/clang --version
+          gh release download "$AK3_TAG" --repo SantiPT007/kernel_xiaomi_mt6833 \
+            --pattern "$AK3_ZIP" --dir out/template
+          echo "$AK3_SHA256  out/template/$AK3_ZIP" | sha256sum --check
+      - name: Check out SukiSU-Ultra v4.3.0-r2
+        if: matrix.variant == 'sukisu'
+        uses: actions/checkout@v4
+        with:
+          repository: SukiSU-Ultra/SukiSU-Ultra
+          ref: ${{ env.SUKISU_COMMIT }}
+          path: KernelSU
+          persist-credentials: false
+      - name: Integrate pinned SukiSU source
+        if: matrix.variant == 'sukisu'
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          assert Path('KernelSU/kernel/Kbuild').is_file()
+          Path('drivers/kernelsu').symlink_to('../KernelSU/kernel')
+          makefile = Path('drivers/Makefile')
+          makefile.write_text(makefile.read_text() + '\nobj-$(CONFIG_KSU) += kernelsu/\n')
+          kconfig = Path('drivers/Kconfig')
+          kconfig.write_text(kconfig.read_text() + '\nsource "drivers/kernelsu/Kconfig"\n')
+          PY
+      - name: Build kernel and device modules
+        env:
+          SUKISU: ${{ matrix.variant == 'sukisu' && '1' || '0' }}
+          LOCALVERSION_SUFFIX: -4k-speaker-test
+        run: bash camellia/build.sh
+      - name: Stage and validate AnyKernel3 payload
+        env:
+          VARIANT: ${{ matrix.variant }}
+        run: bash camellia/stage-ak3.sh
+      - name: Upload kernel payload
+        uses: actions/upload-artifact@v4
+        with:
+          name: kernel-${{ matrix.variant }}
+          path: out/payload/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Upload build diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-logs-${{ matrix.variant }}
+          include-hidden-files: true
+          path: |
+            out/kernel/*.log
+            out/kernel/.config
+            out/ak3-stage/*.log
+            out/ak3-stage/modules-selected.txt
+          if-no-files-found: ignore
+          retention-days: 7
+
+  package:
+    needs: build
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: kernel-base
+          path: out/payload-base
+      - uses: actions/download-artifact@v4
+        with:
+          name: kernel-sukisu
+          path: out/payload-sukisu
+      - name: Pack and verify flashable ZIP
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p out/template out/dist
+          gh release download "$AK3_TAG" --repo SantiPT007/kernel_xiaomi_mt6833 \
+            --pattern "$AK3_ZIP" --dir out/template
+          python3 camellia/tools/pack-ak3.py "out/template/$AK3_ZIP" \
+            out/payload-base out/payload-sukisu \
+            "out/dist/camellia-6.6-speaker-test-${GITHUB_SHA:0:8}-AnyKernel3.zip"
+          {
+            echo "### Camellia speaker test"
+            echo "Source: $GITHUB_SHA"
+            echo 'Volume Up selects SukiSU-Ultra; Volume Down selects base.'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: camellia-speaker-test-AnyKernel3
+          path: out/dist/*
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 14

@@ -24,6 +24,7 @@
 #include "../../codecs/mt6359p-accdet.h"
 #endif
 #include "../common/mtk-sp-spk-amp.h"
+#include "../camellia_aw87559/aw87559.h"
 #if IS_ENABLED(CONFIG_SND_SOC_SIA91XX_V3_1_0)
 #include "../../codecs/audio/codecs/sia91xx_v3.1.0/sipa_aux_dev_if.h"
 #endif
@@ -94,23 +95,32 @@ static int mt6833_mt6359_spk_amp_event(struct snd_soc_dapm_widget *w,
 {
 	struct snd_soc_dapm_context *dapm = w->dapm;
 	struct snd_soc_card *card = dapm->card;
+	int ret = 0;
 
 	dev_info(card->dev, "%s(), event %d\n", __func__, event);
 
 	switch (event) {
 	case SND_SOC_DAPM_POST_PMU:
 		/* spk amp on control */
-		fsm_speaker_onn();
+		if (camellia_aw87559_is_present())
+			ret = camellia_aw87559_set_mode(CAMELLIA_AW87559_MUSIC);
+		else
+			fsm_speaker_onn();
 		break;
 	case SND_SOC_DAPM_PRE_PMD:
 		/* spk amp off control */
-		fsm_speaker_off();
+		if (camellia_aw87559_is_present())
+			ret = camellia_aw87559_set_mode(CAMELLIA_AW87559_OFF);
+		else
+			fsm_speaker_off();
 		break;
 	default:
 		break;
 	}
 
-	return 0;
+	if (ret)
+		dev_err(card->dev, "speaker amplifier event %d failed: %d\n", event, ret);
+	return ret;
 };
 
 static const struct snd_soc_dapm_widget mt6833_mt6359_widgets[] = {

@@ -18,6 +18,7 @@ camellia-nt36672c-ts.ko
 camellia-ti-lmu.ko
 camellia-vcodec.ko
 camellia-xiaomi-touch.ko
+camellia_aw87559.ko
 camellia_cpumaxfreq.ko
 camellia_fs1815.ko
 camellia_goodix_fp.ko

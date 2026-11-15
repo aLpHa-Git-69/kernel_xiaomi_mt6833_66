@@ -10,7 +10,7 @@ def run(args):
 
 dtb, out = sys.argv[1], sys.argv[2]
 ESSENTIAL = """ufs_mediatek_mod pinctrl_mt6833 mtk_scpsys_mt6833 mt6359p_regulator mtk_wdt
-clk_mt6833 nvmem_mt635x_efuse mt6833_mt6359p camellia_fs1815 mtk_pmic_wrap spmi_mtk_pmif mt6397 mtk_spmi_pmic camellia_stubs mtk_boot_common camellia_ion camellia_cpumaxfreq
+clk_mt6833 nvmem_mt635x_efuse mt6833_mt6359p camellia_fs1815 camellia_aw87559 mtk_pmic_wrap spmi_mtk_pmif mt6397 mtk_spmi_pmic camellia_stubs mtk_boot_common camellia_ion camellia_cpumaxfreq
 btif_drv wmt_drv wmt_chrdev_wifi wlan_drv_gen4m_6833 bt_drv_connac1x regulator_vibrator scp hf_manager nanohub gps_drv ccci_ccif ccci_cldma ccci_dpmaif camellia_goodix_fp st21nfc
 mtk_tinysys_ipi sspm mcupm mtk_mbox_mailbox mtk_dvfsrc_devfreq rpmb rpmb_mtk mtk_sec_heap
 system_heap mtk_iommu mtk_smi mtk_mmc mtk_pmic_keys mtk_kpd

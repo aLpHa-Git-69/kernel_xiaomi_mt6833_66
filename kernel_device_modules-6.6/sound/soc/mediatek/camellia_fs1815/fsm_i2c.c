@@ -367,6 +367,8 @@ static int fsm_parse_dts(struct i2c_client *i2c, fsm_dev_t *fsm_dev)
 	}
 
 	fsm_dev->rst_gpio = of_get_named_gpio(np, "fsm,rst-gpio", 0);
+	if (fsm_dev->rst_gpio == -EPROBE_DEFER)
+		return -EPROBE_DEFER;
 	if (gpio_is_valid(fsm_dev->rst_gpio)) {
 		ret = devm_gpio_request_one(&i2c->dev, fsm_dev->rst_gpio,
 			GPIOF_OUT_INIT_LOW, "FS16XX_RST");
@@ -422,6 +424,7 @@ static int fsm_i2c_probe(struct i2c_client *i2c)
 	ret = fsm_parse_dts(i2c, fsm_dev);
 	if (ret) {
 		dev_err(&i2c->dev, "failed to parse DTS node");
+		return ret;
 	}
 #endif
 #if defined(CONFIG_FSM_REGMAP)
@@ -442,6 +445,7 @@ static int fsm_i2c_probe(struct i2c_client *i2c)
 		fsm_regmap_i2c_deinit(fsm_dev->regmap);
 #endif
 		devm_kfree(&i2c->dev, fsm_dev);
+		fsm_vddd_off();
 		return ret;
 	}
 	fsm_dev->id = cfg->dev_count - 1;
@@ -563,4 +567,3 @@ MODULE_DESCRIPTION("FourSemi Smart PA Driver");
 MODULE_VERSION(FSM_CODE_VERSION);
 MODULE_ALIAS("foursemi:"FSM_DRV_NAME);
 MODULE_LICENSE("GPL");
-

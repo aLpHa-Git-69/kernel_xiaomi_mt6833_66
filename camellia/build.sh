@@ -19,6 +19,12 @@ make "${A[@]}" olddefconfig >> "$O/config.log" 2>&1
   --set-str CMDLINE "stack_depot_disable=on cgroup_disable=pressure kasan.stacktrace=off bootconfig mem_sleep_default=s2idle"
 "$K/scripts/config" --file "$O/.config" -e FB -e FB_DEVICE -e DRM_FBDEV_EMULATION -d FRAMEBUFFER_CONSOLE
 "$K/scripts/config" --file "$O/.config" -d ZRAM_DEF_COMP_LZORLE -e ZRAM_DEF_COMP_LZ4 --set-str ZRAM_DEF_COMP lz4
+if [ "${SUKISU:-0}" = 1 ]; then
+  "$K/scripts/config" --file "$O/.config" -e KSU -d KPM
+fi
+if [ -n "${LOCALVERSION_SUFFIX:-}" ]; then
+  "$K/scripts/config" --file "$O/.config" --set-str LOCALVERSION "$LOCALVERSION_SUFFIX"
+fi
 make "${A[@]}" olddefconfig >> "$O/config.log" 2>&1
 fi
 start=$(date +%s)

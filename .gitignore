@@ -98,6 +98,8 @@ modules.order
 !.clang-format
 !.cocciconfig
 !.get_maintainer.ignore
+!.github/
+!.github/**
 !.gitattributes
 !.gitignore
 !.kunitconfig
@@ -174,3 +176,4 @@ sphinx_*/
 out/
 
 /camellia/local.env
+/KernelSU/
