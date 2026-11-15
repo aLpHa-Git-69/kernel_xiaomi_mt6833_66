@@ -25,7 +25,9 @@ dtc -q -@ -I dts -O dtb -o "$W/mt6833.dtb" "$W/mt6833.pre.dts"
 dtc -q -@ -I dts -O dtb -o "$W/camellia.dtbo" "$W/camellia.pre.dts"
 fdtoverlay -i "$W/mt6833.dtb" -o "$P/dtb" "$W/camellia.dtbo"
 
-python3 "$R/camellia/tools/select-ramdisk-modules.py" "$P/dtb" "$OUT" > "$W/modules-selected.txt"
+# The checked-in inventory is the working r1.3 module set plus AW87559.
+# Alias-based auto-selection omits required modules such as the Mali GPU.
+cp "$R/camellia/ramdisk-modules.txt" "$W/modules-selected.txt"
 M="$W/stage/lib/modules/$REL"
 mkdir -p "$M"
 while read -r ko; do

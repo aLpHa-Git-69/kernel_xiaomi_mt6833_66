@@ -1,0 +1,149 @@
+name: Build flashable Camellia speaker boot image
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [speaker-fix-test]
+    paths:
+      - '.github/workflows/camellia-boot-test.yml'
+      - 'camellia/stage-ak3.sh'
+      - 'camellia/ramdisk-modules.txt'
+      - 'camellia/tools/pack-boot.py'
+      - 'camellia/tools/pack_ak3_import.py'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: camellia-boot-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  AK3_ZIP: camellia-6.6-r1.3-AnyKernel3.zip
+  SUKISU_COMMIT: 645ef9860b9b7f900bb5d1b27e224f2c311d39c0
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential bc bison flex libssl-dev libelf-dev \
+            device-tree-compiler kmod python3 curl unzip ccache
+          mkdir -p out/toolchain out/template out/dist
+      - name: Restore Android clang
+        id: clang
+        uses: actions/cache/restore@v4
+        with:
+          path: out/toolchain
+          key: android-clang-linux-r510928
+      - name: Download Android clang
+        if: steps.clang.outputs.cache-hit != 'true'
+        run: |
+          curl --fail --location --retry 3 \
+            'https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/android15-release/clang-r510928.tar.gz' \
+            -o out/clang.tar.gz
+          tar -xzf out/clang.tar.gz -C out/toolchain
+          rm out/clang.tar.gz
+      - name: Save Android clang
+        if: steps.clang.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: out/toolchain
+          key: android-clang-linux-r510928
+      - name: Restore SukiSU compiler cache
+        uses: actions/cache/restore@v4
+        with:
+          path: out/ccache
+          key: ccache-camellia-r510928-sukisu-${{ github.run_id }}
+          restore-keys: |
+            ccache-camellia-r510928-sukisu-
+      - name: Get verified boot and installer references
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "CLANG_BIN=$GITHUB_WORKSPACE/out/toolchain/bin" >> "$GITHUB_ENV"
+          echo "AK3_TEMPLATE=$GITHUB_WORKSPACE/out/template/$AK3_ZIP" >> "$GITHUB_ENV"
+          gh release download camellia-6.6-r1.3 --repo SantiPT007/kernel_xiaomi_mt6833 \
+            --pattern "$AK3_ZIP" --pattern boot-camellia-6.6-r1.3.img --dir out/template
+          echo "d13e7230aa579d05a7d3ed3f066be02868d6d9d941bc664f03b658d01bd17b0e  out/template/$AK3_ZIP" | sha256sum --check
+          echo '9d95dc19ff7dd11c86ecf5fd179691661261a48af7dc19b283b35db1f934cc73  out/template/boot-camellia-6.6-r1.3.img' | sha256sum --check
+      - name: Check out SukiSU-Ultra
+        uses: actions/checkout@v4
+        with:
+          repository: SukiSU-Ultra/SukiSU-Ultra
+          ref: ${{ env.SUKISU_COMMIT }}
+          path: KernelSU
+          persist-credentials: false
+      - name: Integrate SukiSU
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          Path('drivers/kernelsu').symlink_to('../KernelSU/kernel')
+          for name, line in [('Makefile', 'obj-$(CONFIG_KSU) += kernelsu/'),
+                             ('Kconfig', 'source "drivers/kernelsu/Kconfig"')]:
+              path = Path('drivers') / name
+              path.write_text(path.read_text() + '\n' + line + '\n')
+          PY
+      - name: Build kernel and all reference modules
+        id: compile
+        env:
+          SUKISU: '1'
+          USE_CCACHE: '1'
+          LOCALVERSION_SUFFIX: -4k-speaker-boot-test
+          CCACHE_DIR: ${{ github.workspace }}/out/ccache
+          CCACHE_BASEDIR: ${{ github.workspace }}
+          CCACHE_COMPILERCHECK: string:android-clang-r510928
+          CCACHE_MAXSIZE: 2G
+        run: |
+          bash camellia/build.sh
+          ccache --show-stats
+      - name: Save compiler cache
+        if: always() && steps.compile.outcome == 'success'
+        uses: actions/cache/save@v4
+        with:
+          path: out/ccache
+          key: ccache-camellia-r510928-sukisu-${{ github.run_id }}
+      - name: Stage the full working module inventory
+        env:
+          VARIANT: sukisu
+        run: bash camellia/stage-ak3.sh
+      - name: Create and validate complete boot image
+        run: |
+          python3 camellia/tools/pack-boot.py out/template/boot-camellia-6.6-r1.3.img \
+            out/payload out/dist/boot-camellia-6.6-speaker-fix-sukisu.img
+      - name: Upload boot image
+        uses: actions/upload-artifact@v4
+        with:
+          name: camellia-speaker-fix-boot-img
+          path: out/dist/*
+          compression-level: 0
+          if-no-files-found: error
+          retention-days: 14
+      - name: Retain compiled payload
+        if: always() && steps.compile.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: complete-kernel-sukisu
+          path: out/payload/
+          if-no-files-found: ignore
+          retention-days: 7
+      - name: Upload diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: boot-build-logs
+          include-hidden-files: true
+          path: |
+            out/kernel/*.log
+            out/kernel/.config
+            out/kernel/kernel.release.lock
+            out/ak3-stage/*.log
+            out/ak3-stage/modules-selected.txt
+          if-no-files-found: ignore
+          retention-days: 7
