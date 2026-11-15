@@ -4,6 +4,20 @@ on:
   workflow_dispatch:
   push:
     branches: [speaker-fix-test]
+    paths:
+      - '**/*.c'
+      - '**/*.h'
+      - '**/*.S'
+      - '**/Makefile*'
+      - '**/Kbuild'
+      - '**/Kconfig*'
+      - '**/*.config'
+      - '**/*defconfig'
+      - '**/*.dts'
+      - '**/*.dtsi'
+      - 'scripts/**'
+      - 'build.config*'
+      - 'camellia/build.sh'
 
 permissions:
   contents: read

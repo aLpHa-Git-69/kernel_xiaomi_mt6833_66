@@ -9,6 +9,8 @@ import re
 import struct
 import zipfile
 
+from module_metadata import module_vermagic
+
 TEMPLATE_SHA256 = 'd13e7230aa579d05a7d3ed3f066be02868d6d9d941bc664f03b658d01bd17b0e'
 
 
@@ -16,6 +18,8 @@ def validate_payload(path, variant):
     info = json.loads((path / 'build-info.json').read_text())
     if info['variant'] != variant:
         raise ValueError('wrong payload variant: ' + str(path))
+    if not re.fullmatch(r'[0-9a-f]{40}', info['source_commit']):
+        raise ValueError('invalid source commit in payload metadata')
     image = gzip.decompress((path / 'Image.gz').read_bytes())
     if len(image) < 64 or image[56:60] != b'ARM\x64':
         raise ValueError('not an arm64 kernel Image: ' + str(path))
@@ -26,12 +30,17 @@ def validate_payload(path, variant):
     order = (modules / 'modules.load').read_text().splitlines()
     if not order or len(order) != len(set(order)):
         raise ValueError('empty or duplicate module load list')
+    expected_magic = None
     for name in order:
         if pathlib.PurePosixPath(name).name != name or not name.endswith('.ko'):
             raise ValueError('invalid module name: ' + name)
         data = (modules / name).read_bytes()
-        if data[:5] != b'\x7fELF\x02' or struct.unpack_from('<H', data, 18)[0] != 183:
-            raise ValueError('not an arm64 module: ' + name)
+        magic = module_vermagic(data, name)
+        if not magic.startswith(info['kernel_release'] + ' '):
+            raise ValueError('kernel release mismatch: ' + name)
+        if expected_magic is not None and magic != expected_magic:
+            raise ValueError('module build flags mismatch: ' + name)
+        expected_magic = magic
     if set(order) != {p.name for p in modules.glob('*.ko')}:
         raise ValueError('module load list does not cover all packaged modules')
     for provider in ('camellia_aw87559.ko', 'camellia_fs1815.ko'):

@@ -1,0 +1,66 @@
+name: Package existing Camellia speaker test
+
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: Build run containing kernel-base and kernel-sukisu artifacts
+        type: string
+        default: '43714536789'
+  push:
+    branches: [speaker-fix-test]
+    paths:
+      - '.github/workflows/camellia-package-test.yml'
+      - 'camellia/tools/module_metadata.py'
+      - 'camellia/tools/pack-ak3.py'
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  package:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    env:
+      SOURCE_RUN_ID: ${{ inputs.run_id || '43714536789' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: kernel-base
+          path: out/payload-base
+          github-token: ${{ github.token }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+      - uses: actions/download-artifact@v4
+        with:
+          name: kernel-sukisu
+          path: out/payload-sukisu
+          github-token: ${{ github.token }}
+          run-id: ${{ env.SOURCE_RUN_ID }}
+      - name: Validate modules and create AnyKernel3 ZIP
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p out/template out/dist
+          gh release download camellia-6.6-r1.3 --repo SantiPT007/kernel_xiaomi_mt6833 \
+            --pattern camellia-6.6-r1.3-AnyKernel3.zip --dir out/template
+          commit=$(python3 -c 'import json; print(json.load(open("out/payload-base/build-info.json"))["source_commit"])')
+          python3 camellia/tools/pack-ak3.py out/template/camellia-6.6-r1.3-AnyKernel3.zip \
+            out/payload-base out/payload-sukisu \
+            "out/dist/camellia-6.6-speaker-test-${commit:0:8}-AnyKernel3.zip"
+          {
+            echo '### Camellia speaker test package'
+            echo "Compiled source: $commit"
+            echo "Build run: $SOURCE_RUN_ID"
+            echo 'All module versions and payload integrity checks passed.'
+          } >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: camellia-speaker-test-AnyKernel3
+          path: out/dist/*
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 14

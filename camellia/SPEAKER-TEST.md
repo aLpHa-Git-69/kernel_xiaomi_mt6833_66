@@ -41,6 +41,12 @@ ccache retains compiler outputs per variant for subsequent test revisions.
 Built payloads are retained even when a later validation step fails, so
 packaging diagnostics can be investigated without another full compilation.
 
+`camellia-package-test.yml` can repackage saved build artifacts. Its run ID
+selects the original compiled source, which remains recorded in both payloads.
+Module versions are checked directly in ELF `.modinfo` sections; the Ubuntu
+`modinfo` check returned empty values for two valid core modules in the initial
+workflow. ELF checks retain strict release and build-flag matching.
+
 ## Device test
 
 1. Flash the test AnyKernel3 ZIP. Volume Up selects SukiSU-Ultra; Volume Down
