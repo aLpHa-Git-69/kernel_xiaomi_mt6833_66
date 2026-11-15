@@ -9,6 +9,8 @@ TEMPLATE="${AK3_TEMPLATE:?set AK3_TEMPLATE to camellia r1.3 AnyKernel3.zip}"
 VARIANT="${VARIANT:?set VARIANT to base or sukisu}"
 export PATH="$TC:$PATH"
 REL="$(<"$O/include/config/kernel.release")"
+[ "$REL" = "$(<"$O/kernel.release.lock")" ] || { echo "kernel release changed during build" >&2; exit 1; }
+grep -Fxq "#define UTS_RELEASE \"$REL\"" "$O/include/generated/utsrelease.h" || { echo "kernel UTS release mismatch" >&2; exit 1; }
 W="$OUT/ak3-stage"
 P="$OUT/payload"
 DTS="$R/kernel_device_modules-6.6/arch/arm64/boot/dts"
@@ -26,13 +28,16 @@ fdtoverlay -i "$W/mt6833.dtb" -o "$P/dtb" "$W/camellia.dtbo"
 python3 "$R/camellia/tools/select-ramdisk-modules.py" "$P/dtb" "$OUT" > "$W/modules-selected.txt"
 M="$W/stage/lib/modules/$REL"
 mkdir -p "$M"
+version_errors=0
 while read -r ko; do
   src=$(find "$O" "$OUT/kernel_device_modules-6.6" "$OUT/vendor" -name "$ko" -print -quit)
   [ -n "$src" ] || { echo "missing module: $ko" >&2; exit 1; }
   "$TC/llvm-strip" --strip-debug -o "$M/$ko" "$src"
-  case "$(modinfo -F vermagic "$M/$ko")" in
+  magic="$(modinfo -F vermagic "$M/$ko")"
+  case "$magic" in
     "$REL "*) ;;
-    *) echo "vermagic mismatch: $ko" >&2; exit 1;;
+    *) printf '%s\n' "vermagic mismatch: $ko" "expected release: $REL" "actual vermagic: $magic" >&2
+       version_errors=$((version_errors + 1));;
   esac
 done < "$W/modules-selected.txt"
 for ko in camellia_aw87559 camellia_fs1815 mt6833-mt6359p snd-soc-mt6359 snd-soc-mt6833-afe; do
@@ -120,3 +125,4 @@ if variant == 'sukisu':
 pathlib.Path(payload, 'build-info.json').write_text(json.dumps(info, indent=2) + '\n')
 print(json.dumps(info, indent=2))
 PY
+[ "$version_errors" = 0 ] || { echo "$version_errors module version mismatches" >&2; exit 1; }

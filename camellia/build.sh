@@ -7,6 +7,10 @@ R="$(cd "$(dirname "$0")/.." && pwd)"
 K=$R; DM=$R/kernel_device_modules-6.6
 O="${OUT:-$R/out}/kernel"
 A=(-C "$K" O="$O" ARCH=arm64 LLVM=1 LLVM_IAS=1 KCONFIG_EXT_PREFIX="kernel_device_modules-6.6/")
+if [ "${USE_CCACHE:-0}" = 1 ]; then
+  command -v ccache >/dev/null || { echo "ccache not found" >&2; exit 1; }
+  A+=("CC=ccache clang")
+fi
 if [ "$1" != mtk-only ]; then
 mkdir -p "$O"; : > "$O/.config"
 ( cd "$O" && make "${A[@]}" gki_defconfig > config.log 2>&1 && \
@@ -27,6 +31,16 @@ if [ -n "${LOCALVERSION_SUFFIX:-}" ]; then
 fi
 make "${A[@]}" olddefconfig >> "$O/config.log" 2>&1
 fi
+# Use one release value for the Image and every external-module invocation.
+if [ "$1" = mtk-only ]; then
+  KREL="$(<"$O/include/config/kernel.release")"
+else
+  KREL="$(make "${A[@]}" --no-print-directory -s kernelrelease)"
+fi
+[[ "$KREL" =~ ^[[:alnum:].+_-]+$ && ${#KREL} -le 64 ]] || { echo "invalid kernel release: $KREL" >&2; exit 1; }
+A+=("KERNELRELEASE=$KREL")
+printf '%s\n' "$KREL" > "$O/kernel.release.lock"
+echo "Building kernel release: $KREL"
 start=$(date +%s)
 [ "$1" = mtk-only ] || make "${A[@]}" -k -j"$JOBS" Image modules > "$O/build-kernel.log" 2>&1; echo "kernel exit $?" >> "$O/build-kernel.log"
 REL=kernel_device_modules-6.6

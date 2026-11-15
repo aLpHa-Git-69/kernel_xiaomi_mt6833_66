@@ -36,6 +36,10 @@ both kernels, merged DTBs and all kernel modules are newly built.
 Module staging checks matching vermagic, unresolved symbols, unsupported GOT
 relocations and speaker-provider load order. Packaging validates the arm64
 Image, DTB, module list and ZIP integrity and writes a SHA-256 checksum.
+The build snapshots one kernel release for the Image and all modules, and
+ccache retains compiler outputs per variant for subsequent test revisions.
+Built payloads are retained even when a later validation step fails, so
+packaging diagnostics can be investigated without another full compilation.
 
 ## Device test
 
