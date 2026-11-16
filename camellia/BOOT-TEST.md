@@ -1,7 +1,20 @@
 # Complete speaker-test boot image
 
-Use the complete `boot-camellia-6.6-speaker-fix-sukisu.img` revision for the next
-device test. The earlier AK3 package omitted nine modules from the working
+## Confirmed device test
+
+The full SukiSU boot image built from `907092a3926ada9fe54b90e66e82632519251c84`
+successfully booted on the target Camellia phone. The user confirmed that the
+internal speaker now works. Runtime checks reported:
+
+- Kernel: `6.6.30-4k-g907092a3926a-dirty`
+- AW87559 chip ID: `0x5a`
+- Amplifier `last_error`: `0`
+- GitHub build run `43736910427`: successful
+
+## Image construction and flashing
+
+The confirmed working image is `boot-camellia-6.6-speaker-fix-sukisu.img`.
+The earlier AK3 package omitted nine modules from the working
 r1.3 inventory, including the Mali GPU driver. Module staging now uses the
 checked-in working inventory, with the AW87559 driver added, and requires every
 module to exist and have matching version metadata.
